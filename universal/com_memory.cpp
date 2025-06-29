@@ -1,4 +1,8 @@
-void __cdecl LargeLocalReset() { g_largeLocalPos = 0; }
+
+void LargeLocalReset(void)
+{
+  g_largeLocalPos = 0;
+}
 
 void *__cdecl LargeLocalGetBuf(int) { UNIMPLEMENTED(); }
 
@@ -94,6 +98,16 @@ void *__cdecl Hunk_FindDataForFileInternal(int, char const *, int) {
 }
 
 void __cdecl Z_MallocFailed(int) { UNIMPLEMENTED(); }
+
+// TODO: FIXME replace with macro __FILE__ and __LINE__
+void *Z_MallocInternal(size_t __size)
+{
+  void *ptr = malloc(__size);
+  if ( !ptr )
+    Sys_OutOfMemErrorInternal("/Users/kevin/Development/i5works/COD2/Project/PC/universal/com_memory.cpp", 220);
+  Com_Memset(ptr, 0, __size);
+  return ptr;
+}
 
 void __cdecl Hunk_ClearDataFor(struct fileData_s **, unsigned char *,
                                unsigned char *) {

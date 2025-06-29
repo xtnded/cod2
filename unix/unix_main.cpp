@@ -1,43 +1,54 @@
+#include "../game/q_shared.h"
+
+void Sys_OutOfMemErrorInternal(const char *file, int line)
+{
+  Com_Printf("Out of memory: filename '%s', line %d\n", file, line);
+  const char *title = Win_LocalizeRef("WIN_OUT_OF_MEM_TITLE");
+  const char *body = Win_LocalizeRef("WIN_OUT_OF_MEM_BODY");
+  MessageBoxA(NULL, body, title, 16);
+  exit(-1);
+}
 
 int main(int argc, char **argv)
 {
-  long double v9; // fst7
-  dvar_s *v10;    // eax
-  int v11;        // eax
-  char v12[264];  // [esp+10h] [ebp-108h] BYREF
+  const dvar_s *sys_SSE;
+  dvar_s *dedicated;
+  char cwd[264];
 
   Sys_InitMainThread();
   Win_InitLocalization();
   Dvar_Init();
-  v9 = Sys_CpuGHz();
-  *(double *)&sys_info = v9;
-  dword_7EFC88 = Sys_SystemMemoryMB();
-  Sys_DetectVideoCard(0x200u, byte_7EFC8D);
-  byte_7EFC8C = Sys_SupportsSSE();
-  v10 = Dvar_RegisterBool("sys_SSE", 0, 0x1000u);
-  Dvar_SetBool(v10, byte_7EFC8C);
-  dword_1150F8C = a7;
-  Sys_CreateConsole();
+  sys_info.cpuGHz = Sys_CpuGHz(a1);
+  sys_info.sysMB = Sys_SystemMemoryMB();
+  Sys_DetectVideoCard(0x200u, sys_info.gpuDescription);
+  sys_info.SSE = Sys_SupportsSSE();
+  sys_SSE = Dvar_RegisterBool("sys_SSE", 0, 0x1000u);
+  Dvar_SetBool(sys_SSE, sys_info.SSE);
+  dword_1150F8C = a2;
+  Sys_CreateConsole(a2);
   Sys_CreateSplashWindow();
   Sys_ShowSplashWindow();
   Sys_Milliseconds();
   Sys_InitStreamThread();
-  Com_Init(v9, a1.f32[0], a2, a3, a4, a5, a6, a9);
-  getcwd(v12, 0x100u);
-  Com_Printf("Working directory: %s\n", v12);
-  v11 = com_dedicated;
-  if (!*(_DWORD *)(com_dedicated + 8)) {
-    if (!com_viewlog->current.integer)
-      Sys_ShowConsole(0);
-    v11 = com_dedicated;
+  Com_Init(cmdline);
+  getcwd(cwd, 0x100u);
+  Com_Printf("Working directory: %s\n", cwd);
+  dedicated = com_dedicated;
+  if ( !com_dedicated->current.integer )
+  {
+    if ( !com_viewlog->current.integer )
+      Sys_ShowConsole(0, 0);
+    dedicated = com_dedicated;
   }
-  while (1) {
-    if (v11) {
-      if (*(_DWORD *)(v11 + 8))
+  while ( 1 )
+  {
+    if ( dedicated )
+    {
+      if ( dedicated->current.integer )
         WinSleep(5);
     }
-    Com_Frame(v9, a1, a2, a3, a4, a5, a6);
-    v11 = com_dedicated;
+    Com_Frame();
+    dedicated = com_dedicated;
   }
   return 0;
 }

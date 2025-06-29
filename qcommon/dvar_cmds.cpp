@@ -407,8 +407,9 @@ void __cdecl Dvar_TogglePrint_f() {
 
 void __cdecl Dvar_Toggle_f() { return Dvar_ToggleInternal(); }
 
-void __cdecl Dvar_AddCommands() {
-  Cmd_AddCommand("toggle", (void (*)(void))Dvar_Toggle_f);
+void Dvar_AddCommands()
+{
+  Cmd_AddCommand("toggle", Dvar_Toggle_f);
   Cmd_AddCommand("togglep", Dvar_TogglePrint_f);
   Cmd_AddCommand("set", Dvar_Set_f);
   Cmd_AddCommand("sets", Dvar_SetS_f);

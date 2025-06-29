@@ -313,9 +313,38 @@ LABEL_3:
   Com_Printf("%i commands\n", v2);
 }
 
-void __cdecl Cmd_AddCommand(char const * cmdName, void  function)(void))
+cmd_function_s *__cdecl Cmd_AddCommand(char *__s1, void (*a2)(void))
 {
-  UNIMPLEMENTED();
+  cmd_function_s *v2; // ebx
+  cmd_function_s *result; // eax
+  cmd_function_s *v4; // ebx
+
+  v2 = cmd_functions;
+  if ( cmd_functions )
+  {
+    while ( 1 )
+    {
+      result = (cmd_function_s *)strcmp(__s1, v2->name);
+      if ( !result )
+        break;
+      v2 = (cmd_function_s *)v2->next;
+      if ( !v2 )
+        goto LABEL_4;
+    }
+    if ( a2 )
+      return (cmd_function_s *)Com_Printf("Cmd_AddCommand: %s already defined\n", __s1);
+  }
+  else
+  {
+LABEL_4:
+    v4 = (cmd_function_s *)Z_MallocInternal(0x14u);
+    v4->name = CopyStringInternal(__s1);
+    v4->function = (int32_t)a2;
+    result = cmd_functions;
+    v4->next = (int32_t)cmd_functions;
+    cmd_functions = v4;
+  }
+  return result;
 }
 
 void __cdecl Cmd_Echo_f(void) { UNIMPLEMENTED(); }

@@ -1,5 +1,6 @@
-void __cdecl Com_Memset(void *dest, int val, int count) {
-  return memset(__b, __c, __len);
+void Com_Memset(void *dest, int val, int count)
+{
+  return memset(dest, val, count);
 }
 
 int __cdecl Com_HashKey(char *string, int maxlen) {

@@ -711,11 +711,455 @@ void __cdecl Com_Shutdown(char *finalmsg) { UNIMPLEMENTED(); }
 
 int __cdecl Com_EventLoop() { UNIMPLEMENTED(); }
 
-void __cdecl Com_Frame_Try_Block_Function() { UNIMPLEMENTED(); }
+void Com_Frame_Try_Block_Function(void)
+{
+  const dvar_s *v0; // edx
+  int v1; // edx
+  int v2; // ebx
+  int v3; // eax
+  int v4; // edx
+  int v5; // esi
+  int v6; // ebx
+  float v7; // xmm1_4
+  int v8; // edi
+  float v9; // xmm1_4
+  dvar_s *v10; // eax
+  DvarValue result; // eax
+  int v12; // ebx
+  int v13; // edx
+  const char *v14; // [esp+0h] [ebp-88h]
+  float v15; // [esp+28h] [ebp-60h]
+  char v16; // [esp+2Fh] [ebp-59h]
+  char __str[88]; // [esp+30h] [ebp-58h] BYREF
 
-void __cdecl Com_Frame() { UNIMPLEMENTED(); }
+  if ( com_fullyInitialized )
+  {
+    if ( (dvar_modifiedFlags & 1) != 0 )
+    {
+      dvar_modifiedFlags &= ~1u;
+      if ( (unsigned __int8)Com_HasPlayerProfile() )
+      {
+        Com_BuildPlayerProfilePath(__str, 0x40u, "config_mp.cfg");
+        Com_WriteConfigToFile(v14);
+      }
+    }
+  }
+  v0 = com_viewlog;
+  if ( com_viewlog->modified )
+  {
+    if ( !com_dedicated->current.integer )
+    {
+      Sys_ShowConsole(com_viewlog->current.integer, 0);
+      v0 = com_viewlog;
+    }
+    Dvar_ClearModified(v0);
+  }
+  SetAnimCheck(*(unsigned __int8 *)(com_animCheck + 8));
+  v1 = *(_DWORD *)(com_maxfps + 8);
+  if ( v1 <= 0 || com_dedicated->current.integer || (v2 = 1000 / v1) == 0 )
+    v2 = 1;
+  while ( 1 )
+  {
+    v3 = Com_EventLoop();
+    com_frameTime = v3;
+    v4 = com_lastFrameTime;
+    if ( v3 < com_lastFrameTime )
+      v4 = v3;
+    com_lastFrameTime = v4;
+    v5 = v3 - v4;
+    if ( v3 - v4 >= v2 )
+      break;
+    NET_Sleep(0);
+  }
+  Cbuf_Execute();
+  com_lastFrameTime = com_frameTime;
+  v6 = *(_DWORD *)(com_fixedtime + 8);
+  if ( v6 )
+  {
+LABEL_35:
+    v16 = 1;
+    if ( v6 <= 0 )
+      v6 = 1;
+    if ( com_dedicated->current.integer )
+      goto LABEL_20;
+LABEL_38:
+    if ( !*(_BYTE *)(com_sv_running + 8) )
+      goto LABEL_21;
+    v8 = 200;
+    goto LABEL_22;
+  }
+  v7 = *(float *)(com_timescale + 8);
+  if ( v7 != 1.0 || *(float *)&com_codeTimeScale != 1.0 )
+  {
+    v15 = floorf((float)((float)(v7 * (float)v5) * *(float *)&com_codeTimeScale) + 0.5);
+    v6 = (int)v15;
+    goto LABEL_35;
+  }
+  v6 = v5;
+  v16 = 0;
+  if ( v5 <= 0 )
+    v6 = 1;
+  if ( !com_dedicated->current.integer )
+    goto LABEL_38;
+LABEL_20:
+  if ( (unsigned int)(v6 - 501) > 0x79F2A )
+  {
+LABEL_21:
+    v8 = 5000;
+    goto LABEL_22;
+  }
+  Com_Printf("Hitch warning: %i msec frame time\n", v6);
+  v8 = 5000;
+LABEL_22:
+  if ( v6 <= v8 )
+    v8 = v6;
+  if ( v16 && v5 )
+    v9 = (float)v8 / (float)v5;
+  else
+    v9 = 1.0;
+  com_timescaleValue = LODWORD(v9);
+  CL_SwitchToLocalClient(0);
+  SV_Frame(v8);
+  if ( (com_dedicated->flags & 0x40) != 0 )
+  {
+    result = com_dedicated->current;
+    if ( result.integer )
+      return;
+    goto LABEL_41;
+  }
+  if ( com_dedicated->latched != com_dedicated->current.integer )
+  {
+    v10 = (dvar_s *)Dvar_RegisterInt(stru_21675C.name, 0, 0, 2, 0x1020u);
+    com_dedicated = v10;
+    if ( v10->current.integer )
+    {
+      Dvar_RegisterInt(stru_21675C.name, 0, 0, 2, 0x1040u);
+      v10 = com_dedicated;
+    }
+    Dvar_ClearModified(v10);
+    CL_SwitchToLocalClient(0);
+    CL_Shutdown();
+    CL_SwitchToLocalClient(0);
+    Sys_ShowConsole(1, 1);
+    Sys_NormalExit();
+    SV_AddDedicatedCommands();
+  }
+  result = com_dedicated->current;
+  if ( !result.integer )
+  {
+LABEL_41:
+    CL_SwitchToLocalClient(0);
+    CL_RunOncePerClientFrame(v8);
+    CL_SwitchToLocalClient(0);
+    Com_EventLoop();
+    CL_SwitchToLocalClient(0);
+    Cbuf_Execute();
+    CL_SwitchToLocalClient(0);
+    SND_UpdateLoopingSounds();
+    SND_Update();
+    CL_SwitchToLocalClient(0);
+    CL_Frame(v8);
+    CL_SwitchToLocalClient(0);
+    SCR_UpdateScreenInternal();
+    SCR_RunCinematic();
+    result.integer = com_statmon;
+    if ( *(_BYTE *)(com_statmon + 8) )
+    {
+      if ( com_fileAccessed )
+      {
+        StatMon_Warning(1, 3000, "gfx/2d/warning@file.jpg");
+        com_fileAccessed = 0;
+      }
+      v12 = Com_Statmon(void)::timeClientFrame;
+      v13 = Sys_Milliseconds();
+      Com_Statmon(void)::timeClientFrame = v13;
+      result.integer = com_statmon;
+      if ( *(_BYTE *)(com_statmon + 8) && v13 - v12 > 33 )
+      {
+        if ( v12 )
+          StatMon_Warning(0, 3000, "gfx/2d/warning@fps.jpg");
+      }
+    }
+  }
+}
 
-void __cdecl Com_Init_Try_Block_Function(char *commandLine) { UNIMPLEMENTED(); }
+void Com_Frame(void)
+{
+  jmp_buf *Value; // eax
+
+  Value = (jmp_buf *)Sys_GetValue(2);
+  if ( !setjmp(*Value) )
+  {
+    Com_Frame_Try_Block_Function();
+    ++com_frameNumber;
+  }
+  if ( com_errorEntered )
+  {
+    Com_ErrorCleanup();
+    Com_StartHunkUsers();
+  }
+}
+
+int __cdecl Com_Init_Try_Block_Function(char *a1)
+{
+  char *v1; // ebx
+  char v2; // al
+  const char *BuildNumber; // eax
+  const char *v4; // ebx
+  int v5; // edx
+  int *v6; // ebx
+  int v7; // eax
+  _BOOL4 v8; // ecx
+  int v9; // edx
+  int *v10; // ebx
+  int v11; // esi
+  const char **v12; // ebx
+  const char *v13; // eax
+  dvar_s *v14; // eax
+  int result; // eax
+  int v16; // [esp+20h] [ebp-78h]
+  int v17; // [esp+24h] [ebp-74h]
+  int v18; // [esp+28h] [ebp-70h]
+  int v19; // [esp+2Ch] [ebp-6Ch]
+  int v20; // [esp+30h] [ebp-68h]
+  int v21; // [esp+34h] [ebp-64h]
+  int v22; // [esp+40h] [ebp-58h]
+  int v23; // [esp+44h] [ebp-54h]
+  int v24; // [esp+48h] [ebp-50h]
+  int v25; // [esp+4Ch] [ebp-4Ch]
+  int v26; // [esp+50h] [ebp-48h]
+  int v27; // [esp+54h] [ebp-44h]
+
+  v1 = a1;
+  Com_Printf("%s %s build %s %s\n", "CoD2 MP", "1.0", "MacOSXS-i386", "Apr 18 2006");
+  memset(com_pushedEvents, 0, 0x1800u);
+  com_pushedEventsHead = 0;
+  com_pushedEventsTail = 0;
+  com_consoleLines[0] = (int)a1;
+  com_numConsoleLines = 1;
+  while ( 1 )
+  {
+    v2 = *v1;
+    if ( !*v1 )
+      break;
+    while ( v2 != 43 && v2 != 10 )
+    {
+      v2 = *++v1;
+      if ( !*v1 )
+        goto LABEL_6;
+    }
+    v7 = com_numConsoleLines;
+    if ( com_numConsoleLines == 32 )
+      break;
+    com_consoleLines[com_numConsoleLines] = (int)(v1 + 1);
+    com_numConsoleLines = v7 + 1;
+    *v1++ = 0;
+  }
+LABEL_6:
+  Swap_Init();
+  Cbuf_Init();
+  Cmd_Init();
+  Com_StartupVariable(0);
+  Com_StartupVariable("developer");
+  CL_InitKeyCommands();
+  FS_InitFilesystem();
+  com_dedicated = (dvar_s *)Dvar_RegisterInt(stru_21675C.name, 0, 0, 2, 0x1020u);
+  if ( com_dedicated->current.integer )
+    Dvar_RegisterInt(stru_21675C.name, 0, 0, 2, 0x1040u);
+  com_maxfps = Dvar_RegisterInt("com_maxfps", 85, 0, 1000, 0x1001u);
+  com_developer = Dvar_RegisterInt("developer", 0, 0, 2, 0x1000u);
+  com_developer_script = (int)Dvar_RegisterBool("developer_script", 0, 0x1000u);
+  com_logfile = Dvar_RegisterInt("logfile", 0, 0, 2, 0x1000u);
+  com_statmon = (int)Dvar_RegisterBool("com_statmon", 0, 0x1000u);
+  com_timescale = Dvar_RegisterFloat("timescale", 1.0, 0.001, 1000.0, 0x1088u);
+  com_fixedtime = Dvar_RegisterInt("fixedtime", 0, 0, 1000, 0x1080u);
+  com_viewlog = (dvar_s *)Dvar_RegisterInt("viewlog", 0, 0, 2, 0x1080u);
+  sv_paused = Dvar_RegisterInt("sv_paused", 0, 0, 2, 0x1040u);
+  cl_paused = Dvar_RegisterInt("cl_paused", 0, 0, 2, 0x1040u);
+  com_sv_running = (int)Dvar_RegisterBool("sv_running", 0, 0x1040u);
+  *(_DWORD *)(legacyHacks + 4) = 0;
+  com_introPlayed = Dvar_RegisterBool(stru_216870.name, 0, 0x1001u);
+  com_animCheck = (int)Dvar_RegisterBool((const char *)&stru_216870.reset, 0, 0x1000u);
+  if ( com_dedicated->current.integer && !com_viewlog->current.integer )
+    Dvar_SetInt(com_viewlog, 1);
+  CL_SwitchToLocalClient(0);
+  Com_InitPlayerProfiles();
+  CL_SwitchToLocalClient(0);
+  Cbuf_Execute();
+  com_recommendedSet = Dvar_RegisterBool((const char *)&stru_216870.hashNext, 0, 0x1001u);
+  Com_CheckSetRecommended();
+  Com_StartupVariable(0);
+  SEH_UpdateLanguageInfo();
+  if ( com_dedicated->current.integer )
+  {
+    Sys_HideSplashWindow();
+    Sys_ShowConsole(1, 1);
+    Sys_NormalExit();
+  }
+  Com_InitHunkMemory();
+  dvar_modifiedFlags &= ~1u;
+  com_codeTimeScale = 1065353216;
+  if ( *(_DWORD *)(com_developer + 8) )
+  {
+    Cmd_AddCommand("error", (void (*)(void))Com_Error_f);
+    Cmd_AddCommand("crash", (void (*)(void))Com_Crash_f);
+    Cmd_AddCommand("freeze", (void (*)(void))Com_Freeze_f);
+  }
+  Cmd_AddCommand("quit", (void (*)(void))Com_Quit_f);
+  Cmd_AddCommand("writeconfig", (void (*)(void))Com_WriteConfig_f);
+  Cmd_AddCommand("writedefaults", (void (*)(void))Com_WriteDefaults_f);
+  BuildNumber = (const char *)getBuildNumber();
+  v4 = (const char *)va("%s %s build %s %s", "CoD2 MP", "1.0", BuildNumber, "MacOSXS-i386");
+  version = Dvar_RegisterString("version", (DvarValue)&inData, 0x1040u);
+  Dvar_SetString((const dvar_s *)version, v4);
+  shortversion = Dvar_RegisterString("shortversion", (DvarValue)"1.0", 0x1044u);
+  FxMem_Init();
+  Sys_Init();
+  while ( 1 )
+  {
+    Sys_GetEvent();
+    if ( !v23 )
+      break;
+    v5 = com_pushedEventsHead;
+    v6 = &com_pushedEvents[6 * (unsigned __int8)com_pushedEventsHead];
+    if ( com_pushedEventsHead - com_pushedEventsTail > 255 )
+    {
+      if ( !Com_PushEvent(sysEvent_t *)::printedWarning )
+      {
+        Com_PushEvent(sysEvent_t *)::printedWarning = 1;
+        Com_Printf("WARNING: Com_PushEvent overflow\n");
+      }
+      if ( v6[5] )
+        Z_FreeInternal(v6[5]);
+      ++com_pushedEventsTail;
+      v5 = com_pushedEventsHead;
+    }
+    else
+    {
+      Com_PushEvent(sysEvent_t *)::printedWarning = 0;
+    }
+    *v6 = v22;
+    v6[1] = v23;
+    v6[2] = v24;
+    v6[3] = v25;
+    v6[4] = v26;
+    v6[5] = v27;
+    com_pushedEventsHead = v5 + 1;
+  }
+  Netchan_Init(v22);
+  Scr_Init();
+  v8 = *(_DWORD *)(com_developer + 8) || *(_DWORD *)(com_logfile + 8);
+  Scr_Settings(v8, *(unsigned __int8 *)(com_developer_script + 8), *(_DWORD *)(com_developer + 8));
+  XAnimInit();
+  DObjInit();
+  SV_Init();
+  NET_Init();
+  Dvar_ClearModified(com_dedicated);
+  if ( !com_dedicated->current.integer )
+  {
+    CL_InitOnceForAllClients();
+    CL_SwitchToLocalClient(0);
+    CL_Init();
+    CL_SwitchToLocalClient(0);
+    Sys_ShowConsole(com_viewlog->current.integer, 0);
+  }
+  while ( 1 )
+  {
+    Sys_GetEvent();
+    if ( !v17 )
+      break;
+    v9 = com_pushedEventsHead;
+    v10 = &com_pushedEvents[6 * (unsigned __int8)com_pushedEventsHead];
+    if ( com_pushedEventsHead - com_pushedEventsTail > 255 )
+    {
+      if ( !Com_PushEvent(sysEvent_t *)::printedWarning )
+      {
+        Com_PushEvent(sysEvent_t *)::printedWarning = 1;
+        Com_Printf("WARNING: Com_PushEvent overflow\n");
+      }
+      if ( v10[5] )
+        Z_FreeInternal(v10[5]);
+      ++com_pushedEventsTail;
+      v9 = com_pushedEventsHead;
+    }
+    else
+    {
+      Com_PushEvent(sysEvent_t *)::printedWarning = 0;
+    }
+    *v10 = v16;
+    v10[1] = v17;
+    v10[2] = v18;
+    v10[3] = v19;
+    v10[4] = v20;
+    v10[5] = v21;
+    com_pushedEventsHead = v9 + 1;
+  }
+  com_frameTime = v16;
+  if ( com_numConsoleLines > 0 )
+  {
+    v11 = 0;
+    v12 = (const char **)com_consoleLines;
+    do
+    {
+      while ( 1 )
+      {
+        v13 = *v12;
+        if ( *v12 )
+        {
+          if ( *v13 )
+            break;
+        }
+        ++v11;
+        ++v12;
+        if ( v11 >= com_numConsoleLines )
+          goto LABEL_47;
+      }
+      I_strnicmp(v13, "set", 3);
+      Cbuf_AddText(*v12);
+      Cbuf_AddText("\n");
+      ++v11;
+      ++v12;
+    }
+    while ( v11 < com_numConsoleLines );
+  }
+LABEL_47:
+  if ( !com_dedicated->current.integer )
+  {
+    dword_1220A68 = 1;
+    CL_InitRenderer();
+    dword_1220A6C = 1;
+    SND_Init();
+    Sys_LoadingKeepAlive();
+    v14 = com_dedicated;
+    if ( com_dedicated->current.integer )
+      goto LABEL_49;
+LABEL_57:
+    Sys_ShowConsole(com_viewlog->current.integer, 0);
+    v14 = com_dedicated;
+    goto LABEL_49;
+  }
+  Sys_LoadingKeepAlive();
+  v14 = com_dedicated;
+  if ( !com_dedicated->current.integer )
+    goto LABEL_57;
+LABEL_49:
+  if ( !v14->current.integer && !com_introPlayed->current.enabled )
+  {
+    Cbuf_AddText("cinematic atvi\n");
+    Dvar_SetString(nextmap, "cinematic IW_logo; set nextmap cinematic cod_intro");
+    Dvar_SetBool(com_introPlayed, 1);
+  }
+  com_fullyInitialized = 1;
+  Com_Printf("--- Common Initialization Complete ---\n");
+  Cbuf_Execute();
+  result = com_sv_running;
+  if ( !*(_BYTE *)(com_sv_running + 8) )
+  {
+    UI_SetMap((const char *)&inData, (const char *)&inData);
+    return CL_StartHunkUsers();
+  }
+  return result;
+}
 
 void Com_Init(char *commandLine)
 {
@@ -871,9 +1315,108 @@ void __cdecl Com_AttractMode(void) { UNIMPLEMENTED(); }
 
 void __cdecl Com_DedicatedModified(void) { UNIMPLEMENTED(); }
 
-void __cdecl Com_ErrorCleanup(void) { UNIMPLEMENTED(); }
+void Com_ErrorCleanup(void)
+{
+  int v0; // edx
+  int result; // eax
+  const char *v2; // eax
+  const char *v3; // [esp+0h] [ebp-1018h]
+  char __dst[4104]; // [esp+10h] [ebp-1008h] BYREF
 
-void __cdecl Com_StartHunkUsers(void) { UNIMPLEMENTED(); }
+  LargeLocalReset();
+  if ( unk_121C7EC )
+    unk_121C7EC();
+  Dvar_SetInAutoExec(0);
+  Hunk_ClearTempMemory();
+  Hunk_ClearTempMemoryHigh();
+  Com_IsMapProfilerActive();
+  Dvar_SetIntByName("cl_paused", 0);
+  FS_PureServerSetLoadedIwds((const char *)&inData, (const char *)&inData);
+  SEH_UpdateLanguageInfo();
+  strcpy(__dst, com_errorMessage);
+  if ( errorcode == 3 )
+  {
+    if ( com_errorMessage[0] )
+    {
+      v2 = (const char *)SEH_LocalizeTextMessage(com_errorMessage, "error message", LOCMSG_NOERR);
+      if ( v2 )
+        I_strncpyz(com_errorMessage, v2, 4096);
+    }
+  }
+  else
+  {
+    if ( dword_1220A70 )
+      UI_SetActiveMenu(0);
+    Com_SetErrorMessage(v3);
+  }
+  if ( errorcode != 3 )
+    Scr_Abort();
+  SND_ErrorCleanup();
+  Com_CleanupBsp();
+  CM_Cleanup();
+  Com_ResetParseSessions();
+  CL_FlushDebugData(1);
+  if ( unk_121C784 )
+    unk_121C784();
+  FS_ResetFiles();
+  if ( errorcode == 1 )
+    Cbuf_Init();
+  v0 = Sys_Milliseconds();
+  if ( v0 - Com_ErrorCleanup(void)::lastErrorTime > 99 )
+  {
+    Com_ErrorCleanup(void)::errorCount = 0;
+    Com_ErrorCleanup(void)::lastErrorTime = v0;
+    if ( (unsigned int)(errorcode - 1) <= 2 )
+      goto LABEL_17;
+LABEL_22:
+    Sys_Error("%s", com_errorMessage);
+  }
+  if ( ++Com_ErrorCleanup(void)::errorCount > 3 )
+    errorcode = 0;
+  Com_ErrorCleanup(void)::lastErrorTime = v0;
+  if ( (unsigned int)(errorcode - 1) > 2 )
+    goto LABEL_22;
+LABEL_17:
+  updateScreenCalled = 0;
+  if ( errorcode == 2 )
+  {
+    Com_ShutdownInternal("EXE_DISCONNECTEDFROMOWNLISTENSERVER");
+    com_fixedConsolePosition = 0;
+    com_errorEntered = 0;
+  }
+  else
+  {
+    Com_Printf("********************\nERROR: %s\n********************\n", com_errorMessage);
+    if ( errorcode == 1 && dword_1220A70 && !com_fixedConsolePosition )
+      CL_ConsoleFixPosition();
+    Com_ShutdownInternal(__dst);
+    if ( errorcode == 1 )
+    {
+      if ( QuitOnError() )
+        Com_Quit_f();
+    }
+    com_fixedConsolePosition = 0;
+    com_errorEntered = 0;
+  }
+}
+
+
+void Com_StartHunkUsers(void)
+{
+  jmp_buf *Value; // eax
+
+  Value = (jmp_buf *)Sys_GetValue(2);
+  if ( setjmp(*Value) )
+    Sys_Error((const char *)&stru_21675C.latched);
+  UI_SetMap((const char *)&inData, (const char *)&inData);
+  CL_StartHunkUsers();
+  Com_EventLoop();
+  if ( com_dedicated )
+  {
+    if ( !com_dedicated->current.integer )
+      UI_SetActiveMenu(1);
+  }
+}
 
 Com_BeginRedirect(char* buffer,  int buffersize,  void  flush)(char*))
 {

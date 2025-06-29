@@ -1,5 +1,15 @@
 int marker_win_shared;
-Sys_Milliseconds() { UNIMPLEMENTED(); }
+
+int Sys_Milliseconds(void)
+{
+    static qboolean initialized = 0;
+  if ( !initialized )
+  {
+    sys_timeBase = timeGetTime();
+    initialized = 1;
+  }
+  return timeGetTime() - sys_timeBase;
+}
 
 Sys_MillisecondsRaw() { UNIMPLEMENTED(); }
 

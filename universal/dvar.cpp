@@ -1765,10 +1765,13 @@ int __cdecl Com_LoadDvarsFromBuffer(char const **const dvarnames, int numDvars,
   }
   return 0;
 }
-
-void __cdecl Dvar_Init() {
+qboolean isDvarSystemActive = 0;
+dvar_s *dvar_cheats;
+void Dvar_Init() {
+  DvarValue value = {0};
+  DvarLimits limits = {0};
   isDvarSystemActive = 1;
-  dvar_cheats = (int)Dvar_RegisterVariant("sv_cheats", 0, 0x1018u, 0, 0.0, 0.0);
+  dvar_cheats = Dvar_RegisterVariant("sv_cheats", 0, 0x1018u, value, limits);
   Dvar_AddCommands();
 }
 
@@ -2494,9 +2497,330 @@ struct dvar_s *__cdecl Dvar_FindMalleableVar(char const *) {
   UNIMPLEMENTED();
 }
 
-struct dvar_s const *__cdecl Dvar_RegisterVariant(char const *, unsigned char,
-                                                  unsigned short,
-                                                  union DvarValue,
-                                                  union DvarLimits) {
-  UNIMPLEMENTED();
+dvar_s *__usercall Dvar_RegisterVariant@<eax>(
+        char *a1@<eax>,
+        int8_t a2@<dl>,
+        unsigned __int16 a3@<cx>,
+        DvarValue a4,
+        DvarSetSource a5,
+        int32_t a6)
+{
+  char *v7; // edx
+  char v8; // al
+  int v9; // eax
+  int v10; // edi
+  int8_t v11; // di
+  int v12; // ebx
+  dvar_s *v13; // esi
+  int8_t v14; // cl
+  bool v15; // cc
+  char v16; // dl
+  char *v17; // eax
+  const char **v18; // eax
+  int *v19; // edi
+  int v20; // eax
+  int v21; // edx
+  unsigned __int8 v23; // bl
+  int v24; // edi
+  unsigned __int8 v25; // bl
+  int v26; // edi
+  _DWORD *v27; // eax
+  int v28; // ecx
+  _DWORD *v29; // edx
+  _DWORD *v30; // edx
+  __int16 v31; // dx
+  unsigned __int16 v32; // si
+  __int16 v33; // ax
+  _DWORD *v34; // eax
+  int type; // ecx
+  _DWORD *latched; // edx
+  _DWORD *reset; // edx
+  _DWORD *v38; // eax
+  int v39; // ecx
+  _DWORD *v40; // edx
+  _DWORD *v41; // edx
+  unsigned int v42; // kr04_4
+  char v43; // al
+  char *integer; // ecx
+  dvar_s *v45; // [esp+0h] [ebp-48h]
+  dvar_s *v46; // [esp+0h] [ebp-48h]
+  DvarValue v47; // [esp+4h] [ebp-44h]
+  DvarValue v48; // [esp+4h] [ebp-44h]
+  DvarSetSource v49; // [esp+8h] [ebp-40h]
+  DvarValue v50; // [esp+10h] [ebp-38h]
+  DvarLimits v51; // [esp+14h] [ebp-34h]
+  int8_t v54; // [esp+2Ch] [ebp-1Ch]
+
+  if ( a1 )
+  {
+    v7 = a1;
+  }
+  else
+  {
+    Com_Error(1, "\x15null name in generateHashValue", v49);
+    v7 = 0;
+  }
+  v8 = *v7;
+  if ( *v7 )
+  {
+    v23 = 0;
+    v24 = 119;
+    do
+    {
+      v23 += v24 * __tolower(v8);
+      v8 = a1[v24++ - 118];
+    }
+    while ( v8 );
+    v9 = v23;
+  }
+  else
+  {
+    v9 = 0;
+  }
+  v10 = (int)*(&dvarHashTable + v9);
+  if ( !v10 )
+  {
+LABEL_8:
+    v11 = a2;
+    if ( dvarCount > 1279 )
+      Com_Error(0, "Can't create dvar '%s': %i dvars already exist", (char)a1);
+    v12 = 9 * dvarCount;
+    v13 = (dvar_s *)&dvarPool[9 * dvarCount++];
+    v13->type = v11;
+    if ( (a3 & 0x4000) != 0 )
+    {
+      dvarPool[v12] = (int)CopyStringInternal(a1);
+      v14 = v11;
+      v15 = (unsigned __int8)v11 <= 3u;
+      if ( v11 != 3 )
+      {
+LABEL_12:
+        if ( v15 )
+        {
+          if ( v14 != 2 )
+            goto LABEL_18;
+          v34 = Z_MallocInternal(12 * (unsigned __int8)v13->type);
+          v13->current.integer = (int32_t)v34;
+          type = (unsigned __int8)v13->type;
+          v13->latched = (int32_t)&v34[type];
+          v13->reset = (int32_t)&v34[type + type];
+          *v34 = *(_DWORD *)a4.integer;
+          v34[1] = *(_DWORD *)(a4.integer + 4);
+          latched = (_DWORD *)v13->latched;
+          *latched = *(_DWORD *)a4.integer;
+          latched[1] = *(_DWORD *)(a4.integer + 4);
+          reset = (_DWORD *)v13->reset;
+          *reset = *(_DWORD *)a4.integer;
+          reset[1] = *(_DWORD *)(a4.integer + 4);
+        }
+        else
+        {
+          if ( v11 != 4 )
+          {
+            if ( v11 == 7 )
+            {
+              v16 = *(_BYTE *)a4.integer;
+              if ( !*(_BYTE *)a4.integer )
+              {
+                v17 = (char *)&inData;
+LABEL_19:
+                v13->current.integer = (int32_t)v17;
+                v13->latched = (int32_t)v17;
+                v13->reset = (int32_t)v17;
+                goto LABEL_20;
+              }
+              v42 = strlen((const char *)a4.integer) + 1;
+              v43 = *(_BYTE *)(a4.integer + 1);
+              if ( v43 )
+              {
+                if ( v16 == 111 )
+                {
+                  if ( v42 == 4 )
+                  {
+                    if ( v43 == 102 )
+                    {
+                      if ( *(_BYTE *)(a4.integer + 2) != 102 )
+                      {
+                        integer = (char *)a4.integer;
+                        goto LABEL_61;
+                      }
+                      if ( !*(_BYTE *)(a4.integer + 3) )
+                      {
+                        v17 = dvarOnOffStrings[0];
+                        goto LABEL_19;
+                      }
+                    }
+                  }
+                  else if ( v42 == 3 && v43 == 110 )
+                  {
+                    if ( !*(_BYTE *)(a4.integer + 2) )
+                    {
+                      v17 = off_30A3E4;
+                      goto LABEL_19;
+                    }
+                    integer = (char *)a4.integer;
+                    goto LABEL_61;
+                  }
+                }
+              }
+              else if ( (unsigned __int8)(v16 - 48) <= 9u )
+              {
+                v17 = (char *)&xmmword_2F0200 + 2 * v16;
+                goto LABEL_19;
+              }
+              integer = (char *)a4.integer;
+LABEL_61:
+              v17 = CopyStringInternal(integer);
+              goto LABEL_19;
+            }
+LABEL_18:
+            v17 = (char *)a4.integer;
+            goto LABEL_19;
+          }
+          v38 = Z_MallocInternal(12 * (unsigned __int8)v13->type);
+          v13->current.integer = (int32_t)v38;
+          v39 = (unsigned __int8)v13->type;
+          v13->latched = (int32_t)&v38[v39];
+          v13->reset = (int32_t)&v38[v39 + v39];
+          *v38 = *(_DWORD *)a4.integer;
+          v38[1] = *(_DWORD *)(a4.integer + 4);
+          v38[2] = *(_DWORD *)(a4.integer + 8);
+          v38[3] = *(_DWORD *)(a4.integer + 12);
+          v40 = (_DWORD *)v13->latched;
+          *v40 = *(_DWORD *)a4.integer;
+          v40[1] = *(_DWORD *)(a4.integer + 4);
+          v40[2] = *(_DWORD *)(a4.integer + 8);
+          v40[3] = *(_DWORD *)(a4.integer + 12);
+          v41 = (_DWORD *)v13->reset;
+          *v41 = *(_DWORD *)a4.integer;
+          v41[1] = *(_DWORD *)(a4.integer + 4);
+          v41[2] = *(_DWORD *)(a4.integer + 8);
+          v41[3] = *(_DWORD *)(a4.integer + 12);
+        }
+LABEL_20:
+        v13->domain.integer.min = a5;
+        v13->domain.integer.max = a6;
+        v13->modified = 0;
+        v18 = (const char **)sortedDvars;
+        if ( sortedDvars )
+        {
+          v19 = &sortedDvars;
+          do
+          {
+            if ( (int)stricmp(*(const char **)v13->name, *v18) < 0 )
+              break;
+            v19 = (int *)(*v19 + 28);
+            v18 = (const char **)*v19;
+          }
+          while ( *v19 );
+          v13->next = *v19;
+          *v19 = (int)v13;
+          v13->flags = a3;
+          LOBYTE(v20) = *a1;
+          if ( !*a1 )
+            goto LABEL_25;
+        }
+        else
+        {
+          v13->next = 0;
+          sortedDvars = (int)v13;
+          v13->flags = a3;
+          v20 = (unsigned __int8)*a1;
+          if ( !*a1 )
+          {
+LABEL_25:
+            v21 = 0;
+LABEL_26:
+            v13->hashNext = (int32_t)*(&dvarHashTable + v21);
+            *(&dvarHashTable + v21) = v13;
+            return v13;
+          }
+        }
+        v25 = 0;
+        v26 = 119;
+        do
+        {
+          v25 += v26 * __tolower((char)v20);
+          LOBYTE(v20) = a1[v26++ - 118];
+        }
+        while ( (_BYTE)v20 );
+        v21 = v25;
+        goto LABEL_26;
+      }
+    }
+    else
+    {
+      dvarPool[v12] = (int)a1;
+      v14 = v11;
+      v15 = (unsigned __int8)v11 <= 3u;
+      if ( v11 != 3 )
+        goto LABEL_12;
+    }
+    v27 = Z_MallocInternal(12 * (unsigned __int8)v13->type);
+    v13->current.integer = (int32_t)v27;
+    v28 = (unsigned __int8)v13->type;
+    v13->latched = (int32_t)&v27[v28];
+    v13->reset = (int32_t)&v27[v28 + v28];
+    *v27 = *(_DWORD *)a4.integer;
+    v27[1] = *(_DWORD *)(a4.integer + 4);
+    v27[2] = *(_DWORD *)(a4.integer + 8);
+    v29 = (_DWORD *)v13->latched;
+    *v29 = *(_DWORD *)a4.integer;
+    v29[1] = *(_DWORD *)(a4.integer + 4);
+    v29[2] = *(_DWORD *)(a4.integer + 8);
+    v30 = (_DWORD *)v13->reset;
+    *v30 = *(_DWORD *)a4.integer;
+    v30[1] = *(_DWORD *)(a4.integer + 4);
+    v30[2] = *(_DWORD *)(a4.integer + 8);
+    goto LABEL_20;
+  }
+  while ( I_stricmp(a1, *(_DWORD *)v10) )
+  {
+    v10 = *(_DWORD *)(v10 + 32);
+    if ( !v10 )
+      goto LABEL_8;
+  }
+  v54 = a2;
+  v31 = *(_WORD *)(v10 + 4);
+  if ( ((HIBYTE(v31) ^ HIBYTE(a3)) & 0x70) == 0 )
+    goto LABEL_39;
+  if ( (v31 & 0x4000) != 0 )
+  {
+    v32 = a3;
+    if ( (a3 & 0x4000) != 0 )
+      goto LABEL_39;
+    Dvar_PerformUnregistration(v45);
+    Z_FreeInternal(*(_DWORD *)v10);
+    *(_DWORD *)v10 = a1;
+    *(_WORD *)(v10 + 4) &= ~0x4000u;
+    Dvar_MakeExplicitType((dvar_s *)a3, (const char *)a4.integer, a5, a6, v50, v51);
+    v31 = *(_WORD *)(v10 + 4);
+LABEL_53:
+    if ( (v32 & 0x1000) != 0 && (v31 & 0x1000) == 0 )
+    {
+      *(_DWORD *)v10 = a1;
+      if ( *(_BYTE *)(v10 + 6) == 6 )
+      {
+        *(_DWORD *)(v10 + 20) = a5;
+        *(_DWORD *)(v10 + 24) = a6;
+      }
+    }
+    goto LABEL_39;
+  }
+  v32 = a3;
+  if ( (a3 & 0x4000) == 0 )
+    goto LABEL_53;
+LABEL_39:
+  if ( (v31 & 0x4000) != 0 && v54 != *(_BYTE *)(v10 + 6) )
+    Dvar_MakeExplicitType((dvar_s *)a3, (const char *)a4.integer, a5, a6, v50, v51);
+  v33 = *(_WORD *)(v10 + 4) | a3;
+  *(_WORD *)(v10 + 4) = v33;
+  if ( (v33 & 0x80u) != 0 && dvar_cheats && !*(_BYTE *)(dvar_cheats + 8) )
+  {
+    Dvar_SetVariant(v45, v47, v49);
+    Dvar_SetLatchedValue(v46, v48);
+  }
+  if ( (*(_BYTE *)(v10 + 4) & 0x20) != 0 )
+    Dvar_SetVariant(v45, v47, v49);
+  return (dvar_s *)v10;
 }
