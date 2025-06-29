@@ -1,3 +1,5 @@
+char com_errorMessage[4096];
+
 char __cdecl Com_GetDecimalDelimiter() {
   DvarValue current; // edx
 
@@ -715,7 +717,17 @@ void __cdecl Com_Frame() { UNIMPLEMENTED(); }
 
 void __cdecl Com_Init_Try_Block_Function(char *commandLine) { UNIMPLEMENTED(); }
 
-void __cdecl Com_Init(char *commandLine) { UNIMPLEMENTED(); }
+void Com_Init(char *commandLine)
+{
+  jmp_buf *Value;
+
+  Value = (jmp_buf*)Sys_GetValue(2);
+  if ( setjmp(*Value) )
+  {
+    Sys_Error(va("Error during initialization:\n%s\n", com_errorMessage));
+  }
+  Com_Init_Try_Block_Function(commandLine);
+}
 
 struct GamePadCheat *com_gamePadCheats;
 char *cl_cdkey;
