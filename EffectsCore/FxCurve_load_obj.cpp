@@ -1,4 +1,5 @@
 FxCurve_AllocAndCreateWithKeys(float const *keyArray, int dimensionCount,
-                               int keyCount) {
+                               int keyCount)
+{
   UNIMPLEMENTED();
 }

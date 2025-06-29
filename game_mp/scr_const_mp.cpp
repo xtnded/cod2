@@ -1,4 +1,5 @@
-void __cdecl GScr_LoadConsts() {
+void __cdecl GScr_LoadConsts()
+{
   int result; // eax
 
   scr_const = GScr_AllocString((char *)&inData);

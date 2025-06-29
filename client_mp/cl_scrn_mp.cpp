@@ -1,16 +1,24 @@
-void __cdecl SCR_UpdateScreen() { UNIMPLEMENTED(); }
+void __cdecl SCR_UpdateScreen()
+{
+  UNIMPLEMENTED();
+}
 
-float __cdecl CL_GetMenuBlurRadius() {
+float __cdecl CL_GetMenuBlurRadius()
+{
   if ((*((_BYTE *)cl + 4) & 8) != 0 && dword_1220A70 && *(_DWORD *)clc != 1)
     return UI_GetBlurRadius();
   else
     return 0.0;
 }
 
-void __cdecl SCR_Init() { scr_initialized = 1; }
+void __cdecl SCR_Init()
+{
+  scr_initialized = 1;
+}
 
 void __cdecl SCR_DrawConsoleString(int x, int y, short const *string,
-                                   int maxChars, float const *const setColor) {
+                                   int maxChars, float const *const setColor)
+{
   float v5; // xmm1_4
 
   v5 = (float)dword_121C7B8(dword_14C13C0);
@@ -21,7 +29,8 @@ void __cdecl SCR_DrawConsoleString(int x, int y, short const *string,
 }
 
 void __cdecl SCR_DrawSmallStringExt(int x, int y, char const *string,
-                                    float const *const setColor) {
+                                    float const *const setColor)
+{
   float v4; // xmm1_4
 
   v4 = (float)dword_121C7B8(dword_14C13C0);
@@ -31,18 +40,24 @@ void __cdecl SCR_DrawSmallStringExt(int x, int y, char const *string,
       1065353216, a4, 0);
 }
 
-void __cdecl SCR_DrawSmallChar(int, int, int, float const *const) {
+void __cdecl SCR_DrawSmallChar(int, int, int, float const *const)
+{
   UNIMPLEMENTED();
 }
 
 void __cdecl SCR_DrawPic(float, float, float, float, int, int,
-                         struct Material *) {
+                         struct Material *)
+{
   UNIMPLEMENTED();
 }
 
-void __cdecl CL_DrawScreen(void) { UNIMPLEMENTED(); }
+void __cdecl CL_DrawScreen(void)
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl CL_CubemapShot_f() {
+void __cdecl CL_CubemapShot_f()
+{
   const char *v5;                                   // eax
   const char *v6;                                   // eax
   int v7;                                           // edi
@@ -71,10 +86,10 @@ void __cdecl CL_CubemapShot_f() {
   float v30;                                        // [esp+A8h] [ebp-20h]
   float v31;                                        // [esp+ACh] [ebp-1Ch]
 
-  if (!*((_BYTE *)cl + 9)) {
-    Com_Printf("must be in a map to use this command\n");
-    return;
-  }
+    if (!*((_BYTE *)cl + 9)) {
+      Com_Printf("must be in a map to use this command\n");
+      return;
+    }
   if (Cmd_Argc() <= 2)
     goto LABEL_4;
   if (strlen((const char *)Cmd_Argv(2)) > 0x28)
@@ -88,88 +103,104 @@ void __cdecl CL_CubemapShot_f() {
   v29 = 0.0;
   v30 = 0.0;
   v31 = 0.0;
-  if (Cmd_Argc() == 7) {
-    v14 = (const char *)Cmd_Argv(3);
-    if (stricmp(v14, "lighting"))
-      goto LABEL_4;
-    v15 = (const char *)Cmd_Argv(4);
-    v16 = atof(v15);
-    v29 = v16;
-    v17 = (const char *)Cmd_Argv(5);
-    v18 = atof(v17);
-    v30 = v18;
-    v19 = (const char *)Cmd_Argv(6);
-    a1 = atof(v19);
-    v20 = a1;
-    v31 = v20;
-    v26 = 1;
-    v27 = 0x3FAA9FBE3F800000LL;
-    v8 = 1.3329999;
-  } else {
-    if (Cmd_Argc() != 6) {
-      if (Cmd_Argc() == 3) {
-        v26 = 0;
-        v27 = 0x3FAA9FBE3F800000LL;
-        v8 = 1.3329999;
-        goto LABEL_12;
-      }
-    LABEL_4:
-      CL_CubemapShotUsage();
-      return;
+    if (Cmd_Argc() == 7) {
+      v14 = (const char *)Cmd_Argv(3);
+      if (stricmp(v14, "lighting"))
+        goto LABEL_4;
+      v15 = (const char *)Cmd_Argv(4);
+      v16 = atof(v15);
+      v29 = v16;
+      v17 = (const char *)Cmd_Argv(5);
+      v18 = atof(v17);
+      v30 = v18;
+      v19 = (const char *)Cmd_Argv(6);
+      a1 = atof(v19);
+      v20 = a1;
+      v31 = v20;
+      v26 = 1;
+      v27 = 0x3FAA9FBE3F800000LL;
+      v8 = 1.3329999;
     }
-    v21 = (const char *)Cmd_Argv(3);
-    if (stricmp(v21, "fresnel"))
-      goto LABEL_4;
-    v22 = (const char *)Cmd_Argv(4);
-    v23 = atof(v22);
-    *(float *)&v27 = v23;
-    v24 = (const char *)Cmd_Argv(5);
-    a1 = atof(v24);
-    v25 = a1;
-    *((float *)&v27 + 1) = v25;
-    if (*(float *)&v27 < 1.0)
-      goto LABEL_4;
-    v8 = 1.0;
-    if (*((float *)&v27 + 1) < 1.0)
-      goto LABEL_4;
-    v26 = 0;
-  }
+    else {
+        if (Cmd_Argc() != 6) {
+            if (Cmd_Argc() == 3) {
+              v26 = 0;
+              v27 = 0x3FAA9FBE3F800000LL;
+              v8 = 1.3329999;
+              goto LABEL_12;
+            }
+        LABEL_4:
+          CL_CubemapShotUsage();
+          return;
+        }
+      v21 = (const char *)Cmd_Argv(3);
+      if (stricmp(v21, "fresnel"))
+        goto LABEL_4;
+      v22 = (const char *)Cmd_Argv(4);
+      v23 = atof(v22);
+      *(float *)&v27 = v23;
+      v24 = (const char *)Cmd_Argv(5);
+      a1 = atof(v24);
+      v25 = a1;
+      *((float *)&v27 + 1) = v25;
+      if (*(float *)&v27 < 1.0)
+        goto LABEL_4;
+      v8 = 1.0;
+      if (*((float *)&v27 + 1) < 1.0)
+        goto LABEL_4;
+      v26 = 0;
+    }
 LABEL_12:
   CL_ResetSkeletonCache(0);
-  for (i = CUBEMAPSHOT_UP; i != CUBEMAPSHOT_COUNT; ++i) {
-    unk_121C78C(v7, 1);
-    (*(void (**)(void)) & algn_121C738[16])();
-    CL_ClearScene();
-    CG_DrawActiveFrame(
-        a1, v8, a2, a3, a4, a5, *((_DWORD *)cl + 2492),
-        (DemoType)(*(_DWORD *)((char *)&loc_407A0 + (_DWORD)clc) != 0), i, v7,
-        0);
-    (*(void (**)(void)) & algn_121C738[20])();
-    unk_121C790(i);
-  }
+    for (i = CUBEMAPSHOT_UP; i != CUBEMAPSHOT_COUNT; ++i) {
+      unk_121C78C(v7, 1);
+      (*(void (**)(void)) & algn_121C738[16])();
+      CL_ClearScene();
+      CG_DrawActiveFrame(
+          a1, v8, a2, a3, a4, a5, *((_DWORD *)cl + 2492),
+          (DemoType)(*(_DWORD *)((char *)&loc_407A0 + (_DWORD)clc) != 0), i, v7,
+          0);
+      (*(void (**)(void)) & algn_121C738[20])();
+      unk_121C790(i);
+    }
   if (v26)
     unk_121C798(&v29);
   v10 = 1;
   v11 = (const char **)&CL_CubemapShot_f(void)::szShotName;
-  do {
-    v12 = (void(__cdecl *)(char *, int, _DWORD, _DWORD))unk_121C794;
-    v13 = va("env/%s%s.tga", __dst, *v11);
-    v12(v13, v10++, v27, HIDWORD(v27));
-    ++v11;
-  } while (v10 != 7);
+    do {
+      v12 = (void(__cdecl *)(char *, int, _DWORD, _DWORD))unk_121C794;
+      v13 = va("env/%s%s.tga", __dst, *v11);
+      v12(v13, v10++, v27, HIDWORD(v27));
+      ++v11;
+    }
+  while (v10 != 7);
 }
 
-void __cdecl SCR_UpdateScreenInternal() { UNIMPLEMENTED(); }
+void __cdecl SCR_UpdateScreenInternal()
+{
+  UNIMPLEMENTED();
+}
 
 int scr_initialized;
 bool updateScreenCalled;
-enum DemoType __cdecl CL_GetDemoType(void) { UNIMPLEMENTED(); }
 
-void __cdecl SCR_UpdateRumble(void) { UNIMPLEMENTED(); }
+enum DemoType __cdecl CL_GetDemoType(void)
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl SCR_DrawDemoRecording(void) { UNIMPLEMENTED(); }
+void __cdecl SCR_UpdateRumble(void)
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl CL_CubemapShotUsage(void) {
+void __cdecl SCR_DrawDemoRecording(void)
+{
+  UNIMPLEMENTED();
+}
+
+void __cdecl CL_CubemapShotUsage(void)
+{
   Com_Printf("Syntax: cubemapShot size basefilename [water r0 g0 b0 r90 g90 "
              "b90 | fresnel n0 n1]\n");
   Com_Printf("size must be a power of 2 >= 4 and <= 1024\n");
@@ -188,8 +219,17 @@ void __cdecl CL_CubemapShotUsage(void) {
              "(n0 = 1, n1 = 1.333).\n");
 }
 
-int __cdecl CL_CGameRendering(int) { UNIMPLEMENTED(); }
+int __cdecl CL_CGameRendering(int)
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl SCR_DrawScreenField(void) { UNIMPLEMENTED(); }
+void __cdecl SCR_DrawScreenField(void)
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl SCR_UpdateFrame(void) { UNIMPLEMENTED(); }
+void __cdecl SCR_UpdateFrame(void)
+{
+  UNIMPLEMENTED();
+}

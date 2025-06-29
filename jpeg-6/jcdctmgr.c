@@ -18,7 +18,8 @@
 
 /* Private subobject for this module */
 
-typedef struct {
+typedef struct
+{
   struct jpeg_forward_dct pub; /* public fields */
 
   /* Pointer to the DCT routine actually in use */
@@ -49,7 +50,8 @@ typedef my_fdct_controller *my_fdct_ptr;
  * first scan.  Hence all components should be examined here.
  */
 
-METHODDEF void start_pass_fdctmgr(j_compress_ptr cinfo) {
+METHODDEF void start_pass_fdctmgr(j_compress_ptr cinfo)
+{
   my_fdct_ptr fdct = (my_fdct_ptr)cinfo->fdct;
   int ci, qtblno, i;
   jpeg_component_info *compptr;
@@ -58,103 +60,112 @@ METHODDEF void start_pass_fdctmgr(j_compress_ptr cinfo) {
   DCTELEM *dtbl;
 #endif
 
-  for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
-       ci++, compptr++) {
-    qtblno = compptr->quant_tbl_no;
-    /* Make sure specified quantization table is present */
-    if (qtblno < 0 || qtblno >= NUM_QUANT_TBLS ||
-        cinfo->quant_tbl_ptrs[qtblno] == NULL)
-      ERREXIT1(cinfo, JERR_NO_QUANT_TABLE, qtblno);
-    qtbl = cinfo->quant_tbl_ptrs[qtblno];
-    /* Compute divisors for this quant table */
-    /* We may do this more than once for same table, but it's not a big deal */
-    switch (cinfo->dct_method) {
+    for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
+         ci++, compptr++) {
+      qtblno = compptr->quant_tbl_no;
+      /* Make sure specified quantization table is present */
+      if (qtblno < 0 || qtblno >= NUM_QUANT_TBLS ||
+          cinfo->quant_tbl_ptrs[qtblno] == NULL)
+        ERREXIT1(cinfo, JERR_NO_QUANT_TABLE, qtblno);
+      qtbl = cinfo->quant_tbl_ptrs[qtblno];
+        /* Compute divisors for this quant table */
+        /* We may do this more than once for same table, but it's not a big deal
+         */
+        switch (cinfo->dct_method) {
 #ifdef DCT_ISLOW_SUPPORTED
-    case JDCT_ISLOW:
-      /* For LL&M IDCT method, divisors are equal to raw quantization
-       * coefficients multiplied by 8 (to counteract scaling).
-       */
-      if (fdct->divisors[qtblno] == NULL) {
-        fdct->divisors[qtblno] = (DCTELEM *)(*cinfo->mem->alloc_small)(
-            (j_common_ptr)cinfo, JPOOL_IMAGE, DCTSIZE2 * SIZEOF(DCTELEM));
-      }
-      dtbl = fdct->divisors[qtblno];
-      for (i = 0; i < DCTSIZE2; i++) {
-        dtbl[i] = ((DCTELEM)qtbl->quantval[jpeg_zigzag_order[i]]) << 3;
-      }
-      break;
+        case JDCT_ISLOW:
+            /* For LL&M IDCT method, divisors are equal to raw quantization
+             * coefficients multiplied by 8 (to counteract scaling).
+             */
+            if (fdct->divisors[qtblno] == NULL) {
+              fdct->divisors[qtblno] = (DCTELEM *)(*cinfo->mem->alloc_small)(
+                  (j_common_ptr)cinfo, JPOOL_IMAGE, DCTSIZE2 * SIZEOF(DCTELEM));
+            }
+          dtbl = fdct->divisors[qtblno];
+            for (i = 0; i < DCTSIZE2; i++) {
+              dtbl[i] = ((DCTELEM)qtbl->quantval[jpeg_zigzag_order[i]]) << 3;
+            }
+          break;
 #endif
 #ifdef DCT_IFAST_SUPPORTED
-    case JDCT_IFAST: {
-      /* For AA&N IDCT method, divisors are equal to quantization
-       * coefficients scaled by scalefactor[row]*scalefactor[col], where
-       *   scalefactor[0] = 1
-       *   scalefactor[k] = cos(k*PI/16) * sqrt(2)    for k=1..7
-       * We apply a further scale factor of 8.
-       */
+        case JDCT_IFAST:
+          {
+            /* For AA&N IDCT method, divisors are equal to quantization
+             * coefficients scaled by scalefactor[row]*scalefactor[col], where
+             *   scalefactor[0] = 1
+             *   scalefactor[k] = cos(k*PI/16) * sqrt(2)    for k=1..7
+             * We apply a further scale factor of 8.
+             */
 #define CONST_BITS 14
-      static const INT16 aanscales[DCTSIZE2] = {
-          /* precomputed values scaled up by 14 bits: in natural order */
-          16384, 22725, 21407, 19266, 16384, 12873, 8867,  4520,  22725, 31521,
-          29692, 26722, 22725, 17855, 12299, 6270,  21407, 29692, 27969, 25172,
-          21407, 16819, 11585, 5906,  19266, 26722, 25172, 22654, 19266, 15137,
-          10426, 5315,  16384, 22725, 21407, 19266, 16384, 12873, 8867,  4520,
-          12873, 17855, 16819, 15137, 12873, 10114, 6967,  3552,  8867,  12299,
-          11585, 10426, 8867,  6967,  4799,  2446,  4520,  6270,  5906,  5315,
-          4520,  3552,  2446,  1247};
-      SHIFT_TEMPS
+            static const INT16 aanscales[DCTSIZE2] = {
+                /* precomputed values scaled up by 14 bits: in natural order */
+                16384, 22725, 21407, 19266, 16384, 12873, 8867,  4520,
+                22725, 31521, 29692, 26722, 22725, 17855, 12299, 6270,
+                21407, 29692, 27969, 25172, 21407, 16819, 11585, 5906,
+                19266, 26722, 25172, 22654, 19266, 15137, 10426, 5315,
+                16384, 22725, 21407, 19266, 16384, 12873, 8867,  4520,
+                12873, 17855, 16819, 15137, 12873, 10114, 6967,  3552,
+                8867,  12299, 11585, 10426, 8867,  6967,  4799,  2446,
+                4520,  6270,  5906,  5315,  4520,  3552,  2446,  1247};
+            SHIFT_TEMPS
 
-      if (fdct->divisors[qtblno] == NULL) {
-        fdct->divisors[qtblno] = (DCTELEM *)(*cinfo->mem->alloc_small)(
-            (j_common_ptr)cinfo, JPOOL_IMAGE, DCTSIZE2 * SIZEOF(DCTELEM));
-      }
-      dtbl = fdct->divisors[qtblno];
-      for (i = 0; i < DCTSIZE2; i++) {
-        dtbl[i] = (DCTELEM)DESCALE(
-            MULTIPLY16V16((INT32)qtbl->quantval[jpeg_zigzag_order[i]],
-                          (INT32)aanscales[i]),
-            CONST_BITS - 3);
-      }
-    } break;
+              if (fdct->divisors[qtblno] == NULL) {
+                fdct->divisors[qtblno] = (DCTELEM *)(*cinfo->mem->alloc_small)(
+                    (j_common_ptr)cinfo, JPOOL_IMAGE,
+                    DCTSIZE2 * SIZEOF(DCTELEM));
+              }
+            dtbl = fdct->divisors[qtblno];
+              for (i = 0; i < DCTSIZE2; i++) {
+                dtbl[i] = (DCTELEM)DESCALE(
+                    MULTIPLY16V16((INT32)qtbl->quantval[jpeg_zigzag_order[i]],
+                                  (INT32)aanscales[i]),
+                    CONST_BITS - 3);
+              }
+          } break;
 #endif
 #ifdef DCT_FLOAT_SUPPORTED
-    case JDCT_FLOAT: {
-      /* For float AA&N IDCT method, divisors are equal to quantization
-       * coefficients scaled by scalefactor[row]*scalefactor[col], where
-       *   scalefactor[0] = 1
-       *   scalefactor[k] = cos(k*PI/16) * sqrt(2)    for k=1..7
-       * We apply a further scale factor of 8.
-       * What's actually stored is 1/divisor so that the inner loop can
-       * use a multiplication rather than a division.
-       */
-      FAST_FLOAT *fdtbl;
-      int row, col;
-      static const double aanscalefactor[DCTSIZE] = {
-          1.0, 1.387039845, 1.306562965, 1.175875602,
-          1.0, 0.785694958, 0.541196100, 0.275899379};
+        case JDCT_FLOAT:
+          {
+            /* For float AA&N IDCT method, divisors are equal to quantization
+             * coefficients scaled by scalefactor[row]*scalefactor[col], where
+             *   scalefactor[0] = 1
+             *   scalefactor[k] = cos(k*PI/16) * sqrt(2)    for k=1..7
+             * We apply a further scale factor of 8.
+             * What's actually stored is 1/divisor so that the inner loop can
+             * use a multiplication rather than a division.
+             */
+            FAST_FLOAT *fdtbl;
+            int row, col;
+            static const double aanscalefactor[DCTSIZE] = {
+                1.0, 1.387039845, 1.306562965, 1.175875602,
+                1.0, 0.785694958, 0.541196100, 0.275899379};
 
-      if (fdct->float_divisors[qtblno] == NULL) {
-        fdct->float_divisors[qtblno] = (FAST_FLOAT *)(*cinfo->mem->alloc_small)(
-            (j_common_ptr)cinfo, JPOOL_IMAGE, DCTSIZE2 * SIZEOF(FAST_FLOAT));
-      }
-      fdtbl = fdct->float_divisors[qtblno];
-      i = 0;
-      for (row = 0; row < DCTSIZE; row++) {
-        for (col = 0; col < DCTSIZE; col++) {
-          fdtbl[i] =
-              (FAST_FLOAT)(1.0 /
-                           (((double)qtbl->quantval[jpeg_zigzag_order[i]] *
-                             aanscalefactor[row] * aanscalefactor[col] * 8.0)));
-          i++;
-        }
-      }
-    } break;
+              if (fdct->float_divisors[qtblno] == NULL) {
+                fdct->float_divisors[qtblno] =
+                    (FAST_FLOAT *)(*cinfo->mem->alloc_small)(
+                        (j_common_ptr)cinfo, JPOOL_IMAGE,
+                        DCTSIZE2 * SIZEOF(FAST_FLOAT));
+              }
+            fdtbl = fdct->float_divisors[qtblno];
+            i = 0;
+              for (row = 0; row < DCTSIZE; row++) {
+                  for (col = 0; col < DCTSIZE; col++) {
+                    fdtbl[i] =
+                        (FAST_FLOAT)(1.0 /
+                                     (((double)qtbl
+                                           ->quantval[jpeg_zigzag_order[i]] *
+                                       aanscalefactor[row] *
+                                       aanscalefactor[col] * 8.0)));
+                    i++;
+                  }
+              }
+          } break;
 #endif
-    default:
-      ERREXIT(cinfo, JERR_NOT_COMPILED);
-      break;
+        default:
+          ERREXIT(cinfo, JERR_NOT_COMPILED);
+          break;
+        }
     }
-  }
 }
 
 /*
@@ -276,59 +287,67 @@ METHODDEF void forward_DCT_float(j_compress_ptr cinfo,
 
   sample_data += start_row; /* fold in the vertical offset once */
 
-  for (bi = 0; bi < num_blocks; bi++, start_col += DCTSIZE) {
-    /* Load data into workspace, applying unsigned->signed conversion */
-    {
-      register FAST_FLOAT *workspaceptr;
-      register JSAMPROW elemptr;
-      register int elemr;
+    for (bi = 0; bi < num_blocks; bi++, start_col += DCTSIZE) {
+      /* Load data into workspace, applying unsigned->signed conversion */
+      {
+        register FAST_FLOAT *workspaceptr;
+        register JSAMPROW elemptr;
+        register int elemr;
 
-      workspaceptr = workspace;
-      for (elemr = 0; elemr < DCTSIZE; elemr++) {
-        elemptr = sample_data[elemr] + start_col;
+        workspaceptr = workspace;
+          for (elemr = 0; elemr < DCTSIZE; elemr++) {
+            elemptr = sample_data[elemr] + start_col;
 #if DCTSIZE == 8 /* unroll the inner loop */
-        *workspaceptr++ = (FAST_FLOAT)(GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
-        *workspaceptr++ = (FAST_FLOAT)(GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
-        *workspaceptr++ = (FAST_FLOAT)(GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
-        *workspaceptr++ = (FAST_FLOAT)(GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
-        *workspaceptr++ = (FAST_FLOAT)(GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
-        *workspaceptr++ = (FAST_FLOAT)(GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
-        *workspaceptr++ = (FAST_FLOAT)(GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
-        *workspaceptr++ = (FAST_FLOAT)(GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
-#else
-        {
-          register int elemc;
-          for (elemc = DCTSIZE; elemc > 0; elemc--) {
             *workspaceptr++ =
                 (FAST_FLOAT)(GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
-          }
-        }
+            *workspaceptr++ =
+                (FAST_FLOAT)(GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
+            *workspaceptr++ =
+                (FAST_FLOAT)(GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
+            *workspaceptr++ =
+                (FAST_FLOAT)(GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
+            *workspaceptr++ =
+                (FAST_FLOAT)(GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
+            *workspaceptr++ =
+                (FAST_FLOAT)(GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
+            *workspaceptr++ =
+                (FAST_FLOAT)(GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
+            *workspaceptr++ =
+                (FAST_FLOAT)(GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
+#else
+            {
+              register int elemc;
+                for (elemc = DCTSIZE; elemc > 0; elemc--) {
+                  *workspaceptr++ =
+                      (FAST_FLOAT)(GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
+                }
+            }
 #endif
+          }
+      }
+
+      /* Perform the DCT */
+      (*do_dct)(workspace);
+
+      /* Quantize/descale the coefficients, and store into coef_blocks[] */
+      {
+        register FAST_FLOAT temp;
+        register int i;
+        register JCOEFPTR output_ptr = coef_blocks[bi];
+
+          for (i = 0; i < DCTSIZE2; i++) {
+            /* Apply the quantization and scaling factor */
+            temp = workspace[i] * divisors[i];
+            /* Round to nearest integer.
+             * Since C does not specify the direction of rounding for negative
+             * quotients, we have to force the dividend positive for
+             * portability. The maximum coefficient size is +-16K (for 12-bit
+             * data), so this code should work for either 16-bit or 32-bit ints.
+             */
+            output_ptr[i] = (JCOEF)((int)(temp + (FAST_FLOAT)16384.5) - 16384);
+          }
       }
     }
-
-    /* Perform the DCT */
-    (*do_dct)(workspace);
-
-    /* Quantize/descale the coefficients, and store into coef_blocks[] */
-    {
-      register FAST_FLOAT temp;
-      register int i;
-      register JCOEFPTR output_ptr = coef_blocks[bi];
-
-      for (i = 0; i < DCTSIZE2; i++) {
-        /* Apply the quantization and scaling factor */
-        temp = workspace[i] * divisors[i];
-        /* Round to nearest integer.
-         * Since C does not specify the direction of rounding for negative
-         * quotients, we have to force the dividend positive for portability.
-         * The maximum coefficient size is +-16K (for 12-bit data), so this
-         * code should work for either 16-bit or 32-bit ints.
-         */
-        output_ptr[i] = (JCOEF)((int)(temp + (FAST_FLOAT)16384.5) - 16384);
-      }
-    }
-  }
 }
 
 #endif /* DCT_FLOAT_SUPPORTED */
@@ -337,7 +356,8 @@ METHODDEF void forward_DCT_float(j_compress_ptr cinfo,
  * Initialize FDCT manager.
  */
 
-GLOBAL void jinit_forward_dct(j_compress_ptr cinfo) {
+GLOBAL void jinit_forward_dct(j_compress_ptr cinfo)
+{
   my_fdct_ptr fdct;
   int i;
 
@@ -346,35 +366,35 @@ GLOBAL void jinit_forward_dct(j_compress_ptr cinfo) {
   cinfo->fdct = (struct jpeg_forward_dct *)fdct;
   fdct->pub.start_pass = start_pass_fdctmgr;
 
-  switch (cinfo->dct_method) {
+    switch (cinfo->dct_method) {
 #ifdef DCT_ISLOW_SUPPORTED
-  case JDCT_ISLOW:
-    fdct->pub.forward_DCT = forward_DCT;
-    fdct->do_dct = jpeg_fdct_islow;
-    break;
+    case JDCT_ISLOW:
+      fdct->pub.forward_DCT = forward_DCT;
+      fdct->do_dct = jpeg_fdct_islow;
+      break;
 #endif
 #ifdef DCT_IFAST_SUPPORTED
-  case JDCT_IFAST:
-    fdct->pub.forward_DCT = forward_DCT;
-    fdct->do_dct = jpeg_fdct_ifast;
-    break;
+    case JDCT_IFAST:
+      fdct->pub.forward_DCT = forward_DCT;
+      fdct->do_dct = jpeg_fdct_ifast;
+      break;
 #endif
 #ifdef DCT_FLOAT_SUPPORTED
-  case JDCT_FLOAT:
-    fdct->pub.forward_DCT = forward_DCT_float;
-    fdct->do_float_dct = jpeg_fdct_float;
-    break;
+    case JDCT_FLOAT:
+      fdct->pub.forward_DCT = forward_DCT_float;
+      fdct->do_float_dct = jpeg_fdct_float;
+      break;
 #endif
-  default:
-    ERREXIT(cinfo, JERR_NOT_COMPILED);
-    break;
-  }
+    default:
+      ERREXIT(cinfo, JERR_NOT_COMPILED);
+      break;
+    }
 
-  /* Mark divisor tables unallocated */
-  for (i = 0; i < NUM_QUANT_TBLS; i++) {
-    fdct->divisors[i] = NULL;
+    /* Mark divisor tables unallocated */
+    for (i = 0; i < NUM_QUANT_TBLS; i++) {
+      fdct->divisors[i] = NULL;
 #ifdef DCT_FLOAT_SUPPORTED
-    fdct->float_divisors[i] = NULL;
+      fdct->float_divisors[i] = NULL;
 #endif
-  }
+    }
 }

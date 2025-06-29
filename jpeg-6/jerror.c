@@ -56,7 +56,8 @@ const char *const jpeg_std_message_table[] = {
  * or jpeg_destroy) at some point.
  */
 
-METHODDEF void error_exit(j_common_ptr cinfo) {
+METHODDEF void error_exit(j_common_ptr cinfo)
+{
   char buffer[JMSG_LENGTH_MAX];
 
   /* Create the message */
@@ -74,7 +75,8 @@ METHODDEF void error_exit(j_common_ptr cinfo) {
  * other than stderr.
  */
 
-METHODDEF void output_message(j_common_ptr cinfo) {
+METHODDEF void output_message(j_common_ptr cinfo)
+{
   char buffer[JMSG_LENGTH_MAX];
 
   /* Create the message */
@@ -95,23 +97,25 @@ METHODDEF void output_message(j_common_ptr cinfo) {
  * or change the policy about which messages to display.
  */
 
-METHODDEF void emit_message(j_common_ptr cinfo, int msg_level) {
+METHODDEF void emit_message(j_common_ptr cinfo, int msg_level)
+{
   struct jpeg_error_mgr *err = cinfo->err;
 
-  if (msg_level < 0) {
-    /* It's a warning message.  Since corrupt files may generate many warnings,
-     * the policy implemented here is to show only the first warning,
-     * unless trace_level >= 3.
-     */
-    if (err->num_warnings == 0 || err->trace_level >= 3)
-      (*err->output_message)(cinfo);
-    /* Always count warnings in num_warnings. */
-    err->num_warnings++;
-  } else {
-    /* It's a trace message.  Show it if trace_level >= msg_level. */
-    if (err->trace_level >= msg_level)
-      (*err->output_message)(cinfo);
-  }
+    if (msg_level < 0) {
+      /* It's a warning message.  Since corrupt files may generate many
+       * warnings, the policy implemented here is to show only the first
+       * warning, unless trace_level >= 3.
+       */
+      if (err->num_warnings == 0 || err->trace_level >= 3)
+        (*err->output_message)(cinfo);
+      /* Always count warnings in num_warnings. */
+      err->num_warnings++;
+    }
+    else {
+      /* It's a trace message.  Show it if trace_level >= msg_level. */
+      if (err->trace_level >= msg_level)
+        (*err->output_message)(cinfo);
+    }
 }
 
 /*
@@ -121,7 +125,8 @@ METHODDEF void emit_message(j_common_ptr cinfo, int msg_level) {
  * Few applications should need to override this method.
  */
 
-METHODDEF void format_message(j_common_ptr cinfo, char *buffer) {
+METHODDEF void format_message(j_common_ptr cinfo, char *buffer)
+{
   struct jpeg_error_mgr *err = cinfo->err;
   int msg_code = err->msg_code;
   const char *msgtext = NULL;
@@ -129,31 +134,32 @@ METHODDEF void format_message(j_common_ptr cinfo, char *buffer) {
   char ch;
   boolean isstring;
 
-  /* Look up message string in proper table */
-  if (msg_code > 0 && msg_code <= err->last_jpeg_message) {
-    msgtext = err->jpeg_message_table[msg_code];
-  } else if (err->addon_message_table != NULL &&
+    /* Look up message string in proper table */
+    if (msg_code > 0 && msg_code <= err->last_jpeg_message) {
+      msgtext = err->jpeg_message_table[msg_code];
+    }
+    else if (err->addon_message_table != NULL &&
              msg_code >= err->first_addon_message &&
              msg_code <= err->last_addon_message) {
-    msgtext = err->addon_message_table[msg_code - err->first_addon_message];
-  }
+      msgtext = err->addon_message_table[msg_code - err->first_addon_message];
+    }
 
-  /* Defend against bogus message number */
-  if (msgtext == NULL) {
-    err->msg_parm.i[0] = msg_code;
-    msgtext = err->jpeg_message_table[0];
-  }
+    /* Defend against bogus message number */
+    if (msgtext == NULL) {
+      err->msg_parm.i[0] = msg_code;
+      msgtext = err->jpeg_message_table[0];
+    }
 
   /* Check for string parameter, as indicated by %s in the message text */
   isstring = FALSE;
   msgptr = msgtext;
-  while ((ch = *msgptr++) != '\0') {
-    if (ch == '%') {
-      if (*msgptr == 's')
-        isstring = TRUE;
-      break;
+    while ((ch = *msgptr++) != '\0') {
+        if (ch == '%') {
+          if (*msgptr == 's')
+            isstring = TRUE;
+          break;
+        }
     }
-  }
 
   /* Format the message into the passed buffer */
   if (isstring)
@@ -172,7 +178,8 @@ METHODDEF void format_message(j_common_ptr cinfo, char *buffer) {
  * this method if it has additional error processing state.
  */
 
-METHODDEF void reset_error_mgr(j_common_ptr cinfo) {
+METHODDEF void reset_error_mgr(j_common_ptr cinfo)
+{
   cinfo->err->num_warnings = 0;
   /* trace_level is not reset since it is an application-supplied parameter */
   cinfo->err->msg_code = 0; /* may be useful as a flag for "no error" */
@@ -188,7 +195,8 @@ METHODDEF void reset_error_mgr(j_common_ptr cinfo) {
  * after which the application may override some of the methods.
  */
 
-GLOBAL struct jpeg_error_mgr *jpeg_std_error(struct jpeg_error_mgr *err) {
+GLOBAL struct jpeg_error_mgr *jpeg_std_error(struct jpeg_error_mgr *err)
+{
   err->error_exit = error_exit;
   err->emit_message = emit_message;
   err->output_message = output_message;

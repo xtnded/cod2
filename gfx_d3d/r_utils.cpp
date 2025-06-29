@@ -1,24 +1,28 @@
-bool __cdecl R_ValidXModelName(char const *name) {
+bool __cdecl R_ValidXModelName(char const *name)
+{
   return strlen(a1) <= 0x3F && !strnicmp(a1, "xmodel", 6u) && a1[6] == 47;
 }
 
 void __cdecl R_ConvertColorToBytes(float const *const colorFloat,
-                                   unsigned char *const colorBytes) {
+                                   unsigned char *const colorBytes)
+{
   int result; // eax
 
-  if (a1) {
-    *a2 = (int)(float)(a1[3] * 255.0);
-    a2[1] = (int)(float)(*a1 * 255.0);
-    a2[2] = (int)(float)(a1[1] * 255.0);
-    result = (int)(float)(255.0 * a1[2]);
-    a2[3] = result;
-  } else {
-    *(_DWORD *)a2 = -1;
-  }
+    if (a1) {
+      *a2 = (int)(float)(a1[3] * 255.0);
+      a2[1] = (int)(float)(*a1 * 255.0);
+      a2[2] = (int)(float)(a1[1] * 255.0);
+      result = (int)(float)(255.0 * a1[2]);
+      a2[3] = result;
+    }
+    else {
+      *(_DWORD *)a2 = -1;
+    }
   return result;
 }
 
-int __cdecl R_HashString(char const *string) {
+int __cdecl R_HashString(char const *string)
+{
   char v1; // al
   int v2;  // edx
   int v3;  // ecx
@@ -28,14 +32,16 @@ int __cdecl R_HashString(char const *string) {
     return 0;
   v2 = 119;
   v3 = 0;
-  do {
-    v3 += v2 * (v1 | 0x20);
-    v1 = a1[++v2 - 119];
-  } while (v1);
+    do {
+      v3 += v2 * (v1 | 0x20);
+      v1 = a1[++v2 - 119];
+    }
+  while (v1);
   return v3;
 }
 
-int __cdecl R_HashAssetName(char const *name) {
+int __cdecl R_HashAssetName(char const *name)
+{
   char v1; // al
   int v2;  // edx
   int v3;  // ecx
@@ -45,16 +51,18 @@ int __cdecl R_HashAssetName(char const *name) {
     return 0;
   v2 = 119;
   v3 = 0;
-  do {
-    v3 += v2 * v1;
-    v1 = a1[++v2 - 119];
-  } while (v1);
+    do {
+      v3 += v2 * v1;
+      v1 = a1[++v2 - 119];
+    }
+  while (v1);
   return v3;
 }
 
 int __cdecl R_PickMaterial(float const *const org, float const *const dir,
                            char *name, char *surfaceFlags, char *contents,
-                           int charLimit) {
+                           int charLimit)
+{
   unsigned int v6;  // eax
   char **v7;        // ebx
   char *v8;         // eax
@@ -97,70 +105,75 @@ int __cdecl R_PickMaterial(float const *const org, float const *const dir,
   if (*v11)
     return 0;
   v13 = strlen(a5);
-  if (unk_30F858) {
-    v7 = &infoParms;
-    do {
-      if (((unsigned int)v7[112] & v15) != 0) {
-        a4[v12] = 32;
-        strncpy(&a4[v12 + 1], v7[110], __n - (v12 + 1));
-        if (*v10)
-          return 0;
-        v12 += strlen(&a4[v12 + 1]) + 1;
-        if (((unsigned int)v7[113] & v16) == 0)
-          goto LABEL_13;
-      } else if (((unsigned int)v7[113] & v16) == 0) {
-        goto LABEL_13;
-      }
-      a5[v13] = 32;
-      strncpy(&a5[v13 + 1], v7[110], __n - (v13 + 1));
-      if (*v11)
-        return 0;
-      v13 += strlen(&a5[v13 + 1]) + 1;
-    LABEL_13:
-      v8 = v7[115];
-      v7 += 5;
-    } while (v8);
-  }
+    if (unk_30F858) {
+      v7 = &infoParms;
+        do {
+            if (((unsigned int)v7[112] & v15) != 0) {
+              a4[v12] = 32;
+              strncpy(&a4[v12 + 1], v7[110], __n - (v12 + 1));
+              if (*v10)
+                return 0;
+              v12 += strlen(&a4[v12 + 1]) + 1;
+              if (((unsigned int)v7[113] & v16) == 0)
+                goto LABEL_13;
+            }
+            else if (((unsigned int)v7[113] & v16) == 0) {
+              goto LABEL_13;
+            }
+          a5[v13] = 32;
+          strncpy(&a5[v13 + 1], v7[110], __n - (v13 + 1));
+          if (*v11)
+            return 0;
+          v13 += strlen(&a5[v13 + 1]) + 1;
+        LABEL_13:
+          v8 = v7[115];
+          v7 += 5;
+        }
+      while (v8);
+    }
   return 1;
 }
 
 int __cdecl R_CullPointAndRadius(float const *const pt, float radius,
                                  struct DpvsPlane const *const clipPlanes,
-                                 int clipPlaneCount) {
+                                 int clipPlaneCount)
+{
   float *coeffs;       // eax
   const DpvsPlane *v5; // ecx
   int v6;              // edx
   float v7;            // xmm0_4
 
-  if (a4 > 0) {
-    if ((float)-a2 >
-        (float)((float)((float)((float)(*a1 * *(float *)a3->coeffs) +
-                                (float)(a1[1] * *(float *)&a3->coeffs[4])) +
-                        (float)(a1[2] * *(float *)&a3->coeffs[8])) +
-                *(float *)&a3->coeffs[12]))
-      return 2;
-    coeffs = (float *)a3[1].coeffs;
-    v5 = a3 + 1;
-    v6 = 0;
-    while (a4 != ++v6) {
-      v7 =
-          (float)((float)((float)(*a1 * *coeffs) + (float)(a1[1] * coeffs[1])) +
-                  (float)(a1[2] * coeffs[2])) +
-          *(float *)&v5->coeffs[12];
-      coeffs += 5;
-      ++v5;
-      if ((float)-a2 > v7)
+    if (a4 > 0) {
+      if ((float)-a2 >
+          (float)((float)((float)((float)(*a1 * *(float *)a3->coeffs) +
+                                  (float)(a1[1] * *(float *)&a3->coeffs[4])) +
+                          (float)(a1[2] * *(float *)&a3->coeffs[8])) +
+                  *(float *)&a3->coeffs[12]))
         return 2;
+      coeffs = (float *)a3[1].coeffs;
+      v5 = a3 + 1;
+      v6 = 0;
+        while (a4 != ++v6) {
+          v7 = (float)((float)((float)(*a1 * *coeffs) +
+                               (float)(a1[1] * coeffs[1])) +
+                       (float)(a1[2] * coeffs[2])) +
+               *(float *)&v5->coeffs[12];
+          coeffs += 5;
+          ++v5;
+          if ((float)-a2 > v7)
+            return 2;
+        }
     }
-  }
   return 0;
 }
 
-struct mnode_t *__cdecl R_LeafForPoint(float const *const) {
+struct mnode_t *__cdecl R_LeafForPoint(float const *const)
+{
   UNIMPLEMENTED();
 }
 
-float __cdecl FresnelTerm(float n0, float n1, float cosIncidentAngle) {
+float __cdecl FresnelTerm(float n0, float n1, float cosIncidentAngle)
+{
   double v3;       // xmm1_8
   double v4;       // xmm0_8
   long double v5;  // fst7

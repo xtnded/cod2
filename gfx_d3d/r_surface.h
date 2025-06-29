@@ -1,5 +1,6 @@
 
-struct GfxSceneEntity {
+struct GfxSceneEntity
+{
   int refCount;
   GfxModel u;
   int cent;
@@ -11,7 +12,8 @@ struct GfxSceneEntity {
   int surfs;
 };
 
-typedef enum {
+typedef enum
+{
   SF_BAD = 0,
   SF_POLY = 1,
   SF_ENTITY = 2,
@@ -24,30 +26,40 @@ typedef enum {
   SF_MAX = 4294967295
 } surfaceType_t;
 
-struct GfxBrushModel {
+struct GfxBrushModel
+{
   char bounds[24];
   int surfaceCount;
   int startSurfIndex;
 };
-struct GfxDrawSurf {
+
+struct GfxDrawSurf
+{
   int sort;
   int surface;
 };
-struct GfxModelSurface {
+
+struct GfxModelSurface
+{
   int surfType;
   int xsurf;
 };
-struct GfxSurface {
+
+struct GfxSurface
+{
   int material;
   short lightmapIndex;
   short sortGroup;
 };
-union _3707 {
+
+union _3707
+{
   int data;
   int tris;
 };
 
-struct srfTriangles_t {
+struct srfTriangles_t
+{
   int surfaceType;
   char bounds[24];
   int firstVertex;
@@ -56,19 +68,24 @@ struct srfTriangles_t {
   int indices;
 };
 
-struct srfPoly_t {
+struct srfPoly_t
+{
   int surfaceType;
   int material;
   short lmapIndex;
   short vertCount;
   int verts;
 };
-struct PointLightPartition {
+
+struct PointLightPartition
+{
   int light;
   int firstDrawSurf;
   int drawSurfCount;
 };
-struct GfxStaticModelInstance {
+
+struct GfxStaticModelInstance
+{
   int cullDist;
   char origin[12];
   int model;

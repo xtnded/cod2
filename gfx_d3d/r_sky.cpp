@@ -1,28 +1,38 @@
-void __cdecl R_FlushSun() { UNIMPLEMENTED(); }
+void __cdecl R_FlushSun()
+{
+  UNIMPLEMENTED();
+}
 
-int __cdecl R_GetSundvarsSize() { return 21; }
+int __cdecl R_GetSundvarsSize()
+{
+  return 21;
+}
 
-void __cdecl R_Cmd_SaveSun() {
+void __cdecl R_Cmd_SaveSun()
+{
   void(__cdecl * v0)(char *, char *, unsigned int); // ebx
   unsigned int v1;                                  // kr04_4
   char *v2;                                         // eax
   const char *v3;                                   // [esp+1Ch] [ebp-201Ch]
   char v4[8216]; // [esp+20h] [ebp-2018h] BYREF
 
-  if (unk_11807C0() == 2) {
-    v3 = (const char *)unk_11807C4(1);
-    if (unk_11807CC(&s_sundvars, 21, v4, 0x2000)) {
-      v0 = (void(__cdecl *)(char *, char *, unsigned int))unk_1180800;
-      v1 = strlen(v4) + 1;
-      v2 = va("sun/%s.sun", v3);
-      v0(v2, v4, v1 - 1);
+    if (unk_11807C0() == 2) {
+      v3 = (const char *)unk_11807C4(1);
+        if (unk_11807CC(&s_sundvars, 21, v4, 0x2000)) {
+          v0 = (void(__cdecl *)(char *, char *, unsigned int))unk_1180800;
+          v1 = strlen(v4) + 1;
+          v2 = va("sun/%s.sun", v3);
+          v0(v2, v4, v1 - 1);
+        }
     }
-  } else {
-    ri(0, "USAGE: r_savesun <sunname>\n  sunname must not have an extension\n");
-  }
+    else {
+      ri(0,
+         "USAGE: r_savesun <sunname>\n  sunname must not have an extension\n");
+    }
 }
 
-void __cdecl R_SetSunFromDvars(struct sunflare_t *) {
+void __cdecl R_SetSunFromDvars(struct sunflare_t *)
+{
   int32_t v1;      // xmm0_4
   int32_t v2;      // xmm0_4
   int32_t v3;      // xmm0_4
@@ -86,7 +96,10 @@ void __cdecl R_SetSunFromDvars(struct sunflare_t *) {
   a1->hasValidData = 1;
 }
 
-void __cdecl R_RegisterSunDvars() { UNIMPLEMENTED(); }
+void __cdecl R_RegisterSunDvars()
+{
+  UNIMPLEMENTED();
+}
 
 char const **s_sundvars;
 struct dvar_s const *const r_sunflare_min_size;
@@ -111,6 +124,13 @@ struct dvar_s const *const r_sunflare_shader;
 int marker_r_sky;
 struct dvar_s const *const r_sunsprite_size;
 struct dvar_s const *const r_sunglare_max_lighten;
-void __cdecl R_SaveSunFromDvars(char const *) { UNIMPLEMENTED(); }
 
-R_Cmd_LoadSun() { UNIMPLEMENTED(); }
+void __cdecl R_SaveSunFromDvars(char const *)
+{
+  UNIMPLEMENTED();
+}
+
+R_Cmd_LoadSun()
+{
+  UNIMPLEMENTED();
+}

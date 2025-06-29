@@ -87,7 +87,8 @@ const float vbr_uhb_thresh[2][11] = {
      -1.0f} /*  2 kbps */
 };
 
-void vbr_init(VBRState *vbr) {
+void vbr_init(VBRState *vbr)
+{
   int i;
 
   vbr->average_energy = 1600000;
@@ -132,7 +133,8 @@ void vbr_init(VBRState *vbr) {
 */
 
 float vbr_analysis(VBRState *vbr, spx_word16_t *sig, int len, int pitch,
-                   float pitch_coef) {
+                   float pitch_coef)
+{
   int i;
   float ener = 0, ener1 = 0, ener2 = 0;
   float qual = 7;
@@ -162,61 +164,63 @@ float vbr_analysis(VBRState *vbr, spx_word16_t *sig, int len, int pitch,
   if (vbr->noise_accum_count < .06 && ener > MIN_ENERGY)
     vbr->noise_accum = .05 * pow_ener;
 
-  if ((voicing < .3 && non_st < .2 && pow_ener < 1.2 * vbr->noise_level) ||
-      (voicing < .3 && non_st < .05 && pow_ener < 1.5 * vbr->noise_level) ||
-      (voicing < .4 && non_st < .05 && pow_ener < 1.2 * vbr->noise_level) ||
-      (voicing < 0 && non_st < .05)) {
-    float tmp;
+    if ((voicing < .3 && non_st < .2 && pow_ener < 1.2 * vbr->noise_level) ||
+        (voicing < .3 && non_st < .05 && pow_ener < 1.5 * vbr->noise_level) ||
+        (voicing < .4 && non_st < .05 && pow_ener < 1.2 * vbr->noise_level) ||
+        (voicing < 0 && non_st < .05)) {
+      float tmp;
 
-    vbr->consec_noise++;
-    if (pow_ener > 3 * vbr->noise_level)
-      tmp = 3 * vbr->noise_level;
-    else
-      tmp = pow_ener;
-    if (vbr->consec_noise >= 4) {
-      vbr->noise_accum = .95 * vbr->noise_accum + .05 * tmp;
+      vbr->consec_noise++;
+      if (pow_ener > 3 * vbr->noise_level)
+        tmp = 3 * vbr->noise_level;
+      else
+        tmp = pow_ener;
+        if (vbr->consec_noise >= 4) {
+          vbr->noise_accum = .95 * vbr->noise_accum + .05 * tmp;
+          vbr->noise_accum_count = .95 * vbr->noise_accum_count + .05;
+        }
+    }
+    else {
+      vbr->consec_noise = 0;
+    }
+
+    if (pow_ener < vbr->noise_level && ener > MIN_ENERGY) {
+      vbr->noise_accum = .95 * vbr->noise_accum + .05 * pow_ener;
       vbr->noise_accum_count = .95 * vbr->noise_accum_count + .05;
     }
-  } else {
-    vbr->consec_noise = 0;
-  }
 
-  if (pow_ener < vbr->noise_level && ener > MIN_ENERGY) {
-    vbr->noise_accum = .95 * vbr->noise_accum + .05 * pow_ener;
-    vbr->noise_accum_count = .95 * vbr->noise_accum_count + .05;
-  }
-
-  /* Checking for very low absolute energy */
-  if (ener < 30000) {
-    qual -= .7;
-    if (ener < 10000)
+    /* Checking for very low absolute energy */
+    if (ener < 30000) {
       qual -= .7;
-    if (ener < 3000)
-      qual -= .7;
-  } else {
-    float short_diff, long_diff;
-    short_diff = log((ener + 1) / (1 + vbr->last_energy));
-    long_diff = log((ener + 1) / (1 + vbr->average_energy));
-    /*fprintf (stderr, "%f %f\n", short_diff, long_diff);*/
-
-    if (long_diff < -5)
-      long_diff = -5;
-    if (long_diff > 2)
-      long_diff = 2;
-
-    if (long_diff > 0)
-      qual += .6 * long_diff;
-    if (long_diff < 0)
-      qual += .5 * long_diff;
-    if (short_diff > 0) {
-      if (short_diff > 5)
-        short_diff = 5;
-      qual += 1 * short_diff;
+      if (ener < 10000)
+        qual -= .7;
+      if (ener < 3000)
+        qual -= .7;
     }
-    /* Checking for energy increases */
-    if (ener2 > 1.6 * ener1)
-      qual += .5;
-  }
+    else {
+      float short_diff, long_diff;
+      short_diff = log((ener + 1) / (1 + vbr->last_energy));
+      long_diff = log((ener + 1) / (1 + vbr->average_energy));
+      /*fprintf (stderr, "%f %f\n", short_diff, long_diff);*/
+
+      if (long_diff < -5)
+        long_diff = -5;
+      if (long_diff > 2)
+        long_diff = 2;
+
+      if (long_diff > 0)
+        qual += .6 * long_diff;
+      if (long_diff < 0)
+        qual += .5 * long_diff;
+        if (short_diff > 0) {
+          if (short_diff > 5)
+            short_diff = 5;
+          qual += 1 * short_diff;
+        }
+      /* Checking for energy increases */
+      if (ener2 > 1.6 * ener1)
+        qual += .5;
+    }
   vbr->last_energy = ener;
   vbr->soft_pitch = .8 * vbr->soft_pitch + .2 * pitch_coef;
   qual += 2.2 * ((pitch_coef - .4) + (vbr->soft_pitch - .4));
@@ -244,15 +248,15 @@ float vbr_analysis(VBRState *vbr, spx_word16_t *sig, int len, int pitch,
   if (qual < 0)
     qual = 0;
 
-  if (ener < 1600000) {
-    if (vbr->consec_noise > 2)
-      qual -= 0.5 * (log(3.0 + vbr->consec_noise) - log(3));
-    if (ener < 10000 && vbr->consec_noise > 2)
-      qual -= 0.5 * (log(3.0 + vbr->consec_noise) - log(3));
-    if (qual < 0)
-      qual = 0;
-    qual += .3 * log(.0001 + ener / 1600000.0);
-  }
+    if (ener < 1600000) {
+      if (vbr->consec_noise > 2)
+        qual -= 0.5 * (log(3.0 + vbr->consec_noise) - log(3));
+      if (ener < 10000 && vbr->consec_noise > 2)
+        qual -= 0.5 * (log(3.0 + vbr->consec_noise) - log(3));
+      if (qual < 0)
+        qual = 0;
+      qual += .3 * log(.0001 + ener / 1600000.0);
+    }
   if (qual < -1)
     qual = -1;
 
@@ -273,6 +277,8 @@ float vbr_analysis(VBRState *vbr, spx_word16_t *sig, int len, int pitch,
   return qual;
 }
 
-void vbr_destroy(VBRState *vbr) {}
+void vbr_destroy(VBRState *vbr)
+{
+}
 
 #endif /* #ifndef DISABLE_VBR */

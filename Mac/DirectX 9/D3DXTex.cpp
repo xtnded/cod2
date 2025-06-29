@@ -1,3 +1,9 @@
-ViewSingleTexture(unsigned long TextureID) { UNIMPLEMENTED(); }
+ViewSingleTexture(unsigned long TextureID)
+{
+  UNIMPLEMENTED();
+}
 
-ShowShadowCookies() { UNIMPLEMENTED(); }
+ShowShadowCookies()
+{
+  UNIMPLEMENTED();
+}

@@ -1,6 +1,7 @@
 
 
-typedef enum {
+typedef enum
+{
   PMSG_CONSOLE = 0,
   PMSG_GAME = 1,
   PMSG_BOLDGAME = 2,
@@ -8,7 +9,8 @@ typedef enum {
   PMSG_LOGFILE = 4
 } print_msg_type_t;
 
-typedef enum {
+typedef enum
+{
   ERR_FATAL = 0,
   ERR_DROP = 1,
   ERR_SERVERDISCONNECT = 2,
@@ -18,7 +20,8 @@ typedef enum {
   ERR_LOCALIZATION = 6
 } errorParm_t;
 
-struct pc_token_s {
+struct pc_token_s
+{
   int type;
   int subtype;
   int intvalue;
@@ -26,14 +29,16 @@ struct pc_token_s {
   char string[1024];
 };
 
-typedef enum {
+typedef enum
+{
   FS_READ = 0,
   FS_WRITE = 1,
   FS_APPEND = 2,
   FS_APPEND_SYNC = 3
 } fsMode_t;
 
-union DvarValue {
+union DvarValue
+{
   char enabled;
   int integer;
   int value;
@@ -45,29 +50,35 @@ union DvarValue {
 // Failed to parse with python script I wrote, manually fixed. (Size is 8 bytes)
 // Not sure about vector, min & max could be pointers to a static vector
 // somewhere
-union DvarLimits {
-  struct {
+union DvarLimits
+{
+  struct
+  {
     int stringCount;
     const char **strings;
   } enumeration;
 
-  struct {
+  struct
+  {
     int min;
     int max;
   } integer;
 
-  struct {
+  struct
+  {
     float min;
     float max;
   } value;
 
-  struct {
+  struct
+  {
     float min;
     float max;
   } vector;
 };
 
-struct dvar_s {
+struct dvar_s
+{
   int name;
   short flags;
   char type;
@@ -80,7 +91,8 @@ struct dvar_s {
   int hashNext;
 };
 
-struct cplane_s {
+struct cplane_s
+{
   char normal[12];
   int dist;
   char type;
@@ -88,7 +100,8 @@ struct cplane_s {
   short pad;
 };
 
-struct trace_t {
+struct trace_t
+{
   int fraction;
   char normal[12];
   int surfaceFlags;
@@ -101,18 +114,21 @@ struct trace_t {
   char startsolid;
 };
 
-struct orientation_t {
+struct orientation_t
+{
   char origin[12];
   char axis[36];
 };
 
-struct gameState_t {
+struct gameState_t
+{
   char stringOffsets[8192];
   char stringData[16000];
   int dataCount;
 };
 
-struct playerState_s {
+struct playerState_s
+{
   int commandTime;
   int pm_type;
   int bobCycle;
@@ -202,7 +218,8 @@ struct playerState_s {
   int deltaTime;
 };
 
-struct usercmd_s {
+struct usercmd_s
+{
   int serverTime;
   int buttons;
   char weapon;
@@ -213,7 +230,8 @@ struct usercmd_s {
   char rightmove;
 };
 
-typedef enum {
+typedef enum
+{
   TR_STATIONARY = 0,
   TR_INTERPOLATE = 1,
   TR_LINEAR = 2,
@@ -225,7 +243,8 @@ typedef enum {
   TR_DECELERATE = 8
 } trType_t;
 
-struct trajectory_t {
+struct trajectory_t
+{
   trType_t trType;
   int trTime;
   int trDuration;
@@ -233,7 +252,8 @@ struct trajectory_t {
   char trDelta[12];
 };
 
-struct entityState_s {
+struct entityState_s
+{
   int number;
   int eType;
   int eFlags;
@@ -270,7 +290,8 @@ struct entityState_s {
   float fWaistPitch;
 };
 
-typedef enum {
+typedef enum
+{
   CA_DISCONNECTED = 0,
   CA_CINEMATIC = 1,
   CA_LOGO = 2,
@@ -282,7 +303,8 @@ typedef enum {
   CA_ACTIVE = 8
 } connstate_t;
 
-struct Font_s {
+struct Font_s
+{
   int name;
   int pixelHeight;
   int glyphCount;
@@ -290,7 +312,8 @@ struct Font_s {
   int glyphs;
 };
 
-struct Glyph {
+struct Glyph
+{
   short letter;
   char x0;
   char y0;
@@ -304,7 +327,8 @@ struct Glyph {
   int t1;
 };
 
-struct qtime_s {
+struct qtime_s
+{
   int tm_sec;
   int tm_min;
   int tm_hour;
@@ -316,7 +340,8 @@ struct qtime_s {
   int tm_isdst;
 };
 
-typedef enum {
+typedef enum
+{
   FMV_IDLE = 0,
   FMV_PLAY = 1,
   FMV_EOF = 2,

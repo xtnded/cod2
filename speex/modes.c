@@ -274,7 +274,8 @@ EXPORT const SpeexMode speex_nb_mode = {
     nb_decoder_ctl,
 };
 
-EXPORT int speex_mode_query(const SpeexMode *mode, int request, void *ptr) {
+EXPORT int speex_mode_query(const SpeexMode *mode, int request, void *ptr)
+{
   return mode->query(mode->mode, request, ptr);
 }
 

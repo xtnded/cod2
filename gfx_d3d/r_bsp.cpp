@@ -1,5 +1,7 @@
 float const *const vec3_colorintensity;
-void __cdecl R_ResetSunLightOverride() {
+
+void __cdecl R_ResetSunLightOverride()
+{
   int v0;     // ebx
   int v1;     // ecx
   int result; // eax
@@ -13,22 +15,24 @@ void __cdecl R_ResetSunLightOverride() {
   return result;
 }
 
-void __cdecl R_SetSunLightOverride(float const *const sunColor) {
+void __cdecl R_SetSunLightOverride(float const *const sunColor)
+{
   int result; // eax
   int v2;     // ecx
 
   result = r_rendererInUse;
-  if (*(_DWORD *)(r_rendererInUse + 8) != 2) {
-    v2 = dword_1184B9C + 200;
-    *(float *)(dword_1184B9C + 200) = *a1;
-    *(float *)(v2 + 4) = a1[1];
-    result = *((_DWORD *)a1 + 2);
-    *(_DWORD *)(v2 + 8) = result;
-  }
+    if (*(_DWORD *)(r_rendererInUse + 8) != 2) {
+      v2 = dword_1184B9C + 200;
+      *(float *)(dword_1184B9C + 200) = *a1;
+      *(float *)(v2 + 4) = a1[1];
+      result = *((_DWORD *)a1 + 2);
+      *(_DWORD *)(v2 + 8) = result;
+    }
   return result;
 }
 
-void __cdecl R_GetWorldBounds(float *const min, float *const max) {
+void __cdecl R_GetWorldBounds(float *const min, float *const max)
+{
   int v2;     // ecx
   int v3;     // edx
   int result; // eax
@@ -46,7 +50,8 @@ void __cdecl R_GetWorldBounds(float *const min, float *const max) {
 }
 
 void __cdecl R_InterpretSunLightParseParams(
-    struct SunLightParseParams *sunParse) {
+    struct SunLightParseParams *sunParse)
+{
   _DWORD *v1; // eax
   int v2;     // ebx
   int result; // eax
@@ -62,7 +67,8 @@ void __cdecl R_InterpretSunLightParseParams(
   return result;
 }
 
-void __cdecl R_UpdateLightsFromDvars() {
+void __cdecl R_UpdateLightsFromDvars()
+{
   int v0;                  // edx
   int v1;                  // ebx
   float *ambientColor;     // ecx
@@ -82,32 +88,35 @@ void __cdecl R_UpdateLightsFromDvars() {
   v0 = r_lightTweakAmbientColor;
   v1 = 0;
   ambientColor = v11.ambientColor;
-  do {
-    *ambientColor = (float)*(unsigned __int8 *)(v0 + 8);
-    ++v1;
-    ++ambientColor;
-    ++v0;
-  } while (v1 != 3);
+    do {
+      *ambientColor = (float)*(unsigned __int8 *)(v0 + 8);
+      ++v1;
+      ++ambientColor;
+      ++v0;
+    }
+  while (v1 != 3);
   ColorNormalize(v11.ambientColor, v11.ambientColor);
   v3 = r_lightTweakSunColor;
   LOBYTE(v1) = 0;
   sunColor = v11.sunColor;
-  do {
-    *sunColor = (float)*(unsigned __int8 *)(v3 + 8);
-    ++v1;
-    ++sunColor;
-    ++v3;
-  } while (v1 != 3);
+    do {
+      *sunColor = (float)*(unsigned __int8 *)(v3 + 8);
+      ++v1;
+      ++sunColor;
+      ++v3;
+    }
+  while (v1 != 3);
   ColorNormalize(v11.sunColor, v11.sunColor);
   v5 = r_lightTweakSunDiffuseColor;
   LOBYTE(v1) = 0;
   diffuseColor = v11.diffuseColor;
-  do {
-    *diffuseColor = (float)*(unsigned __int8 *)(v5 + 8);
-    ++v1;
-    ++diffuseColor;
-    ++v5;
-  } while (v1 != 3);
+    do {
+      *diffuseColor = (float)*(unsigned __int8 *)(v5 + 8);
+      ++v1;
+      ++diffuseColor;
+      ++v5;
+    }
+  while (v1 != 3);
   ColorNormalize(v11.diffuseColor, v11.diffuseColor);
   v11.diffuseColorHasBeenSet = 1;
   v7 = *(float **)(r_lightTweakSunDirection + 8);
@@ -125,31 +134,54 @@ void __cdecl R_UpdateLightsFromDvars() {
   return result;
 }
 
-void __cdecl R_ResetSunLightParseParams() { return R_UpdateLightsFromDvars(); }
+void __cdecl R_ResetSunLightParseParams()
+{
+  return R_UpdateLightsFromDvars();
+}
 
-void __cdecl R_LoadWorld(char const *name, int *checksum) { UNIMPLEMENTED(); }
+void __cdecl R_LoadWorld(char const *name, int *checksum)
+{
+  UNIMPLEMENTED();
+}
 
 int marker_r_bsp;
-void __cdecl R_CopyParseParamsToDvars(struct SunLightParseParams const *) {
+
+void __cdecl R_CopyParseParamsToDvars(struct SunLightParseParams const *)
+{
   UNIMPLEMENTED();
 }
 
-void __cdecl R_GetNormalizedColorFromDvar(struct dvar_s const *, float *const) {
+void __cdecl R_GetNormalizedColorFromDvar(struct dvar_s const *, float *const)
+{
   UNIMPLEMENTED();
 }
 
-void __cdecl R_CopyParseParamsFromDvars(struct SunLightParseParams *) {
+void __cdecl R_CopyParseParamsFromDvars(struct SunLightParseParams *)
+{
   UNIMPLEMENTED();
 }
 
-void __cdecl R_InitDynamicData(void) { UNIMPLEMENTED(); }
-
-R_ReleaseWorld() { UNIMPLEMENTED(); }
-
-R_CreateWorldVertexBuffer(GfxWorldVertex *vertices, int vertexCount) {
+void __cdecl R_InitDynamicData(void)
+{
   UNIMPLEMENTED();
 }
 
-R_ReloadWorld() { UNIMPLEMENTED(); }
+R_ReleaseWorld()
+{
+  UNIMPLEMENTED();
+}
 
-R_ShutdownWorld() { UNIMPLEMENTED(); }
+R_CreateWorldVertexBuffer(GfxWorldVertex *vertices, int vertexCount)
+{
+  UNIMPLEMENTED();
+}
+
+R_ReloadWorld()
+{
+  UNIMPLEMENTED();
+}
+
+R_ShutdownWorld()
+{
+  UNIMPLEMENTED();
+}

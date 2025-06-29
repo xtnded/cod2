@@ -1,5 +1,6 @@
 
-struct XSurface_s {
+struct XSurface_s
+{
   char tileMode;
   char pad0[1];
   short vertCount;
@@ -11,16 +12,19 @@ struct XSurface_s {
   int indexBuffer;
 };
 
-struct XRigidSurface {
+struct XRigidSurface
+{
   int vb;
 };
 
-struct XVertexBuffer {
+struct XVertexBuffer
+{
   XVertexInfo v;
   char w[16];
 };
 
-struct XVertexInfo_s {
+struct XVertexInfo_s
+{
   char normal[12];
   int color;
   char binormal[12];
@@ -33,7 +37,8 @@ struct XVertexInfo_s {
   short boneOffset;
 };
 
-struct XBlendInfo_s {
+struct XBlendInfo_s
+{
   char offset[12];
   short boneOffset;
   short boneWeight;

@@ -1,15 +1,18 @@
 float const *__cdecl R_BoundsForSurf_StaticModelCached(
-    struct GfxDrawSurf const *drawSurf, int entIndex) {
+    struct GfxDrawSurf const *drawSurf, int entIndex)
+{
   return *(_DWORD *)(dword_1184B9C + 248) +
          96 * *(_DWORD *)(*(_DWORD *)(a1->surface + 8) + 4) + 20;
 }
 
 float const *__cdecl R_BoundsForSurf_ModelInst(
-    struct GfxDrawSurf const *drawSurf, int entIndex) {
+    struct GfxDrawSurf const *drawSurf, int entIndex)
+{
   return &scene + 13 * a2 + 374;
 }
 
-float const *__cdecl R_BoundsForDrawSurf(struct GfxDrawSurf const *surf) {
+float const *__cdecl R_BoundsForDrawSurf(struct GfxDrawSurf const *surf)
+{
   int(__cdecl * v1)(const GfxDrawSurf *, int); // ebx
   unsigned int sort;                           // eax
   int v3;                                      // edx
@@ -29,7 +32,8 @@ float const *__cdecl R_BoundsForDrawSurf(struct GfxDrawSurf const *surf) {
 }
 
 float const *__cdecl R_BoundsForSurf_Triangles(
-    struct GfxDrawSurf const *drawSurf, int entIndex) {
+    struct GfxDrawSurf const *drawSurf, int entIndex)
+{
   if (a2 > 2045)
     return (float *)(a1->surface + 4);
   GetRotatedBounds(a1->surface + 4, stru_1155004.entities + 116 * a2 + 60,
@@ -38,7 +42,8 @@ float const *__cdecl R_BoundsForSurf_Triangles(
 }
 
 float const *(__cdecl **R_BoundsForDrawSurfTable)(struct GfxDrawSurf const *,
-                                                  int) {
+                                                  int)
+{
   UNIMPLEMENTED();
 }
 

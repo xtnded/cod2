@@ -1,13 +1,16 @@
 
-struct Picmip {
+struct Picmip
+{
   short platform;
 };
 
-struct CardMemory {
+struct CardMemory
+{
   int64_t platform;
 };
 
-union GfxTexture {
+union GfxTexture
+{
   int basemap;
   int map;
   int volmap;
@@ -15,7 +18,8 @@ union GfxTexture {
   int loadDef;
 };
 
-struct GfxImage {
+struct GfxImage
+{
   D3DRESOURCETYPE mapType;
   GfxTexture texture;
   Picmip picmip;
@@ -31,7 +35,9 @@ struct GfxImage {
   char pad1[1];
   int name;
 };
-struct GfxImageLoadDef {
+
+struct GfxImageLoadDef
+{
   char format;
   char flags;
   char dimensions[6];

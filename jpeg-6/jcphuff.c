@@ -21,7 +21,8 @@
 
 /* Expanded entropy encoder object for progressive Huffman encoding. */
 
-typedef struct {
+typedef struct
+{
   struct jpeg_entropy_encoder pub; /* public fields */
 
   /* Mode flag: TRUE for optimization, FALSE for actual data output */
@@ -100,8 +101,8 @@ METHODDEF void finish_pass_gather_phuff JPP((j_compress_ptr cinfo));
  * Initialize for a Huffman-compressed scan using progressive JPEG.
  */
 
-METHODDEF void start_pass_phuff(j_compress_ptr cinfo,
-                                boolean gather_statistics) {
+METHODDEF void start_pass_phuff(j_compress_ptr cinfo, boolean gather_statistics)
+{
   phuff_entropy_ptr entropy = (phuff_entropy_ptr)cinfo->entropy;
   boolean is_DC_band;
   int ci, tbl;
@@ -112,70 +113,75 @@ METHODDEF void start_pass_phuff(j_compress_ptr cinfo,
 
   is_DC_band = (cinfo->Ss == 0);
 
-  /* We assume jcmaster.c already validated the scan parameters. */
+    /* We assume jcmaster.c already validated the scan parameters. */
 
-  /* Select execution routines */
-  if (cinfo->Ah == 0) {
-    if (is_DC_band)
-      entropy->pub.encode_mcu = encode_mcu_DC_first;
-    else
-      entropy->pub.encode_mcu = encode_mcu_AC_first;
-  } else {
-    if (is_DC_band)
-      entropy->pub.encode_mcu = encode_mcu_DC_refine;
-    else {
-      entropy->pub.encode_mcu = encode_mcu_AC_refine;
-      /* AC refinement needs a correction bit buffer */
-      if (entropy->bit_buffer == NULL)
-        entropy->bit_buffer = (char *)(*cinfo->mem->alloc_small)(
-            (j_common_ptr)cinfo, JPOOL_IMAGE, MAX_CORR_BITS * SIZEOF(char));
+    /* Select execution routines */
+    if (cinfo->Ah == 0) {
+      if (is_DC_band)
+        entropy->pub.encode_mcu = encode_mcu_DC_first;
+      else
+        entropy->pub.encode_mcu = encode_mcu_AC_first;
     }
-  }
+    else {
+      if (is_DC_band)
+        entropy->pub.encode_mcu = encode_mcu_DC_refine;
+        else {
+          entropy->pub.encode_mcu = encode_mcu_AC_refine;
+          /* AC refinement needs a correction bit buffer */
+          if (entropy->bit_buffer == NULL)
+            entropy->bit_buffer = (char *)(*cinfo->mem->alloc_small)(
+                (j_common_ptr)cinfo, JPOOL_IMAGE, MAX_CORR_BITS * SIZEOF(char));
+        }
+    }
   if (gather_statistics)
     entropy->pub.finish_pass = finish_pass_gather_phuff;
   else
     entropy->pub.finish_pass = finish_pass_phuff;
 
-  /* Only DC coefficients may be interleaved, so cinfo->comps_in_scan = 1
-   * for AC coefficients.
-   */
-  for (ci = 0; ci < cinfo->comps_in_scan; ci++) {
-    compptr = cinfo->cur_comp_info[ci];
-    /* Initialize DC predictions to 0 */
-    entropy->last_dc_val[ci] = 0;
-    /* Make sure requested tables are present */
-    /* (In gather mode, tables need not be allocated yet) */
-    if (is_DC_band) {
-      if (cinfo->Ah != 0) /* DC refinement needs no table */
-        continue;
-      tbl = compptr->dc_tbl_no;
-      if (tbl < 0 || tbl >= NUM_HUFF_TBLS ||
-          (cinfo->dc_huff_tbl_ptrs[tbl] == NULL && !gather_statistics))
-        ERREXIT1(cinfo, JERR_NO_HUFF_TABLE, tbl);
-    } else {
-      entropy->ac_tbl_no = tbl = compptr->ac_tbl_no;
-      if (tbl < 0 || tbl >= NUM_HUFF_TBLS ||
-          (cinfo->ac_huff_tbl_ptrs[tbl] == NULL && !gather_statistics))
-        ERREXIT1(cinfo, JERR_NO_HUFF_TABLE, tbl);
+    /* Only DC coefficients may be interleaved, so cinfo->comps_in_scan = 1
+     * for AC coefficients.
+     */
+    for (ci = 0; ci < cinfo->comps_in_scan; ci++) {
+      compptr = cinfo->cur_comp_info[ci];
+      /* Initialize DC predictions to 0 */
+      entropy->last_dc_val[ci] = 0;
+        /* Make sure requested tables are present */
+        /* (In gather mode, tables need not be allocated yet) */
+        if (is_DC_band) {
+          if (cinfo->Ah != 0) /* DC refinement needs no table */
+            continue;
+          tbl = compptr->dc_tbl_no;
+          if (tbl < 0 || tbl >= NUM_HUFF_TBLS ||
+              (cinfo->dc_huff_tbl_ptrs[tbl] == NULL && !gather_statistics))
+            ERREXIT1(cinfo, JERR_NO_HUFF_TABLE, tbl);
+        }
+        else {
+          entropy->ac_tbl_no = tbl = compptr->ac_tbl_no;
+          if (tbl < 0 || tbl >= NUM_HUFF_TBLS ||
+              (cinfo->ac_huff_tbl_ptrs[tbl] == NULL && !gather_statistics))
+            ERREXIT1(cinfo, JERR_NO_HUFF_TABLE, tbl);
+        }
+        if (gather_statistics) {
+          /* Allocate and zero the statistics tables */
+          /* Note that jpeg_gen_optimal_table expects 257 entries in each table!
+           */
+          if (entropy->count_ptrs[tbl] == NULL)
+            entropy->count_ptrs[tbl] = (long *)(*cinfo->mem->alloc_small)(
+                (j_common_ptr)cinfo, JPOOL_IMAGE, 257 * SIZEOF(long));
+          MEMZERO(entropy->count_ptrs[tbl], 257 * SIZEOF(long));
+        }
+        else {
+          /* Compute derived values for Huffman tables */
+          /* We may do this more than once for a table, but it's not expensive
+           */
+          if (is_DC_band)
+            jpeg_make_c_derived_tbl(cinfo, cinfo->dc_huff_tbl_ptrs[tbl],
+                                    &entropy->derived_tbls[tbl]);
+          else
+            jpeg_make_c_derived_tbl(cinfo, cinfo->ac_huff_tbl_ptrs[tbl],
+                                    &entropy->derived_tbls[tbl]);
+        }
     }
-    if (gather_statistics) {
-      /* Allocate and zero the statistics tables */
-      /* Note that jpeg_gen_optimal_table expects 257 entries in each table! */
-      if (entropy->count_ptrs[tbl] == NULL)
-        entropy->count_ptrs[tbl] = (long *)(*cinfo->mem->alloc_small)(
-            (j_common_ptr)cinfo, JPOOL_IMAGE, 257 * SIZEOF(long));
-      MEMZERO(entropy->count_ptrs[tbl], 257 * SIZEOF(long));
-    } else {
-      /* Compute derived values for Huffman tables */
-      /* We may do this more than once for a table, but it's not expensive */
-      if (is_DC_band)
-        jpeg_make_c_derived_tbl(cinfo, cinfo->dc_huff_tbl_ptrs[tbl],
-                                &entropy->derived_tbls[tbl]);
-      else
-        jpeg_make_c_derived_tbl(cinfo, cinfo->ac_huff_tbl_ptrs[tbl],
-                                &entropy->derived_tbls[tbl]);
-    }
-  }
 
   /* Initialize AC stuff */
   entropy->EOBRUN = 0;
@@ -246,22 +252,23 @@ LOCAL void emit_bits(phuff_entropy_ptr entropy, unsigned int code, int size)
 
   put_buffer |= entropy->put_buffer; /* and merge with old buffer contents */
 
-  while (put_bits >= 8) {
-    int c = (int)((put_buffer >> 16) & 0xFF);
+    while (put_bits >= 8) {
+      int c = (int)((put_buffer >> 16) & 0xFF);
 
-    emit_byte(entropy, c);
-    if (c == 0xFF) { /* need to stuff a zero byte? */
-      emit_byte(entropy, 0);
+      emit_byte(entropy, c);
+        if (c == 0xFF) { /* need to stuff a zero byte? */
+          emit_byte(entropy, 0);
+        }
+      put_buffer <<= 8;
+      put_bits -= 8;
     }
-    put_buffer <<= 8;
-    put_bits -= 8;
-  }
 
   entropy->put_buffer = put_buffer; /* update variables */
   entropy->put_bits = put_bits;
 }
 
-LOCAL void flush_bits(phuff_entropy_ptr entropy) {
+LOCAL void flush_bits(phuff_entropy_ptr entropy)
+{
   emit_bits(entropy, 0x7F, 7); /* fill any partial byte with ones */
   entropy->put_buffer = 0;     /* and reset bit-buffer to empty */
   entropy->put_bits = 0;
@@ -272,13 +279,14 @@ LOCAL void flush_bits(phuff_entropy_ptr entropy) {
  */
 
 INLINE
-LOCAL void emit_symbol(phuff_entropy_ptr entropy, int tbl_no, int symbol) {
+LOCAL void emit_symbol(phuff_entropy_ptr entropy, int tbl_no, int symbol)
+{
   if (entropy->gather_statistics)
     entropy->count_ptrs[tbl_no][symbol]++;
-  else {
-    c_derived_tbl *tbl = entropy->derived_tbls[tbl_no];
-    emit_bits(entropy, tbl->ehufco[symbol], tbl->ehufsi[symbol]);
-  }
+    else {
+      c_derived_tbl *tbl = entropy->derived_tbls[tbl_no];
+      emit_bits(entropy, tbl->ehufco[symbol], tbl->ehufsi[symbol]);
+    }
 }
 
 /*
@@ -286,66 +294,70 @@ LOCAL void emit_symbol(phuff_entropy_ptr entropy, int tbl_no, int symbol) {
  */
 
 LOCAL void emit_buffered_bits(phuff_entropy_ptr entropy, char *bufstart,
-                              unsigned int nbits) {
+                              unsigned int nbits)
+{
   if (entropy->gather_statistics)
     return; /* no real work */
 
-  while (nbits > 0) {
-    emit_bits(entropy, (unsigned int)(*bufstart), 1);
-    bufstart++;
-    nbits--;
-  }
+    while (nbits > 0) {
+      emit_bits(entropy, (unsigned int)(*bufstart), 1);
+      bufstart++;
+      nbits--;
+    }
 }
 
 /*
  * Emit any pending EOBRUN symbol.
  */
 
-LOCAL void emit_eobrun(phuff_entropy_ptr entropy) {
+LOCAL void emit_eobrun(phuff_entropy_ptr entropy)
+{
   register int temp, nbits;
 
-  if (entropy->EOBRUN > 0) { /* if there is any pending EOBRUN */
-    temp = entropy->EOBRUN;
-    nbits = 0;
-    while ((temp >>= 1))
-      nbits++;
+    if (entropy->EOBRUN > 0) { /* if there is any pending EOBRUN */
+      temp = entropy->EOBRUN;
+      nbits = 0;
+      while ((temp >>= 1))
+        nbits++;
 
-    emit_symbol(entropy, entropy->ac_tbl_no, nbits << 4);
-    if (nbits)
-      emit_bits(entropy, entropy->EOBRUN, nbits);
+      emit_symbol(entropy, entropy->ac_tbl_no, nbits << 4);
+      if (nbits)
+        emit_bits(entropy, entropy->EOBRUN, nbits);
 
-    entropy->EOBRUN = 0;
+      entropy->EOBRUN = 0;
 
-    /* Emit any buffered correction bits */
-    emit_buffered_bits(entropy, entropy->bit_buffer, entropy->BE);
-    entropy->BE = 0;
-  }
+      /* Emit any buffered correction bits */
+      emit_buffered_bits(entropy, entropy->bit_buffer, entropy->BE);
+      entropy->BE = 0;
+    }
 }
 
 /*
  * Emit a restart marker & resynchronize predictions.
  */
 
-LOCAL void emit_restart(phuff_entropy_ptr entropy, int restart_num) {
+LOCAL void emit_restart(phuff_entropy_ptr entropy, int restart_num)
+{
   int ci;
 
   emit_eobrun(entropy);
 
-  if (!entropy->gather_statistics) {
-    flush_bits(entropy);
-    emit_byte(entropy, 0xFF);
-    emit_byte(entropy, JPEG_RST0 + restart_num);
-  }
+    if (!entropy->gather_statistics) {
+      flush_bits(entropy);
+      emit_byte(entropy, 0xFF);
+      emit_byte(entropy, JPEG_RST0 + restart_num);
+    }
 
-  if (entropy->cinfo->Ss == 0) {
-    /* Re-initialize DC predictions to 0 */
-    for (ci = 0; ci < entropy->cinfo->comps_in_scan; ci++)
-      entropy->last_dc_val[ci] = 0;
-  } else {
-    /* Re-initialize all AC-related fields to 0 */
-    entropy->EOBRUN = 0;
-    entropy->BE = 0;
-  }
+    if (entropy->cinfo->Ss == 0) {
+      /* Re-initialize DC predictions to 0 */
+      for (ci = 0; ci < entropy->cinfo->comps_in_scan; ci++)
+        entropy->last_dc_val[ci] = 0;
+    }
+    else {
+      /* Re-initialize all AC-related fields to 0 */
+      entropy->EOBRUN = 0;
+      entropy->BE = 0;
+    }
 }
 
 /*
@@ -353,8 +365,8 @@ LOCAL void emit_restart(phuff_entropy_ptr entropy, int restart_num) {
  * or first pass of successive approximation).
  */
 
-METHODDEF boolean encode_mcu_DC_first(j_compress_ptr cinfo,
-                                      JBLOCKROW *MCU_data) {
+METHODDEF boolean encode_mcu_DC_first(j_compress_ptr cinfo, JBLOCKROW *MCU_data)
+{
   phuff_entropy_ptr entropy = (phuff_entropy_ptr)cinfo->entropy;
   register int temp, temp2;
   register int nbits;
@@ -372,58 +384,59 @@ METHODDEF boolean encode_mcu_DC_first(j_compress_ptr cinfo,
     if (entropy->restarts_to_go == 0)
       emit_restart(entropy, entropy->next_restart_num);
 
-  /* Encode the MCU data blocks */
-  for (blkn = 0; blkn < cinfo->blocks_in_MCU; blkn++) {
-    block = MCU_data[blkn];
-    ci = cinfo->MCU_membership[blkn];
-    compptr = cinfo->cur_comp_info[ci];
+    /* Encode the MCU data blocks */
+    for (blkn = 0; blkn < cinfo->blocks_in_MCU; blkn++) {
+      block = MCU_data[blkn];
+      ci = cinfo->MCU_membership[blkn];
+      compptr = cinfo->cur_comp_info[ci];
 
-    /* Compute the DC value after the required point transform by Al.
-     * This is simply an arithmetic right shift.
-     */
-    temp2 = IRIGHT_SHIFT((int)((*block)[0]), Al);
+      /* Compute the DC value after the required point transform by Al.
+       * This is simply an arithmetic right shift.
+       */
+      temp2 = IRIGHT_SHIFT((int)((*block)[0]), Al);
 
-    /* DC differences are figured on the point-transformed values. */
-    temp = temp2 - entropy->last_dc_val[ci];
-    entropy->last_dc_val[ci] = temp2;
+      /* DC differences are figured on the point-transformed values. */
+      temp = temp2 - entropy->last_dc_val[ci];
+      entropy->last_dc_val[ci] = temp2;
 
-    /* Encode the DC coefficient difference per section G.1.2.1 */
-    temp2 = temp;
-    if (temp < 0) {
-      temp = -temp; /* temp is abs value of input */
-      /* For a negative input, want temp2 = bitwise complement of abs(input) */
-      /* This code assumes we are on a two's complement machine */
-      temp2--;
+      /* Encode the DC coefficient difference per section G.1.2.1 */
+      temp2 = temp;
+        if (temp < 0) {
+          temp = -temp; /* temp is abs value of input */
+          /* For a negative input, want temp2 = bitwise complement of abs(input)
+           */
+          /* This code assumes we are on a two's complement machine */
+          temp2--;
+        }
+
+      /* Find the number of bits needed for the magnitude of the coefficient */
+      nbits = 0;
+        while (temp) {
+          nbits++;
+          temp >>= 1;
+        }
+
+      /* Count/emit the Huffman-coded symbol for the number of bits */
+      emit_symbol(entropy, compptr->dc_tbl_no, nbits);
+
+      /* Emit that number of bits of the value, if positive, */
+      /* or the complement of its magnitude, if negative. */
+      if (nbits) /* emit_bits rejects calls with size 0 */
+        emit_bits(entropy, (unsigned int)temp2, nbits);
     }
-
-    /* Find the number of bits needed for the magnitude of the coefficient */
-    nbits = 0;
-    while (temp) {
-      nbits++;
-      temp >>= 1;
-    }
-
-    /* Count/emit the Huffman-coded symbol for the number of bits */
-    emit_symbol(entropy, compptr->dc_tbl_no, nbits);
-
-    /* Emit that number of bits of the value, if positive, */
-    /* or the complement of its magnitude, if negative. */
-    if (nbits) /* emit_bits rejects calls with size 0 */
-      emit_bits(entropy, (unsigned int)temp2, nbits);
-  }
 
   cinfo->dest->next_output_byte = entropy->next_output_byte;
   cinfo->dest->free_in_buffer = entropy->free_in_buffer;
 
-  /* Update restart-interval state too */
-  if (cinfo->restart_interval) {
-    if (entropy->restarts_to_go == 0) {
-      entropy->restarts_to_go = cinfo->restart_interval;
-      entropy->next_restart_num++;
-      entropy->next_restart_num &= 7;
+    /* Update restart-interval state too */
+    if (cinfo->restart_interval) {
+        if (entropy->restarts_to_go == 0) {
+          entropy->restarts_to_go = cinfo->restart_interval;
+          entropy->next_restart_num++;
+          entropy->next_restart_num &= 7;
+        }
+      entropy->restarts_to_go--;
     }
-    entropy->restarts_to_go--;
-  }
 
   return TRUE;
 }
@@ -433,8 +446,8 @@ METHODDEF boolean encode_mcu_DC_first(j_compress_ptr cinfo,
  * or first pass of successive approximation).
  */
 
-METHODDEF boolean encode_mcu_AC_first(j_compress_ptr cinfo,
-                                      JBLOCKROW *MCU_data) {
+METHODDEF boolean encode_mcu_AC_first(j_compress_ptr cinfo, JBLOCKROW *MCU_data)
+{
   phuff_entropy_ptr entropy = (phuff_entropy_ptr)cinfo->entropy;
   register int temp, temp2;
   register int nbits;
@@ -458,73 +471,75 @@ METHODDEF boolean encode_mcu_AC_first(j_compress_ptr cinfo,
 
   r = 0; /* r = run length of zeros */
 
-  for (k = cinfo->Ss; k <= Se; k++) {
-    if ((temp = (*block)[jpeg_natural_order[k]]) == 0) {
-      r++;
-      continue;
+    for (k = cinfo->Ss; k <= Se; k++) {
+        if ((temp = (*block)[jpeg_natural_order[k]]) == 0) {
+          r++;
+          continue;
+        }
+        /* We must apply the point transform by Al.  For AC coefficients this
+         * is an integer division with rounding towards 0.  To do this portably
+         * in C, we shift after obtaining the absolute value; so the code is
+         * interwoven with finding the abs value (temp) and output bits (temp2).
+         */
+        if (temp < 0) {
+          temp = -temp; /* temp is abs value of input */
+          temp >>= Al;  /* apply the point transform */
+          /* For a negative coef, want temp2 = bitwise complement of abs(coef)
+           */
+          temp2 = ~temp;
+        }
+        else {
+          temp >>= Al; /* apply the point transform */
+          temp2 = temp;
+        }
+        /* Watch out for case that nonzero coef is zero after point transform */
+        if (temp == 0) {
+          r++;
+          continue;
+        }
+
+      /* Emit any pending EOBRUN */
+      if (entropy->EOBRUN > 0)
+        emit_eobrun(entropy);
+        /* if run length > 15, must emit special run-length-16 codes (0xF0) */
+        while (r > 15) {
+          emit_symbol(entropy, entropy->ac_tbl_no, 0xF0);
+          r -= 16;
+        }
+
+      /* Find the number of bits needed for the magnitude of the coefficient */
+      nbits = 1; /* there must be at least one 1 bit */
+      while ((temp >>= 1))
+        nbits++;
+
+      /* Count/emit Huffman symbol for run length / number of bits */
+      emit_symbol(entropy, entropy->ac_tbl_no, (r << 4) + nbits);
+
+      /* Emit that number of bits of the value, if positive, */
+      /* or the complement of its magnitude, if negative. */
+      emit_bits(entropy, (unsigned int)temp2, nbits);
+
+      r = 0; /* reset zero run length */
     }
-    /* We must apply the point transform by Al.  For AC coefficients this
-     * is an integer division with rounding towards 0.  To do this portably
-     * in C, we shift after obtaining the absolute value; so the code is
-     * interwoven with finding the abs value (temp) and output bits (temp2).
-     */
-    if (temp < 0) {
-      temp = -temp; /* temp is abs value of input */
-      temp >>= Al;  /* apply the point transform */
-      /* For a negative coef, want temp2 = bitwise complement of abs(coef) */
-      temp2 = ~temp;
-    } else {
-      temp >>= Al; /* apply the point transform */
-      temp2 = temp;
+
+    if (r > 0) {         /* If there are trailing zeroes, */
+      entropy->EOBRUN++; /* count an EOB */
+      if (entropy->EOBRUN == 0x7FFF)
+        emit_eobrun(entropy); /* force it out to avoid overflow */
     }
-    /* Watch out for case that nonzero coef is zero after point transform */
-    if (temp == 0) {
-      r++;
-      continue;
-    }
-
-    /* Emit any pending EOBRUN */
-    if (entropy->EOBRUN > 0)
-      emit_eobrun(entropy);
-    /* if run length > 15, must emit special run-length-16 codes (0xF0) */
-    while (r > 15) {
-      emit_symbol(entropy, entropy->ac_tbl_no, 0xF0);
-      r -= 16;
-    }
-
-    /* Find the number of bits needed for the magnitude of the coefficient */
-    nbits = 1; /* there must be at least one 1 bit */
-    while ((temp >>= 1))
-      nbits++;
-
-    /* Count/emit Huffman symbol for run length / number of bits */
-    emit_symbol(entropy, entropy->ac_tbl_no, (r << 4) + nbits);
-
-    /* Emit that number of bits of the value, if positive, */
-    /* or the complement of its magnitude, if negative. */
-    emit_bits(entropy, (unsigned int)temp2, nbits);
-
-    r = 0; /* reset zero run length */
-  }
-
-  if (r > 0) {         /* If there are trailing zeroes, */
-    entropy->EOBRUN++; /* count an EOB */
-    if (entropy->EOBRUN == 0x7FFF)
-      emit_eobrun(entropy); /* force it out to avoid overflow */
-  }
 
   cinfo->dest->next_output_byte = entropy->next_output_byte;
   cinfo->dest->free_in_buffer = entropy->free_in_buffer;
 
-  /* Update restart-interval state too */
-  if (cinfo->restart_interval) {
-    if (entropy->restarts_to_go == 0) {
-      entropy->restarts_to_go = cinfo->restart_interval;
-      entropy->next_restart_num++;
-      entropy->next_restart_num &= 7;
+    /* Update restart-interval state too */
+    if (cinfo->restart_interval) {
+        if (entropy->restarts_to_go == 0) {
+          entropy->restarts_to_go = cinfo->restart_interval;
+          entropy->next_restart_num++;
+          entropy->next_restart_num &= 7;
+        }
+      entropy->restarts_to_go--;
     }
-    entropy->restarts_to_go--;
-  }
 
   return TRUE;
 }
@@ -536,7 +551,8 @@ METHODDEF boolean encode_mcu_AC_first(j_compress_ptr cinfo,
  */
 
 METHODDEF boolean encode_mcu_DC_refine(j_compress_ptr cinfo,
-                                       JBLOCKROW *MCU_data) {
+                                       JBLOCKROW *MCU_data)
+{
   phuff_entropy_ptr entropy = (phuff_entropy_ptr)cinfo->entropy;
   register int temp;
   int blkn;
@@ -551,27 +567,27 @@ METHODDEF boolean encode_mcu_DC_refine(j_compress_ptr cinfo,
     if (entropy->restarts_to_go == 0)
       emit_restart(entropy, entropy->next_restart_num);
 
-  /* Encode the MCU data blocks */
-  for (blkn = 0; blkn < cinfo->blocks_in_MCU; blkn++) {
-    block = MCU_data[blkn];
+    /* Encode the MCU data blocks */
+    for (blkn = 0; blkn < cinfo->blocks_in_MCU; blkn++) {
+      block = MCU_data[blkn];
 
-    /* We simply emit the Al'th bit of the DC coefficient value. */
-    temp = (*block)[0];
-    emit_bits(entropy, (unsigned int)(temp >> Al), 1);
-  }
+      /* We simply emit the Al'th bit of the DC coefficient value. */
+      temp = (*block)[0];
+      emit_bits(entropy, (unsigned int)(temp >> Al), 1);
+    }
 
   cinfo->dest->next_output_byte = entropy->next_output_byte;
   cinfo->dest->free_in_buffer = entropy->free_in_buffer;
 
-  /* Update restart-interval state too */
-  if (cinfo->restart_interval) {
-    if (entropy->restarts_to_go == 0) {
-      entropy->restarts_to_go = cinfo->restart_interval;
-      entropy->next_restart_num++;
-      entropy->next_restart_num &= 7;
+    /* Update restart-interval state too */
+    if (cinfo->restart_interval) {
+        if (entropy->restarts_to_go == 0) {
+          entropy->restarts_to_go = cinfo->restart_interval;
+          entropy->next_restart_num++;
+          entropy->next_restart_num &= 7;
+        }
+      entropy->restarts_to_go--;
     }
-    entropy->restarts_to_go--;
-  }
 
   return TRUE;
 }
@@ -581,7 +597,8 @@ METHODDEF boolean encode_mcu_DC_refine(j_compress_ptr cinfo,
  */
 
 METHODDEF boolean encode_mcu_AC_refine(j_compress_ptr cinfo,
-                                       JBLOCKROW *MCU_data) {
+                                       JBLOCKROW *MCU_data)
+{
   phuff_entropy_ptr entropy = (phuff_entropy_ptr)cinfo->entropy;
   register int temp;
   register int r, k;
@@ -608,19 +625,19 @@ METHODDEF boolean encode_mcu_AC_refine(j_compress_ptr cinfo,
    * coefficients' absolute values and the EOB position.
    */
   EOB = 0;
-  for (k = cinfo->Ss; k <= Se; k++) {
-    temp = (*block)[jpeg_natural_order[k]];
-    /* We must apply the point transform by Al.  For AC coefficients this
-     * is an integer division with rounding towards 0.  To do this portably
-     * in C, we shift after obtaining the absolute value.
-     */
-    if (temp < 0)
-      temp = -temp;      /* temp is abs value of input */
-    temp >>= Al;         /* apply the point transform */
-    absvalues[k] = temp; /* save abs value for main pass */
-    if (temp == 1)
-      EOB = k; /* EOB = index of last newly-nonzero coef */
-  }
+    for (k = cinfo->Ss; k <= Se; k++) {
+      temp = (*block)[jpeg_natural_order[k]];
+      /* We must apply the point transform by Al.  For AC coefficients this
+       * is an integer division with rounding towards 0.  To do this portably
+       * in C, we shift after obtaining the absolute value.
+       */
+      if (temp < 0)
+        temp = -temp;      /* temp is abs value of input */
+      temp >>= Al;         /* apply the point transform */
+      absvalues[k] = temp; /* save abs value for main pass */
+      if (temp == 1)
+        EOB = k; /* EOB = index of last newly-nonzero coef */
+    }
 
   /* Encode the AC coefficients per section G.1.2.3, fig. G.7 */
 
@@ -628,77 +645,77 @@ METHODDEF boolean encode_mcu_AC_refine(j_compress_ptr cinfo,
   BR = 0; /* BR = count of buffered bits added now */
   BR_buffer = entropy->bit_buffer + entropy->BE; /* Append bits to buffer */
 
-  for (k = cinfo->Ss; k <= Se; k++) {
-    if ((temp = absvalues[k]) == 0) {
-      r++;
-      continue;
-    }
+    for (k = cinfo->Ss; k <= Se; k++) {
+        if ((temp = absvalues[k]) == 0) {
+          r++;
+          continue;
+        }
 
-    /* Emit any required ZRLs, but not if they can be folded into EOB */
-    while (r > 15 && k <= EOB) {
-      /* emit any pending EOBRUN and the BE correction bits */
+        /* Emit any required ZRLs, but not if they can be folded into EOB */
+        while (r > 15 && k <= EOB) {
+          /* emit any pending EOBRUN and the BE correction bits */
+          emit_eobrun(entropy);
+          /* Emit ZRL */
+          emit_symbol(entropy, entropy->ac_tbl_no, 0xF0);
+          r -= 16;
+          /* Emit buffered correction bits that must be associated with ZRL */
+          emit_buffered_bits(entropy, BR_buffer, BR);
+          BR_buffer = entropy->bit_buffer; /* BE bits are gone now */
+          BR = 0;
+        }
+
+        /* If the coef was previously nonzero, it only needs a correction bit.
+         * NOTE: a straight translation of the spec's figure G.7 would suggest
+         * that we also need to test r > 15.  But if r > 15, we can only get
+         * here if k > EOB, which implies that this coefficient is not 1.
+         */
+        if (temp > 1) {
+          /* The correction bit is the next bit of the absolute value. */
+          BR_buffer[BR++] = (char)(temp & 1);
+          continue;
+        }
+
+      /* Emit any pending EOBRUN and the BE correction bits */
       emit_eobrun(entropy);
-      /* Emit ZRL */
-      emit_symbol(entropy, entropy->ac_tbl_no, 0xF0);
-      r -= 16;
-      /* Emit buffered correction bits that must be associated with ZRL */
+
+      /* Count/emit Huffman symbol for run length / number of bits */
+      emit_symbol(entropy, entropy->ac_tbl_no, (r << 4) + 1);
+
+      /* Emit output bit for newly-nonzero coef */
+      temp = ((*block)[jpeg_natural_order[k]] < 0) ? 0 : 1;
+      emit_bits(entropy, (unsigned int)temp, 1);
+
+      /* Emit buffered correction bits that must be associated with this code */
       emit_buffered_bits(entropy, BR_buffer, BR);
       BR_buffer = entropy->bit_buffer; /* BE bits are gone now */
       BR = 0;
+      r = 0; /* reset zero run length */
     }
 
-    /* If the coef was previously nonzero, it only needs a correction bit.
-     * NOTE: a straight translation of the spec's figure G.7 would suggest
-     * that we also need to test r > 15.  But if r > 15, we can only get here
-     * if k > EOB, which implies that this coefficient is not 1.
-     */
-    if (temp > 1) {
-      /* The correction bit is the next bit of the absolute value. */
-      BR_buffer[BR++] = (char)(temp & 1);
-      continue;
+    if (r > 0 || BR > 0) { /* If there are trailing zeroes, */
+      entropy->EOBRUN++;   /* count an EOB */
+      entropy->BE += BR;   /* concat my correction bits to older ones */
+      /* We force out the EOB if we risk either:
+       * 1. overflow of the EOB counter;
+       * 2. overflow of the correction bit buffer during the next MCU.
+       */
+      if (entropy->EOBRUN == 0x7FFF ||
+          entropy->BE > (MAX_CORR_BITS - DCTSIZE2 + 1))
+        emit_eobrun(entropy);
     }
-
-    /* Emit any pending EOBRUN and the BE correction bits */
-    emit_eobrun(entropy);
-
-    /* Count/emit Huffman symbol for run length / number of bits */
-    emit_symbol(entropy, entropy->ac_tbl_no, (r << 4) + 1);
-
-    /* Emit output bit for newly-nonzero coef */
-    temp = ((*block)[jpeg_natural_order[k]] < 0) ? 0 : 1;
-    emit_bits(entropy, (unsigned int)temp, 1);
-
-    /* Emit buffered correction bits that must be associated with this code */
-    emit_buffered_bits(entropy, BR_buffer, BR);
-    BR_buffer = entropy->bit_buffer; /* BE bits are gone now */
-    BR = 0;
-    r = 0; /* reset zero run length */
-  }
-
-  if (r > 0 || BR > 0) { /* If there are trailing zeroes, */
-    entropy->EOBRUN++;   /* count an EOB */
-    entropy->BE += BR;   /* concat my correction bits to older ones */
-    /* We force out the EOB if we risk either:
-     * 1. overflow of the EOB counter;
-     * 2. overflow of the correction bit buffer during the next MCU.
-     */
-    if (entropy->EOBRUN == 0x7FFF ||
-        entropy->BE > (MAX_CORR_BITS - DCTSIZE2 + 1))
-      emit_eobrun(entropy);
-  }
 
   cinfo->dest->next_output_byte = entropy->next_output_byte;
   cinfo->dest->free_in_buffer = entropy->free_in_buffer;
 
-  /* Update restart-interval state too */
-  if (cinfo->restart_interval) {
-    if (entropy->restarts_to_go == 0) {
-      entropy->restarts_to_go = cinfo->restart_interval;
-      entropy->next_restart_num++;
-      entropy->next_restart_num &= 7;
+    /* Update restart-interval state too */
+    if (cinfo->restart_interval) {
+        if (entropy->restarts_to_go == 0) {
+          entropy->restarts_to_go = cinfo->restart_interval;
+          entropy->next_restart_num++;
+          entropy->next_restart_num &= 7;
+        }
+      entropy->restarts_to_go--;
     }
-    entropy->restarts_to_go--;
-  }
 
   return TRUE;
 }
@@ -707,7 +724,8 @@ METHODDEF boolean encode_mcu_AC_refine(j_compress_ptr cinfo,
  * Finish up at the end of a Huffman-compressed progressive scan.
  */
 
-METHODDEF void finish_pass_phuff(j_compress_ptr cinfo) {
+METHODDEF void finish_pass_phuff(j_compress_ptr cinfo)
+{
   phuff_entropy_ptr entropy = (phuff_entropy_ptr)cinfo->entropy;
 
   entropy->next_output_byte = cinfo->dest->next_output_byte;
@@ -725,7 +743,8 @@ METHODDEF void finish_pass_phuff(j_compress_ptr cinfo) {
  * Finish up a statistics-gathering pass and create the new Huffman tables.
  */
 
-METHODDEF void finish_pass_gather_phuff(j_compress_ptr cinfo) {
+METHODDEF void finish_pass_gather_phuff(j_compress_ptr cinfo)
+{
   phuff_entropy_ptr entropy = (phuff_entropy_ptr)cinfo->entropy;
   boolean is_DC_band;
   int ci, tbl;
@@ -743,33 +762,35 @@ METHODDEF void finish_pass_gather_phuff(j_compress_ptr cinfo) {
    */
   MEMZERO(did, SIZEOF(did));
 
-  for (ci = 0; ci < cinfo->comps_in_scan; ci++) {
-    compptr = cinfo->cur_comp_info[ci];
-    if (is_DC_band) {
-      if (cinfo->Ah != 0) /* DC refinement needs no table */
-        continue;
-      tbl = compptr->dc_tbl_no;
-    } else {
-      tbl = compptr->ac_tbl_no;
+    for (ci = 0; ci < cinfo->comps_in_scan; ci++) {
+      compptr = cinfo->cur_comp_info[ci];
+        if (is_DC_band) {
+          if (cinfo->Ah != 0) /* DC refinement needs no table */
+            continue;
+          tbl = compptr->dc_tbl_no;
+        }
+        else {
+          tbl = compptr->ac_tbl_no;
+        }
+        if (!did[tbl]) {
+          if (is_DC_band)
+            htblptr = &cinfo->dc_huff_tbl_ptrs[tbl];
+          else
+            htblptr = &cinfo->ac_huff_tbl_ptrs[tbl];
+          if (*htblptr == NULL)
+            *htblptr = jpeg_alloc_huff_table((j_common_ptr)cinfo);
+          jpeg_gen_optimal_table(cinfo, *htblptr, entropy->count_ptrs[tbl]);
+          did[tbl] = TRUE;
+        }
     }
-    if (!did[tbl]) {
-      if (is_DC_band)
-        htblptr = &cinfo->dc_huff_tbl_ptrs[tbl];
-      else
-        htblptr = &cinfo->ac_huff_tbl_ptrs[tbl];
-      if (*htblptr == NULL)
-        *htblptr = jpeg_alloc_huff_table((j_common_ptr)cinfo);
-      jpeg_gen_optimal_table(cinfo, *htblptr, entropy->count_ptrs[tbl]);
-      did[tbl] = TRUE;
-    }
-  }
 }
 
 /*
  * Module initialization routine for progressive Huffman entropy encoding.
  */
 
-GLOBAL void jinit_phuff_encoder(j_compress_ptr cinfo) {
+GLOBAL void jinit_phuff_encoder(j_compress_ptr cinfo)
+{
   phuff_entropy_ptr entropy;
   int i;
 
@@ -778,11 +799,11 @@ GLOBAL void jinit_phuff_encoder(j_compress_ptr cinfo) {
   cinfo->entropy = (struct jpeg_entropy_encoder *)entropy;
   entropy->pub.start_pass = start_pass_phuff;
 
-  /* Mark tables unallocated */
-  for (i = 0; i < NUM_HUFF_TBLS; i++) {
-    entropy->derived_tbls[i] = NULL;
-    entropy->count_ptrs[i] = NULL;
-  }
+    /* Mark tables unallocated */
+    for (i = 0; i < NUM_HUFF_TBLS; i++) {
+      entropy->derived_tbls[i] = NULL;
+      entropy->count_ptrs[i] = NULL;
+    }
   entropy->bit_buffer = NULL; /* needed only in AC refinement scan */
 }
 

@@ -109,16 +109,16 @@ GLOBAL void jcopy_sample_rows(JSAMPARRAY input_array, int source_row,
   input_array += source_row;
   output_array += dest_row;
 
-  for (row = num_rows; row > 0; row--) {
-    inptr = *input_array++;
-    outptr = *output_array++;
+    for (row = num_rows; row > 0; row--) {
+      inptr = *input_array++;
+      outptr = *output_array++;
 #ifdef FMEMCOPY
-    FMEMCOPY(outptr, inptr, count);
+      FMEMCOPY(outptr, inptr, count);
 #else
-    for (count = num_cols; count > 0; count--)
-      *outptr++ = *inptr++; /* needn't bother with GETJSAMPLE() here */
+      for (count = num_cols; count > 0; count--)
+        *outptr++ = *inptr++; /* needn't bother with GETJSAMPLE() here */
 #endif
-  }
+    }
 }
 
 GLOBAL void jcopy_block_row(JBLOCKROW input_row, JBLOCKROW output_row,
@@ -133,9 +133,9 @@ GLOBAL void jcopy_block_row(JBLOCKROW input_row, JBLOCKROW output_row,
 
   inptr = (JCOEFPTR)input_row;
   outptr = (JCOEFPTR)output_row;
-  for (count = (long)num_blocks * DCTSIZE2; count > 0; count--) {
-    *outptr++ = *inptr++;
-  }
+    for (count = (long)num_blocks * DCTSIZE2; count > 0; count--) {
+      *outptr++ = *inptr++;
+    }
 #endif
 }
 
@@ -149,8 +149,8 @@ GLOBAL void jzero_far(void FAR *target, size_t bytestozero)
   register char FAR *ptr = (char FAR *)target;
   register size_t count;
 
-  for (count = bytestozero; count > 0; count--) {
-    *ptr++ = 0;
-  }
+    for (count = bytestozero; count > 0; count--) {
+      *ptr++ = 0;
+    }
 #endif
 }

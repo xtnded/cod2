@@ -1,4 +1,5 @@
-void __cdecl CG_Respawn() {
+void __cdecl CG_Respawn()
+{
   _DWORD *v0; // ebx
 
   v0 = cg;
@@ -49,7 +50,8 @@ void __cdecl CG_Respawn() {
   return CG_ResetLowHealthOverlay();
 }
 
-void __cdecl CG_DamageFeedback(int yawByte, int pitchByte, int damage) {
+void __cdecl CG_DamageFeedback(int yawByte, int pitchByte, int damage)
+{
   float v3;     // xmm3_4
   float v4;     // xmm5_4
   float *v5;    // edi
@@ -67,28 +69,29 @@ void __cdecl CG_DamageFeedback(int yawByte, int pitchByte, int damage) {
 
   *((_DWORD *)cg + 44946) = *(_DWORD *)((char *)&loc_25BB0 + (_DWORD)cg);
   v3 = (float)a3 * 0.2;
-  if (v3 >= 5.0) {
-    if (v3 <= 90.0) {
-      v4 = -v3;
-      if (a1 != 255)
-        goto LABEL_4;
-      goto LABEL_12;
+    if (v3 >= 5.0) {
+        if (v3 <= 90.0) {
+          v4 = -v3;
+          if (a1 != 255)
+            goto LABEL_4;
+          goto LABEL_12;
+        }
+      v3 = 90.0;
+      v4 = -90.0;
     }
-    v3 = 90.0;
-    v4 = -90.0;
-  } else {
-    v3 = 5.0;
-    v4 = -5.0;
-  }
+    else {
+      v3 = 5.0;
+      v4 = -5.0;
+    }
   if (a1 != 255)
     goto LABEL_4;
 LABEL_12:
-  if (a2 == 255) {
-    v12 = (float *)cg;
-    *((_DWORD *)cg + 44997) = 0;
-    v12[44996] = v4;
-    goto LABEL_9;
-  }
+    if (a2 == 255) {
+      v12 = (float *)cg;
+      *((_DWORD *)cg + 44997) = 0;
+      v12[44996] = v4;
+      goto LABEL_9;
+    }
 LABEL_4:
   v14[0] = (float)((float)a2 / 255.0) * 360.0;
   v14[1] = (float)((float)a1 / 255.0) * 360.0;
@@ -109,12 +112,12 @@ LABEL_4:
       v3;
   v6 = v5;
   v7 = 0;
-  for (i = 1; i != 8; ++i) {
-    if (*(_DWORD *)((char *)&loc_2BE80 + (_DWORD)v6) <
-        SLODWORD(v5[3 * v7 + 44957]))
-      v7 = i;
-    v6 += 3;
-  }
+    for (i = 1; i != 8; ++i) {
+      if (*(_DWORD *)((char *)&loc_2BE80 + (_DWORD)v6) <
+          SLODWORD(v5[3 * v7 + 44957]))
+        v7 = i;
+      v6 += 3;
+    }
   v5[3 * v7 + 44957] = *(float *)(*((_DWORD *)v5 + 8) + 8);
   v9 = (char *)cg + 12 * v7;
   *((_DWORD *)v9 + 44958) = *(_DWORD *)(cg_hudDamageIconTime + 8);
@@ -131,12 +134,14 @@ LABEL_9:
 }
 
 void __cdecl CG_CheckPlayerstateEvents(struct playerState_s *,
-                                       struct playerState_s *) {
+                                       struct playerState_s *)
+{
   UNIMPLEMENTED();
 }
 
 void __cdecl CG_TransitionPlayerState(struct playerState_s *ps,
-                                      struct playerState_s *ops) {
+                                      struct playerState_s *ops)
+{
   char *v3;              // edi
   int32_t v4;            // ebx
   int v5;                // eax
@@ -147,23 +152,24 @@ void __cdecl CG_TransitionPlayerState(struct playerState_s *ps,
     CG_DamageFeedback(a2->damageYaw, a2->damagePitch, a2->damageCount);
   v3 = (char *)cg + 164460;
   v4 = a2->eventSequence - 4;
-  do {
-    eventSequence = a3->eventSequence;
-    if (v4 >= eventSequence) {
-      v5 = v4 & 3;
-      v6 = *(_DWORD *)&a2->events[4 * v5];
-    LABEL_7:
-      *((_DWORD *)v3 + 100) = *(_DWORD *)&a2->eventParms[4 * v5];
-      CG_EntityEvent(a1, (centity_s *)v3, v6);
-      goto LABEL_8;
+    do {
+      eventSequence = a3->eventSequence;
+        if (v4 >= eventSequence) {
+          v5 = v4 & 3;
+          v6 = *(_DWORD *)&a2->events[4 * v5];
+        LABEL_7:
+          *((_DWORD *)v3 + 100) = *(_DWORD *)&a2->eventParms[4 * v5];
+          CG_EntityEvent(a1, (centity_s *)v3, v6);
+          goto LABEL_8;
+        }
+        if (v4 > eventSequence - 4) {
+          v5 = v4 & 3;
+          v6 = *(_DWORD *)&a2->events[4 * v5];
+          if (v6 != *(_DWORD *)&a3->events[4 * v5])
+            goto LABEL_7;
+        }
+    LABEL_8:
+      ++v4;
     }
-    if (v4 > eventSequence - 4) {
-      v5 = v4 & 3;
-      v6 = *(_DWORD *)&a2->events[4 * v5];
-      if (v6 != *(_DWORD *)&a3->events[4 * v5])
-        goto LABEL_7;
-    }
-  LABEL_8:
-    ++v4;
-  } while (v4 < a2->eventSequence);
+  while (v4 < a2->eventSequence);
 }

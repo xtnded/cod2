@@ -34,21 +34,18 @@ int main(int argc, char **argv)
   getcwd(cwd, 0x100u);
   Com_Printf("Working directory: %s\n", cwd);
   dedicated = com_dedicated;
-  if ( !com_dedicated->current.integer )
-  {
-    if ( !com_viewlog->current.integer )
-      Sys_ShowConsole(0, 0);
-    dedicated = com_dedicated;
-  }
-  while ( 1 )
-  {
-    if ( dedicated )
-    {
-      if ( dedicated->current.integer )
-        WinSleep(5);
+    if (!com_dedicated->current.integer) {
+      if (!com_viewlog->current.integer)
+        Sys_ShowConsole(0, 0);
+      dedicated = com_dedicated;
     }
-    Com_Frame();
-    dedicated = com_dedicated;
-  }
+    while (1) {
+        if (dedicated) {
+          if (dedicated->current.integer)
+            WinSleep(5);
+        }
+      Com_Frame();
+      dedicated = com_dedicated;
+    }
   return 0;
 }

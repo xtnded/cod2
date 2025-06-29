@@ -119,15 +119,15 @@ unsigned short FAR *work;
       break;
   if (root > max)
     root = max;
-  if (max == 0) {                /* no symbols to code at all */
-    here.op = (unsigned char)64; /* invalid code marker */
-    here.bits = (unsigned char)1;
-    here.val = (unsigned short)0;
-    *(*table)++ = here; /* make a table to force an error */
-    *(*table)++ = here;
-    *bits = 1;
-    return 0; /* no symbols, but wait for decoding to report error */
-  }
+    if (max == 0) {                /* no symbols to code at all */
+      here.op = (unsigned char)64; /* invalid code marker */
+      here.bits = (unsigned char)1;
+      here.val = (unsigned short)0;
+      *(*table)++ = here; /* make a table to force an error */
+      *(*table)++ = here;
+      *bits = 1;
+      return 0; /* no symbols, but wait for decoding to report error */
+    }
   for (min = 1; min < max; min++)
     if (count[min] != 0)
       break;
@@ -136,12 +136,12 @@ unsigned short FAR *work;
 
   /* check for an over-subscribed or incomplete set of lengths */
   left = 1;
-  for (len = 1; len <= MAXBITS; len++) {
-    left <<= 1;
-    left -= count[len];
-    if (left < 0)
-      return -1; /* over-subscribed */
-  }
+    for (len = 1; len <= MAXBITS; len++) {
+      left <<= 1;
+      left -= count[len];
+      if (left < 0)
+        return -1; /* over-subscribed */
+    }
   if (left > 0 && (type == CODES || max != 1))
     return -1; /* incomplete set */
 
@@ -155,53 +155,53 @@ unsigned short FAR *work;
     if (lens[sym] != 0)
       work[offs[lens[sym]]++] = (unsigned short)sym;
 
-  /*
-     Create and fill in decoding tables.  In this loop, the table being
-     filled is at next and has curr index bits.  The code being used is huff
-     with length len.  That code is converted to an index by dropping drop
-     bits off of the bottom.  For codes where len is less than drop + curr,
-     those top drop + curr - len bits are incremented through all values to
-     fill the table with replicated entries.
+    /*
+       Create and fill in decoding tables.  In this loop, the table being
+       filled is at next and has curr index bits.  The code being used is huff
+       with length len.  That code is converted to an index by dropping drop
+       bits off of the bottom.  For codes where len is less than drop + curr,
+       those top drop + curr - len bits are incremented through all values to
+       fill the table with replicated entries.
 
-     root is the number of index bits for the root table.  When len exceeds
-     root, sub-tables are created pointed to by the root entry with an index
-     of the low root bits of huff.  This is saved in low to check for when a
-     new sub-table should be started.  drop is zero when the root table is
-     being filled, and drop is root when sub-tables are being filled.
+       root is the number of index bits for the root table.  When len exceeds
+       root, sub-tables are created pointed to by the root entry with an index
+       of the low root bits of huff.  This is saved in low to check for when a
+       new sub-table should be started.  drop is zero when the root table is
+       being filled, and drop is root when sub-tables are being filled.
 
-     When a new sub-table is needed, it is necessary to look ahead in the
-     code lengths to determine what size sub-table is needed.  The length
-     counts are used for this, and so count[] is decremented as codes are
-     entered in the tables.
+       When a new sub-table is needed, it is necessary to look ahead in the
+       code lengths to determine what size sub-table is needed.  The length
+       counts are used for this, and so count[] is decremented as codes are
+       entered in the tables.
 
-     used keeps track of how many table entries have been allocated from the
-     provided *table space.  It is checked for LENS and DIST tables against
-     the constants ENOUGH_LENS and ENOUGH_DISTS to guard against changes in
-     the initial root table size constants.  See the comments in inftrees.h
-     for more information.
+       used keeps track of how many table entries have been allocated from the
+       provided *table space.  It is checked for LENS and DIST tables against
+       the constants ENOUGH_LENS and ENOUGH_DISTS to guard against changes in
+       the initial root table size constants.  See the comments in inftrees.h
+       for more information.
 
-     sym increments through all symbols, and the loop terminates when
-     all codes of length max, i.e. all codes, have been processed.  This
-     routine permits incomplete codes, so another loop after this one fills
-     in the rest of the decoding tables with invalid code markers.
-   */
+       sym increments through all symbols, and the loop terminates when
+       all codes of length max, i.e. all codes, have been processed.  This
+       routine permits incomplete codes, so another loop after this one fills
+       in the rest of the decoding tables with invalid code markers.
+     */
 
-  /* set up for code type */
-  switch (type) {
-  case CODES:
-    base = extra = work; /* dummy value--not used */
-    match = 20;
-    break;
-  case LENS:
-    base = lbase;
-    extra = lext;
-    match = 257;
-    break;
-  default: /* DISTS */
-    base = dbase;
-    extra = dext;
-    match = 0;
-  }
+    /* set up for code type */
+    switch (type) {
+    case CODES:
+      base = extra = work; /* dummy value--not used */
+      match = 20;
+      break;
+    case LENS:
+      base = lbase;
+      extra = lext;
+      match = 257;
+      break;
+    default: /* DISTS */
+      base = dbase;
+      extra = dext;
+      match = 0;
+    }
 
   /* initialize state for loop */
   huff = 0;             /* starting code */
@@ -219,91 +219,95 @@ unsigned short FAR *work;
       (type == DISTS && used > ENOUGH_DISTS))
     return 1;
 
-  /* process all codes and make table entries */
-  for (;;) {
-    /* create table entry */
-    here.bits = (unsigned char)(len - drop);
-    if (work[sym] + 1U < match) {
-      here.op = (unsigned char)0;
-      here.val = work[sym];
-    } else if (work[sym] >= match) {
-      here.op = (unsigned char)(extra[work[sym] - match]);
-      here.val = base[work[sym] - match];
-    } else {
-      here.op = (unsigned char)(32 + 64); /* end of block */
-      here.val = 0;
+    /* process all codes and make table entries */
+    for (;;) {
+      /* create table entry */
+      here.bits = (unsigned char)(len - drop);
+        if (work[sym] + 1U < match) {
+          here.op = (unsigned char)0;
+          here.val = work[sym];
+        }
+        else if (work[sym] >= match) {
+          here.op = (unsigned char)(extra[work[sym] - match]);
+          here.val = base[work[sym] - match];
+        }
+        else {
+          here.op = (unsigned char)(32 + 64); /* end of block */
+          here.val = 0;
+        }
+
+      /* replicate for those indices with low len bits equal to huff */
+      incr = 1U << (len - drop);
+      fill = 1U << curr;
+      min = fill; /* save offset to next table */
+        do {
+          fill -= incr;
+          next[(huff >> drop) + fill] = here;
+        }
+      while (fill != 0);
+
+      /* backwards increment the len-bit code huff */
+      incr = 1U << (len - 1);
+      while (huff & incr)
+        incr >>= 1;
+        if (incr != 0) {
+          huff &= incr - 1;
+          huff += incr;
+        }
+      else
+        huff = 0;
+
+      /* go to next symbol, update count, len */
+      sym++;
+        if (--(count[len]) == 0) {
+          if (len == max)
+            break;
+          len = lens[work[sym]];
+        }
+
+        /* create new sub-table if needed */
+        if (len > root && (huff & mask) != low) {
+          /* if first time, transition to sub-tables */
+          if (drop == 0)
+            drop = root;
+
+          /* increment past last table */
+          next += min; /* here min is 1 << curr */
+
+          /* determine length of next table */
+          curr = len - drop;
+          left = (int)(1 << curr);
+            while (curr + drop < max) {
+              left -= count[curr + drop];
+              if (left <= 0)
+                break;
+              curr++;
+              left <<= 1;
+            }
+
+          /* check for enough space */
+          used += 1U << curr;
+          if ((type == LENS && used > ENOUGH_LENS) ||
+              (type == DISTS && used > ENOUGH_DISTS))
+            return 1;
+
+          /* point entry in root table to sub-table */
+          low = huff & mask;
+          (*table)[low].op = (unsigned char)curr;
+          (*table)[low].bits = (unsigned char)root;
+          (*table)[low].val = (unsigned short)(next - *table);
+        }
     }
 
-    /* replicate for those indices with low len bits equal to huff */
-    incr = 1U << (len - drop);
-    fill = 1U << curr;
-    min = fill; /* save offset to next table */
-    do {
-      fill -= incr;
-      next[(huff >> drop) + fill] = here;
-    } while (fill != 0);
-
-    /* backwards increment the len-bit code huff */
-    incr = 1U << (len - 1);
-    while (huff & incr)
-      incr >>= 1;
-    if (incr != 0) {
-      huff &= incr - 1;
-      huff += incr;
-    } else
-      huff = 0;
-
-    /* go to next symbol, update count, len */
-    sym++;
-    if (--(count[len]) == 0) {
-      if (len == max)
-        break;
-      len = lens[work[sym]];
+    /* fill in remaining table entry if code is incomplete (guaranteed to have
+       at most one remaining entry, since if the code is incomplete, the
+       maximum code length that was allowed to get this far is one bit) */
+    if (huff != 0) {
+      here.op = (unsigned char)64; /* invalid code marker */
+      here.bits = (unsigned char)(len - drop);
+      here.val = (unsigned short)0;
+      next[huff] = here;
     }
-
-    /* create new sub-table if needed */
-    if (len > root && (huff & mask) != low) {
-      /* if first time, transition to sub-tables */
-      if (drop == 0)
-        drop = root;
-
-      /* increment past last table */
-      next += min; /* here min is 1 << curr */
-
-      /* determine length of next table */
-      curr = len - drop;
-      left = (int)(1 << curr);
-      while (curr + drop < max) {
-        left -= count[curr + drop];
-        if (left <= 0)
-          break;
-        curr++;
-        left <<= 1;
-      }
-
-      /* check for enough space */
-      used += 1U << curr;
-      if ((type == LENS && used > ENOUGH_LENS) ||
-          (type == DISTS && used > ENOUGH_DISTS))
-        return 1;
-
-      /* point entry in root table to sub-table */
-      low = huff & mask;
-      (*table)[low].op = (unsigned char)curr;
-      (*table)[low].bits = (unsigned char)root;
-      (*table)[low].val = (unsigned short)(next - *table);
-    }
-  }
-
-  /* fill in remaining table entry if code is incomplete (guaranteed to have
-     at most one remaining entry, since if the code is incomplete, the
-     maximum code length that was allowed to get this far is one bit) */
-  if (huff != 0) {
-    here.op = (unsigned char)64; /* invalid code marker */
-    here.bits = (unsigned char)(len - drop);
-    here.val = (unsigned short)0;
-    next[huff] = here;
-  }
 
   /* set return parameters */
   *table += used;

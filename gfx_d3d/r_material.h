@@ -1,5 +1,6 @@
 
-struct Material {
+struct Material
+{
   MaterialInfo info;
   int64_t stateBits;
   short textureCount;
@@ -9,7 +10,8 @@ struct Material {
   int constants;
 };
 
-struct MaterialInfoObj_s {
+struct MaterialInfoObj_s
+{
   int name;
   int refImageName;
   short hashIndex;
@@ -30,12 +32,14 @@ struct MaterialInfoObj_s {
   int contents;
 };
 
-struct MaterialTechniqueSet {
+struct MaterialTechniqueSet
+{
   int name;
   char techniques[136];
 };
 
-struct MaterialTextureDef {
+struct MaterialTextureDef
+{
   int name;
   char samplerState;
   char semantic;
@@ -44,23 +48,28 @@ struct MaterialTextureDef {
   MaterialTextureDefInfo u;
 };
 
-union MaterialTextureDefInfo {
+union MaterialTextureDefInfo
+{
   int image;
   int water;
 };
 
-struct MaterialConstantDefObj {
+struct MaterialConstantDefObj
+{
   int name;
   char literal[16];
 };
 
-struct MaterialTechnique {
+struct MaterialTechnique
+{
   int name;
   short flags;
   short passCount;
   MaterialPassArray passArray;
 };
-struct MaterialWaterDef {
+
+struct MaterialWaterDef
+{
   int textureWidth;
   int horizontalWorldLength;
   int verticalWorldLength;
@@ -70,11 +79,14 @@ struct MaterialWaterDef {
   int map;
 };
 
-union MaterialPassArray {
+union MaterialPassArray
+{
   char dx7[92];
   char dx9[28];
 };
-struct water_t {
+
+struct water_t
+{
   WaterWritable writable;
   int H0;
   int wTerm;
@@ -90,7 +102,8 @@ struct water_t {
   int image;
 };
 
-struct MaterialPassDx7 {
+struct MaterialPassDx7
+{
   int stateMap;
   char gridLighting;
   char projectToInfinity;
@@ -104,7 +117,8 @@ struct MaterialPassDx7 {
   char alphaStageBits[32];
 };
 
-struct MaterialPassDx9 {
+struct MaterialPassDx9
+{
   int stateMap;
   int vertexDecl;
   int vertexShader;
@@ -114,28 +128,34 @@ struct MaterialPassDx9 {
   int vertexArgs;
   int pixelArgs;
 };
-struct WaterWritable {
+
+struct WaterWritable
+{
   int frameCount;
 };
 
-struct MaterialStateMap {
+struct MaterialStateMap
+{
   int name;
   char ruleSet[44];
 };
 
-struct MaterialShaderArgument {
+struct MaterialShaderArgument
+{
   short type;
   short dest;
   MaterialArgumentDef u;
 };
 
-struct MaterialVertexDeclaration {
+struct MaterialVertexDeclaration
+{
   int data;
   int streamCount;
   char decl[16];
 };
 
-struct MaterialShader {
+struct MaterialShader
+{
   int name;
   int program;
   short programLen;
@@ -143,41 +163,50 @@ struct MaterialShader {
   char shaderVersion;
   MaterialShaderPtr u;
 };
-union MaterialArgumentDef {
+
+union MaterialArgumentDef
+{
   int literalConst;
   MaterialArgumentCodeConst codeConst;
   int codeSampler;
   int name;
 };
 
-union MaterialShaderPtr {
+union MaterialShaderPtr
+{
   int vs;
   int ps;
 };
 
-struct MaterialArgumentCodeConst {
+struct MaterialArgumentCodeConst
+{
   short index;
   char firstRow;
   char rowCount;
 };
 
-struct MaterialStreamRouting {
+struct MaterialStreamRouting
+{
   char source;
   char dest;
 };
 
-struct MaterialStateMapRuleSet {
+struct MaterialStateMapRuleSet
+{
   int ruleCount;
   char rules[32];
 };
 
-struct MaterialStateMapRule {
+struct MaterialStateMapRule
+{
   int64_t stateBitsMask;
   int64_t stateBitsValue;
   int64_t stateBitsSet;
   int64_t stateBitsClear;
 };
-typedef enum {
+
+typedef enum
+{
   TECHNIQUE_DEPTH_PREPASS = 0,
   TECHNIQUE_SKY = 1,
   TECHNIQUE_BUILD_FLOAT_Z = 2,

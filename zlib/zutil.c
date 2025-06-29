@@ -8,7 +8,8 @@
 #include "zutil.h"
 
 #ifndef NO_DUMMY_DECL
-struct internal_state {
+struct internal_state
+{
   int dummy;
 }; /* for buggy compilers */
 #endif
@@ -25,60 +26,64 @@ const char *const z_errmsg[10] = {
     "incompatible version", /* Z_VERSION_ERROR (-6) */
     ""};
 
-const char *ZEXPORT zlibVersion() { return ZLIB_VERSION; }
+const char *ZEXPORT zlibVersion()
+{
+  return ZLIB_VERSION;
+}
 
-uLong ZEXPORT zlibCompileFlags() {
+uLong ZEXPORT zlibCompileFlags()
+{
   uLong flags;
 
   flags = 0;
-  switch (sizeof(uInt)) {
-  case 2:
-    break;
-  case 4:
-    flags += 1;
-    break;
-  case 8:
-    flags += 2;
-    break;
-  default:
-    flags += 3;
-  }
-  switch (sizeof(uLong)) {
-  case 2:
-    break;
-  case 4:
-    flags += 1 << 2;
-    break;
-  case 8:
-    flags += 2 << 2;
-    break;
-  default:
-    flags += 3 << 2;
-  }
-  switch (sizeof(voidpf)) {
-  case 2:
-    break;
-  case 4:
-    flags += 1 << 4;
-    break;
-  case 8:
-    flags += 2 << 4;
-    break;
-  default:
-    flags += 3 << 4;
-  }
-  switch (sizeof(z_off_t)) {
-  case 2:
-    break;
-  case 4:
-    flags += 1 << 6;
-    break;
-  case 8:
-    flags += 2 << 6;
-    break;
-  default:
-    flags += 3 << 6;
-  }
+    switch (sizeof(uInt)) {
+    case 2:
+      break;
+    case 4:
+      flags += 1;
+      break;
+    case 8:
+      flags += 2;
+      break;
+    default:
+      flags += 3;
+    }
+    switch (sizeof(uLong)) {
+    case 2:
+      break;
+    case 4:
+      flags += 1 << 2;
+      break;
+    case 8:
+      flags += 2 << 2;
+      break;
+    default:
+      flags += 3 << 2;
+    }
+    switch (sizeof(voidpf)) {
+    case 2:
+      break;
+    case 4:
+      flags += 1 << 4;
+      break;
+    case 8:
+      flags += 2 << 4;
+      break;
+    default:
+      flags += 3 << 4;
+    }
+    switch (sizeof(z_off_t)) {
+    case 2:
+      break;
+    case 4:
+      flags += 1 << 6;
+      break;
+    case 8:
+      flags += 2 << 6;
+      break;
+    default:
+      flags += 3 << 6;
+    }
 #ifdef DEBUG
   flags += 1 << 8;
 #endif
@@ -152,7 +157,9 @@ void z_error(m) char *m;
  */
 const char *ZEXPORT zError(err)
 int err;
-{ return ERR_MSG(err); }
+{
+  return ERR_MSG(err);
+}
 
 #if defined(_WIN32_WCE)
 /* The Microsoft C Run-Time Library for Windows CE doesn't have
@@ -170,9 +177,10 @@ uInt len;
 {
   if (len == 0)
     return;
-  do {
-    *dest++ = *source++; /* ??? to be unrolled */
-  } while (--len != 0);
+    do {
+      *dest++ = *source++; /* ??? to be unrolled */
+    }
+  while (--len != 0);
 }
 
 int zmemcmp(s1, s2, len) const Bytef *s1;
@@ -181,10 +189,10 @@ uInt len;
 {
   uInt j;
 
-  for (j = 0; j < len; j++) {
-    if (s1[j] != s2[j])
-      return 2 * (s1[j] > s2[j]) - 1;
-  }
+    for (j = 0; j < len; j++) {
+      if (s1[j] != s2[j])
+        return 2 * (s1[j] > s2[j]) - 1;
+    }
   return 0;
 }
 
@@ -193,9 +201,10 @@ uInt len;
 {
   if (len == 0)
     return;
-  do {
-    *dest++ = 0; /* ??? to be unrolled */
-  } while (--len != 0);
+    do {
+      *dest++ = 0; /* ??? to be unrolled */
+    }
+  while (--len != 0);
 }
 #endif
 
@@ -217,12 +226,14 @@ uInt len;
 
 local int next_ptr = 0;
 
-typedef struct ptr_table_s {
+typedef struct ptr_table_s
+{
   voidpf org_ptr;
   voidpf new_ptr;
 } ptr_table;
 
 local ptr_table table[MAX_PTR];
+
 /* This table is used to remember the original form of pointers
  * to large buffers (64K). Such pointers are normalized with a zero offset.
  * Since MSDOS is not a preemptive multitasking OS, this table is not
@@ -230,20 +241,22 @@ local ptr_table table[MAX_PTR];
  * a protected system like OS/2. Use Microsoft C instead.
  */
 
-voidpf zcalloc(voidpf opaque, unsigned items, unsigned size) {
+voidpf zcalloc(voidpf opaque, unsigned items, unsigned size)
+{
   voidpf buf = opaque; /* just to make some compilers happy */
   ulg bsize = (ulg)items * size;
 
-  /* If we allocate less than 65520 bytes, we assume that farmalloc
-   * will return a usable pointer which doesn't have to be normalized.
-   */
-  if (bsize < 65520L) {
-    buf = farmalloc(bsize);
-    if (*(ush *)&buf != 0)
-      return buf;
-  } else {
-    buf = farmalloc(bsize + 16L);
-  }
+    /* If we allocate less than 65520 bytes, we assume that farmalloc
+     * will return a usable pointer which doesn't have to be normalized.
+     */
+    if (bsize < 65520L) {
+      buf = farmalloc(bsize);
+      if (*(ush *)&buf != 0)
+        return buf;
+    }
+    else {
+      buf = farmalloc(bsize + 16L);
+    }
   if (buf == NULL || next_ptr >= MAX_PTR)
     return NULL;
   table[next_ptr].org_ptr = buf;
@@ -255,24 +268,25 @@ voidpf zcalloc(voidpf opaque, unsigned items, unsigned size) {
   return buf;
 }
 
-void zcfree(voidpf opaque, voidpf ptr) {
+void zcfree(voidpf opaque, voidpf ptr)
+{
   int n;
-  if (*(ush *)&ptr != 0) { /* object < 64K */
-    farfree(ptr);
-    return;
-  }
-  /* Find the original pointer */
-  for (n = 0; n < next_ptr; n++) {
-    if (ptr != table[n].new_ptr)
-      continue;
-
-    farfree(table[n].org_ptr);
-    while (++n < next_ptr) {
-      table[n - 1] = table[n];
+    if (*(ush *)&ptr != 0) { /* object < 64K */
+      farfree(ptr);
+      return;
     }
-    next_ptr--;
-    return;
-  }
+    /* Find the original pointer */
+    for (n = 0; n < next_ptr; n++) {
+      if (ptr != table[n].new_ptr)
+        continue;
+
+      farfree(table[n].org_ptr);
+        while (++n < next_ptr) {
+          table[n - 1] = table[n];
+        }
+      next_ptr--;
+      return;
+    }
   ptr = opaque; /* just to make some compilers happy */
   Assert(0, "zcfree: ptr not found");
 }
@@ -289,13 +303,15 @@ void zcfree(voidpf opaque, voidpf ptr) {
 #define _hfree hfree
 #endif
 
-voidpf zcalloc(voidpf opaque, unsigned items, unsigned size) {
+voidpf zcalloc(voidpf opaque, unsigned items, unsigned size)
+{
   if (opaque)
     opaque = 0; /* to make compiler happy */
   return _halloc((long)items, size);
 }
 
-void zcfree(voidpf opaque, voidpf ptr) {
+void zcfree(voidpf opaque, voidpf ptr)
+{
   if (opaque)
     opaque = 0; /* to make compiler happy */
   _hfree(ptr);

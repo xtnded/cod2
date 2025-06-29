@@ -50,34 +50,37 @@
 #endif
 
 void bw_lpc(spx_word16_t gamma, const spx_coef_t *lpc_in, spx_coef_t *lpc_out,
-            int order) {
+            int order)
+{
   int i;
   spx_word16_t tmp = gamma;
-  for (i = 0; i < order; i++) {
-    lpc_out[i] = MULT16_16_P15(tmp, lpc_in[i]);
-    tmp = MULT16_16_P15(tmp, gamma);
-  }
+    for (i = 0; i < order; i++) {
+      lpc_out[i] = MULT16_16_P15(tmp, lpc_in[i]);
+      tmp = MULT16_16_P15(tmp, gamma);
+    }
 }
 
 void sanitize_values32(spx_word32_t *vec, spx_word32_t min_val,
-                       spx_word32_t max_val, int len) {
+                       spx_word32_t max_val, int len)
+{
   int i;
-  for (i = 0; i < len; i++) {
-    /* It's important we do the test that way so we can catch NaNs, which are
-     * neither greater nor smaller */
-    if (!(vec[i] >= min_val && vec[i] <= max_val)) {
-      if (vec[i] < min_val)
-        vec[i] = min_val;
-      else if (vec[i] > max_val)
-        vec[i] = max_val;
-      else /* Has to be NaN */
-        vec[i] = 0;
+    for (i = 0; i < len; i++) {
+        /* It's important we do the test that way so we can catch NaNs, which
+         * are neither greater nor smaller */
+        if (!(vec[i] >= min_val && vec[i] <= max_val)) {
+          if (vec[i] < min_val)
+            vec[i] = min_val;
+          else if (vec[i] > max_val)
+            vec[i] = max_val;
+          else /* Has to be NaN */
+            vec[i] = 0;
+        }
     }
-  }
 }
 
 void highpass(const spx_word16_t *x, spx_word16_t *y, int len, int filtID,
-              spx_mem_t *mem) {
+              spx_mem_t *mem)
+{
   int i;
 #ifdef FIXED_POINT
   const spx_word16_t Pcoef[5][3] = {{16384, -31313, 14991},
@@ -108,70 +111,76 @@ void highpass(const spx_word16_t *x, spx_word16_t *y, int len, int filtID,
 
   den = Pcoef[filtID];
   num = Zcoef[filtID];
-  /*return;*/
-  for (i = 0; i < len; i++) {
-    spx_word16_t yi;
-    spx_word32_t vout = ADD32(MULT16_16(num[0], x[i]), mem[0]);
-    yi = EXTRACT16(SATURATE(PSHR32(vout, 14), 32767));
-    mem[0] = ADD32(MAC16_16(mem[1], num[1], x[i]),
-                   SHL32(MULT16_32_Q15(-den[1], vout), 1));
-    mem[1] =
-        ADD32(MULT16_16(num[2], x[i]), SHL32(MULT16_32_Q15(-den[2], vout), 1));
-    y[i] = yi;
-  }
+    /*return;*/
+    for (i = 0; i < len; i++) {
+      spx_word16_t yi;
+      spx_word32_t vout = ADD32(MULT16_16(num[0], x[i]), mem[0]);
+      yi = EXTRACT16(SATURATE(PSHR32(vout, 14), 32767));
+      mem[0] = ADD32(MAC16_16(mem[1], num[1], x[i]),
+                     SHL32(MULT16_32_Q15(-den[1], vout), 1));
+      mem[1] = ADD32(MULT16_16(num[2], x[i]),
+                     SHL32(MULT16_32_Q15(-den[2], vout), 1));
+      y[i] = yi;
+    }
 }
 
 #ifdef FIXED_POINT
 
 /* FIXME: These functions are ugly and probably introduce too much error */
-void signal_mul(const spx_sig_t *x, spx_sig_t *y, spx_word32_t scale, int len) {
+void signal_mul(const spx_sig_t *x, spx_sig_t *y, spx_word32_t scale, int len)
+{
   int i;
-  for (i = 0; i < len; i++) {
-    y[i] = SHL32(MULT16_32_Q14(EXTRACT16(SHR32(x[i], 7)), scale), 7);
-  }
+    for (i = 0; i < len; i++) {
+      y[i] = SHL32(MULT16_32_Q14(EXTRACT16(SHR32(x[i], 7)), scale), 7);
+    }
 }
 
 #ifndef DISABLE_ENCODER
 void signal_div(const spx_word16_t *x, spx_word16_t *y, spx_word32_t scale,
-                int len) {
+                int len)
+{
   int i;
-  if (scale > SHL32(EXTEND32(SIG_SCALING), 8)) {
-    spx_word16_t scale_1;
-    scale = PSHR32(scale, SIG_SHIFT);
-    scale_1 = EXTRACT16(PDIV32_16(SHL32(EXTEND32(SIG_SCALING), 7), scale));
-    for (i = 0; i < len; i++) {
-      y[i] = MULT16_16_P15(scale_1, x[i]);
+    if (scale > SHL32(EXTEND32(SIG_SCALING), 8)) {
+      spx_word16_t scale_1;
+      scale = PSHR32(scale, SIG_SHIFT);
+      scale_1 = EXTRACT16(PDIV32_16(SHL32(EXTEND32(SIG_SCALING), 7), scale));
+        for (i = 0; i < len; i++) {
+          y[i] = MULT16_16_P15(scale_1, x[i]);
+        }
     }
-  } else if (scale > SHR32(EXTEND32(SIG_SCALING), 2)) {
-    spx_word16_t scale_1;
-    scale = PSHR32(scale, SIG_SHIFT - 5);
-    scale_1 = DIV32_16(SHL32(EXTEND32(SIG_SCALING), 3), scale);
-    for (i = 0; i < len; i++) {
-      y[i] = PSHR32(MULT16_16(scale_1, SHL16(x[i], 2)), 8);
+    else if (scale > SHR32(EXTEND32(SIG_SCALING), 2)) {
+      spx_word16_t scale_1;
+      scale = PSHR32(scale, SIG_SHIFT - 5);
+      scale_1 = DIV32_16(SHL32(EXTEND32(SIG_SCALING), 3), scale);
+        for (i = 0; i < len; i++) {
+          y[i] = PSHR32(MULT16_16(scale_1, SHL16(x[i], 2)), 8);
+        }
     }
-  } else {
-    spx_word16_t scale_1;
-    scale = PSHR32(scale, SIG_SHIFT - 7);
-    if (scale < 5)
-      scale = 5;
-    scale_1 = DIV32_16(SHL32(EXTEND32(SIG_SCALING), 3), scale);
-    for (i = 0; i < len; i++) {
-      y[i] = PSHR32(MULT16_16(scale_1, SHL16(x[i], 2)), 6);
+    else {
+      spx_word16_t scale_1;
+      scale = PSHR32(scale, SIG_SHIFT - 7);
+      if (scale < 5)
+        scale = 5;
+      scale_1 = DIV32_16(SHL32(EXTEND32(SIG_SCALING), 3), scale);
+        for (i = 0; i < len; i++) {
+          y[i] = PSHR32(MULT16_16(scale_1, SHL16(x[i], 2)), 6);
+        }
     }
-  }
 }
 #endif /* DISABLE_ENCODER */
 
 #else /* FIXED_POINT */
 
-void signal_mul(const spx_sig_t *x, spx_sig_t *y, spx_word32_t scale, int len) {
+void signal_mul(const spx_sig_t *x, spx_sig_t *y, spx_word32_t scale, int len)
+{
   int i;
   for (i = 0; i < len; i++)
     y[i] = scale * x[i];
 }
 
 #ifndef DISABLE_ENCODER
-void signal_div(const spx_sig_t *x, spx_sig_t *y, spx_word32_t scale, int len) {
+void signal_div(const spx_sig_t *x, spx_sig_t *y, spx_word32_t scale, int len)
+{
   int i;
   float scale_1 = 1 / scale;
   for (i = 0; i < len; i++)
@@ -184,111 +193,115 @@ void signal_div(const spx_sig_t *x, spx_sig_t *y, spx_word32_t scale, int len) {
 #ifdef FIXED_POINT
 
 #if !defined(DISABLE_WIDEBAND) && !defined(DISABLE_ENCODER)
-spx_word16_t compute_rms(const spx_sig_t *x, int len) {
+spx_word16_t compute_rms(const spx_sig_t *x, int len)
+{
   int i;
   spx_word32_t sum = 0;
   spx_sig_t max_val = 1;
   int sig_shift;
 
-  for (i = 0; i < len; i++) {
-    spx_sig_t tmp = x[i];
-    if (tmp < 0)
-      tmp = -tmp;
-    if (tmp > max_val)
-      max_val = tmp;
-  }
+    for (i = 0; i < len; i++) {
+      spx_sig_t tmp = x[i];
+      if (tmp < 0)
+        tmp = -tmp;
+      if (tmp > max_val)
+        max_val = tmp;
+    }
 
   sig_shift = 0;
-  while (max_val > 16383) {
-    sig_shift++;
-    max_val >>= 1;
-  }
+    while (max_val > 16383) {
+      sig_shift++;
+      max_val >>= 1;
+    }
 
-  for (i = 0; i < len; i += 4) {
-    spx_word32_t sum2 = 0;
-    spx_word16_t tmp;
-    tmp = EXTRACT16(SHR32(x[i], sig_shift));
-    sum2 = MAC16_16(sum2, tmp, tmp);
-    tmp = EXTRACT16(SHR32(x[i + 1], sig_shift));
-    sum2 = MAC16_16(sum2, tmp, tmp);
-    tmp = EXTRACT16(SHR32(x[i + 2], sig_shift));
-    sum2 = MAC16_16(sum2, tmp, tmp);
-    tmp = EXTRACT16(SHR32(x[i + 3], sig_shift));
-    sum2 = MAC16_16(sum2, tmp, tmp);
-    sum = ADD32(sum, SHR32(sum2, 6));
-  }
+    for (i = 0; i < len; i += 4) {
+      spx_word32_t sum2 = 0;
+      spx_word16_t tmp;
+      tmp = EXTRACT16(SHR32(x[i], sig_shift));
+      sum2 = MAC16_16(sum2, tmp, tmp);
+      tmp = EXTRACT16(SHR32(x[i + 1], sig_shift));
+      sum2 = MAC16_16(sum2, tmp, tmp);
+      tmp = EXTRACT16(SHR32(x[i + 2], sig_shift));
+      sum2 = MAC16_16(sum2, tmp, tmp);
+      tmp = EXTRACT16(SHR32(x[i + 3], sig_shift));
+      sum2 = MAC16_16(sum2, tmp, tmp);
+      sum = ADD32(sum, SHR32(sum2, 6));
+    }
 
   return EXTRACT16(PSHR32(
       SHL32(EXTEND32(spx_sqrt(DIV32(sum, len))), (sig_shift + 3)), SIG_SHIFT));
 }
 #endif /* !defined (DISABLE_WIDEBAND) && !defined (DISABLE_ENCODER) */
 
-spx_word16_t compute_rms16(const spx_word16_t *x, int len) {
+spx_word16_t compute_rms16(const spx_word16_t *x, int len)
+{
   int i;
   spx_word16_t max_val = 10;
 
-  for (i = 0; i < len; i++) {
-    spx_sig_t tmp = x[i];
-    if (tmp < 0)
-      tmp = -tmp;
-    if (tmp > max_val)
-      max_val = tmp;
-  }
-  if (max_val > 16383) {
-    spx_word32_t sum = 0;
-    for (i = 0; i < len; i += 4) {
-      spx_word32_t sum2 = 0;
-      sum2 = MAC16_16(sum2, SHR16(x[i], 1), SHR16(x[i], 1));
-      sum2 = MAC16_16(sum2, SHR16(x[i + 1], 1), SHR16(x[i + 1], 1));
-      sum2 = MAC16_16(sum2, SHR16(x[i + 2], 1), SHR16(x[i + 2], 1));
-      sum2 = MAC16_16(sum2, SHR16(x[i + 3], 1), SHR16(x[i + 3], 1));
-      sum = ADD32(sum, SHR32(sum2, 6));
+    for (i = 0; i < len; i++) {
+      spx_sig_t tmp = x[i];
+      if (tmp < 0)
+        tmp = -tmp;
+      if (tmp > max_val)
+        max_val = tmp;
     }
-    return SHL16(spx_sqrt(DIV32(sum, len)), 4);
-  } else {
-    spx_word32_t sum = 0;
-    int sig_shift = 0;
-    if (max_val < 8192)
-      sig_shift = 1;
-    if (max_val < 4096)
-      sig_shift = 2;
-    if (max_val < 2048)
-      sig_shift = 3;
-    for (i = 0; i < len; i += 4) {
-      spx_word32_t sum2 = 0;
-      sum2 = MAC16_16(sum2, SHL16(x[i], sig_shift), SHL16(x[i], sig_shift));
-      sum2 = MAC16_16(sum2, SHL16(x[i + 1], sig_shift),
-                      SHL16(x[i + 1], sig_shift));
-      sum2 = MAC16_16(sum2, SHL16(x[i + 2], sig_shift),
-                      SHL16(x[i + 2], sig_shift));
-      sum2 = MAC16_16(sum2, SHL16(x[i + 3], sig_shift),
-                      SHL16(x[i + 3], sig_shift));
-      sum = ADD32(sum, SHR32(sum2, 6));
+    if (max_val > 16383) {
+      spx_word32_t sum = 0;
+        for (i = 0; i < len; i += 4) {
+          spx_word32_t sum2 = 0;
+          sum2 = MAC16_16(sum2, SHR16(x[i], 1), SHR16(x[i], 1));
+          sum2 = MAC16_16(sum2, SHR16(x[i + 1], 1), SHR16(x[i + 1], 1));
+          sum2 = MAC16_16(sum2, SHR16(x[i + 2], 1), SHR16(x[i + 2], 1));
+          sum2 = MAC16_16(sum2, SHR16(x[i + 3], 1), SHR16(x[i + 3], 1));
+          sum = ADD32(sum, SHR32(sum2, 6));
+        }
+      return SHL16(spx_sqrt(DIV32(sum, len)), 4);
     }
-    return SHL16(spx_sqrt(DIV32(sum, len)), 3 - sig_shift);
-  }
+    else {
+      spx_word32_t sum = 0;
+      int sig_shift = 0;
+      if (max_val < 8192)
+        sig_shift = 1;
+      if (max_val < 4096)
+        sig_shift = 2;
+      if (max_val < 2048)
+        sig_shift = 3;
+        for (i = 0; i < len; i += 4) {
+          spx_word32_t sum2 = 0;
+          sum2 = MAC16_16(sum2, SHL16(x[i], sig_shift), SHL16(x[i], sig_shift));
+          sum2 = MAC16_16(sum2, SHL16(x[i + 1], sig_shift),
+                          SHL16(x[i + 1], sig_shift));
+          sum2 = MAC16_16(sum2, SHL16(x[i + 2], sig_shift),
+                          SHL16(x[i + 2], sig_shift));
+          sum2 = MAC16_16(sum2, SHL16(x[i + 3], sig_shift),
+                          SHL16(x[i + 3], sig_shift));
+          sum = ADD32(sum, SHR32(sum2, 6));
+        }
+      return SHL16(spx_sqrt(DIV32(sum, len)), 3 - sig_shift);
+    }
 }
 
 #ifndef OVERRIDE_NORMALIZE16
 int normalize16(const spx_sig_t *x, spx_word16_t *y, spx_sig_t max_scale,
-                int len) {
+                int len)
+{
   int i;
   spx_sig_t max_val = 1;
   int sig_shift;
 
-  for (i = 0; i < len; i++) {
-    spx_sig_t tmp = x[i];
-    if (tmp < 0)
-      tmp = NEG32(tmp);
-    if (tmp >= max_val)
-      max_val = tmp;
-  }
+    for (i = 0; i < len; i++) {
+      spx_sig_t tmp = x[i];
+      if (tmp < 0)
+        tmp = NEG32(tmp);
+      if (tmp >= max_val)
+        max_val = tmp;
+    }
 
   sig_shift = 0;
-  while (max_val > max_scale) {
-    sig_shift++;
-    max_val >>= 1;
-  }
+    while (max_val > max_scale) {
+      sig_shift++;
+      max_val >>= 1;
+    }
 
   for (i = 0; i < len; i++)
     y[i] = EXTRACT16(SHR32(x[i], sig_shift));
@@ -299,15 +312,18 @@ int normalize16(const spx_sig_t *x, spx_word16_t *y, spx_sig_t max_scale,
 
 #else
 
-spx_word16_t compute_rms(const spx_sig_t *x, int len) {
+spx_word16_t compute_rms(const spx_sig_t *x, int len)
+{
   int i;
   float sum = 0;
-  for (i = 0; i < len; i++) {
-    sum += x[i] * x[i];
-  }
+    for (i = 0; i < len; i++) {
+      sum += x[i] * x[i];
+    }
   return sqrt(.1 + sum / len);
 }
-spx_word16_t compute_rms16(const spx_word16_t *x, int len) {
+
+spx_word16_t compute_rms16(const spx_word16_t *x, int len)
+{
   return compute_rms(x, len);
 }
 #endif
@@ -319,66 +335,70 @@ const spx_word16_t zeros[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 #if !defined(OVERRIDE_FILTER_MEM16) && !defined(DISABLE_ENCODER)
 void filter_mem16(const spx_word16_t *x, const spx_coef_t *num,
                   const spx_coef_t *den, spx_word16_t *y, int N, int ord,
-                  spx_mem_t *mem, char *stack) {
+                  spx_mem_t *mem, char *stack)
+{
   int i, j;
   spx_word16_t xi, yi, nyi;
-  for (i = 0; i < N; i++) {
-    xi = x[i];
-    yi = EXTRACT16(
-        SATURATE(ADD32(EXTEND32(x[i]), PSHR32(mem[0], LPC_SHIFT)), 32767));
-    nyi = NEG16(yi);
-    for (j = 0; j < ord - 1; j++) {
-      mem[j] = MAC16_16(MAC16_16(mem[j + 1], num[j], xi), den[j], nyi);
+    for (i = 0; i < N; i++) {
+      xi = x[i];
+      yi = EXTRACT16(
+          SATURATE(ADD32(EXTEND32(x[i]), PSHR32(mem[0], LPC_SHIFT)), 32767));
+      nyi = NEG16(yi);
+        for (j = 0; j < ord - 1; j++) {
+          mem[j] = MAC16_16(MAC16_16(mem[j + 1], num[j], xi), den[j], nyi);
+        }
+      mem[ord - 1] =
+          ADD32(MULT16_16(num[ord - 1], xi), MULT16_16(den[ord - 1], nyi));
+      y[i] = yi;
     }
-    mem[ord - 1] =
-        ADD32(MULT16_16(num[ord - 1], xi), MULT16_16(den[ord - 1], nyi));
-    y[i] = yi;
-  }
 }
 #endif /* !defined(OVERRIDE_FILTER_MEM16) && !defined(DISABLE_ENCODER) */
 
 #ifndef OVERRIDE_IIR_MEM16
 void iir_mem16(const spx_word16_t *x, const spx_coef_t *den, spx_word16_t *y,
-               int N, int ord, spx_mem_t *mem, char *stack) {
+               int N, int ord, spx_mem_t *mem, char *stack)
+{
   int i, j;
   spx_word16_t yi, nyi;
 
-  for (i = 0; i < N; i++) {
-    yi = EXTRACT16(
-        SATURATE(ADD32(EXTEND32(x[i]), PSHR32(mem[0], LPC_SHIFT)), 32767));
-    nyi = NEG16(yi);
-    for (j = 0; j < ord - 1; j++) {
-      mem[j] = MAC16_16(mem[j + 1], den[j], nyi);
+    for (i = 0; i < N; i++) {
+      yi = EXTRACT16(
+          SATURATE(ADD32(EXTEND32(x[i]), PSHR32(mem[0], LPC_SHIFT)), 32767));
+      nyi = NEG16(yi);
+        for (j = 0; j < ord - 1; j++) {
+          mem[j] = MAC16_16(mem[j + 1], den[j], nyi);
+        }
+      mem[ord - 1] = MULT16_16(den[ord - 1], nyi);
+      y[i] = yi;
     }
-    mem[ord - 1] = MULT16_16(den[ord - 1], nyi);
-    y[i] = yi;
-  }
 }
 #endif
 
 #if !defined(OVERRIDE_FIR_MEM16) && !defined(DISABLE_ENCODER)
 void fir_mem16(const spx_word16_t *x, const spx_coef_t *num, spx_word16_t *y,
-               int N, int ord, spx_mem_t *mem, char *stack) {
+               int N, int ord, spx_mem_t *mem, char *stack)
+{
   int i, j;
   spx_word16_t xi, yi;
 
-  for (i = 0; i < N; i++) {
-    xi = x[i];
-    yi = EXTRACT16(
-        SATURATE(ADD32(EXTEND32(x[i]), PSHR32(mem[0], LPC_SHIFT)), 32767));
-    for (j = 0; j < ord - 1; j++) {
-      mem[j] = MAC16_16(mem[j + 1], num[j], xi);
+    for (i = 0; i < N; i++) {
+      xi = x[i];
+      yi = EXTRACT16(
+          SATURATE(ADD32(EXTEND32(x[i]), PSHR32(mem[0], LPC_SHIFT)), 32767));
+        for (j = 0; j < ord - 1; j++) {
+          mem[j] = MAC16_16(mem[j + 1], num[j], xi);
+        }
+      mem[ord - 1] = MULT16_16(num[ord - 1], xi);
+      y[i] = yi;
     }
-    mem[ord - 1] = MULT16_16(num[ord - 1], xi);
-    y[i] = yi;
-  }
 }
 #endif /* !defined(OVERRIDE_FIR_MEM16) && !defined(DISABLE_ENCODER) */
 
 #ifndef DISABLE_ENCODER
 void syn_percep_zero16(const spx_word16_t *xx, const spx_coef_t *ak,
                        const spx_coef_t *awk1, const spx_coef_t *awk2,
-                       spx_word16_t *y, int N, int ord, char *stack) {
+                       spx_word16_t *y, int N, int ord, char *stack)
+{
   int i;
   VARDECL(spx_mem_t * mem);
   ALLOC(mem, ord, spx_mem_t);
@@ -389,9 +409,11 @@ void syn_percep_zero16(const spx_word16_t *xx, const spx_coef_t *ak,
     mem[i] = 0;
   filter_mem16(y, awk1, awk2, y, N, ord, mem, stack);
 }
+
 void residue_percep_zero16(const spx_word16_t *xx, const spx_coef_t *ak,
                            const spx_coef_t *awk1, const spx_coef_t *awk2,
-                           spx_word16_t *y, int N, int ord, char *stack) {
+                           spx_word16_t *y, int N, int ord, char *stack)
+{
   int i;
   VARDECL(spx_mem_t * mem);
   ALLOC(mem, ord, spx_mem_t);
@@ -407,7 +429,8 @@ void residue_percep_zero16(const spx_word16_t *xx, const spx_coef_t *ak,
 #if !defined(OVERRIDE_COMPUTE_IMPULSE_RESPONSE) && !defined(DISABLE_ENCODER)
 void compute_impulse_response(const spx_coef_t *ak, const spx_coef_t *awk1,
                               const spx_coef_t *awk2, spx_word16_t *y, int N,
-                              int ord, char *stack) {
+                              int ord, char *stack)
+{
   int i, j;
   spx_word16_t y1, ny1i, ny2i;
   VARDECL(spx_mem_t * mem1);
@@ -423,19 +446,19 @@ void compute_impulse_response(const spx_coef_t *ak, const spx_coef_t *awk1,
     y[i] = VERY_SMALL;
   for (i = 0; i < ord; i++)
     mem1[i] = mem2[i] = 0;
-  for (i = 0; i < N; i++) {
-    y1 = ADD16(y[i], EXTRACT16(PSHR32(mem1[0], LPC_SHIFT)));
-    ny1i = NEG16(y1);
-    y[i] =
-        PSHR32(ADD32(SHL32(EXTEND32(y1), LPC_SHIFT + 1), mem2[0]), LPC_SHIFT);
-    ny2i = NEG16(y[i]);
-    for (j = 0; j < ord - 1; j++) {
-      mem1[j] = MAC16_16(mem1[j + 1], awk2[j], ny1i);
-      mem2[j] = MAC16_16(mem2[j + 1], ak[j], ny2i);
+    for (i = 0; i < N; i++) {
+      y1 = ADD16(y[i], EXTRACT16(PSHR32(mem1[0], LPC_SHIFT)));
+      ny1i = NEG16(y1);
+      y[i] =
+          PSHR32(ADD32(SHL32(EXTEND32(y1), LPC_SHIFT + 1), mem2[0]), LPC_SHIFT);
+      ny2i = NEG16(y[i]);
+        for (j = 0; j < ord - 1; j++) {
+          mem1[j] = MAC16_16(mem1[j + 1], awk2[j], ny1i);
+          mem2[j] = MAC16_16(mem2[j + 1], ak[j], ny2i);
+        }
+      mem1[ord - 1] = MULT16_16(awk2[ord - 1], ny1i);
+      mem2[ord - 1] = MULT16_16(ak[ord - 1], ny2i);
     }
-    mem1[ord - 1] = MULT16_16(awk2[ord - 1], ny1i);
-    mem2[ord - 1] = MULT16_16(ak[ord - 1], ny2i);
-  }
 }
 #endif /* !defined(OVERRIDE_COMPUTE_IMPULSE_RESPONSE) &&                       \
           !defined(DISABLE_ENCODER) */
@@ -444,7 +467,8 @@ void compute_impulse_response(const spx_coef_t *ak, const spx_coef_t *awk1,
 /* Decomposes a signal into low-band and high-band using a QMF */
 void qmf_decomp(const spx_word16_t *xx, const spx_word16_t *aa,
                 spx_word16_t *y1, spx_word16_t *y2, int N, int M,
-                spx_word16_t *mem, char *stack) {
+                spx_word16_t *mem, char *stack)
+{
   int i, j, k, M2;
   VARDECL(spx_word16_t * a);
   VARDECL(spx_word16_t * x);
@@ -462,18 +486,18 @@ void qmf_decomp(const spx_word16_t *xx, const spx_word16_t *aa,
     x[i + M - 1] = SHR16(xx[i], 1);
   for (i = 0; i < M - 1; i++)
     mem[i] = SHR16(xx[N - i - 1], 1);
-  for (i = 0, k = 0; i < N; i += 2, k++) {
-    spx_word32_t y1k = 0, y2k = 0;
-    for (j = 0; j < M2; j++) {
-      y1k = ADD32(y1k, MULT16_16(a[j], ADD16(x[i + j], x2[i - j])));
-      y2k = SUB32(y2k, MULT16_16(a[j], SUB16(x[i + j], x2[i - j])));
-      j++;
-      y1k = ADD32(y1k, MULT16_16(a[j], ADD16(x[i + j], x2[i - j])));
-      y2k = ADD32(y2k, MULT16_16(a[j], SUB16(x[i + j], x2[i - j])));
+    for (i = 0, k = 0; i < N; i += 2, k++) {
+      spx_word32_t y1k = 0, y2k = 0;
+        for (j = 0; j < M2; j++) {
+          y1k = ADD32(y1k, MULT16_16(a[j], ADD16(x[i + j], x2[i - j])));
+          y2k = SUB32(y2k, MULT16_16(a[j], SUB16(x[i + j], x2[i - j])));
+          j++;
+          y1k = ADD32(y1k, MULT16_16(a[j], ADD16(x[i + j], x2[i - j])));
+          y2k = ADD32(y2k, MULT16_16(a[j], SUB16(x[i + j], x2[i - j])));
+        }
+      y1[k] = EXTRACT16(SATURATE(PSHR32(y1k, 15), 32767));
+      y2[k] = EXTRACT16(SATURATE(PSHR32(y2k, 15), 32767));
     }
-    y1[k] = EXTRACT16(SATURATE(PSHR32(y1k, 15), 32767));
-    y2[k] = EXTRACT16(SATURATE(PSHR32(y2k, 15), 32767));
-  }
 }
 
 /* Re-synthesised a signal from the QMF low-band and high-band signals */
@@ -503,66 +527,66 @@ void qmf_synth(const spx_word16_t *x1, const spx_word16_t *x2,
   for (i = 0; i < M2; i++)
     xx2[N2 + i] = mem2[2 * i + 1];
 
-  for (i = 0; i < N2; i += 2) {
-    spx_sig_t y0, y1, y2, y3;
-    spx_word16_t x10, x20;
+    for (i = 0; i < N2; i += 2) {
+      spx_sig_t y0, y1, y2, y3;
+      spx_word16_t x10, x20;
 
-    y0 = y1 = y2 = y3 = 0;
-    x10 = xx1[N2 - 2 - i];
-    x20 = xx2[N2 - 2 - i];
+      y0 = y1 = y2 = y3 = 0;
+      x10 = xx1[N2 - 2 - i];
+      x20 = xx2[N2 - 2 - i];
 
-    for (j = 0; j < M2; j += 2) {
-      spx_word16_t x11, x21;
-      spx_word16_t a0, a1;
+        for (j = 0; j < M2; j += 2) {
+          spx_word16_t x11, x21;
+          spx_word16_t a0, a1;
 
-      a0 = a[2 * j];
-      a1 = a[2 * j + 1];
-      x11 = xx1[N2 - 1 + j - i];
-      x21 = xx2[N2 - 1 + j - i];
+          a0 = a[2 * j];
+          a1 = a[2 * j + 1];
+          x11 = xx1[N2 - 1 + j - i];
+          x21 = xx2[N2 - 1 + j - i];
 
 #ifdef FIXED_POINT
-      /* We multiply twice by the same coef to avoid overflows */
-      y0 = MAC16_16(MAC16_16(y0, a0, x11), NEG16(a0), x21);
-      y1 = MAC16_16(MAC16_16(y1, a1, x11), a1, x21);
-      y2 = MAC16_16(MAC16_16(y2, a0, x10), NEG16(a0), x20);
-      y3 = MAC16_16(MAC16_16(y3, a1, x10), a1, x20);
+          /* We multiply twice by the same coef to avoid overflows */
+          y0 = MAC16_16(MAC16_16(y0, a0, x11), NEG16(a0), x21);
+          y1 = MAC16_16(MAC16_16(y1, a1, x11), a1, x21);
+          y2 = MAC16_16(MAC16_16(y2, a0, x10), NEG16(a0), x20);
+          y3 = MAC16_16(MAC16_16(y3, a1, x10), a1, x20);
 #else
-      y0 = ADD32(y0, MULT16_16(a0, x11 - x21));
-      y1 = ADD32(y1, MULT16_16(a1, x11 + x21));
-      y2 = ADD32(y2, MULT16_16(a0, x10 - x20));
-      y3 = ADD32(y3, MULT16_16(a1, x10 + x20));
+          y0 = ADD32(y0, MULT16_16(a0, x11 - x21));
+          y1 = ADD32(y1, MULT16_16(a1, x11 + x21));
+          y2 = ADD32(y2, MULT16_16(a0, x10 - x20));
+          y3 = ADD32(y3, MULT16_16(a1, x10 + x20));
 #endif
-      a0 = a[2 * j + 2];
-      a1 = a[2 * j + 3];
-      x10 = xx1[N2 + j - i];
-      x20 = xx2[N2 + j - i];
+          a0 = a[2 * j + 2];
+          a1 = a[2 * j + 3];
+          x10 = xx1[N2 + j - i];
+          x20 = xx2[N2 + j - i];
 
 #ifdef FIXED_POINT
-      /* We multiply twice by the same coef to avoid overflows */
-      y0 = MAC16_16(MAC16_16(y0, a0, x10), NEG16(a0), x20);
-      y1 = MAC16_16(MAC16_16(y1, a1, x10), a1, x20);
-      y2 = MAC16_16(MAC16_16(y2, a0, x11), NEG16(a0), x21);
-      y3 = MAC16_16(MAC16_16(y3, a1, x11), a1, x21);
+          /* We multiply twice by the same coef to avoid overflows */
+          y0 = MAC16_16(MAC16_16(y0, a0, x10), NEG16(a0), x20);
+          y1 = MAC16_16(MAC16_16(y1, a1, x10), a1, x20);
+          y2 = MAC16_16(MAC16_16(y2, a0, x11), NEG16(a0), x21);
+          y3 = MAC16_16(MAC16_16(y3, a1, x11), a1, x21);
 #else
-      y0 = ADD32(y0, MULT16_16(a0, x10 - x20));
-      y1 = ADD32(y1, MULT16_16(a1, x10 + x20));
-      y2 = ADD32(y2, MULT16_16(a0, x11 - x21));
-      y3 = ADD32(y3, MULT16_16(a1, x11 + x21));
+          y0 = ADD32(y0, MULT16_16(a0, x10 - x20));
+          y1 = ADD32(y1, MULT16_16(a1, x10 + x20));
+          y2 = ADD32(y2, MULT16_16(a0, x11 - x21));
+          y3 = ADD32(y3, MULT16_16(a1, x11 + x21));
+#endif
+        }
+#ifdef FIXED_POINT
+      y[2 * i] = EXTRACT16(SATURATE32(PSHR32(y0, 15), 32767));
+      y[2 * i + 1] = EXTRACT16(SATURATE32(PSHR32(y1, 15), 32767));
+      y[2 * i + 2] = EXTRACT16(SATURATE32(PSHR32(y2, 15), 32767));
+      y[2 * i + 3] = EXTRACT16(SATURATE32(PSHR32(y3, 15), 32767));
+#else
+      /* Normalize up explicitly if we're in float */
+      y[2 * i] = 2.f * y0;
+      y[2 * i + 1] = 2.f * y1;
+      y[2 * i + 2] = 2.f * y2;
+      y[2 * i + 3] = 2.f * y3;
 #endif
     }
-#ifdef FIXED_POINT
-    y[2 * i] = EXTRACT16(SATURATE32(PSHR32(y0, 15), 32767));
-    y[2 * i + 1] = EXTRACT16(SATURATE32(PSHR32(y1, 15), 32767));
-    y[2 * i + 2] = EXTRACT16(SATURATE32(PSHR32(y2, 15), 32767));
-    y[2 * i + 3] = EXTRACT16(SATURATE32(PSHR32(y3, 15), 32767));
-#else
-    /* Normalize up explicitly if we're in float */
-    y[2 * i] = 2.f * y0;
-    y[2 * i + 1] = 2.f * y1;
-    y[2 * i + 2] = 2.f * y2;
-    y[2 * i + 3] = 2.f * y3;
-#endif
-  }
 
   for (i = 0; i < M2; i++)
     mem1[2 * i + 1] = xx1[i];
@@ -603,52 +627,54 @@ const float shift_filt[3][7] = {
 static int interp_pitch(spx_word16_t *exc,    /*decoded excitation*/
                         spx_word16_t *interp, /*decoded excitation*/
                         int pitch,            /*pitch period*/
-                        int len) {
+                        int len)
+{
   int i, j, k;
   spx_word32_t corr[4][7];
   spx_word32_t maxcorr;
   int maxi, maxj;
-  for (i = 0; i < 7; i++) {
-    corr[0][i] = inner_prod(exc, exc - pitch - 3 + i, len);
-  }
-  for (i = 0; i < 3; i++) {
-    for (j = 0; j < 7; j++) {
-      int i1, i2;
-      spx_word32_t tmp = 0;
-      i1 = 3 - j;
-      if (i1 < 0)
-        i1 = 0;
-      i2 = 10 - j;
-      if (i2 > 7)
-        i2 = 7;
-      for (k = i1; k < i2; k++)
-        tmp += MULT16_32_Q15(shift_filt[i][k], corr[0][j + k - 3]);
-      corr[i + 1][j] = tmp;
+    for (i = 0; i < 7; i++) {
+      corr[0][i] = inner_prod(exc, exc - pitch - 3 + i, len);
     }
-  }
+    for (i = 0; i < 3; i++) {
+        for (j = 0; j < 7; j++) {
+          int i1, i2;
+          spx_word32_t tmp = 0;
+          i1 = 3 - j;
+          if (i1 < 0)
+            i1 = 0;
+          i2 = 10 - j;
+          if (i2 > 7)
+            i2 = 7;
+          for (k = i1; k < i2; k++)
+            tmp += MULT16_32_Q15(shift_filt[i][k], corr[0][j + k - 3]);
+          corr[i + 1][j] = tmp;
+        }
+    }
   maxi = maxj = 0;
   maxcorr = corr[0][0];
-  for (i = 0; i < 4; i++) {
-    for (j = 0; j < 7; j++) {
-      if (corr[i][j] > maxcorr) {
-        maxcorr = corr[i][j];
-        maxi = i;
-        maxj = j;
-      }
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < 7; j++) {
+            if (corr[i][j] > maxcorr) {
+              maxcorr = corr[i][j];
+              maxi = i;
+              maxj = j;
+            }
+        }
     }
-  }
-  for (i = 0; i < len; i++) {
-    spx_word32_t tmp = 0;
-    if (maxi > 0) {
-      for (k = 0; k < 7; k++) {
-        tmp += MULT16_16(exc[i - (pitch - maxj + 3) + k - 3],
-                         shift_filt[maxi - 1][k]);
-      }
-    } else {
-      tmp = SHL32(exc[i - (pitch - maxj + 3)], 15);
+    for (i = 0; i < len; i++) {
+      spx_word32_t tmp = 0;
+        if (maxi > 0) {
+            for (k = 0; k < 7; k++) {
+              tmp += MULT16_16(exc[i - (pitch - maxj + 3) + k - 3],
+                               shift_filt[maxi - 1][k]);
+            }
+        }
+        else {
+          tmp = SHL32(exc[i - (pitch - maxj + 3)], 15);
+        }
+      interp[i] = PSHR32(tmp, 15);
     }
-    interp[i] = PSHR32(tmp, 15);
-  }
   return pitch - maxj + 3;
 }
 
@@ -659,7 +685,8 @@ void multicomb(spx_word16_t *exc,                     /*decoded excitation*/
                int nsf,                               /*sub-frame size*/
                int pitch,                             /*pitch period*/
                int max_pitch, spx_word16_t comb_gain, /*gain of comb filter*/
-               char *stack) {
+               char *stack)
+{
   int i;
   VARDECL(spx_word16_t * iexc);
   spx_word16_t old_ener, new_ener;
@@ -711,18 +738,18 @@ void multicomb(spx_word16_t *exc,                     /*decoded excitation*/
     interp_pitch(exc, iexc + nsf, -corr_pitch, 80);
 
 #ifdef FIXED_POINT
-  for (i = 0; i < nsf; i++) {
-    if (ABS16(exc[i]) > 16383) {
-      scaledown = 1;
-      break;
+    for (i = 0; i < nsf; i++) {
+        if (ABS16(exc[i]) > 16383) {
+          scaledown = 1;
+          break;
+        }
     }
-  }
-  if (scaledown) {
-    for (i = 0; i < nsf; i++)
-      exc[i] = SHR16(exc[i], 1);
-    for (i = 0; i < 2 * nsf; i++)
-      iexc[i] = SHR16(iexc[i], 1);
-  }
+    if (scaledown) {
+      for (i = 0; i < nsf; i++)
+        exc[i] = SHR16(exc[i], 1);
+      for (i = 0; i < 2 * nsf; i++)
+        iexc[i] = SHR16(iexc[i], 1);
+    }
 #endif
   /*interp_pitch(exc, iexc+2*nsf, 2*corr_pitch, 80);*/
 
@@ -753,18 +780,19 @@ void multicomb(spx_word16_t *exc,                     /*decoded excitation*/
     pgain2 = PDIV32_16(SHL32(PDIV32(corr1, exc_mag), 14), iexc1_mag);
   gg1 = PDIV32_16(SHL32(EXTEND32(exc_mag), 8), iexc0_mag);
   gg2 = PDIV32_16(SHL32(EXTEND32(exc_mag), 8), iexc1_mag);
-  if (comb_gain > 0) {
+    if (comb_gain > 0) {
 #ifdef FIXED_POINT
-    c1 = (MULT16_16_Q15(QCONST16(.4, 15), comb_gain) + QCONST16(.07, 15));
-    c2 = QCONST16(.5, 15) +
-         MULT16_16_Q14(QCONST16(1.72, 14), (c1 - QCONST16(.07, 15)));
+      c1 = (MULT16_16_Q15(QCONST16(.4, 15), comb_gain) + QCONST16(.07, 15));
+      c2 = QCONST16(.5, 15) +
+           MULT16_16_Q14(QCONST16(1.72, 14), (c1 - QCONST16(.07, 15)));
 #else
-    c1 = .4 * comb_gain + .07;
-    c2 = .5 + 1.72 * (c1 - .07);
+      c1 = .4 * comb_gain + .07;
+      c2 = .5 + 1.72 * (c1 - .07);
 #endif
-  } else {
-    c1 = c2 = 0;
-  }
+    }
+    else {
+      c1 = c2 = 0;
+    }
 #ifdef FIXED_POINT
   g1 = 32767 - MULT16_16_Q13(MULT16_16_Q15(c2, pgain1), pgain1);
   g2 = 32767 - MULT16_16_Q13(MULT16_16_Q15(c2, pgain2), pgain2);
@@ -778,13 +806,14 @@ void multicomb(spx_word16_t *exc,                     /*decoded excitation*/
     g2 = c1;
   g1 = (spx_word16_t)PDIV32_16(SHL32(EXTEND32(c1), 14), (spx_word16_t)g1);
   g2 = (spx_word16_t)PDIV32_16(SHL32(EXTEND32(c1), 14), (spx_word16_t)g2);
-  if (corr_pitch > max_pitch) {
-    gain0 = MULT16_16_Q15(QCONST16(.7, 15), MULT16_16_Q14(g1, gg1));
-    gain1 = MULT16_16_Q15(QCONST16(.3, 15), MULT16_16_Q14(g2, gg2));
-  } else {
-    gain0 = MULT16_16_Q15(QCONST16(.6, 15), MULT16_16_Q14(g1, gg1));
-    gain1 = MULT16_16_Q15(QCONST16(.6, 15), MULT16_16_Q14(g2, gg2));
-  }
+    if (corr_pitch > max_pitch) {
+      gain0 = MULT16_16_Q15(QCONST16(.7, 15), MULT16_16_Q14(g1, gg1));
+      gain1 = MULT16_16_Q15(QCONST16(.3, 15), MULT16_16_Q14(g2, gg2));
+    }
+    else {
+      gain0 = MULT16_16_Q15(QCONST16(.6, 15), MULT16_16_Q14(g1, gg1));
+      gain1 = MULT16_16_Q15(QCONST16(.6, 15), MULT16_16_Q14(g2, gg2));
+    }
   for (i = 0; i < nsf; i++)
     new_exc[i] =
         ADD16(exc[i], EXTRACT16(PSHR32(ADD32(MULT16_16(gain0, iexc[i]),
@@ -805,12 +834,12 @@ void multicomb(spx_word16_t *exc,                     /*decoded excitation*/
   for (i = 0; i < nsf; i++)
     new_exc[i] = MULT16_16_Q14(ngain, new_exc[i]);
 #ifdef FIXED_POINT
-  if (scaledown) {
-    for (i = 0; i < nsf; i++)
-      exc[i] = SHL16(exc[i], 1);
-    for (i = 0; i < nsf; i++)
-      new_exc[i] = SHL16(SATURATE16(new_exc[i], 16383), 1);
-  }
+    if (scaledown) {
+      for (i = 0; i < nsf; i++)
+        exc[i] = SHL16(exc[i], 1);
+      for (i = 0; i < nsf; i++)
+        new_exc[i] = SHL16(SATURATE16(new_exc[i], 16383), 1);
+    }
 #endif
 }
 

@@ -1,19 +1,22 @@
 
-struct mnode_t {
+struct mnode_t
+{
   int contents;
   int parent;
   int cellIndex;
   mnode_info_t u;
 };
 
-struct GfxCullGroup {
+struct GfxCullGroup
+{
   char mins[12];
   char maxs[12];
   int surfaceCount;
   int startSurfIndex;
 };
 
-struct GfxCell {
+struct GfxCell
+{
   GfxCellWritable writable;
   char mins[12];
   char maxs[12];
@@ -27,41 +30,49 @@ struct GfxCell {
   int modelRefs;
 };
 
-struct MaterialMemory {
+struct MaterialMemory
+{
   int material;
   int memory;
 };
 
-union mnode_info_t {
+union mnode_info_t
+{
   mnode_node_t node;
   mnode_leaf_t leaf;
 };
 
-struct GfxCellWritable {
+struct GfxCellWritable
+{
   int markCount;
 };
 
-struct GfxLightGridPoint {
+struct GfxLightGridPoint
+{
   int xyzHighBits;
   char xyzLowBitsAndSunVisible;
   char needsTrace;
   short colorsIndex;
 };
 
-struct GfxLightGridColors {
+struct GfxLightGridColors
+{
   char rgb[24];
 };
 
-struct mnode_node_t {
+struct mnode_node_t
+{
   int plane;
   int64_t children;
 };
 
-struct mnode_leaf_t {
+struct mnode_leaf_t
+{
   int cluster;
 };
 
-struct GfxAabbTree {
+struct GfxAabbTree
+{
   char mins[12];
   char maxs[12];
   int surfaceCount;
@@ -72,7 +83,8 @@ struct GfxAabbTree {
   int children;
 };
 
-struct GfxPortal {
+struct GfxPortal
+{
   GfxPortalWritable writable;
   DpvsPlane plane;
   int cell;
@@ -84,27 +96,31 @@ struct GfxPortal {
   char hullAxis[24];
 };
 
-struct GfxSceneModelCellRef {
+struct GfxSceneModelCellRef
+{
   int entIndex;
   char mins[12];
   char maxs[12];
   int next;
 };
 
-struct GfxPortalWritable {
+struct GfxPortalWritable
+{
   char isQueued;
   char isAncestor;
   char pad0[2];
   int queuedParent;
 };
 
-struct DpvsPlane {
+struct DpvsPlane
+{
   char coeffs[16];
   char side[3];
   DpvsPlaneInfo u;
 };
 
-struct GfxOccluder {
+struct GfxOccluder
+{
   int planeCount;
   int planes;
   int edgeCount;
@@ -116,12 +132,14 @@ struct GfxOccluder {
   int viewPlanes;
 };
 
-union DpvsPlaneInfo {
+union DpvsPlaneInfo
+{
   char frontal;
   char ignoreStackLevel;
 };
 
-struct GfxOccluderEdge {
+struct GfxOccluderEdge
+{
   int64_t plane;
   int64_t vertex;
 };

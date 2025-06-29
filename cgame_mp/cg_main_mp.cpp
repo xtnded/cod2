@@ -1,32 +1,48 @@
-char *__cdecl strstr(char *, char const *) { UNIMPLEMENTED(); }
-
-struct rectDef_s const *__cdecl Window_GetRect(struct windowDef_t const *) {
+char *__cdecl strstr(char *, char const *)
+{
   UNIMPLEMENTED();
 }
 
-int __cdecl CG_CrosshairPlayer() {
+struct rectDef_s const *__cdecl Window_GetRect(struct windowDef_t const *)
+{
+  UNIMPLEMENTED();
+}
+
+int __cdecl CG_CrosshairPlayer()
+{
   if (dword_DB8C30 > dword_DBEE50 + 1000)
     return -1;
   else
     return dword_DBEE4C;
 }
 
-void __cdecl CG_ClearSoundPlaybackTracking(void) { UNIMPLEMENTED(); }
+void __cdecl CG_ClearSoundPlaybackTracking(void)
+{
+  UNIMPLEMENTED();
+}
 
 bool __cdecl CG_PlaySoundOnCurrentLocalClient(int entitynum,
                                               float const *const origin,
-                                              char const *aliasname) {
+                                              char const *aliasname)
+{
   return 1;
 }
 
-bool __cdecl CG_PlaySoundOnFirstClient() { return 1; }
+bool __cdecl CG_PlaySoundOnFirstClient()
+{
+  return 1;
+}
 
-char const *__cdecl CG_Argv(int arg) {
+char const *__cdecl CG_Argv(int arg)
+{
   Cmd_ArgvBuffer(a1, CG_Argv(int)::buffer, 1024);
   return CG_Argv(int)::buffer;
 }
 
-void __cdecl CG_SwitchToLocalClient(int) { UNIMPLEMENTED(); }
+void __cdecl CG_SwitchToLocalClient(int)
+{
+  UNIMPLEMENTED();
+}
 
 void __cdecl CG_GetEntityOrientation(int entnum, float * const origin_out, float  axis_out)[3])
 {
@@ -38,15 +54,25 @@ void __cdecl CG_GetDObjOrientation(int dobjHandle, float  axis_out)[3])
   UNIMPLEMENTED();
 }
 
-void __cdecl CG_FreeWeapons() { UNIMPLEMENTED(); }
+void __cdecl CG_FreeWeapons()
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl CG_InitVote() { UNIMPLEMENTED(); }
+void __cdecl CG_InitVote()
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl CG_Shutdown() { UNIMPLEMENTED(); }
+void __cdecl CG_Shutdown()
+{
+  UNIMPLEMENTED();
+}
 
 void __cdecl CG_TranslateHudElemMessage(char const *message,
                                         char const *messageType,
-                                        char *const hudElemString) {
+                                        char *const hudElemString)
+{
   char *v3;      // edx
   signed int v4; // ecx
   int result;    // eax
@@ -57,19 +83,19 @@ void __cdecl CG_TranslateHudElemMessage(char const *message,
   v4 = strlen(v3) + 1;
   result = v4 - 1;
   v6 = v4 - 1;
-  if (v4 <= 256) {
-    memcpy(__dst, v3, v4 - 1);
-    __dst[v6] = 0;
-    v7[0] = 0;
-    do
-      result = CG_ReplaceDirective(v7, (size_t *)&v6, __dst);
-    while ((_BYTE)result);
-  }
+    if (v4 <= 256) {
+      memcpy(__dst, v3, v4 - 1);
+      __dst[v6] = 0;
+      v7[0] = 0;
+      do
+        result = CG_ReplaceDirective(v7, (size_t *)&v6, __dst);
+      while ((_BYTE)result);
+    }
   return result;
 }
 
-void __cdecl CG_SafeTranslateHudElemString(int index,
-                                           char *const hudElemString) {
+void __cdecl CG_SafeTranslateHudElemString(int index, char *const hudElemString)
+{
   int result;         // eax
   char *ConfigString; // eax
   char *v4;           // edx
@@ -78,29 +104,31 @@ void __cdecl CG_SafeTranslateHudElemString(int index,
   _DWORD v7[7];       // [esp+1Ch] [ebp-1Ch] BYREF
 
   result = a1;
-  if (a1) {
-    ConfigString = CL_GetConfigString(a1 + 1310);
-    v4 = SEH_LocalizeTextMessage(ConfigString, "hudelem string", LOCMSG_SAFE);
-    v5 = strlen(v4) + 1;
-    result = v5 - 1;
-    v6 = v5 - 1;
-    if (v5 <= 256) {
-      memcpy(__dst, v4, v5 - 1);
-      __dst[v6] = 0;
-      v7[0] = 0;
-      do
-        result = CG_ReplaceDirective(v7, (size_t *)&v6, __dst);
-      while ((_BYTE)result);
+    if (a1) {
+      ConfigString = CL_GetConfigString(a1 + 1310);
+      v4 = SEH_LocalizeTextMessage(ConfigString, "hudelem string", LOCMSG_SAFE);
+      v5 = strlen(v4) + 1;
+      result = v5 - 1;
+      v6 = v5 - 1;
+        if (v5 <= 256) {
+          memcpy(__dst, v4, v5 - 1);
+          __dst[v6] = 0;
+          v7[0] = 0;
+          do
+            result = CG_ReplaceDirective(v7, (size_t *)&v6, __dst);
+          while ((_BYTE)result);
+        }
     }
-  }
   return result;
 }
 
-void *__cdecl Hunk_AllocXAnimClient(int size) {
+void *__cdecl Hunk_AllocXAnimClient(int size)
+{
   return Hunk_AllocInternal(__len);
 }
 
-void __cdecl CG_StartAmbient() {
+void __cdecl CG_StartAmbient()
+{
   char *ConfigString;    // ebx
   const char *v1;        // eax
   const snd_alias_t *v2; // esi
@@ -121,19 +149,22 @@ void __cdecl CG_StartAmbient() {
   return SND_PlayAmbientAlias(v2, v6, SASYS_CGAME);
 }
 
-void __cdecl CG_BoldGameMessage(char const *msg) {
+void __cdecl CG_BoldGameMessage(char const *msg)
+{
   return CL_ConsolePrint(PMSG_BOLDGAME, a1, 0,
                          *(print_msg_type_t *)(cg_gameBoldMessageWidth + 8));
 }
 
-void __cdecl CG_GameMessage(char const *msg) {
+void __cdecl CG_GameMessage(char const *msg)
+{
   return CL_ConsolePrint(PMSG_GAME, a1, 0,
                          *(print_msg_type_t *)(cg_gameMessageWidth + 8));
 }
 
 int __cdecl CG_PlaySoundAliasAsMasterByName(int entitynum,
                                             float const *const origin,
-                                            char const *aliasname) {
+                                            char const *aliasname)
+{
   snd_alias_t *v3;     // ebx
   int v4;              // esi
   char *pszSubtitle;   // edi
@@ -145,25 +176,27 @@ int __cdecl CG_PlaySoundAliasAsMasterByName(int entitynum,
   if (!v3)
     return 0;
   v4 = SND_PlaySoundAliasAsMaster(v3, a1, a2, 0, (const float *)1);
-  if (v4) {
-    pszSubtitle = (char *)v3->pszSubtitle;
-    if (pszSubtitle) {
-      if (*((float *)cgs + 6053) <= 1.3333334)
-        v6 = *(_DWORD *)(cg_subtitleWidthStandard + 8);
-      else
-        v6 = *(_DWORD *)(cg_subtitleWidthWidescreen + 8);
-      v9 = floorf((float)(1000.0 * *(float *)(cg_subtitleMinTime + 8)) + 0.5);
-      v7 = (int)v9;
-      if ((int)v9 - v4 < 0)
-        v7 = v4;
-      CL_SubtitlePrint(pszSubtitle, v7, v6);
+    if (v4) {
+      pszSubtitle = (char *)v3->pszSubtitle;
+        if (pszSubtitle) {
+          if (*((float *)cgs + 6053) <= 1.3333334)
+            v6 = *(_DWORD *)(cg_subtitleWidthStandard + 8);
+          else
+            v6 = *(_DWORD *)(cg_subtitleWidthWidescreen + 8);
+          v9 = floorf((float)(1000.0 * *(float *)(cg_subtitleMinTime + 8)) +
+                      0.5);
+          v7 = (int)v9;
+          if ((int)v9 - v4 < 0)
+            v7 = v4;
+          CL_SubtitlePrint(pszSubtitle, v7, v6);
+        }
     }
-  }
   return v4;
 }
 
 int __cdecl CG_PlaySoundAliasByName(int entitynum, float const *const origin,
-                                    char const *aliasname) {
+                                    char const *aliasname)
+{
   snd_alias_t *v3;     // ebx
   int v4;              // esi
   char *pszSubtitle;   // edi
@@ -175,25 +208,27 @@ int __cdecl CG_PlaySoundAliasByName(int entitynum, float const *const origin,
   if (!v3)
     return 0;
   v4 = SND_PlaySoundAlias(v3, a1, a2, 0, (const float *)1);
-  if (v4) {
-    pszSubtitle = (char *)v3->pszSubtitle;
-    if (pszSubtitle) {
-      if (*((float *)cgs + 6053) <= 1.3333334)
-        v6 = *(_DWORD *)(cg_subtitleWidthStandard + 8);
-      else
-        v6 = *(_DWORD *)(cg_subtitleWidthWidescreen + 8);
-      v9 = floorf((float)(1000.0 * *(float *)(cg_subtitleMinTime + 8)) + 0.5);
-      v7 = (int)v9;
-      if ((int)v9 - v4 < 0)
-        v7 = v4;
-      CL_SubtitlePrint(pszSubtitle, v7, v6);
+    if (v4) {
+      pszSubtitle = (char *)v3->pszSubtitle;
+        if (pszSubtitle) {
+          if (*((float *)cgs + 6053) <= 1.3333334)
+            v6 = *(_DWORD *)(cg_subtitleWidthStandard + 8);
+          else
+            v6 = *(_DWORD *)(cg_subtitleWidthWidescreen + 8);
+          v9 = floorf((float)(1000.0 * *(float *)(cg_subtitleMinTime + 8)) +
+                      0.5);
+          v7 = (int)v9;
+          if ((int)v9 - v4 < 0)
+            v7 = v4;
+          CL_SubtitlePrint(pszSubtitle, v7, v6);
+        }
     }
-  }
   return v4;
 }
 
 int __cdecl CG_PlaySoundAlias(int entitynum, float const *const origin,
-                              struct snd_alias_list_t *aliasList) {
+                              struct snd_alias_list_t *aliasList)
+{
   snd_alias_t *v3;     // ebx
   int v4;              // esi
   char *pszSubtitle;   // edi
@@ -205,29 +240,32 @@ int __cdecl CG_PlaySoundAlias(int entitynum, float const *const origin,
   if (!v3)
     return 0;
   v4 = SND_PlaySoundAlias(v3, a1, a2, 0, (const float *)1);
-  if (v4) {
-    pszSubtitle = (char *)v3->pszSubtitle;
-    if (pszSubtitle) {
-      if (*((float *)cgs + 6053) <= 1.3333334)
-        v6 = *(_DWORD *)(cg_subtitleWidthStandard + 8);
-      else
-        v6 = *(_DWORD *)(cg_subtitleWidthWidescreen + 8);
-      v9 = floorf((float)(1000.0 * *(float *)(cg_subtitleMinTime + 8)) + 0.5);
-      v7 = (int)v9;
-      if ((int)v9 - v4 < 0)
-        v7 = v4;
-      CL_SubtitlePrint(pszSubtitle, v7, v6);
+    if (v4) {
+      pszSubtitle = (char *)v3->pszSubtitle;
+        if (pszSubtitle) {
+          if (*((float *)cgs + 6053) <= 1.3333334)
+            v6 = *(_DWORD *)(cg_subtitleWidthStandard + 8);
+          else
+            v6 = *(_DWORD *)(cg_subtitleWidthWidescreen + 8);
+          v9 = floorf((float)(1000.0 * *(float *)(cg_subtitleMinTime + 8)) +
+                      0.5);
+          v7 = (int)v9;
+          if ((int)v9 - v4 < 0)
+            v7 = v4;
+          CL_SubtitlePrint(pszSubtitle, v7, v6);
+        }
     }
-  }
   return v4;
 }
 
-int __cdecl CG_PlayEntitySoundAliasByName(int, char const *) {
+int __cdecl CG_PlayEntitySoundAliasByName(int, char const *)
+{
   UNIMPLEMENTED();
 }
 
 int __cdecl CG_PlayEntitySoundAlias(int entitynum,
-                                    struct snd_alias_list_t *aliasList) {
+                                    struct snd_alias_list_t *aliasList)
+{
   const float *v2;     // edi
   snd_alias_t *v3;     // eax
   snd_alias_t *v4;     // ebx
@@ -243,24 +281,26 @@ int __cdecl CG_PlayEntitySoundAlias(int entitynum,
   if (!v3)
     return 0;
   v5 = SND_PlaySoundAlias(v3, (float *)a1, v2, 0, (const float *)1);
-  if (v5) {
-    pszSubtitle = (char *)v4->pszSubtitle;
-    if (pszSubtitle) {
-      if (*((float *)cgs + 6053) <= 1.3333334)
-        v7 = *(_DWORD *)(cg_subtitleWidthStandard + 8);
-      else
-        v7 = *(_DWORD *)(cg_subtitleWidthWidescreen + 8);
-      v10 = floorf((float)(1000.0 * *(float *)(cg_subtitleMinTime + 8)) + 0.5);
-      v8 = (int)v10;
-      if ((int)v10 - v5 < 0)
-        v8 = v5;
-      CL_SubtitlePrint(pszSubtitle, v8, v7);
+    if (v5) {
+      pszSubtitle = (char *)v4->pszSubtitle;
+        if (pszSubtitle) {
+          if (*((float *)cgs + 6053) <= 1.3333334)
+            v7 = *(_DWORD *)(cg_subtitleWidthStandard + 8);
+          else
+            v7 = *(_DWORD *)(cg_subtitleWidthWidescreen + 8);
+          v10 = floorf((float)(1000.0 * *(float *)(cg_subtitleMinTime + 8)) +
+                       0.5);
+          v8 = (int)v10;
+          if ((int)v10 - v5 < 0)
+            v8 = v5;
+          CL_SubtitlePrint(pszSubtitle, v8, v7);
+        }
     }
-  }
   return v5;
 }
 
-int __cdecl CG_PlayClientSoundAliasByName(char const *aliasname) {
+int __cdecl CG_PlayClientSoundAliasByName(char const *aliasname)
+{
   float *v1;           // edi
   const float *v2;     // esi
   snd_alias_t *v3;     // eax
@@ -278,24 +318,26 @@ int __cdecl CG_PlayClientSoundAliasByName(char const *aliasname) {
   if (!v3)
     return 0;
   v5 = SND_PlaySoundAlias(v3, v1, v2, 0, (const float *)1);
-  if (v5) {
-    pszSubtitle = (char *)v4->pszSubtitle;
-    if (pszSubtitle) {
-      if (*((float *)cgs + 6053) <= 1.3333334)
-        v7 = *(_DWORD *)(cg_subtitleWidthStandard + 8);
-      else
-        v7 = *(_DWORD *)(cg_subtitleWidthWidescreen + 8);
-      v10 = floorf((float)(1000.0 * *(float *)(cg_subtitleMinTime + 8)) + 0.5);
-      v8 = (int)v10;
-      if ((int)v10 - v5 < 0)
-        v8 = v5;
-      CL_SubtitlePrint(pszSubtitle, v8, v7);
+    if (v5) {
+      pszSubtitle = (char *)v4->pszSubtitle;
+        if (pszSubtitle) {
+          if (*((float *)cgs + 6053) <= 1.3333334)
+            v7 = *(_DWORD *)(cg_subtitleWidthStandard + 8);
+          else
+            v7 = *(_DWORD *)(cg_subtitleWidthWidescreen + 8);
+          v10 = floorf((float)(1000.0 * *(float *)(cg_subtitleMinTime + 8)) +
+                       0.5);
+          v8 = (int)v10;
+          if ((int)v10 - v5 < 0)
+            v8 = v5;
+          CL_SubtitlePrint(pszSubtitle, v8, v7);
+        }
     }
-  }
   return v5;
 }
 
-int __cdecl CG_PlayClientSoundAlias(struct snd_alias_list_t *aliasList) {
+int __cdecl CG_PlayClientSoundAlias(struct snd_alias_list_t *aliasList)
+{
   float *v1;           // edi
   const float *v2;     // esi
   snd_alias_t *v3;     // eax
@@ -313,27 +355,32 @@ int __cdecl CG_PlayClientSoundAlias(struct snd_alias_list_t *aliasList) {
   if (!v3)
     return 0;
   v5 = SND_PlaySoundAlias(v3, v1, v2, 0, (const float *)1);
-  if (v5) {
-    pszSubtitle = (char *)v4->pszSubtitle;
-    if (pszSubtitle) {
-      if (*((float *)cgs + 6053) <= 1.3333334)
-        v7 = *(_DWORD *)(cg_subtitleWidthStandard + 8);
-      else
-        v7 = *(_DWORD *)(cg_subtitleWidthWidescreen + 8);
-      v10 = floorf((float)(1000.0 * *(float *)(cg_subtitleMinTime + 8)) + 0.5);
-      v8 = (int)v10;
-      if ((int)v10 - v5 < 0)
-        v8 = v5;
-      CL_SubtitlePrint(pszSubtitle, v8, v7);
+    if (v5) {
+      pszSubtitle = (char *)v4->pszSubtitle;
+        if (pszSubtitle) {
+          if (*((float *)cgs + 6053) <= 1.3333334)
+            v7 = *(_DWORD *)(cg_subtitleWidthStandard + 8);
+          else
+            v7 = *(_DWORD *)(cg_subtitleWidthWidescreen + 8);
+          v10 = floorf((float)(1000.0 * *(float *)(cg_subtitleMinTime + 8)) +
+                       0.5);
+          v8 = (int)v10;
+          if ((int)v10 - v5 < 0)
+            v8 = v5;
+          CL_SubtitlePrint(pszSubtitle, v8, v7);
+        }
     }
-  }
   return v5;
 }
 
-void __cdecl CG_PlaySmokeGrenadesAtTime(int gametime) { UNIMPLEMENTED(); }
+void __cdecl CG_PlaySmokeGrenadesAtTime(int gametime)
+{
+  UNIMPLEMENTED();
+}
 
 void __cdecl CG_Init(int serverMessageNum, int serverCommandSequence,
-                     int clientNum) {
+                     int clientNum)
+{
   UNIMPLEMENTED();
 }
 
@@ -504,30 +551,45 @@ struct dvar_s const *const cg_thirdPersonAngle;
 struct dvar_s const *const cg_gun_ofs_f;
 struct dvar_s const *const cg_scoreboardBannerHeight;
 struct dvar_s const *const cg_tracerLength;
-void __cdecl CG_InitViewDimensions(void) { UNIMPLEMENTED(); }
 
-struct XModel *__cdecl CG_GetXModel(char const *) {
-  return CL_RegisterModel();
-}
-
-struct entityState_s *__cdecl CG_FindOldestSmokeGrenade(int, int) {
+void __cdecl CG_InitViewDimensions(void)
+{
   UNIMPLEMENTED();
 }
 
-int __cdecl CG_GetClientNumForLocalClient(int) { UNIMPLEMENTED(); }
+struct XModel *__cdecl CG_GetXModel(char const *)
+{
+  return CL_RegisterModel();
+}
 
-void __cdecl CG_InitEntities(void) { UNIMPLEMENTED(); }
+struct entityState_s *__cdecl CG_FindOldestSmokeGrenade(int, int)
+{
+  UNIMPLEMENTED();
+}
 
-struct FxImpactTable *__cdecl CG_RegisterImpactEffects(char const *) {
+int __cdecl CG_GetClientNumForLocalClient(int)
+{
+  UNIMPLEMENTED();
+}
+
+void __cdecl CG_InitEntities(void)
+{
+  UNIMPLEMENTED();
+}
+
+struct FxImpactTable *__cdecl CG_RegisterImpactEffects(char const *)
+{
   UNIMPLEMENTED();
 }
 
 void __cdecl CG_RegisterSurfaceTypeSounds(char const *,
-                                          struct snd_alias_list_t **const) {
+                                          struct snd_alias_list_t **const)
+{
   UNIMPLEMENTED();
 }
 
-void __cdecl CG_RegisterSounds(void) {
+void __cdecl CG_RegisterSounds(void)
+{
   _DWORD *v0;      // ebx
   char *v1;        // edi
   int i;           // ebx
@@ -566,102 +628,115 @@ void __cdecl CG_RegisterSounds(void) {
   v0[12065] = Com_FindSoundAlias("player_out_of_ammo");
   v0[12066] = Com_FindSoundAlias("land_damage");
   v1 = (char *)(v0 + 12068);
-  for (i = 0; i != 23; ++i) {
-    v3 = Com_SurfaceTypeToName(i);
-    sprintf(v32, "%s_%s", "grenade_bounce", v3);
-    *(_DWORD *)&v1[4 * i] = Com_FindSoundAlias(v32);
-  }
+    for (i = 0; i != 23; ++i) {
+      v3 = Com_SurfaceTypeToName(i);
+      sprintf(v32, "%s_%s", "grenade_bounce", v3);
+      *(_DWORD *)&v1[4 * i] = Com_FindSoundAlias(v32);
+    }
   v4 = (char *)cgs + 48364;
   LOBYTE(i) = 0;
-  do {
-    v5 = Com_SurfaceTypeToName(i);
-    sprintf(v32, "%s_%s", "grenade_explode", v5);
-    *(_DWORD *)&v4[4 * i++] = Com_FindSoundAlias(v32);
-  } while (i != 23);
+    do {
+      v5 = Com_SurfaceTypeToName(i);
+      sprintf(v32, "%s_%s", "grenade_explode", v5);
+      *(_DWORD *)&v4[4 * i++] = Com_FindSoundAlias(v32);
+    }
+  while (i != 23);
   v6 = (char *)cgs + 48456;
   LOBYTE(i) = 0;
-  do {
-    v7 = Com_SurfaceTypeToName(i);
-    sprintf(v32, "%s_%s", "rocket_explode", v7);
-    *(_DWORD *)&v6[4 * i++] = Com_FindSoundAlias(v32);
-  } while (i != 23);
+    do {
+      v7 = Com_SurfaceTypeToName(i);
+      sprintf(v32, "%s_%s", "rocket_explode", v7);
+      *(_DWORD *)&v6[4 * i++] = Com_FindSoundAlias(v32);
+    }
+  while (i != 23);
   v8 = (char *)cgs + 48548;
   LOBYTE(i) = 0;
-  do {
-    v9 = Com_SurfaceTypeToName(i);
-    sprintf(v32, "%s_%s", "bullet_small", v9);
-    *(_DWORD *)&v8[4 * i++] = Com_FindSoundAlias(v32);
-  } while (i != 23);
+    do {
+      v9 = Com_SurfaceTypeToName(i);
+      sprintf(v32, "%s_%s", "bullet_small", v9);
+      *(_DWORD *)&v8[4 * i++] = Com_FindSoundAlias(v32);
+    }
+  while (i != 23);
   v10 = (char *)cgs + 48640;
   LOBYTE(i) = 0;
-  do {
-    v11 = Com_SurfaceTypeToName(i);
-    sprintf(v32, "%s_%s", "bulletspray_small", v11);
-    *(_DWORD *)&v10[4 * i++] = Com_FindSoundAlias(v32);
-  } while (i != 23);
+    do {
+      v11 = Com_SurfaceTypeToName(i);
+      sprintf(v32, "%s_%s", "bulletspray_small", v11);
+      *(_DWORD *)&v10[4 * i++] = Com_FindSoundAlias(v32);
+    }
+  while (i != 23);
   v12 = (char *)cgs + 48732;
   LOBYTE(i) = 0;
-  do {
-    v13 = Com_SurfaceTypeToName(i);
-    sprintf(v32, "%s_%s", "bullet_large", v13);
-    *(_DWORD *)&v12[4 * i++] = Com_FindSoundAlias(v32);
-  } while (i != 23);
+    do {
+      v13 = Com_SurfaceTypeToName(i);
+      sprintf(v32, "%s_%s", "bullet_large", v13);
+      *(_DWORD *)&v12[4 * i++] = Com_FindSoundAlias(v32);
+    }
+  while (i != 23);
   v14 = (char *)cgs + 48824;
   LOBYTE(i) = 0;
-  do {
-    v15 = Com_SurfaceTypeToName(i);
-    sprintf(v32, "%s_%s", "step_run", v15);
-    *(_DWORD *)&v14[4 * i++] = Com_FindSoundAlias(v32);
-  } while (i != 23);
+    do {
+      v15 = Com_SurfaceTypeToName(i);
+      sprintf(v32, "%s_%s", "step_run", v15);
+      *(_DWORD *)&v14[4 * i++] = Com_FindSoundAlias(v32);
+    }
+  while (i != 23);
   v16 = (char *)cgs + 48916;
   LOBYTE(i) = 0;
-  do {
-    v17 = Com_SurfaceTypeToName(i);
-    sprintf(v32, "%s_%s", "step_run_plr", v17);
-    *(_DWORD *)&v16[4 * i++] = Com_FindSoundAlias(v32);
-  } while (i != 23);
+    do {
+      v17 = Com_SurfaceTypeToName(i);
+      sprintf(v32, "%s_%s", "step_run_plr", v17);
+      *(_DWORD *)&v16[4 * i++] = Com_FindSoundAlias(v32);
+    }
+  while (i != 23);
   v18 = (char *)cgs + 49008;
   LOBYTE(i) = 0;
-  do {
-    v19 = Com_SurfaceTypeToName(i);
-    sprintf(v32, "%s_%s", "step_walk", v19);
-    *(_DWORD *)&v18[4 * i++] = Com_FindSoundAlias(v32);
-  } while (i != 23);
+    do {
+      v19 = Com_SurfaceTypeToName(i);
+      sprintf(v32, "%s_%s", "step_walk", v19);
+      *(_DWORD *)&v18[4 * i++] = Com_FindSoundAlias(v32);
+    }
+  while (i != 23);
   v20 = (char *)cgs + 49100;
   LOBYTE(i) = 0;
-  do {
-    v21 = Com_SurfaceTypeToName(i);
-    sprintf(v32, "%s_%s", "step_walk_plr", v21);
-    *(_DWORD *)&v20[4 * i++] = Com_FindSoundAlias(v32);
-  } while (i != 23);
+    do {
+      v21 = Com_SurfaceTypeToName(i);
+      sprintf(v32, "%s_%s", "step_walk_plr", v21);
+      *(_DWORD *)&v20[4 * i++] = Com_FindSoundAlias(v32);
+    }
+  while (i != 23);
   v22 = (char *)cgs + 49192;
   LOBYTE(i) = 0;
-  do {
-    v23 = Com_SurfaceTypeToName(i);
-    sprintf(v32, "%s_%s", "step_prone", v23);
-    *(_DWORD *)&v22[4 * i++] = Com_FindSoundAlias(v32);
-  } while (i != 23);
+    do {
+      v23 = Com_SurfaceTypeToName(i);
+      sprintf(v32, "%s_%s", "step_prone", v23);
+      *(_DWORD *)&v22[4 * i++] = Com_FindSoundAlias(v32);
+    }
+  while (i != 23);
   v24 = (char *)cgs + 49284;
   LOBYTE(i) = 0;
-  do {
-    v25 = Com_SurfaceTypeToName(i);
-    sprintf(v32, "%s_%s", "step_prone_plr", v25);
-    *(_DWORD *)&v24[4 * i++] = Com_FindSoundAlias(v32);
-  } while (i != 23);
+    do {
+      v25 = Com_SurfaceTypeToName(i);
+      sprintf(v32, "%s_%s", "step_prone_plr", v25);
+      *(_DWORD *)&v24[4 * i++] = Com_FindSoundAlias(v32);
+    }
+  while (i != 23);
   v26 = (char *)cgs + 49376;
   LOBYTE(i) = 0;
-  do {
-    v27 = Com_SurfaceTypeToName(i);
-    sprintf(v32, "%s_%s", "land", v27);
-    *(_DWORD *)&v26[4 * i++] = Com_FindSoundAlias(v32);
-  } while (i != 23);
+    do {
+      v27 = Com_SurfaceTypeToName(i);
+      sprintf(v32, "%s_%s", "land", v27);
+      *(_DWORD *)&v26[4 * i++] = Com_FindSoundAlias(v32);
+    }
+  while (i != 23);
   v28 = (char *)cgs + 49468;
   LOBYTE(i) = 0;
-  do {
-    v29 = Com_SurfaceTypeToName(i);
-    sprintf(v32, "%s_%s", "land_plr", v29);
-    *(_DWORD *)&v28[4 * i++] = Com_FindSoundAlias(v32);
-  } while (i != 23);
+    do {
+      v29 = Com_SurfaceTypeToName(i);
+      sprintf(v32, "%s_%s", "land_plr", v29);
+      *(_DWORD *)&v28[4 * i++] = Com_FindSoundAlias(v32);
+    }
+  while (i != 23);
   v30 = cgs;
   v30[12390] = Com_FindSoundAlias("gear_rattle_run");
   v30[12391] = Com_FindSoundAlias("gear_rattle_plr_run");
@@ -682,20 +757,39 @@ void __cdecl CG_RegisterSounds(void) {
   return result;
 }
 
-void __cdecl CG_FreeAnimTreeInstances(void) { UNIMPLEMENTED(); }
+void __cdecl CG_FreeAnimTreeInstances(void)
+{
+  UNIMPLEMENTED();
+}
 
-bool __cdecl CG_ReplaceDirective(int *, int *, char *const) { UNIMPLEMENTED(); }
+bool __cdecl CG_ReplaceDirective(int *, int *, char *const)
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl CG_LoadAnimTreeInstances(void) { UNIMPLEMENTED(); }
+void __cdecl CG_LoadAnimTreeInstances(void)
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl CG_LoadHudMenu(void) { UNIMPLEMENTED(); }
+void __cdecl CG_LoadHudMenu(void)
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl CG_RegisterDvars(void) { UNIMPLEMENTED(); }
+void __cdecl CG_RegisterDvars(void)
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl CG_SubtitlePrint(int, struct snd_alias_t *) { UNIMPLEMENTED(); }
+void __cdecl CG_SubtitlePrint(int, struct snd_alias_t *)
+{
+  UNIMPLEMENTED();
+}
 
 void __cdecl CG_CreateDObj(struct DObjModel_s *, unsigned short,
-                           struct XAnimTree_s *, int, struct clientInfo_t *) {
+                           struct XAnimTree_s *, int, struct clientInfo_t *)
+{
   int v5;               // eax
   unsigned __int16 v6;  // bx
   uint32_t iDObjWeapon; // edx
@@ -706,26 +800,33 @@ void __cdecl CG_CreateDObj(struct DObjModel_s *, unsigned short,
   v5 = a4;
   v6 = a2;
   iDObjWeapon = a5->iDObjWeapon;
-  if (iDObjWeapon) {
-    v8 = *((_DWORD *)cg_weapons + 109 * iDObjWeapon + 47);
-    if (v8) {
-      v9 = &a1[a2];
-      *(_DWORD *)v9->model = v8;
-      if (a5->leftHandGun)
-        v10 = *(_DWORD *)(cg_weaponleftbone + 8);
-      else
-        v10 = *(_DWORD *)(cg_weaponrightbone + 8);
-      *(_DWORD *)v9->boneName = v10;
-      v9->ignoreCollision = 0;
-      v6 = a2 + 1;
-      v5 = a4;
-    } else {
-      v5 = a4;
+    if (iDObjWeapon) {
+      v8 = *((_DWORD *)cg_weapons + 109 * iDObjWeapon + 47);
+        if (v8) {
+          v9 = &a1[a2];
+          *(_DWORD *)v9->model = v8;
+          if (a5->leftHandGun)
+            v10 = *(_DWORD *)(cg_weaponleftbone + 8);
+          else
+            v10 = *(_DWORD *)(cg_weaponrightbone + 8);
+          *(_DWORD *)v9->boneName = v10;
+          v9->ignoreCollision = 0;
+          v6 = a2 + 1;
+          v5 = a4;
+        }
+        else {
+          v5 = a4;
+        }
     }
-  }
   return Com_ClientDObjCreate(a1, v6, a3, v5);
 }
 
-void __cdecl CG_RegisterGraphics(char const *) { UNIMPLEMENTED(); }
+void __cdecl CG_RegisterGraphics(char const *)
+{
+  UNIMPLEMENTED();
+}
 
-Hunk_AllocXAnimPrecache(int size) { UNIMPLEMENTED(); }
+Hunk_AllocXAnimPrecache(int size)
+{
+  UNIMPLEMENTED();
+}

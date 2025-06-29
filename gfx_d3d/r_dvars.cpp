@@ -1,6 +1,10 @@
-void __cdecl R_UnregisterDvars() { return unk_118073C(0x2000); }
+void __cdecl R_UnregisterDvars()
+{
+  return unk_118073C(0x2000);
+}
 
-void __cdecl R_RegisterDvars() {
+void __cdecl R_RegisterDvars()
+{
   int result; // eax
 
   R_RegisterSunDvars();

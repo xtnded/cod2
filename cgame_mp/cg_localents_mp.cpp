@@ -1,4 +1,5 @@
-void __cdecl CG_InitLocalEntities() {
+void __cdecl CG_InitLocalEntities()
+{
   char *v0;   // eax
   int v1;     // ecx
   char *v2;   // edx
@@ -10,23 +11,30 @@ void __cdecl CG_InitLocalEntities() {
   v0 = (char *)cg_localEntities;
   cg_freeLocalEntities = cg_localEntities;
   v1 = 0;
-  while (1) {
-    v2 = &v0[v1];
-    result = (int)&v0[v1 + 188];
-    *((_DWORD *)v2 + 1) = result;
-    v1 += 188;
-    if (v1 == 23876)
-      break;
-    v0 = (char *)cg_localEntities;
-  }
+    while (1) {
+      v2 = &v0[v1];
+      result = (int)&v0[v1 + 188];
+      *((_DWORD *)v2 + 1) = result;
+      v1 += 188;
+      if (v1 == 23876)
+        break;
+      v0 = (char *)cg_localEntities;
+    }
   return result;
 }
 
-void __cdecl CG_LocalEntities_SwitchToLocalClient(int) { UNIMPLEMENTED(); }
+void __cdecl CG_LocalEntities_SwitchToLocalClient(int)
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl CG_FreeLocalEntity(struct localEntity_s *) { UNIMPLEMENTED(); }
+void __cdecl CG_FreeLocalEntity(struct localEntity_s *)
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl CG_AddMovingTracer(struct localEntity_s *) {
+void __cdecl CG_AddMovingTracer(struct localEntity_s *)
+{
   float v1;    // xmm2_4
   float v3;    // [esp+1Ch] [ebp-2Ch] BYREF
   float v4;    // [esp+20h] [ebp-28h]
@@ -51,11 +59,15 @@ void __cdecl CG_AddMovingTracer(struct localEntity_s *) {
   return CG_DrawTracer(&v7, v6);
 }
 
-struct localEntity_s *__cdecl CG_AllocLocalEntity() {
+struct localEntity_s *__cdecl CG_AllocLocalEntity()
+{
   UNIMPLEMENTED();
 }
 
-void __cdecl CG_AddLocalEntities() { UNIMPLEMENTED(); }
+void __cdecl CG_AddLocalEntities()
+{
+  UNIMPLEMENTED();
+}
 
 struct localEntity_s *cg_localEntities;
 struct localEntity_s *cg_activeLocalEntities;

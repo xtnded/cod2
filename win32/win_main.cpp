@@ -2,7 +2,8 @@
 void __usercall __noreturn WinMain(__m128 a1 @<xmm0>, __m128 a2 @<xmm1>,
                                    __m128 a3 @<xmm2>, __m128 a4 @<xmm3>,
                                    __m128 a5 @<xmm4>, __m128 a6 @<xmm6>, int a7,
-                                   int a8, char *a9) {
+                                   int a8, char *a9)
+{
   long double v9; // fst7
   dvar_s *v10;    // eax
   int v11;        // eax
@@ -28,17 +29,17 @@ void __usercall __noreturn WinMain(__m128 a1 @<xmm0>, __m128 a2 @<xmm1>,
   getcwd(v12, 0x100u);
   Com_Printf("Working directory: %s\n", v12);
   v11 = com_dedicated;
-  if (!*(_DWORD *)(com_dedicated + 8)) {
-    if (!com_viewlog->current.integer)
-      Sys_ShowConsole(0);
-    v11 = com_dedicated;
-  }
-  while (1) {
-    if (v11) {
-      if (*(_DWORD *)(v11 + 8))
-        WinSleep(5);
+    if (!*(_DWORD *)(com_dedicated + 8)) {
+      if (!com_viewlog->current.integer)
+        Sys_ShowConsole(0);
+      v11 = com_dedicated;
     }
-    Com_Frame(v9, a1, a2, a3, a4, a5, a6);
-    v11 = com_dedicated;
-  }
+    while (1) {
+        if (v11) {
+          if (*(_DWORD *)(v11 + 8))
+            WinSleep(5);
+        }
+      Com_Frame(v9, a1, a2, a3, a4, a5, a6);
+      v11 = com_dedicated;
+    }
 }

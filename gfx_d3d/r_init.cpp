@@ -1,6 +1,7 @@
 public:
 static long __cdecl Direct3D::GetDeviceCaps(unsigned int, enum _D3DDEVTYPE,
-                                            struct _D3DCAPS9 *) {
+                                            struct _D3DCAPS9 *)
+{
   UNIMPLEMENTED();
 }
 
@@ -8,35 +9,52 @@ public:
 static long __cdecl Direct3D::CreateDevice(unsigned int, enum _D3DDEVTYPE,
                                            void *, unsigned long,
                                            struct _D3DPRESENT_PARAMETERS_ *,
-                                           struct D3DDevice **) {
+                                           struct D3DDevice **)
+{
   UNIMPLEMENTED();
 }
 
 public:
-unsigned long __cdecl D3DDevice::Release(void) { UNIMPLEMENTED(); }
-
-public:
-long __cdecl D3DDevice::EndScene(void) { UNIMPLEMENTED(); }
-
-public:
-long __cdecl D3DDevice::CreateQuery(enum _D3DQUERYTYPE, struct D3DQuery **) {
+unsigned long __cdecl D3DDevice::Release(void)
+{
   UNIMPLEMENTED();
 }
 
-float __cdecl pow(float, float) { UNIMPLEMENTED(); }
+public:
+long __cdecl D3DDevice::EndScene(void)
+{
+  UNIMPLEMENTED();
+}
 
-int __cdecl R_GetVertexSize(void) { UNIMPLEMENTED(); }
+public:
+long __cdecl D3DDevice::CreateQuery(enum _D3DQUERYTYPE, struct D3DQuery **)
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl R_EndRegistration() {
+float __cdecl pow(float, float)
+{
+  UNIMPLEMENTED();
+}
+
+int __cdecl R_GetVertexSize(void)
+{
+  UNIMPLEMENTED();
+}
+
+void __cdecl R_EndRegistration()
+{
   Material_FinishLoading();
   return R_AddCmdTouchAllImages();
 }
 
-char const *__cdecl R_ErrorDescription(long hr) {
+char const *__cdecl R_ErrorDescription(long hr)
+{
   return DXGetErrorDescription9A();
 }
 
-void __cdecl R_FatalLockError(long hr) {
+void __cdecl R_FatalLockError(long hr)
+{
   void (*v0)(_DWORD, const char *, ...); // esi
   const char *v1;                        // eax
 
@@ -48,7 +66,8 @@ void __cdecl R_FatalLockError(long hr) {
   return dword_1180708();
 }
 
-void __cdecl R_FatalInitError(char const *msg) {
+void __cdecl R_FatalInitError(char const *msg)
+{
   ri(0, "********** DirectX returned an unrecoverable error code during "
         "initialization  **********\n");
   ri(0, "********** Initialization also happens while playing if DirectX loses "
@@ -59,9 +78,13 @@ void __cdecl R_FatalInitError(char const *msg) {
   return dword_1180708();
 }
 
-void __cdecl R_UnloadWorld(void) { UNIMPLEMENTED(); }
+void __cdecl R_UnloadWorld(void)
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl R_Error(enum errorParm_t errorLevel, char const *msg, ...) {
+void __cdecl R_Error(enum errorParm_t errorLevel, char const *msg, ...)
+{
   char __str[1024]; // [esp+1Ch] [ebp-40Ch] BYREF
   va_list v4;       // [esp+41Ch] [ebp-Ch]
   va_list va;       // [esp+438h] [ebp+10h] BYREF
@@ -69,10 +92,10 @@ void __cdecl R_Error(enum errorParm_t errorLevel, char const *msg, ...) {
   va_start(va, __format);
   if (Sys_IsMainThread())
     R_SyncRenderThread();
-  if (byte_11805DD) {
-    (*(void(__cdecl **)(int))(*(_DWORD *)dword_117D8A8 + 168))(dword_117D8A8);
-    byte_11805DD = 0;
-  }
+    if (byte_11805DD) {
+      (*(void(__cdecl **)(int))(*(_DWORD *)dword_117D8A8 + 168))(dword_117D8A8);
+      byte_11805DD = 0;
+    }
   va_copy(v4, va);
   vsnprintf(__str, 0x3FFu, __format, va);
   __str[1023] = 0;
@@ -80,11 +103,13 @@ void __cdecl R_Error(enum errorParm_t errorLevel, char const *msg, ...) {
 }
 
 void __cdecl R_ReleaseAndSetNULL(struct IUnknown *, char const *, char const *,
-                                 int) {
+                                 int)
+{
   UNIMPLEMENTED();
 }
 
-void __cdecl R_GammaCorrect(unsigned char *buffer, int bufSize) {
+void __cdecl R_GammaCorrect(unsigned char *buffer, int bufSize)
+{
   float v2;       // xmm0_4
   int v3;         // ebx
   int result;     // eax
@@ -99,31 +124,35 @@ void __cdecl R_GammaCorrect(unsigned char *buffer, int bufSize) {
   v2 = 1.0 / *(float *)(r_gamma + 8);
   v3 = 0;
   v10 = v2;
-  if (v2 == 1.0) {
-    do {
-      v11[v3] = 257 * v3;
-      ++v3;
-    } while (v3 != 256);
-  } else {
-    do {
-      *((double *)&v7 + 1) = v10;
-      *(double *)&v7 = (float)((float)v3 / 255.0);
-      v6 = pow(v7, v8);
-      v9 = floorf((float)(v6 * 65535.0) + 0.5);
-      v11[v3++] = (int)v9;
-    } while (v3 != 256);
-  }
-  result = a2;
-  if (a2 > 0) {
-    for (i = 0; i != a2; ++i) {
-      result = 2139127681 * (unsigned __int16)v11[a1[i]];
-      a1[i] = (unsigned __int16)v11[a1[i]] / 257;
+    if (v2 == 1.0) {
+        do {
+          v11[v3] = 257 * v3;
+          ++v3;
+        }
+      while (v3 != 256);
     }
-  }
+    else {
+        do {
+          *((double *)&v7 + 1) = v10;
+          *(double *)&v7 = (float)((float)v3 / 255.0);
+          v6 = pow(v7, v8);
+          v9 = floorf((float)(v6 * 65535.0) + 0.5);
+          v11[v3++] = (int)v9;
+        }
+      while (v3 != 256);
+    }
+  result = a2;
+    if (a2 > 0) {
+        for (i = 0; i != a2; ++i) {
+          result = 2139127681 * (unsigned __int16)v11[a1[i]];
+          a1[i] = (unsigned __int16)v11[a1[i]] / 257;
+        }
+    }
   return result;
 }
 
-void __cdecl R_SetColorMappings() {
+void __cdecl R_SetColorMappings()
+{
   float v0;        // xmm0_4
   int v1;          // ebx
   int result;      // eax
@@ -134,45 +163,63 @@ void __cdecl R_SetColorMappings() {
   double v7;       // [esp+28h] [ebp-210h]
   GfxGammaRamp v8; // [esp+30h] [ebp-208h] BYREF
 
-  if ((_BYTE)dword_11806A8) {
-    v0 = 1.0 / *(float *)(r_gamma + 8);
-    v1 = 0;
-    v7 = v0;
-    if (v0 == 1.0) {
-      do {
-        *(_WORD *)&v8.entries[2 * v1] = 257 * v1;
-        ++v1;
-      } while (v1 != 256);
-    } else {
-      do {
-        *((double *)&v4 + 1) = v7;
-        *(double *)&v4 = (float)((float)v1 / 255.0);
-        v3 = pow(v4, v5);
-        v6 = floorf((float)(v3 * 65535.0) + 0.5);
-        *(_WORD *)&v8.entries[2 * v1++] = (int)v6;
-      } while (v1 != 256);
+    if ((_BYTE)dword_11806A8) {
+      v0 = 1.0 / *(float *)(r_gamma + 8);
+      v1 = 0;
+      v7 = v0;
+        if (v0 == 1.0) {
+            do {
+              *(_WORD *)&v8.entries[2 * v1] = 257 * v1;
+              ++v1;
+            }
+          while (v1 != 256);
+        }
+        else {
+            do {
+              *((double *)&v4 + 1) = v7;
+              *(double *)&v4 = (float)((float)v1 / 255.0);
+              v3 = pow(v4, v5);
+              v6 = floorf((float)(v3 * 65535.0) + 0.5);
+              *(_WORD *)&v8.entries[2 * v1++] = (int)v6;
+            }
+          while (v1 != 256);
+        }
+      return RB_SetGammaRamp(&v8);
     }
-    return RB_SetGammaRamp(&v8);
-  }
   return result;
 }
 
-void __cdecl R_ShutdownStreams(void) { UNIMPLEMENTED(); }
-
-void __cdecl R_Register(void) { UNIMPLEMENTED(); }
-
-void __cdecl R_ShutdownDirect3D(void) { UNIMPLEMENTED(); }
-
-void __cdecl R_BeginRegistration(struct vidConfig_t *vidConfigOut) {
+void __cdecl R_ShutdownStreams(void)
+{
   UNIMPLEMENTED();
 }
 
-void __cdecl R_InitThreads(void) { UNIMPLEMENTED(); }
+void __cdecl R_Register(void)
+{
+  UNIMPLEMENTED();
+}
+
+void __cdecl R_ShutdownDirect3D(void)
+{
+  UNIMPLEMENTED();
+}
+
+void __cdecl R_BeginRegistration(struct vidConfig_t *vidConfigOut)
+{
+  UNIMPLEMENTED();
+}
+
+void __cdecl R_InitThreads(void)
+{
+  UNIMPLEMENTED();
+}
 
 int g_disableRendering;
 int marker_r_init;
 struct DxGlobals dx;
-void __cdecl R_TrackStatistics(struct trStatistics_t *) {
+
+void __cdecl R_TrackStatistics(struct trStatistics_t *)
+{
   trStatistics_t *result; // eax
 
   result = a1;
@@ -180,67 +227,115 @@ void __cdecl R_TrackStatistics(struct trStatistics_t *) {
   return result;
 }
 
-void __cdecl R_InitModelDObj(void) { UNIMPLEMENTED(); }
-
-void __cdecl R_InitGlobalStructs(void) { UNIMPLEMENTED(); }
-
-bool __cdecl R_ReduceWindowSettings(struct GfxWindowParms *) {
+void __cdecl R_InitModelDObj(void)
+{
   UNIMPLEMENTED();
 }
 
-void __cdecl R_SetWndParms(struct GfxWindowParms *) { UNIMPLEMENTED(); }
-
-unsigned int __cdecl R_ChooseAdapter(void) { UNIMPLEMENTED(); }
-
-enum _D3DDEVTYPE __cdecl R_GetDeviceType(void) { UNIMPLEMENTED(); }
-
-void __cdecl R_InitGamma(void) { UNIMPLEMENTED(); }
-
-void __cdecl R_StoreWindowSettings(struct GfxWindowParms const *) {
+void __cdecl R_InitGlobalStructs(void)
+{
   UNIMPLEMENTED();
 }
 
-void __cdecl R_SetupAntiAliasing(struct GfxWindowParms const *) {
+bool __cdecl R_ReduceWindowSettings(struct GfxWindowParms *)
+{
   UNIMPLEMENTED();
 }
 
-void __cdecl R_GetDirect3DCaps(unsigned int, struct _D3DCAPS9 *) {
+void __cdecl R_SetWndParms(struct GfxWindowParms *)
+{
+  UNIMPLEMENTED();
+}
+
+unsigned int __cdecl R_ChooseAdapter(void)
+{
+  UNIMPLEMENTED();
+}
+
+enum _D3DDEVTYPE __cdecl R_GetDeviceType(void)
+{
+  UNIMPLEMENTED();
+}
+
+void __cdecl R_InitGamma(void)
+{
+  UNIMPLEMENTED();
+}
+
+void __cdecl R_StoreWindowSettings(struct GfxWindowParms const *)
+{
+  UNIMPLEMENTED();
+}
+
+void __cdecl R_SetupAntiAliasing(struct GfxWindowParms const *)
+{
+  UNIMPLEMENTED();
+}
+
+void __cdecl R_GetDirect3DCaps(unsigned int, struct _D3DCAPS9 *)
+{
   UNIMPLEMENTED();
 }
 
 void __cdecl R_SetD3DPresentParameters(struct _D3DPRESENT_PARAMETERS_ *,
-                                       struct GfxWindowParms const *) {
+                                       struct GfxWindowParms const *)
+{
   UNIMPLEMENTED();
 }
 
-void __cdecl R_DoneRenderingViews(void) { return R_IssueDrawGroups(); }
+void __cdecl R_DoneRenderingViews(void)
+{
+  return R_IssueDrawGroups();
+}
 
-void __cdecl R_EndView(int) {
+void __cdecl R_EndView(int)
+{
   R_EndDrawGroupLoop(R_DRAWGROUP_POST_AA, a1);
   return R_EndDrawGroupSection(R_DRAWGROUP_POST_AA);
 }
 
-void __cdecl R_InitFunctionTables(void) { UNIMPLEMENTED(); }
-
-void __cdecl R_StoreDirect3DCaps(unsigned int) { UNIMPLEMENTED(); }
-
-void __cdecl R_InitFFT(void) { UNIMPLEMENTED(); }
-
-bool __cdecl R_PreCreateWindow(void) { UNIMPLEMENTED(); }
-
-void __cdecl R_CalcGammaRamp(struct GfxGammaRamp *) { UNIMPLEMENTED(); }
-
-void __cdecl R_CreateDynamicIndexBuffer(struct r_ib_state_t *, int) {
+void __cdecl R_InitFunctionTables(void)
+{
   UNIMPLEMENTED();
 }
 
-void __cdecl R_CreateDynamicVertexBuffer(struct r_vb_state_t *, int) {
+void __cdecl R_StoreDirect3DCaps(unsigned int)
+{
   UNIMPLEMENTED();
 }
 
-void __cdecl R_CreateDynamicBuffers(void) { UNIMPLEMENTED(); }
+void __cdecl R_InitFFT(void)
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl R_CreateParticleCloudBuffer(void) {
+bool __cdecl R_PreCreateWindow(void)
+{
+  UNIMPLEMENTED();
+}
+
+void __cdecl R_CalcGammaRamp(struct GfxGammaRamp *)
+{
+  UNIMPLEMENTED();
+}
+
+void __cdecl R_CreateDynamicIndexBuffer(struct r_ib_state_t *, int)
+{
+  UNIMPLEMENTED();
+}
+
+void __cdecl R_CreateDynamicVertexBuffer(struct r_vb_state_t *, int)
+{
+  UNIMPLEMENTED();
+}
+
+void __cdecl R_CreateDynamicBuffers(void)
+{
+  UNIMPLEMENTED();
+}
+
+void __cdecl R_CreateParticleCloudBuffer(void)
+{
   int v0;      // ebx
   _WORD *v1;   // eax
   int v2;      // edi
@@ -265,96 +360,121 @@ void __cdecl R_CreateParticleCloudBuffer(void) {
   v0 = R_AllocStaticVertexBuffer(&dword_1180658, (int)&loc_14000);
   v19 = R_AllocStaticIndexBuffer(&dword_118065C, 12288);
   v20 = v0;
-  for (i = 0; i != 8; ++i) {
-    v16 = (_WORD)i << 7;
-    v17 = v20;
-    v1 = (_WORD *)v19;
-    v18 = v19;
-    v13 = 0;
-    while (1) {
-      v15 = v1;
-      v2 = v17;
-      v14 = 0;
-      for (j = v1;; j = v15) {
-        v4 = v2;
-        v10 =
-            (float)((float)((float)((float)rand() * 4.6566129e-10) + (float)i) *
-                    0.25) -
-            1.0;
-        v11 = (float)((float)((float)((float)rand() * 4.6566129e-10) +
-                              (float)v13) *
-                      0.25) -
-              1.0;
-        v5 = (float)((float)((float)((float)rand() * 4.6566129e-10) +
-                             (float)v14) *
-                     0.125) -
-             1.0;
-        v6 = 0;
-        v7 = 0;
-        do {
-          *(float *)v4 = v10;
-          *(float *)(v4 + 4) = v11;
-          *(float *)(v4 + 8) = v5;
-          *(_DWORD *)(v4 + 12) = cornerTexCoords_136164[v7];
-          *(_DWORD *)(v4 + 16) = dword_2F2244[v7];
-          v4 += 20;
-          ++v6;
-          v7 += 2;
-        } while (v6 != 4);
-        v8 = &quadIndices_136165;
-        do
-          *j++ = *v8++ + 4 * (v14 + v16);
-        while (&unk_2F222C != (_UNKNOWN *)v8);
-        ++v14;
-        v15 += 6;
-        v2 += 80;
-        if (v14 == 16)
-          break;
-      }
-      ++v13;
-      v16 += 16;
-      v17 += 1280;
-      v18 += 192;
-      if (v13 == 8)
-        break;
-      v1 = (_WORD *)v18;
+    for (i = 0; i != 8; ++i) {
+      v16 = (_WORD)i << 7;
+      v17 = v20;
+      v1 = (_WORD *)v19;
+      v18 = v19;
+      v13 = 0;
+        while (1) {
+          v15 = v1;
+          v2 = v17;
+          v14 = 0;
+            for (j = v1;; j = v15) {
+              v4 = v2;
+              v10 = (float)((float)((float)((float)rand() * 4.6566129e-10) +
+                                    (float)i) *
+                            0.25) -
+                    1.0;
+              v11 = (float)((float)((float)((float)rand() * 4.6566129e-10) +
+                                    (float)v13) *
+                            0.25) -
+                    1.0;
+              v5 = (float)((float)((float)((float)rand() * 4.6566129e-10) +
+                                   (float)v14) *
+                           0.125) -
+                   1.0;
+              v6 = 0;
+              v7 = 0;
+                do {
+                  *(float *)v4 = v10;
+                  *(float *)(v4 + 4) = v11;
+                  *(float *)(v4 + 8) = v5;
+                  *(_DWORD *)(v4 + 12) = cornerTexCoords_136164[v7];
+                  *(_DWORD *)(v4 + 16) = dword_2F2244[v7];
+                  v4 += 20;
+                  ++v6;
+                  v7 += 2;
+                }
+              while (v6 != 4);
+              v8 = &quadIndices_136165;
+              do
+                *j++ = *v8++ + 4 * (v14 + v16);
+              while (&unk_2F222C != (_UNKNOWN *)v8);
+              ++v14;
+              v15 += 6;
+              v2 += 80;
+              if (v14 == 16)
+                break;
+            }
+          ++v13;
+          v16 += 16;
+          v17 += 1280;
+          v18 += 192;
+          if (v13 == 8)
+            break;
+          v1 = (_WORD *)v18;
+        }
+      v19 += 1536;
+      v20 += 10240;
     }
-    v19 += 1536;
-    v20 += 10240;
-  }
   R_FinishStaticIndexBuffer(dword_118065C);
   return R_FinishStaticVertexBuffer(dword_1180658);
 }
 
-void __cdecl R_InitSystems(void) { UNIMPLEMENTED(); }
+void __cdecl R_InitSystems(void)
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl R_Shutdown(int) { UNIMPLEMENTED(); }
+void __cdecl R_Shutdown(int)
+{
+  UNIMPLEMENTED();
+}
 
 long __cdecl R_CreateDevice(struct HWND__ *, unsigned long,
-                            struct _D3DPRESENT_PARAMETERS_ *) {
+                            struct _D3DPRESENT_PARAMETERS_ *)
+{
   UNIMPLEMENTED();
 }
 
 bool __cdecl R_CreateForInitOrReset(struct _D3DPRESENT_PARAMETERS_ const *,
-                                    struct GfxWindowParms const *) {
+                                    struct GfxWindowParms const *)
+{
   UNIMPLEMENTED();
 }
 
-bool __cdecl R_InitHardware(struct GfxWindowParms const *) { UNIMPLEMENTED(); }
+bool __cdecl R_InitHardware(struct GfxWindowParms const *)
+{
+  UNIMPLEMENTED();
+}
 
-bool __cdecl R_CreateGameWindow(struct GfxWindowParms *) { UNIMPLEMENTED(); }
+bool __cdecl R_CreateGameWindow(struct GfxWindowParms *)
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl R_InitDirect3D(void) { UNIMPLEMENTED(); }
+void __cdecl R_InitDirect3D(void)
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl R_Init(void) { UNIMPLEMENTED(); }
+void __cdecl R_Init(void)
+{
+  UNIMPLEMENTED();
+}
 
-R_UpdateGpuSyncType() { UNIMPLEMENTED(); }
+R_UpdateGpuSyncType()
+{
+  UNIMPLEMENTED();
+}
 
 void std::__adjust_heap<_D3DDISPLAYMODE *, int, _D3DDISPLAYMODE,
                         unsigned char (*)(_D3DDISPLAYMODE const &,
                                           _D3DDISPLAYMODE const &)>(
     _D3DDISPLAYMODE *, int, int, _D3DDISPLAYMODE,
-    unsigned char (*)(_D3DDISPLAYMODE const &, _D3DDISPLAYMODE const &)) {
+    unsigned char (*)(_D3DDISPLAYMODE const &, _D3DDISPLAYMODE const &))
+{
   UNIMPLEMENTED();
 }
 
@@ -362,7 +482,8 @@ void std::__insertion_sort<_D3DDISPLAYMODE *,
                            unsigned char (*)(_D3DDISPLAYMODE const &,
                                              _D3DDISPLAYMODE const &)>(
     _D3DDISPLAYMODE *, _D3DDISPLAYMODE *,
-    unsigned char (*)(_D3DDISPLAYMODE const &, _D3DDISPLAYMODE const &)) {
+    unsigned char (*)(_D3DDISPLAYMODE const &, _D3DDISPLAYMODE const &))
+{
   UNIMPLEMENTED();
 }
 
@@ -370,8 +491,12 @@ void std::__introsort_loop<_D3DDISPLAYMODE *, int,
                            unsigned char (*)(_D3DDISPLAYMODE const &,
                                              _D3DDISPLAYMODE const &)>(
     _D3DDISPLAYMODE *, _D3DDISPLAYMODE *, int,
-    unsigned char (*)(_D3DDISPLAYMODE const &, _D3DDISPLAYMODE const &)) {
+    unsigned char (*)(_D3DDISPLAYMODE const &, _D3DDISPLAYMODE const &))
+{
   UNIMPLEMENTED();
 }
 
-R_RecoverLostDevice() { UNIMPLEMENTED(); }
+R_RecoverLostDevice()
+{
+  UNIMPLEMENTED();
+}

@@ -1,4 +1,5 @@
 int marker_r_staticmodel_load_obj;
+
 R_ScaleStaticModelLighting(float directLightScale,  float indirectLightScale,  float* sunVisibility,  float  colorForDir) [4])
 {
   UNIMPLEMENTED();
@@ -9,13 +10,20 @@ R_GetStaticModelLightingFromGrid(GfxWorld const* world,  GfxStaticModelInstance*
   UNIMPLEMENTED();
 }
 
-R_PrepareStaticModelLightingCache(GfxWorld *world, int smodelCount) {
+R_PrepareStaticModelLightingCache(GfxWorld *world, int smodelCount)
+{
   UNIMPLEMENTED();
 }
 
-R_ValidateStaticModel(XModel *model) { UNIMPLEMENTED(); }
+R_ValidateStaticModel(XModel *model)
+{
+  UNIMPLEMENTED();
+}
 
-R_FinishStaticModelLightingCache(GfxWorld *world) { UNIMPLEMENTED(); }
+R_FinishStaticModelLightingCache(GfxWorld *world)
+{
+  UNIMPLEMENTED();
+}
 
 R_GetStaticModelLightingFromGround(float const* groundLight,  float* sunVisibility,  float  colorForDir) [4])
 {
@@ -24,7 +32,8 @@ R_GetStaticModelLightingFromGround(float const* groundLight,  float* sunVisibili
 
 R_CreateStaticModel(GfxWorld *world, XModel *model, float const *origin,
                     float const *angles, float scale,
-                    GfxStaticModelInstance *smodelInst) {
+                    GfxStaticModelInstance *smodelInst)
+{
   UNIMPLEMENTED();
 }
 
@@ -33,6 +42,12 @@ R_CacheStaticModelLighting(GfxWorld const* world,  GfxStaticModelInstance* smode
   UNIMPLEMENTED();
 }
 
-R_SortGfxAabbTree(GfxWorld *world, GfxAabbTree *tree) { UNIMPLEMENTED(); }
+R_SortGfxAabbTree(GfxWorld *world, GfxAabbTree *tree)
+{
+  UNIMPLEMENTED();
+}
 
-R_AllocStaticModels(GfxAabbTree *tree) { UNIMPLEMENTED(); }
+R_AllocStaticModels(GfxAabbTree *tree)
+{
+  UNIMPLEMENTED();
+}

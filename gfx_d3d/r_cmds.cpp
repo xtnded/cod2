@@ -1,4 +1,5 @@
-void __cdecl R_UnregisterCmds() {
+void __cdecl R_UnregisterCmds()
+{
   unk_11807BC("r_applyPicmip");
   unk_11807BC("r_vc_stats");
   unk_11807BC("screenshot");
@@ -11,7 +12,8 @@ void __cdecl R_UnregisterCmds() {
   return unk_11807BC("r_smc_flush");
 }
 
-void __cdecl R_RegisterCmds() {
+void __cdecl R_RegisterCmds()
+{
   unk_11807B8("screenshot", R_Cmd_Screenshot);
   unk_11807B8("screenshotJpeg", R_Cmd_ScreenshotJpeg);
   unk_11807B8("imagelist", R_ImageList_f);
@@ -24,8 +26,13 @@ void __cdecl R_RegisterCmds() {
 }
 
 int marker_r_cmds;
-void __cdecl R_Cmd_ScreenshotJpeg(void) {
+
+void __cdecl R_Cmd_ScreenshotJpeg(void)
+{
   R_ScreenshotCommand(R_SCREENSHOT_JPG);
 }
 
-void __cdecl R_Cmd_Screenshot(void) { R_ScreenshotCommand(R_SCREENSHOT_TGA); }
+void __cdecl R_Cmd_Screenshot(void)
+{
+  R_ScreenshotCommand(R_SCREENSHOT_TGA);
+}

@@ -1,40 +1,67 @@
-CBaseVA::CBaseVA() { UNIMPLEMENTED(); }
+CBaseVA::CBaseVA()
+{
+  UNIMPLEMENTED();
+}
 
-CBaseVA::Reset() { UNIMPLEMENTED(); }
+CBaseVA::Reset()
+{
+  UNIMPLEMENTED();
+}
 
-CBaseVA::Enable(unsigned long VA) { UNIMPLEMENTED(); }
+CBaseVA::Enable(unsigned long VA)
+{
+  UNIMPLEMENTED();
+}
 
-CBaseVA::Disable(unsigned long VA) { UNIMPLEMENTED(); }
+CBaseVA::Disable(unsigned long VA)
+{
+  UNIMPLEMENTED();
+}
 
-CTexCoordArray::SetGuard(bool vEnable) { UNIMPLEMENTED(); }
+CTexCoordArray::SetGuard(bool vEnable)
+{
+  UNIMPLEMENTED();
+}
 
-CBaseVA::Force() { UNIMPLEMENTED(); }
+CBaseVA::Force()
+{
+  UNIMPLEMENTED();
+}
 
 CColorArray::Set(unsigned long Type, long Stride, void const *Pointer,
-                 long Size) {
+                 long Size)
+{
   UNIMPLEMENTED();
 }
 
-CColorArray::SetGuard(bool, unsigned long, long, void const *, long) {
+CColorArray::SetGuard(bool, unsigned long, long, void const *, long)
+{
   UNIMPLEMENTED();
 }
 
-CNormalArray::Set(unsigned long, long, void const *) { UNIMPLEMENTED(); }
+CNormalArray::Set(unsigned long, long, void const *)
+{
+  UNIMPLEMENTED();
+}
 
-CNormalArray::SetGuard(bool, unsigned long, long, void const *) {
+CNormalArray::SetGuard(bool, unsigned long, long, void const *)
+{
   UNIMPLEMENTED();
 }
 
 CVertexArray::Set(unsigned long Type, long Stride, void const *Pointer,
-                  long Size) {
+                  long Size)
+{
   UNIMPLEMENTED();
 }
 
-CVertexArray::SetGuard(bool, unsigned long, long, void const *, long) {
+CVertexArray::SetGuard(bool, unsigned long, long, void const *, long)
+{
   UNIMPLEMENTED();
 }
 
 CTexCoordArray::Set(unsigned long Type, long Stride, void const *Pointer,
-                    long Size) {
+                    long Size)
+{
   UNIMPLEMENTED();
 }

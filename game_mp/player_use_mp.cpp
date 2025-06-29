@@ -1,6 +1,10 @@
-void __cdecl Player_UpdateActivate(struct gentity_s *ent) { UNIMPLEMENTED(); }
+void __cdecl Player_UpdateActivate(struct gentity_s *ent)
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl Player_UpdateLookAtEntity(struct gentity_s *) {
+void __cdecl Player_UpdateLookAtEntity(struct gentity_s *)
+{
   _DWORD *client;      // esi
   unsigned __int8 *v2; // edi
   gentity_s *v3;       // ecx
@@ -44,65 +48,73 @@ void __cdecl Player_UpdateLookAtEntity(struct gentity_s *) {
   v20[2] = (float)(v19 * 15000.0) + v23;
   G_LocationalTrace(&v13, &v21, v20, a1->s.number, (const float *)0x22802801,
                     v2);
-  if (v13.entityNum <= 0x3FDu) {
-    v14 = (float)((float)(v13.fraction * 15000.0) * v17) + v21;
-    v15 = (float)((float)(v13.fraction * 15000.0) * v18) + v22;
-    v16 = (float)((float)(v13.fraction * 15000.0) * v19) + v23;
-    Visibility = SV_FX_GetVisibility(&v21, &v14);
-    if (Visibility >= 0.2) {
-      v3 = &g_entities + v13.entityNum;
-      if (v3) {
-        if (*(_WORD *)v3->classname != word_195B0DC)
-          goto LABEL_14;
-        *(_DWORD *)(a1->client + 10284) = v3;
-        G_Trigger(Visibility, v3, a1);
-        G_LocationalTrace(&v13, &v21, v20, a1->s.number,
-                          (const float *)0x2802801, v2);
-        if (v13.entityNum <= 0x3FDu) {
-          v14 = (float)((float)(15000.0 * v13.fraction) * v17) + v21;
-          v15 = (float)((float)(15000.0 * v13.fraction) * v18) + v22;
-          v16 = (float)((float)(15000.0 * v13.fraction) * v19) + v23;
-          v12 = SV_FX_GetVisibility(&v21, &v14);
-          if (v12 >= 0.2) {
-            v3 = &g_entities + v13.entityNum;
+    if (v13.entityNum <= 0x3FDu) {
+      v14 = (float)((float)(v13.fraction * 15000.0) * v17) + v21;
+      v15 = (float)((float)(v13.fraction * 15000.0) * v18) + v22;
+      v16 = (float)((float)(v13.fraction * 15000.0) * v19) + v23;
+      Visibility = SV_FX_GetVisibility(&v21, &v14);
+        if (Visibility >= 0.2) {
+          v3 = &g_entities + v13.entityNum;
             if (v3) {
-            LABEL_14:
-              if (v3->s.eType == 1 && (v13.surfaceFlags & 0x10) == 0) {
-                v4 = v3->r.currentOrigin[0] - v21;
-                v5 = v3->r.currentOrigin[1] - v22;
-                v6 = v3->r.currentOrigin[2] - v23;
-                v7 = *(_DWORD *)(v3->client + 10060);
-                v8 = a1->client;
-                if (v7 == *(_DWORD *)(v8 + 10060) && v7) {
-                  v9 = (float)((float)(v4 * v4) + (float)(v5 * v5)) +
-                       (float)(v6 * v6);
-                  if ((float)(*(float *)(g_friendlyNameDist + 8) *
-                              *(float *)(g_friendlyNameDist + 8)) > v9 &&
-                      !*(_DWORD *)(v8 + 10284)) {
-                    *(_DWORD *)(v8 + 10284) = v3;
-                  }
-                  if ((float)(*(float *)(g_friendlyfireDist + 8) *
-                              *(float *)(g_friendlyfireDist + 8)) > v9)
-                    client[3] |= 0x100000u;
-                } else if ((float)(*(float *)(WeaponDef + 608) *
-                                   *(float *)(WeaponDef + 608)) >
-                           (float)((float)((float)(v4 * v4) +
-                                           (float)(v5 * v5)) +
-                                   (float)(v6 * v6))) {
-                  if (!*(_DWORD *)(v8 + 10284))
-                    *(_DWORD *)(v8 + 10284) = v3;
-                  client[3] |= 0x200000u;
+              if (*(_WORD *)v3->classname != word_195B0DC)
+                goto LABEL_14;
+              *(_DWORD *)(a1->client + 10284) = v3;
+              G_Trigger(Visibility, v3, a1);
+              G_LocationalTrace(&v13, &v21, v20, a1->s.number,
+                                (const float *)0x2802801, v2);
+                if (v13.entityNum <= 0x3FDu) {
+                  v14 = (float)((float)(15000.0 * v13.fraction) * v17) + v21;
+                  v15 = (float)((float)(15000.0 * v13.fraction) * v18) + v22;
+                  v16 = (float)((float)(15000.0 * v13.fraction) * v19) + v23;
+                  v12 = SV_FX_GetVisibility(&v21, &v14);
+                    if (v12 >= 0.2) {
+                      v3 = &g_entities + v13.entityNum;
+                        if (v3) {
+                        LABEL_14:
+                            if (v3->s.eType == 1 &&
+                                (v13.surfaceFlags & 0x10) == 0) {
+                              v4 = v3->r.currentOrigin[0] - v21;
+                              v5 = v3->r.currentOrigin[1] - v22;
+                              v6 = v3->r.currentOrigin[2] - v23;
+                              v7 = *(_DWORD *)(v3->client + 10060);
+                              v8 = a1->client;
+                                if (v7 == *(_DWORD *)(v8 + 10060) && v7) {
+                                  v9 = (float)((float)(v4 * v4) +
+                                               (float)(v5 * v5)) +
+                                       (float)(v6 * v6);
+                                    if ((float)(*(float *)(g_friendlyNameDist +
+                                                           8) *
+                                                *(float *)(g_friendlyNameDist +
+                                                           8)) > v9 &&
+                                        !*(_DWORD *)(v8 + 10284)) {
+                                      *(_DWORD *)(v8 + 10284) = v3;
+                                    }
+                                  if ((float)(*(float *)(g_friendlyfireDist +
+                                                         8) *
+                                              *(float *)(g_friendlyfireDist +
+                                                         8)) > v9)
+                                    client[3] |= 0x100000u;
+                                }
+                                else if ((float)(*(float *)(WeaponDef + 608) *
+                                                 *(float *)(WeaponDef + 608)) >
+                                         (float)((float)((float)(v4 * v4) +
+                                                         (float)(v5 * v5)) +
+                                                 (float)(v6 * v6))) {
+                                  if (!*(_DWORD *)(v8 + 10284))
+                                    *(_DWORD *)(v8 + 10284) = v3;
+                                  client[3] |= 0x200000u;
+                                }
+                            }
+                        }
+                    }
                 }
-              }
             }
-          }
         }
-      }
     }
-  }
 }
 
-void __cdecl Player_UpdateCursorHints(struct gentity_s *ent) {
+void __cdecl Player_UpdateCursorHints(struct gentity_s *ent)
+{
   _DWORD *client;         // ebx
   int32_t v2;             // esi
   gentity_s *v3;          // ebx
@@ -132,82 +144,83 @@ void __cdecl Player_UpdateCursorHints(struct gentity_s *ent) {
   v2 = a1->client;
   if ((unsigned int)(*(_DWORD *)(v2 + 216) - 17) <= 5)
     return;
-  if (a1->active) {
-    if ((client[40] & 0x300) != 0) {
-      v3 = &dword_1934484[*(_DWORD *)(v2 + 1428)];
-      if (**(_BYTE **)(BG_GetWeaponDef(v3->s.weapon) + 1392)) {
-        *(_DWORD *)(v2 + 1440) = 1023;
-        *(_DWORD *)(v2 + 1432) = v3->s.weapon + 4;
-        *(_DWORD *)(v2 + 1436) =
-            *(_DWORD *)(BG_GetWeaponDef(v3->s.weapon) + 1400);
-      }
+    if (a1->active) {
+        if ((client[40] & 0x300) != 0) {
+          v3 = &dword_1934484[*(_DWORD *)(v2 + 1428)];
+            if (**(_BYTE **)(BG_GetWeaponDef(v3->s.weapon) + 1392)) {
+              *(_DWORD *)(v2 + 1440) = 1023;
+              *(_DWORD *)(v2 + 1432) = v3->s.weapon + 4;
+              *(_DWORD *)(v2 + 1436) =
+                  *(_DWORD *)(BG_GetWeaponDef(v3->s.weapon) + 1400);
+            }
+        }
+      return;
     }
-    return;
-  }
   if ((*(_BYTE *)(v2 + 12) & 4) != 0)
     return;
   UseList = Player_GetUseList(a1, __base);
   if (UseList <= 0)
     return;
   v17 = 0;
-  while (1) {
-    ent = (gentity_s *)__base[v17].ent;
-    eType = ent->s.eType;
-    if (eType == 3) {
-      v18 = a1->client;
-      v7 = &bg_itemlist[11 * ent->unnamed_field.item.index];
-      if (v7[7] == 1 && *(_DWORD *)(BG_GetWeaponDef(v7[8]) + 120) != 1) {
-        v8 = v7[8];
-        if (((*(int *)(v18 + 4 * (v8 >> 5) + 1348) >> (v7[8] & 0x1F)) & 1) ==
-                0 &&
-            v8 != -4) {
-          v9 = v8 + 4;
+    while (1) {
+      ent = (gentity_s *)__base[v17].ent;
+      eType = ent->s.eType;
+        if (eType == 3) {
+          v18 = a1->client;
+          v7 = &bg_itemlist[11 * ent->unnamed_field.item.index];
+            if (v7[7] == 1 && *(_DWORD *)(BG_GetWeaponDef(v7[8]) + 120) != 1) {
+              v8 = v7[8];
+                if (((*(int *)(v18 + 4 * (v8 >> 5) + 1348) >> (v7[8] & 0x1F)) &
+                     1) == 0 &&
+                    v8 != -4) {
+                  v9 = v8 + 4;
+                  v10 = -1;
+                  goto LABEL_24;
+                }
+            }
+          goto LABEL_17;
+        }
+        if (eType == 9) {
+          if (!G_IsTurretUsable(ent, a1))
+            goto LABEL_17;
+          weapon = ent->s.weapon;
+          v9 = weapon + 4;
+            if (**(_BYTE **)(BG_GetWeaponDef(weapon) + 1388)) {
+              v10 = *(_DWORD *)(BG_GetWeaponDef(ent->s.weapon) + 1396);
+              goto LABEL_24;
+            }
+        LABEL_28:
           v10 = -1;
           goto LABEL_24;
         }
-      }
-      goto LABEL_17;
-    }
-    if (eType == 9) {
-      if (!G_IsTurretUsable(ent, a1))
+      if (eType)
         goto LABEL_17;
-      weapon = ent->s.weapon;
-      v9 = weapon + 4;
-      if (**(_BYTE **)(BG_GetWeaponDef(weapon) + 1388)) {
-        v10 = *(_DWORD *)(BG_GetWeaponDef(ent->s.weapon) + 1396);
-        goto LABEL_24;
-      }
-    LABEL_28:
-      v10 = -1;
-      goto LABEL_24;
+      v4 = *(_WORD *)ent->classname;
+        if (v4 != word_195B0D6 && v4 != word_195B0D8) {
+          v9 = 0;
+          v10 = -1;
+          goto LABEL_24;
+        }
+      team = ent->team;
+        if (team) {
+          if (team != *(_DWORD *)(a1->client + 10060))
+            goto LABEL_17;
+          v12 = __base[v17].ent;
+        }
+        else {
+          v12 = __base[v17].ent;
+        }
+      v13 = *(_DWORD *)(v12 + 436);
+      if (v13 == 1023)
+        break;
+        if (v13 == *(_DWORD *)(a1->client + 204)) {
+          v14 = __base[v17].ent;
+          goto LABEL_34;
+        }
+    LABEL_17:
+      if (UseList == ++v17)
+        return;
     }
-    if (eType)
-      goto LABEL_17;
-    v4 = *(_WORD *)ent->classname;
-    if (v4 != word_195B0D6 && v4 != word_195B0D8) {
-      v9 = 0;
-      v10 = -1;
-      goto LABEL_24;
-    }
-    team = ent->team;
-    if (team) {
-      if (team != *(_DWORD *)(a1->client + 10060))
-        goto LABEL_17;
-      v12 = __base[v17].ent;
-    } else {
-      v12 = __base[v17].ent;
-    }
-    v13 = *(_DWORD *)(v12 + 436);
-    if (v13 == 1023)
-      break;
-    if (v13 == *(_DWORD *)(a1->client + 204)) {
-      v14 = __base[v17].ent;
-      goto LABEL_34;
-    }
-  LABEL_17:
-    if (UseList == ++v17)
-      return;
-  }
   v14 = v12;
 LABEL_34:
   v9 = *(_DWORD *)(v14 + 220);
@@ -224,34 +237,48 @@ LABEL_24:
     client[360] = 1023;
 }
 
-int __cdecl compare_use(void const *, void const *) {
+int __cdecl compare_use(void const *, void const *)
+{
   return (int)(float)(a1[1] - a2[1]);
 }
 
-bool __cdecl Player_ActivateCmd(struct gentity_s *) { UNIMPLEMENTED(); }
+bool __cdecl Player_ActivateCmd(struct gentity_s *)
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl Player_SetTurretDropHint(struct gentity_s *) { UNIMPLEMENTED(); }
+void __cdecl Player_SetTurretDropHint(struct gentity_s *)
+{
+  UNIMPLEMENTED();
+}
 
 int __cdecl Player_GetItemCursorHint(struct gclient_s const *,
-                                     struct gentity_s const *) {
+                                     struct gentity_s const *)
+{
   UNIMPLEMENTED();
 }
 
-void __cdecl Player_UseEntity(struct gentity_s *, struct gentity_s *) {
+void __cdecl Player_UseEntity(struct gentity_s *, struct gentity_s *)
+{
   UNIMPLEMENTED();
 }
 
-void __cdecl Player_ActivateHoldCmd(struct gentity_s *) { UNIMPLEMENTED(); }
+void __cdecl Player_ActivateHoldCmd(struct gentity_s *)
+{
+  UNIMPLEMENTED();
+}
 
 struct gentity_s *__cdecl Player_UpdateLookAtEntityTrace(struct trace_t *,
                                                          float *const,
                                                          float *const, int, int,
                                                          unsigned char *,
-                                                         float *const) {
+                                                         float *const)
+{
   UNIMPLEMENTED();
 }
 
-int __cdecl Player_GetUseList(struct gentity_s *, struct useList_t *const) {
+int __cdecl Player_GetUseList(struct gentity_s *, struct useList_t *const)
+{
   size_t v2;      // eax
   int v4;         // esi
   useList_t *v5;  // edi
@@ -305,102 +332,108 @@ int __cdecl Player_GetUseList(struct gentity_s *, struct useList_t *const) {
   v34[1] = v32 + 192.0;
   v34[2] = v33 + 96.0;
   v15 = CM_AreaEntities(v35, v34, v20, 1024, 0x200000);
-  if (v15 <= 0) {
-    v2 = 0;
-    __nel = 0;
-    goto LABEL_3;
-  }
+    if (v15 <= 0) {
+      v2 = 0;
+      __nel = 0;
+      goto LABEL_3;
+    }
   v4 = 0;
   v17 = 0;
   v19 = 0;
   v5 = __base;
-  do {
-    while (1) {
-      v6 = &g_entities + v20[v4];
-      if (a1 != v6 && (v6->s.eType == 3 || (v6->r.contents & 0x200000) != 0)) {
-        if (*(_WORD *)v6->classname == word_195B0D8) {
-          if (v6->r.absmin[0] <= v36 && v21 <= v6->r.absmax[0] &&
-              v6->r.absmin[1] <= v37 && v22 <= v6->r.absmax[1] &&
-              v6->r.absmin[2] <= v38 && v23 <= v6->r.absmax[2] &&
-              SV_EntityContact(&v21, &v36, &g_entities + v20[v4])) {
-            v5->score = -1015021568;
-            v5->ent = (int32_t)v6;
-            ++v19;
-            ++v5;
-          }
-          goto LABEL_13;
+    do {
+        while (1) {
+          v6 = &g_entities + v20[v4];
+            if (a1 != v6 &&
+                (v6->s.eType == 3 || (v6->r.contents & 0x200000) != 0)) {
+                if (*(_WORD *)v6->classname == word_195B0D8) {
+                    if (v6->r.absmin[0] <= v36 && v21 <= v6->r.absmax[0] &&
+                        v6->r.absmin[1] <= v37 && v22 <= v6->r.absmax[1] &&
+                        v6->r.absmin[2] <= v38 && v23 <= v6->r.absmax[2] &&
+                        SV_EntityContact(&v21, &v36, &g_entities + v20[v4])) {
+                      v5->score = -1015021568;
+                      v5->ent = (int32_t)v6;
+                      ++v19;
+                      ++v5;
+                    }
+                  goto LABEL_13;
+                }
+              v28 = v6->r.absmin[0] + v6->r.absmax[0];
+              v29 = v6->r.absmin[1] + v6->r.absmax[1];
+              v7 = v6->r.absmin[2] + v6->r.absmax[2];
+              v28 = v28 * 0.5;
+              v29 = v29 * 0.5;
+              v30 = v7 * 0.5;
+              v25 = v28 - v31;
+              v26 = v29 - v32;
+              v27 = (float)(v7 * 0.5) - v33;
+              v13 = Vec3Normalize(&v25);
+              if (v13 <= 128.0)
+                break;
+            }
+        LABEL_13:
+          if (v15 == ++v4)
+            goto LABEL_14;
         }
-        v28 = v6->r.absmin[0] + v6->r.absmax[0];
-        v29 = v6->r.absmin[1] + v6->r.absmax[1];
-        v7 = v6->r.absmin[2] + v6->r.absmax[2];
-        v28 = v28 * 0.5;
-        v29 = v29 * 0.5;
-        v30 = v7 * 0.5;
-        v25 = v28 - v31;
-        v26 = v29 - v32;
-        v27 = (float)(v7 * 0.5) - v33;
-        v13 = Vec3Normalize(&v25);
-        if (v13 <= 128.0)
-          break;
-      }
-    LABEL_13:
-      if (v15 == ++v4)
-        goto LABEL_14;
+      v8 = (float)((float)((float)((float)((float)((float)(v25 * v24[0]) +
+                                                   (float)(v26 * v24[1])) +
+                                           (float)(v27 * v24[2])) +
+                                   1.0) *
+                           -0.5) +
+                   1.0) *
+           256.0;
+      *(float *)&v5->score = v8;
+      if (*(_WORD *)v6->classname == word_195B0D6)
+        *(float *)&v5->score = v8 - 256.0;
+        if (v6->s.eType == 3 &&
+            !BG_CanItemBeGrabbed(&v6->s, (const playerState_s *)a1->client,
+                                 0)) {
+          *(float *)&v5->score = *(float *)&v5->score + 10000.0;
+          ++v17;
+        }
+      v5->ent = (int32_t)v6;
+      *(float *)&v5->score = v13 + *(float *)&v5->score;
+      ++v19;
+      ++v5;
+      ++v4;
     }
-    v8 = (float)((float)((float)((float)((float)((float)(v25 * v24[0]) +
-                                                 (float)(v26 * v24[1])) +
-                                         (float)(v27 * v24[2])) +
-                                 1.0) *
-                         -0.5) +
-                 1.0) *
-         256.0;
-    *(float *)&v5->score = v8;
-    if (*(_WORD *)v6->classname == word_195B0D6)
-      *(float *)&v5->score = v8 - 256.0;
-    if (v6->s.eType == 3 &&
-        !BG_CanItemBeGrabbed(&v6->s, (const playerState_s *)a1->client, 0)) {
-      *(float *)&v5->score = *(float *)&v5->score + 10000.0;
-      ++v17;
-    }
-    v5->ent = (int32_t)v6;
-    *(float *)&v5->score = v13 + *(float *)&v5->score;
-    ++v19;
-    ++v5;
-    ++v4;
-  } while (v15 != v4);
+  while (v15 != v4);
 LABEL_14:
   v2 = v19;
   __nel = v19 - v17;
 LABEL_3:
   qsort(__base, v2, 8u,
         (int(__cdecl *)(const void *, const void *))compare_use);
-  if (__nel > 0) {
-    p_ent = (float *)&__base->ent;
-    v10 = 0;
-    v16 = 0;
-    do {
-      v11 = *(gentity_s **)p_ent;
-      if (*(_WORD *)(*(_DWORD *)p_ent + 360) != word_195B0D8) {
-        v28 = v11->r.absmin[0] + v11->r.absmax[0];
-        v29 = v11->r.absmin[1] + v11->r.absmax[1];
-        v12 = v11->r.absmin[2] + v11->r.absmax[2];
-        v28 = v28 * 0.5;
-        v29 = v29 * 0.5;
-        v30 = v12 * 0.5;
-        if (v11->s.eType == 9)
-          G_DObjGetWorldTagPos(v11, (unsigned __int16)word_195B11E, &v28);
-        if (!G_TraceCapsuleComplete(&v31, vec3_origin, vec3_origin, &v28,
-                                    *(_DWORD *)(client + 204), 17)) {
-          p_ent[1] = p_ent[1] + 10000.0;
-          ++v16;
+    if (__nel > 0) {
+      p_ent = (float *)&__base->ent;
+      v10 = 0;
+      v16 = 0;
+        do {
+          v11 = *(gentity_s **)p_ent;
+            if (*(_WORD *)(*(_DWORD *)p_ent + 360) != word_195B0D8) {
+              v28 = v11->r.absmin[0] + v11->r.absmax[0];
+              v29 = v11->r.absmin[1] + v11->r.absmax[1];
+              v12 = v11->r.absmin[2] + v11->r.absmax[2];
+              v28 = v28 * 0.5;
+              v29 = v29 * 0.5;
+              v30 = v12 * 0.5;
+              if (v11->s.eType == 9)
+                G_DObjGetWorldTagPos(v11, (unsigned __int16)word_195B11E, &v28);
+                if (!G_TraceCapsuleComplete(&v31, vec3_origin, vec3_origin,
+                                            &v28, *(_DWORD *)(client + 204),
+                                            17)) {
+                  p_ent[1] = p_ent[1] + 10000.0;
+                  ++v16;
+                }
+            }
+          ++v10;
+          p_ent += 2;
         }
-      }
-      ++v10;
-      p_ent += 2;
-    } while (v10 != __nel);
-  } else {
-    v16 = 0;
-  }
+      while (v10 != __nel);
+    }
+    else {
+      v16 = 0;
+    }
   qsort(__base, __nel, 8u,
         (int(__cdecl *)(const void *, const void *))compare_use);
   return __nel - v16;

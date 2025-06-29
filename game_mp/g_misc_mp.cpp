@@ -1,11 +1,16 @@
-void __cdecl G_InitTurrets() { UNIMPLEMENTED(); }
+void __cdecl G_InitTurrets()
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl SP_info_notnull(struct gentity_s *) {
+void __cdecl SP_info_notnull(struct gentity_s *)
+{
   return G_SetOrigin(a1, a1->r.currentOrigin);
 }
 
 void __cdecl turret_use(struct gentity_s *self, struct gentity_s *owner,
-                        struct gentity_s *activator) {
+                        struct gentity_s *activator)
+{
   int v2;           // esi
   int32_t client;   // edi
   int v4;           // eax
@@ -39,29 +44,30 @@ void __cdecl turret_use(struct gentity_s *self, struct gentity_s *owner,
   a2->s.otherEntityNum = a1->s.number;
   a1->s.otherEntityNum = a2->s.number;
   v4 = *(_DWORD *)(client + 12);
-  if ((v4 & 1) != 0) {
-    *(_DWORD *)(v2 + 36) = 2;
-    v5 = *(_DWORD *)(v2 + 32);
-    if (v5 != 2)
-      goto LABEL_3;
-  LABEL_7:
-    v14 = *(_DWORD *)(client + 160);
-    BYTE1(v14) = BYTE1(v14) & 0xFC | 1;
-    *(_DWORD *)(client + 160) = v14;
-    goto LABEL_5;
-  }
+    if ((v4 & 1) != 0) {
+      *(_DWORD *)(v2 + 36) = 2;
+      v5 = *(_DWORD *)(v2 + 32);
+      if (v5 != 2)
+        goto LABEL_3;
+    LABEL_7:
+      v14 = *(_DWORD *)(client + 160);
+      BYTE1(v14) = BYTE1(v14) & 0xFC | 1;
+      *(_DWORD *)(client + 160) = v14;
+      goto LABEL_5;
+    }
   *(_DWORD *)(v2 + 36) = (v4 & 2) != 0;
   v5 = *(_DWORD *)(v2 + 32);
   if (v5 == 2)
     goto LABEL_7;
 LABEL_3:
-  if (v5 == 1) {
-    v15 = *(_DWORD *)(client + 160);
-    BYTE1(v15) = BYTE1(v15) & 0xFC | 2;
-    *(_DWORD *)(client + 160) = v15;
-  } else {
-    *(_DWORD *)(client + 160) |= 0x300u;
-  }
+    if (v5 == 1) {
+      v15 = *(_DWORD *)(client + 160);
+      BYTE1(v15) = BYTE1(v15) & 0xFC | 2;
+      *(_DWORD *)(client + 160) = v15;
+    }
+    else {
+      *(_DWORD *)(client + 160) |= 0x300u;
+    }
 LABEL_5:
   *(float *)&v16 =
       AngleSubtract(*(float *)(client + 232), a1->r.currentAngles[0]);
@@ -107,7 +113,8 @@ LABEL_5:
       AngleNormalize360Accurate(v13.f32[0] - *(float *)(client + 280));
 }
 
-int __cdecl G_IsTurretUsable(struct gentity_s *self, struct gentity_s *owner) {
+int __cdecl G_IsTurretUsable(struct gentity_s *self, struct gentity_s *owner)
+{
   int v2;         // eax
   __m128 v3;      // xmm1
   __m128 v4;      // xmm2
@@ -156,7 +163,8 @@ int __cdecl G_IsTurretUsable(struct gentity_s *self, struct gentity_s *owner) {
   return !*(_DWORD *)(client + 60) && *(_DWORD *)(client + 96) != 1023;
 }
 
-void __cdecl turret_controller(struct gentity_s *self, int *const partBits) {
+void __cdecl turret_controller(struct gentity_s *self, int *const partBits)
+{
   DObj_s *ServerDObj; // edi
   float v4;           // [esp+14h] [ebp-24h] BYREF
   float v5;           // [esp+18h] [ebp-20h]
@@ -175,12 +183,14 @@ void __cdecl turret_controller(struct gentity_s *self, int *const partBits) {
 }
 
 void __cdecl use_corona(struct gentity_s *, struct gentity_s *,
-                        struct gentity_s *) {
+                        struct gentity_s *)
+{
   UNIMPLEMENTED();
 }
 
 void __cdecl TeleportPlayer(struct gentity_s *player, float *const origin,
-                            float *const angles) {
+                            float *const angles)
+{
   float *client;      // edx
   int v4;             // edx
   svEntity_s *result; // eax
@@ -206,7 +216,8 @@ void __cdecl TeleportPlayer(struct gentity_s *player, float *const origin,
   return result;
 }
 
-void __cdecl G_ClientStopUsingTurret(struct gentity_s *self) {
+void __cdecl G_ClientStopUsingTurret(struct gentity_s *self)
+{
   int v1;         // esi
   gentity_s *v2;  // ebx
   int v3;         // eax
@@ -217,16 +228,18 @@ void __cdecl G_ClientStopUsingTurret(struct gentity_s *self) {
   *(_DWORD *)(v1 + 40) = 0;
   *(_DWORD *)a1->s.loopSound = 0;
   v3 = *(_DWORD *)(v1 + 36);
-  if (v3 != -1) {
-    if (v3 == 2) {
-      G_AddEvent(v2, 142, 0);
-    } else if (v3 == 1) {
-      G_AddEvent(v2, 141, 0);
-    } else {
-      G_AddEvent(v2, 140, 0);
+    if (v3 != -1) {
+        if (v3 == 2) {
+          G_AddEvent(v2, 142, 0);
+        }
+        else if (v3 == 1) {
+          G_AddEvent(v2, 141, 0);
+        }
+        else {
+          G_AddEvent(v2, 140, 0);
+        }
+      *(_DWORD *)(v1 + 36) = -1;
     }
-    *(_DWORD *)(v1 + 36) = -1;
-  }
   TeleportPlayer(v2, (float *)(v1 + 44), v2->r.currentAngles);
   *(_DWORD *)(v2->client + 160) &= 0xFFFFFCFF;
   *(_DWORD *)(v2->client + 1424) = 0;
@@ -240,7 +253,8 @@ void __cdecl G_ClientStopUsingTurret(struct gentity_s *self) {
   return result;
 }
 
-void __cdecl G_FreeTurret(struct gentity_s *self) {
+void __cdecl G_FreeTurret(struct gentity_s *self)
+{
   _DWORD *result; // eax
 
   if (*(&g_entities.client + 140 * a1->r.ownerNum))
@@ -252,21 +266,38 @@ void __cdecl G_FreeTurret(struct gentity_s *self) {
   return result;
 }
 
-void __cdecl SP_corona(struct gentity_s *ent) { UNIMPLEMENTED(); }
-
-void __cdecl SP_misc_model(struct gentity_s *ent) { UNIMPLEMENTED(); }
-
-void __cdecl SP_light(struct gentity_s *self) { UNIMPLEMENTED(); }
-
-void __cdecl SP_info_null(struct gentity_s *self) { UNIMPLEMENTED(); }
-
-void __cdecl G_SpawnTurret(struct gentity_s *self, char const *weaponinfoname) {
+void __cdecl SP_corona(struct gentity_s *ent)
+{
   UNIMPLEMENTED();
 }
 
-void __cdecl SP_turret(struct gentity_s *self) { UNIMPLEMENTED(); }
+void __cdecl SP_misc_model(struct gentity_s *ent)
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl turret_think(struct gentity_s *self) {
+void __cdecl SP_light(struct gentity_s *self)
+{
+  UNIMPLEMENTED();
+}
+
+void __cdecl SP_info_null(struct gentity_s *self)
+{
+  UNIMPLEMENTED();
+}
+
+void __cdecl G_SpawnTurret(struct gentity_s *self, char const *weaponinfoname)
+{
+  UNIMPLEMENTED();
+}
+
+void __cdecl SP_turret(struct gentity_s *self)
+{
+  UNIMPLEMENTED();
+}
+
+void __cdecl turret_think(struct gentity_s *self)
+{
   int v1;        // edi
   int v2;        // eax
   int v3;        // eax
@@ -287,73 +318,76 @@ void __cdecl turret_think(struct gentity_s *self) {
   a1->nextthink = dword_193466C + 50;
   if (*(_DWORD *)a1->tagInfo)
     G_GeneralLink(a1);
-  if (!*(&g_entities.client + 140 * a1->r.ownerNum)) {
-    v1 = *(_DWORD *)a1->pTurretInfo;
-    *(_DWORD *)a1->s.loopSound = 0;
-    if (*(int *)(v1 + 40) > 0) {
-      *(_DWORD *)a1->s.loopSound = *(unsigned __int8 *)(v1 + 64);
-      v2 = *(_DWORD *)(v1 + 40) - 50;
-      *(_DWORD *)(v1 + 40) = v2;
-      if (v2 <= 0 && *(_BYTE *)(v1 + 66)) {
-        *(_DWORD *)a1->s.loopSound = 0;
-        G_PlaySoundAlias(a1, *(_BYTE *)(v1 + 66));
-        v1 = *(_DWORD *)a1->pTurretInfo;
-      } else {
-        v1 = *(_DWORD *)a1->pTurretInfo;
-      }
-    }
-    a1->s.eFlags &= ~0x40u;
-    v16[1] = *(float *)(v1 + 28);
-    v16[2] = 0.0;
-    v12 = a1->s.angles2[0];
-    a1->s.angles2[0] = v12 + a1->s.angles2[2];
-    v15 = 200.0;
-    v16[0] = 200.0;
-    v3 = *(_DWORD *)(v1 + 4);
-    if ((v3 & 0x200) != 0 && (v3 & 0x100) != 0)
-      v15 = 360.0;
-    v4 = a1;
-    for (i = 1; i != 3; ++i) {
-      v5 = &v16[i - 1];
-      v6 = *(v5 - 1) * 0.050000001;
-      *(v5 - 1) = v6;
-      v14 = AngleSubtract(v16[i], v4->s.angles2[0]);
-      if (v14 <= v6)
-        v6 = fmaxf(-v6, v14);
-      v4->s.angles2[0] = v6 + v4->s.angles2[0];
-      v4 = (gentity_s *)((char *)v4 + 4);
-    }
-    v7 = a1->s.angles2[0];
-    a1->s.angles2[2] = v7;
-    v8 = *(_DWORD *)(v1 + 4);
-    if ((v8 & 0x200) == 0)
+    if (!*(&g_entities.client + 140 * a1->r.ownerNum)) {
+      v1 = *(_DWORD *)a1->pTurretInfo;
+      *(_DWORD *)a1->s.loopSound = 0;
+        if (*(int *)(v1 + 40) > 0) {
+          *(_DWORD *)a1->s.loopSound = *(unsigned __int8 *)(v1 + 64);
+          v2 = *(_DWORD *)(v1 + 40) - 50;
+          *(_DWORD *)(v1 + 40) = v2;
+            if (v2 <= 0 && *(_BYTE *)(v1 + 66)) {
+              *(_DWORD *)a1->s.loopSound = 0;
+              G_PlaySoundAlias(a1, *(_BYTE *)(v1 + 66));
+              v1 = *(_DWORD *)a1->pTurretInfo;
+            }
+            else {
+              v1 = *(_DWORD *)a1->pTurretInfo;
+            }
+        }
+      a1->s.eFlags &= ~0x40u;
+      v16[1] = *(float *)(v1 + 28);
+      v16[2] = 0.0;
+      v12 = a1->s.angles2[0];
+      a1->s.angles2[0] = v12 + a1->s.angles2[2];
+      v15 = 200.0;
+      v16[0] = 200.0;
+      v3 = *(_DWORD *)(v1 + 4);
+      if ((v3 & 0x200) != 0 && (v3 & 0x100) != 0)
+        v15 = 360.0;
+      v4 = a1;
+        for (i = 1; i != 3; ++i) {
+          v5 = &v16[i - 1];
+          v6 = *(v5 - 1) * 0.050000001;
+          *(v5 - 1) = v6;
+          v14 = AngleSubtract(v16[i], v4->s.angles2[0]);
+          if (v14 <= v6)
+            v6 = fmaxf(-v6, v14);
+          v4->s.angles2[0] = v6 + v4->s.angles2[0];
+          v4 = (gentity_s *)((char *)v4 + 4);
+        }
+      v7 = a1->s.angles2[0];
+      a1->s.angles2[2] = v7;
+      v8 = *(_DWORD *)(v1 + 4);
+      if ((v8 & 0x200) == 0)
+        goto LABEL_16;
+        if ((v8 & 0x400) != 0) {
+          v9 = *(float *)(v1 + 60);
+          if (v9 <= a1->s.angles2[0])
+            goto LABEL_15;
+        }
+        else {
+          v9 = *(float *)(v1 + 60);
+            if (v7 <= v9) {
+            LABEL_15:
+              BYTE1(v8) &= ~1u;
+              *(_DWORD *)(v1 + 4) = v8;
+            LABEL_16:
+              v11 = AngleSubtract(v7, v12);
+              v10 = v15;
+              if (v11 <= v15)
+                v10 = fmaxf(-v15, v11);
+              a1->s.angles2[0] = v10 + v12;
+              a1->s.angles2[2] = a1->s.angles2[2] - (float)(v10 + v12);
+              return;
+            }
+        }
+      v7 = v9;
       goto LABEL_16;
-    if ((v8 & 0x400) != 0) {
-      v9 = *(float *)(v1 + 60);
-      if (v9 <= a1->s.angles2[0])
-        goto LABEL_15;
-    } else {
-      v9 = *(float *)(v1 + 60);
-      if (v7 <= v9) {
-      LABEL_15:
-        BYTE1(v8) &= ~1u;
-        *(_DWORD *)(v1 + 4) = v8;
-      LABEL_16:
-        v11 = AngleSubtract(v7, v12);
-        v10 = v15;
-        if (v11 <= v15)
-          v10 = fmaxf(-v15, v11);
-        a1->s.angles2[0] = v10 + v12;
-        a1->s.angles2[2] = a1->s.angles2[2] - (float)(v10 + v12);
-        return;
-      }
     }
-    v7 = v9;
-    goto LABEL_16;
-  }
 }
 
-void __cdecl turret_think_init(struct gentity_s *self) {
+void __cdecl turret_think_init(struct gentity_s *self)
+{
   int LocalTagMatrix; // eax
   float *v2;          // ebx
   float *v3;          // esi
@@ -378,86 +412,101 @@ void __cdecl turret_think_init(struct gentity_s *self) {
   a1->nextthink = dword_193466C + 50;
   LocalTagMatrix = G_DObjGetLocalTagMatrix(a1, (unsigned __int16)word_195B11E);
   v2 = (float *)LocalTagMatrix;
-  if (LocalTagMatrix) {
-    LocalTagMatrix =
-        G_DObjGetLocalTagMatrix(a1, (unsigned __int16)word_195B124);
-    v3 = (float *)LocalTagMatrix;
     if (LocalTagMatrix) {
-      AnglesToAxis(a1->r.currentAngles, v10);
-      v10[9] = a1->r.currentOrigin[0];
-      v10[10] = a1->r.currentOrigin[1];
-      v10[11] = a1->r.currentOrigin[2];
-      v6 = v2 + 4;
-      v16[0] = v3[4] - v2[4];
-      v8 = v2 + 5;
-      v16[1] = v3[5] - v2[5];
-      v9 = v2 + 6;
-      v16[2] = v3[6] - v2[6];
-      MatrixTransformVector43(v2 + 4, (const float(*)[3])v10, v19);
-      v4 = 0;
-      while (1) {
-        v17[0] = (float)v4 * -3.0;
-        v17[1] = 0.0;
-        v17[2] = 0.0;
-        AnglesToAxis(v17, v11);
-        MatrixTransformVector(v16, v11, &v13);
-        v13 = *v6 + v13;
-        v14 = *v8 + v14;
-        v15 = *v9 + v15;
-        MatrixTransformVector43(&v13, (const float(*)[3])v10, v18);
-        LOWORD(LocalTagMatrix) =
-            G_LocationalTrace(&v12, v19, v18, a1->s.number,
-                              (const float *)0x811, bulletPriorityMap);
-        if (v12.fraction < 1.0)
-          break;
-        if (++v4 == 31)
-          return LocalTagMatrix;
-      }
-      LOWORD(LocalTagMatrix) = LOWORD(v17[0]);
-      *(float *)(v7 + 28) = v17[0];
+      LocalTagMatrix =
+          G_DObjGetLocalTagMatrix(a1, (unsigned __int16)word_195B124);
+      v3 = (float *)LocalTagMatrix;
+        if (LocalTagMatrix) {
+          AnglesToAxis(a1->r.currentAngles, v10);
+          v10[9] = a1->r.currentOrigin[0];
+          v10[10] = a1->r.currentOrigin[1];
+          v10[11] = a1->r.currentOrigin[2];
+          v6 = v2 + 4;
+          v16[0] = v3[4] - v2[4];
+          v8 = v2 + 5;
+          v16[1] = v3[5] - v2[5];
+          v9 = v2 + 6;
+          v16[2] = v3[6] - v2[6];
+          MatrixTransformVector43(v2 + 4, (const float(*)[3])v10, v19);
+          v4 = 0;
+            while (1) {
+              v17[0] = (float)v4 * -3.0;
+              v17[1] = 0.0;
+              v17[2] = 0.0;
+              AnglesToAxis(v17, v11);
+              MatrixTransformVector(v16, v11, &v13);
+              v13 = *v6 + v13;
+              v14 = *v8 + v14;
+              v15 = *v9 + v15;
+              MatrixTransformVector43(&v13, (const float(*)[3])v10, v18);
+              LOWORD(LocalTagMatrix) =
+                  G_LocationalTrace(&v12, v19, v18, a1->s.number,
+                                    (const float *)0x811, bulletPriorityMap);
+              if (v12.fraction < 1.0)
+                break;
+              if (++v4 == 31)
+                return LocalTagMatrix;
+            }
+          LOWORD(LocalTagMatrix) = LOWORD(v17[0]);
+          *(float *)(v7 + 28) = v17[0];
+        }
     }
-  }
   return LocalTagMatrix;
 }
 
-void __cdecl turret_think_client(struct gentity_s *self) { UNIMPLEMENTED(); }
-
-int __cdecl turret_UpdateTargetAngles(struct gentity_s *, float *const, int) {
+void __cdecl turret_think_client(struct gentity_s *self)
+{
   UNIMPLEMENTED();
 }
 
-void __cdecl turret_UpdateSound(struct gentity_s *) { UNIMPLEMENTED(); }
-
-int __cdecl turret_ReturnToDefaultPos(struct gentity_s *, int) {
+int __cdecl turret_UpdateTargetAngles(struct gentity_s *, float *const, int)
+{
   UNIMPLEMENTED();
 }
 
-void __cdecl turret_clientaim(struct gentity_s *, struct gentity_s *) {
+void __cdecl turret_UpdateSound(struct gentity_s *)
+{
   UNIMPLEMENTED();
 }
 
-int __cdecl turret_behind(struct gentity_s *, struct gentity_s *) {
+int __cdecl turret_ReturnToDefaultPos(struct gentity_s *, int)
+{
+  UNIMPLEMENTED();
+}
+
+void __cdecl turret_clientaim(struct gentity_s *, struct gentity_s *)
+{
+  UNIMPLEMENTED();
+}
+
+int __cdecl turret_behind(struct gentity_s *, struct gentity_s *)
+{
   UNIMPLEMENTED();
 }
 
 void __cdecl Turret_FillWeaponParms(struct gentity_s *, struct gentity_s *,
-                                    struct weaponParms *) {
+                                    struct weaponParms *)
+{
   UNIMPLEMENTED();
 }
 
 void __cdecl G_PlayerTurretPositionAndBlend(struct gentity_s *,
-                                            struct gentity_s *) {
+                                            struct gentity_s *)
+{
   UNIMPLEMENTED();
 }
 
-void __cdecl Fire_Lead(struct gentity_s *, struct gentity_s *, int) {
+void __cdecl Fire_Lead(struct gentity_s *, struct gentity_s *, int)
+{
   UNIMPLEMENTED();
 }
 
-void __cdecl turret_shoot_internal(struct gentity_s *, struct gentity_s *) {
+void __cdecl turret_shoot_internal(struct gentity_s *, struct gentity_s *)
+{
   UNIMPLEMENTED();
 }
 
-void __cdecl turret_track(struct gentity_s *, struct gentity_s *) {
+void __cdecl turret_track(struct gentity_s *, struct gentity_s *)
+{
   UNIMPLEMENTED();
 }

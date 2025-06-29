@@ -129,6 +129,7 @@ static enum std::_Iosb<int>::_Seekdir const std::_Iosb<int>::cur;
 
 public:
 static enum std::_Iosb<int>::_Seekdir const std::_Iosb<int>::end;
+
 std::_Rb_tree<
     std::basic_string<char, std::char_traits<char>, std::allocator<char>>,
     std::pair<
@@ -146,7 +147,8 @@ std::_Rb_tree<
                              std::basic_string<char, std::char_traits<char>,
                                                std::allocator<char>>>>>::
     lower_bound(std::basic_string<char __k, std::char_traits<char>,
-                                  std::allocator<char>> const &) {
+                                  std::allocator<char>> const &)
+{
   UNIMPLEMENTED();
 }
 
@@ -167,23 +169,32 @@ std::_Rb_tree<
                              std::basic_string<char, std::char_traits<char>,
                                                std::allocator<char>>>>>::
     find(std::basic_string<char __k, std::char_traits<char>,
-                           std::allocator<char>> const &) {
+                           std::allocator<char>> const &)
+{
   UNIMPLEMENTED();
 }
 
-CStringEdPackage::ReadLine(char const *&psParsePos, char *psDest) {
+CStringEdPackage::ReadLine(char const *&psParsePos, char *psDest)
+{
   UNIMPLEMENTED();
 }
 
-CStringEdPackage::SetupNewFileParse(char const *psFileName) { UNIMPLEMENTED(); }
+CStringEdPackage::SetupNewFileParse(char const *psFileName)
+{
+  UNIMPLEMENTED();
+}
 
 CStringEdPackage::ConvertCRLiterals_Read(
     std::basic_string<char string, std::char_traits<char>,
-                      std::allocator<char>>) {
+                      std::allocator<char>>)
+{
   UNIMPLEMENTED();
 }
 
-CStringEdPackage::InsideQuotes(char const *psLine) { UNIMPLEMENTED(); }
+CStringEdPackage::InsideQuotes(char const *psLine)
+{
+  UNIMPLEMENTED();
+}
 
 std::_Rb_tree<
     std::basic_string<char, std::char_traits<char>, std::allocator<char>>,
@@ -205,7 +216,8 @@ std::_Rb_tree<
               std::pair<std::basic_string<char __v, std::char_traits<char>,
                                           std::allocator<char>> const,
                         std::basic_string<char, std::char_traits<char>,
-                                          std::allocator<char>>> const &) {
+                                          std::allocator<char>>> const &)
+{
   UNIMPLEMENTED();
 }
 
@@ -229,24 +241,36 @@ std::_Rb_tree<
                                               std::char_traits<char> __v,
                                               std::allocator<char>> const,
                             std::basic_string<char, std::char_traits<char>,
-                                              std::allocator<char>>> const &) {
+                                              std::allocator<char>>> const &)
+{
   UNIMPLEMENTED();
 }
 
-CStringEdPackage::AddEntry(char const *psLocalReference) { UNIMPLEMENTED(); }
+CStringEdPackage::AddEntry(char const *psLocalReference)
+{
+  UNIMPLEMENTED();
+}
 
 CStringEdPackage::SetString(char const *psLocalReference,
-                            char const *psNewString, int bSentenceIsEnglish) {
+                            char const *psNewString, int bSentenceIsEnglish)
+{
   UNIMPLEMENTED();
 }
 
-CStringEdPackage::ParseLine(char const *psLine, unsigned char forceEnglish) {
+CStringEdPackage::ParseLine(char const *psLine, unsigned char forceEnglish)
+{
   UNIMPLEMENTED();
 }
 
-SE_Load(char const *psFileName, unsigned char forceEnglish) { UNIMPLEMENTED(); }
+SE_Load(char const *psFileName, unsigned char forceEnglish)
+{
+  UNIMPLEMENTED();
+}
 
-SE_GetString(char const *psPackageAndStringReference) { UNIMPLEMENTED(); }
+SE_GetString(char const *psPackageAndStringReference)
+{
+  UNIMPLEMENTED();
+}
 
 std::_Rb_tree<
     std::basic_string<char, std::char_traits<char>, std::allocator<char>>,
@@ -268,14 +292,27 @@ std::_Rb_tree<
              std::pair<std::basic_string<char __x, std::char_traits<char>,
                                          std::allocator<char>> const,
                        std::basic_string<char, std::char_traits<char>,
-                                         std::allocator<char>>>> *) {
+                                         std::allocator<char>>>> *)
+{
   UNIMPLEMENTED();
 }
 
-CStringEdPackage::Clear() { UNIMPLEMENTED(); }
+CStringEdPackage::Clear()
+{
+  UNIMPLEMENTED();
+}
 
-SE_LoadLanguage(unsigned char forceEnglish) { UNIMPLEMENTED(); }
+SE_LoadLanguage(unsigned char forceEnglish)
+{
+  UNIMPLEMENTED();
+}
 
-SE_Init() { UNIMPLEMENTED(); }
+SE_Init()
+{
+  UNIMPLEMENTED();
+}
 
-SE_ShutDown() { UNIMPLEMENTED(); }
+SE_ShutDown()
+{
+  UNIMPLEMENTED();
+}

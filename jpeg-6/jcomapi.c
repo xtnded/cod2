@@ -24,15 +24,16 @@
  * responsibility.
  */
 
-GLOBAL void jpeg_abort(j_common_ptr cinfo) {
+GLOBAL void jpeg_abort(j_common_ptr cinfo)
+{
   int pool;
 
-  /* Releasing pools in reverse order might help avoid fragmentation
-   * with some (brain-damaged) malloc libraries.
-   */
-  for (pool = JPOOL_NUMPOOLS - 1; pool > JPOOL_PERMANENT; pool--) {
-    (*cinfo->mem->free_pool)(cinfo, pool);
-  }
+    /* Releasing pools in reverse order might help avoid fragmentation
+     * with some (brain-damaged) malloc libraries.
+     */
+    for (pool = JPOOL_NUMPOOLS - 1; pool > JPOOL_PERMANENT; pool--) {
+      (*cinfo->mem->free_pool)(cinfo, pool);
+    }
 
   /* Reset overall state for possible reuse of object */
   cinfo->global_state = (cinfo->is_decompressor ? DSTATE_START : CSTATE_START);
@@ -49,7 +50,8 @@ GLOBAL void jpeg_abort(j_common_ptr cinfo) {
  * responsibility.
  */
 
-GLOBAL void jpeg_destroy(j_common_ptr cinfo) {
+GLOBAL void jpeg_destroy(j_common_ptr cinfo)
+{
   /* We need only tell the memory manager to release everything. */
   /* NB: mem pointer is NULL if memory mgr failed to initialize. */
   if (cinfo->mem != NULL)
@@ -63,7 +65,8 @@ GLOBAL void jpeg_destroy(j_common_ptr cinfo) {
  * (Would jutils.c be a more reasonable place to put these?)
  */
 
-GLOBAL JQUANT_TBL *jpeg_alloc_quant_table(j_common_ptr cinfo) {
+GLOBAL JQUANT_TBL *jpeg_alloc_quant_table(j_common_ptr cinfo)
+{
   JQUANT_TBL *tbl;
 
   tbl = (JQUANT_TBL *)(*cinfo->mem->alloc_small)(cinfo, JPOOL_PERMANENT,
@@ -72,7 +75,8 @@ GLOBAL JQUANT_TBL *jpeg_alloc_quant_table(j_common_ptr cinfo) {
   return tbl;
 }
 
-GLOBAL JHUFF_TBL *jpeg_alloc_huff_table(j_common_ptr cinfo) {
+GLOBAL JHUFF_TBL *jpeg_alloc_huff_table(j_common_ptr cinfo)
+{
   JHUFF_TBL *tbl;
 
   tbl = (JHUFF_TBL *)(*cinfo->mem->alloc_small)(cinfo, JPOOL_PERMANENT,

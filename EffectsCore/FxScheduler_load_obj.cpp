@@ -1,19 +1,42 @@
-void __cdecl FX_CreateStrippedFileName(char const *, char *) {
+void __cdecl FX_CreateStrippedFileName(char const *, char *)
+{
   UNIMPLEMENTED();
 }
 
 int marker_FxScheduler_load_obj;
 class FxScheduler *theFxScheduler;
-FX_CleanTemplate(EffectTemplate *fx) { UNIMPLEMENTED(); }
 
-FX_CreateDefaultEffect() { UNIMPLEMENTED(); }
+FX_CleanTemplate(EffectTemplate *fx)
+{
+  UNIMPLEMENTED();
+}
 
-MediaHandles::Shutdown() { UNIMPLEMENTED(); }
+FX_CreateDefaultEffect()
+{
+  UNIMPLEMENTED();
+}
 
-MediaHandles::AddHandle(TMediaElement item) { UNIMPLEMENTED(); }
+MediaHandles::Shutdown()
+{
+  UNIMPLEMENTED();
+}
 
-FX_ParseEffect(GenericParser2 *parser, char const *name) { UNIMPLEMENTED(); }
+MediaHandles::AddHandle(TMediaElement item)
+{
+  UNIMPLEMENTED();
+}
 
-FX_RegisterEffect(char const *fileName) { UNIMPLEMENTED(); }
+FX_ParseEffect(GenericParser2 *parser, char const *name)
+{
+  UNIMPLEMENTED();
+}
 
-MediaHandles::AddEffect(EffectTemplate *fx) { UNIMPLEMENTED(); }
+FX_RegisterEffect(char const *fileName)
+{
+  UNIMPLEMENTED();
+}
+
+MediaHandles::AddEffect(EffectTemplate *fx)
+{
+  UNIMPLEMENTED();
+}

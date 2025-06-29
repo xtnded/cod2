@@ -1,7 +1,8 @@
 // 'Temporarily' Move what I assume to be all 'EffectsCore' related types into
 // here, to be sorted later.
 
-struct Effect {
+struct Effect
+{
   int Effect;
   char pad0[60];
   FxGfxEntity mRefEnt;
@@ -14,7 +15,8 @@ struct Effect {
   FxBoltFramePtr mBolt;
 };
 
-struct FxGfxEntity {
+struct FxGfxEntity
+{
   int customMaterial;
   int rotation;
   char axis[36];
@@ -28,22 +30,29 @@ struct FxGfxEntity {
   char endpos[12];
 };
 
-struct FxBoltFramePtr {};
+struct FxBoltFramePtr
+{
+};
 
-struct FxArchive {};
+struct FxArchive
+{
+};
 
-struct EffectTemplate {
+struct EffectTemplate
+{
   int mEffectName;
   int mPrimitiveCount;
   char mPrimitives[96];
 };
 
-struct FxBoltFrame {
+struct FxBoltFrame
+{
   char pad0[60];
   FxBoltInfo mBolt;
 };
 
-struct PrimitiveTemplate {
+struct PrimitiveTemplate
+{
   char mName[32];
   char mMaterialImpact[32];
   PrimType mType;
@@ -97,12 +106,14 @@ struct PrimitiveTemplate {
   int spawnFrustumCullRadius;
 };
 
-struct FxBoltInfo {
+struct FxBoltInfo
+{
   int dobjHandle;
   int boneIndex;
 };
 
-typedef enum {
+typedef enum
+{
   PT_NONE = 0,
   PT_PARTICLE = 1,
   PT_LINE = 2,
@@ -118,31 +129,41 @@ typedef enum {
   PT_CLOUD = 12
 } PrimType;
 
-struct FxRange {
+struct FxRange
+{
   int mMin;
   int mMax;
 };
 
-struct MediaHandles {
+struct MediaHandles
+{
   TMediaList mMediaList;
 };
 
-typedef enum {
+typedef enum
+{
   SFM_FIXED_FRAME = 0,
   SFM_RANDOM = 1,
   SFM_INDEXED = 2,
   SFM_MODE_COUNT = 3
 } StartFrameMode;
 
-typedef enum {
+typedef enum
+{
   PRM_FIXED_FPS = 0,
   PRM_SYNC_TO_PARTICLE_LIFETIME = 1,
   PRM_MODE_COUNT = 2
 } PlayRateMode;
 
-typedef enum { LM_FOREVER = 0, LM_TIMES = 1, LM_MODE_COUNT = 2 } LoopMode;
+typedef enum
+{
+  LM_FOREVER = 0,
+  LM_TIMES = 1,
+  LM_MODE_COUNT = 2
+} LoopMode;
 
-typedef enum {
+typedef enum
+{
   FXCHAN_COLOR = 0,
   FXCHAN_COLOR_RAND = 1,
   FXCHAN_ALPHA = 2,
@@ -170,95 +191,121 @@ typedef enum {
   FXCHAN_COUNT = 24
 } FxChannelId;
 
-struct FxChannelInstance {
+struct FxChannelInstance
+{
   FxCurveIterator curveIterator;
   int scale;
 };
 
-struct TMediaList {
+struct TMediaList
+{
   int elements;
   short size;
   short maxSize;
 };
 
-union TMediaElement {
+union TMediaElement
+{
   int model;
   int material;
   EffectTemplateLoadPtr u;
   int data;
 };
 
-struct FxChannel {
+struct FxChannel
+{
   int curve;
   int64_t scaleRange;
 };
 
-struct BackCompatibleParameters {
+struct BackCompatibleParameters
+{
   char fxChannels[1536];
 };
 
-struct GPGroup {};
+struct GPGroup
+{
+};
 
-struct GPValue {};
+struct GPValue
+{
+};
 
-struct FxCurveIterator {
+struct FxCurveIterator
+{
   int master;
   int currentKeyIndex;
 };
 
-union EffectTemplateLoadPtr {
+union EffectTemplateLoadPtr
+{
   int fx;
   int name;
 };
 
-struct FxFlagEntry {
+struct FxFlagEntry
+{
   int flag;
   int64_t masks;
 };
 
-struct GPObject {};
+struct GPObject
+{
+};
+
 ents;
 short size;
 short maxSize;
 }
 ;
 
-union TMediaElement {
+union TMediaElement
+{
   int model;
   int material;
   EffectTemplateLoadPtr u;
   int data;
 };
 
-struct FxChannel {
+struct FxChannel
+{
   int curve;
   int64_t scaleRange;
 };
 
-struct BackCompatibleParameters {
+struct BackCompatibleParameters
+{
   char fxChannels[1536];
 };
 
-struct GPGroup {};
+struct GPGroup
+{
+};
 
-struct GPValue {};
+struct GPValue
+{
+};
 
-struct FxCurveIterator {
+struct FxCurveIterator
+{
   int master;
   int currentKeyIndex;
 };
 
-union EffectTemplateLoadPtr {
+union EffectTemplateLoadPtr
+{
   int fx;
   int name;
 };
 
-struct FxFlagEntry {
+struct FxFlagEntry
+{
   int flag;
   int64_t masks;
 };
 
-sstruct Effect {
+sstruct Effect
+{
   int Effect;
   char pad0[60];
   FxGfxEntity mRefEnt;
@@ -271,7 +318,8 @@ sstruct Effect {
   FxBoltFramePtr mBolt;
 };
 
-struct FxGfxEntity {
+struct FxGfxEntity
+{
   int customMaterial;
   int rotation;
   char axis[36];
@@ -285,22 +333,29 @@ struct FxGfxEntity {
   char endpos[12];
 };
 
-struct FxBoltFramePtr {};
+struct FxBoltFramePtr
+{
+};
 
-struct FxArchive {};
+struct FxArchive
+{
+};
 
-struct EffectTemplate {
+struct EffectTemplate
+{
   int mEffectName;
   int mPrimitiveCount;
   char mPrimitives[96];
 };
 
-struct FxBoltFrame {
+struct FxBoltFrame
+{
   char pad0[60];
   FxBoltInfo mBolt;
 };
 
-struct PrimitiveTemplate {
+struct PrimitiveTemplate
+{
   char mName[32];
   char mMaterialImpact[32];
   PrimType mType;
@@ -354,12 +409,14 @@ struct PrimitiveTemplate {
   int spawnFrustumCullRadius;
 };
 
-struct FxBoltInfo {
+struct FxBoltInfo
+{
   int dobjHandle;
   int boneIndex;
 };
 
-typedef enum {
+typedef enum
+{
   PT_NONE = 0,
   PT_PARTICLE = 1,
   PT_LINE = 2,
@@ -375,31 +432,41 @@ typedef enum {
   PT_CLOUD = 12
 } PrimType;
 
-struct FxRange {
+struct FxRange
+{
   int mMin;
   int mMax;
 };
 
-struct MediaHandles {
+struct MediaHandles
+{
   TMediaList mMediaList;
 };
 
-typedef enum {
+typedef enum
+{
   SFM_FIXED_FRAME = 0,
   SFM_RANDOM = 1,
   SFM_INDEXED = 2,
   SFM_MODE_COUNT = 3
 } StartFrameMode;
 
-typedef enum {
+typedef enum
+{
   PRM_FIXED_FPS = 0,
   PRM_SYNC_TO_PARTICLE_LIFETIME = 1,
   PRM_MODE_COUNT = 2
 } PlayRateMode;
 
-typedef enum { LM_FOREVER = 0, LM_TIMES = 1, LM_MODE_COUNT = 2 } LoopMode;
+typedef enum
+{
+  LM_FOREVER = 0,
+  LM_TIMES = 1,
+  LM_MODE_COUNT = 2
+} LoopMode;
 
-typedef enum {
+typedef enum
+{
   FXCHAN_COLOR = 0,
   FXCHAN_COLOR_RAND = 1,
   FXCHAN_ALPHA = 2,
@@ -427,48 +494,60 @@ typedef enum {
   FXCHAN_COUNT = 24
 } FxChannelId;
 
-struct FxChannelInstance {
+struct FxChannelInstance
+{
   FxCurveIterator curveIterator;
   int scale;
 };
 
-struct TMediaList {
+struct TMediaList
+{
   int elements;
   short size;
   short maxSize;
 };
 
-union TMediaElement {
+union TMediaElement
+{
   int model;
   int material;
   EffectTemplateLoadPtr u;
   int data;
 };
 
-struct FxChannel {
+struct FxChannel
+{
   int curve;
   int64_t scaleRange;
 };
 
-struct BackCompatibleParameters {
+struct BackCompatibleParameters
+{
   char fxChannels[1536];
 };
 
-struct GPGroup {};
+struct GPGroup
+{
+};
 
-struct GPValue {};
+struct GPValue
+{
+};
 
-struct FxCurveIterator {
+struct FxCurveIterator
+{
   int master;
   int currentKeyIndex;
 };
 
-union EffectTemplateLoadPtr {
+union EffectTemplateLoadPtr
+{
   int fx;
   int name;
 };
 
-struct FxFlagEntry {
+struct FxFlagEntry
+{
   int flag;
   int64_t masks;
 };

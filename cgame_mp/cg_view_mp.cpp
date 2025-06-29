@@ -1,12 +1,25 @@
-float __cdecl atan(float) { UNIMPLEMENTED(); }
+float __cdecl atan(float)
+{
+  UNIMPLEMENTED();
+}
 
-float __cdecl atan2(float, float) { UNIMPLEMENTED(); }
+float __cdecl atan2(float, float)
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl CG_SetView(int, int) { UNIMPLEMENTED(); }
+void __cdecl CG_SetView(int, int)
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl CG_UpdateThirdPerson(void) { UNIMPLEMENTED(); }
+void __cdecl CG_UpdateThirdPerson(void)
+{
+  UNIMPLEMENTED();
+}
 
-float __cdecl CG_GetViewFov() {
+float __cdecl CG_GetViewFov()
+{
   _DWORD *v0;                   // ebx
   int32_t ViewmodelWeaponIndex; // esi
   float *WeaponDef;             // edi
@@ -25,33 +38,36 @@ float __cdecl CG_GetViewFov() {
   ViewmodelWeaponIndex = BG_GetViewmodelWeaponIndex(
       (const playerState_s *)((char *)&loc_25BC4 + (_DWORD)cg));
   WeaponDef = (float *)BG_GetWeaponDef(ViewmodelWeaponIndex);
-  if (v0[38642] == 5) {
-    v3 = 90.0;
-    v4.i32[0] = 0;
-  } else {
-    v13 = *(float *)(cg_fov + 8);
-    v3 = v13;
-    if (BG_IsAimDownSightWeapon(ViewmodelWeaponIndex)) {
-      v9 = *(float *)((char *)&loc_25CA0 + (_DWORD)v0);
-      if (v9 == 1.0) {
-        v3 = WeaponDef[154];
-        v4.i32[0] = 0;
-      } else {
-        v4.i32[0] = 0;
-        if (v9 != 0.0) {
-          v10 = v0[41253] ? WeaponDef[155] : WeaponDef[156];
-          v11 = v9 - (float)(1.0 - v10);
-          if (v11 > 0.0) {
-            v12 = v11 / v10;
-            if (v12 > 0.0)
-              v3 = v13 - (float)((float)(v13 - WeaponDef[154]) * v12);
-          }
-        }
-      }
-    } else {
+    if (v0[38642] == 5) {
+      v3 = 90.0;
       v4.i32[0] = 0;
     }
-  }
+    else {
+      v13 = *(float *)(cg_fov + 8);
+      v3 = v13;
+        if (BG_IsAimDownSightWeapon(ViewmodelWeaponIndex)) {
+          v9 = *(float *)((char *)&loc_25CA0 + (_DWORD)v0);
+            if (v9 == 1.0) {
+              v3 = WeaponDef[154];
+              v4.i32[0] = 0;
+            }
+            else {
+              v4.i32[0] = 0;
+                if (v9 != 0.0) {
+                  v10 = v0[41253] ? WeaponDef[155] : WeaponDef[156];
+                  v11 = v9 - (float)(1.0 - v10);
+                    if (v11 > 0.0) {
+                      v12 = v11 / v10;
+                      if (v12 > 0.0)
+                        v3 = v13 - (float)((float)(v13 - WeaponDef[154]) * v12);
+                    }
+                }
+            }
+        }
+        else {
+          v4.i32[0] = 0;
+        }
+    }
   if ((*(_DWORD *)((_BYTE *)&loc_25C64 + (_DWORD)cg) & 0x300) != 0)
     v3 = 55.0;
   v5 = v3 * *(float *)(cg_fovScale + 8);
@@ -63,13 +79,15 @@ float __cdecl CG_GetViewFov() {
       LODWORD(v5) & v7.i32[0]);
 }
 
-void __cdecl CG_FxRestart() {
+void __cdecl CG_FxRestart()
+{
   Com_Printf("FX Restarting so off-line changes are loaded.\n");
   FX_FreeSystem();
   return FX_InitSystem(1);
 }
 
-void __cdecl CG_FxSetTestPosition() {
+void __cdecl CG_FxSetTestPosition()
+{
   float *v0; // eax
   float *v1; // ebx
   float *v2; // ecx
@@ -88,29 +106,55 @@ void __cdecl CG_FxSetTestPosition() {
              v0[45064], v0[45065]);
 }
 
-void __cdecl updateTestFX(void) { UNIMPLEMENTED(); }
-
-void __cdecl CG_FxTest() { UNIMPLEMENTED(); }
-
-void __cdecl CG_InitView() { UNIMPLEMENTED(); }
-
-int __cdecl CG_DrawActiveFrame(int serverTime, enum DemoType demoType,
-                               enum CubemapShot cubemapShot, int cubemapSize,
-                               int renderScreen) {
+void __cdecl updateTestFX(void)
+{
   UNIMPLEMENTED();
 }
 
-void __cdecl CG_StepOffset(void) { UNIMPLEMENTED(); }
+void __cdecl CG_FxTest()
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl CG_StoreViewModelPosition(void) { UNIMPLEMENTED(); }
+void __cdecl CG_InitView()
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl CG_CalcCubemapViewValues(void) { UNIMPLEMENTED(); }
+int __cdecl CG_DrawActiveFrame(int serverTime, enum DemoType demoType,
+                               enum CubemapShot cubemapShot, int cubemapSize,
+                               int renderScreen)
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl CG_ApplyViewAnimation(void) { UNIMPLEMENTED(); }
+void __cdecl CG_StepOffset(void)
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl CG_KickAngles(void) { UNIMPLEMENTED(); }
+void __cdecl CG_StoreViewModelPosition(void)
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl CG_CalcFov(void) {
+void __cdecl CG_CalcCubemapViewValues(void)
+{
+  UNIMPLEMENTED();
+}
+
+void __cdecl CG_ApplyViewAnimation(void)
+{
+  UNIMPLEMENTED();
+}
+
+void __cdecl CG_KickAngles(void)
+{
+  UNIMPLEMENTED();
+}
+
+void __cdecl CG_CalcFov(void)
+{
   float v0;       // xmm1_4
   float v1;       // xmm0_4
   float v2;       // xmm0_4
@@ -135,16 +179,16 @@ void __cdecl CG_CalcFov(void) {
   v2 = v8 * 57.29577951308232 + v8 * 57.29577951308232;
   v11 = v2;
   v3 = (float *)cg;
-  if (CG_PointContents((float *)cg + 41314, -1, 32)) {
-    v4 = (float)((float)((float)*(int *)((char *)&loc_25BB0 + (_DWORD)v3) /
-                         1000.0) *
-                 0.40000001) *
-         3.141592653589793;
-    *(float *)&v4 = v4 + v4;
-    v7 = sinf(*(float *)&v4);
-    v10 = v10 + v7;
-    v11 = v11 - v7;
-  }
+    if (CG_PointContents((float *)cg + 41314, -1, 32)) {
+      v4 = (float)((float)((float)*(int *)((char *)&loc_25BB0 + (_DWORD)v3) /
+                           1000.0) *
+                   0.40000001) *
+           3.141592653589793;
+      *(float *)&v4 = v4 + v4;
+      v7 = sinf(*(float *)&v4);
+      v10 = v10 + v7;
+      v11 = v11 - v7;
+    }
   v3[41312] = v10;
   *(float *)((char *)&loc_28584 + (_DWORD)v3) = v11;
   result = cg_fov;
@@ -152,11 +196,18 @@ void __cdecl CG_CalcFov(void) {
   return result;
 }
 
-void __cdecl CG_CalcVrect(int) { UNIMPLEMENTED(); }
+void __cdecl CG_CalcVrect(int)
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl CG_OffsetFirstPersonView(void) { UNIMPLEMENTED(); }
+void __cdecl CG_OffsetFirstPersonView(void)
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl CG_OffsetThirdPersonView(void) {
+void __cdecl CG_OffsetThirdPersonView(void)
+{
   void *v0;             // esi
   __m128 v1;            // xmm0
   float v2;             // xmm1_4
@@ -188,10 +239,10 @@ void __cdecl CG_OffsetThirdPersonView(void) {
   v15 = *((_DWORD *)v0 + 41330);
   v16 = *((float *)v0 + 41331);
   v17 = *((_DWORD *)v0 + 41332);
-  if (*((int *)v0 + 38642) > 5) {
-    v16 = (float)*(int *)((char *)&loc_25CF4 + (_DWORD)v0);
-    *((float *)v0 + 41331) = (float)*(int *)((char *)&loc_25CF4 + (_DWORD)v0);
-  }
+    if (*((int *)v0 + 38642) > 5) {
+      v16 = (float)*(int *)((char *)&loc_25CF4 + (_DWORD)v0);
+      *((float *)v0 + 41331) = (float)*(int *)((char *)&loc_25CF4 + (_DWORD)v0);
+    }
   v1 = _mm_cmpge_ss((__m128)0x42340000u, (__m128)v15);
   v15 = _mm_andnot_ps(v1, (__m128)0x42340000u).u32[0] | v15 & v1.i32[0];
   AngleVectors((float *)&v15, &v22, 0, 0);
@@ -213,32 +264,34 @@ void __cdecl CG_OffsetThirdPersonView(void) {
                   (trace_t *)&CG_OffsetThirdPersonView(void)::mins,
                   &CG_OffsetThirdPersonView(void)::maxs, (float *)&__x,
                   *((_DWORD *)v0 + 38692), (const float *)0x811);
-  if (v14.fraction != 1.0) {
-    *(float *)&__x = *((float *)v0 + 41314) +
-                     (float)((float)(*(float *)&__x - *((float *)v0 + 41314)) *
-                             v14.fraction);
-    *((float *)&__x + 1) =
-        *((float *)v0 + 41315) +
-        (float)((float)(*((float *)&__x + 1) - *((float *)v0 + 41315)) *
-                v14.fraction);
-    __x_8 = (float)((float)(1.0 - v14.fraction) * 32.0) +
-            (float)(*((float *)v0 + 41316) +
-                    (float)(v14.fraction *
-                            (float)(__x_8 - *((float *)v0 + 41316))));
-    CG_TraceCapsule(&v14, (float *)v0 + 41314,
-                    (trace_t *)&CG_OffsetThirdPersonView(void)::mins,
-                    &CG_OffsetThirdPersonView(void)::maxs, (float *)&__x,
-                    *((_DWORD *)v0 + 38692), (const float *)0x811);
-    *(float *)&__x = *((float *)v0 + 41314) +
-                     (float)((float)(*(float *)&__x - *((float *)v0 + 41314)) *
-                             v14.fraction);
-    *((float *)&__x + 1) =
-        *((float *)v0 + 41315) +
-        (float)((float)(*((float *)&__x + 1) - *((float *)v0 + 41315)) *
-                v14.fraction);
-    __x_8 = *((float *)v0 + 41316) +
-            (float)(v14.fraction * (float)(__x_8 - *((float *)v0 + 41316)));
-  }
+    if (v14.fraction != 1.0) {
+      *(float *)&__x =
+          *((float *)v0 + 41314) +
+          (float)((float)(*(float *)&__x - *((float *)v0 + 41314)) *
+                  v14.fraction);
+      *((float *)&__x + 1) =
+          *((float *)v0 + 41315) +
+          (float)((float)(*((float *)&__x + 1) - *((float *)v0 + 41315)) *
+                  v14.fraction);
+      __x_8 = (float)((float)(1.0 - v14.fraction) * 32.0) +
+              (float)(*((float *)v0 + 41316) +
+                      (float)(v14.fraction *
+                              (float)(__x_8 - *((float *)v0 + 41316))));
+      CG_TraceCapsule(&v14, (float *)v0 + 41314,
+                      (trace_t *)&CG_OffsetThirdPersonView(void)::mins,
+                      &CG_OffsetThirdPersonView(void)::maxs, (float *)&__x,
+                      *((_DWORD *)v0 + 38692), (const float *)0x811);
+      *(float *)&__x =
+          *((float *)v0 + 41314) +
+          (float)((float)(*(float *)&__x - *((float *)v0 + 41314)) *
+                  v14.fraction);
+      *((float *)&__x + 1) =
+          *((float *)v0 + 41315) +
+          (float)((float)(*((float *)&__x + 1) - *((float *)v0 + 41315)) *
+                  v14.fraction);
+      __x_8 = *((float *)v0 + 41316) +
+              (float)(v14.fraction * (float)(__x_8 - *((float *)v0 + 41316)));
+    }
   v3 = (float *)cg;
   v4 = (float *)((char *)cg + 165256);
   *((_QWORD *)cg + 20657) = __x;
@@ -256,10 +309,22 @@ void __cdecl CG_OffsetThirdPersonView(void) {
   v3[41330] = v8;
 }
 
-void __cdecl CG_DumpAnims(void) { UNIMPLEMENTED(); }
+void __cdecl CG_DumpAnims(void)
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl CG_CalcTurretViewValues(void) { UNIMPLEMENTED(); }
+void __cdecl CG_CalcTurretViewValues(void)
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl CG_CalcViewValues(void) { UNIMPLEMENTED(); }
+void __cdecl CG_CalcViewValues(void)
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl CG_UpdateEntInfo(void) { UNIMPLEMENTED(); }
+void __cdecl CG_UpdateEntInfo(void)
+{
+  UNIMPLEMENTED();
+}

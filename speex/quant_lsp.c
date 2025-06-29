@@ -70,49 +70,51 @@
 
 #ifndef DISABLE_ENCODER
 static void compute_quant_weights(spx_lsp_t *qlsp, spx_word16_t *quant_weight,
-                                  int order) {
+                                  int order)
+{
   int i;
   spx_word16_t tmp1, tmp2;
-  for (i = 0; i < order; i++) {
-    if (i == 0)
-      tmp1 = qlsp[i];
-    else
-      tmp1 = qlsp[i] - qlsp[i - 1];
-    if (i == order - 1)
-      tmp2 = LSP_PI - qlsp[i];
-    else
-      tmp2 = qlsp[i + 1] - qlsp[i];
-    if (tmp2 < tmp1)
-      tmp1 = tmp2;
+    for (i = 0; i < order; i++) {
+      if (i == 0)
+        tmp1 = qlsp[i];
+      else
+        tmp1 = qlsp[i] - qlsp[i - 1];
+      if (i == order - 1)
+        tmp2 = LSP_PI - qlsp[i];
+      else
+        tmp2 = qlsp[i + 1] - qlsp[i];
+      if (tmp2 < tmp1)
+        tmp1 = tmp2;
 #ifdef FIXED_POINT
-    quant_weight[i] = DIV32_16(81920, ADD16(300, tmp1));
+      quant_weight[i] = DIV32_16(81920, ADD16(300, tmp1));
 #else
-    quant_weight[i] = 10 / (.04 + tmp1);
+      quant_weight[i] = 10 / (.04 + tmp1);
 #endif
-  }
+    }
 }
 
 /* Note: x is modified*/
 #ifndef OVERRIDE_LSP_QUANT
 static int lsp_quant(spx_word16_t *x, const signed char *cdbk, int nbVec,
-                     int nbDim) {
+                     int nbDim)
+{
   int i, j;
   spx_word32_t dist;
   spx_word16_t tmp;
   spx_word32_t best_dist = VERY_LARGE32;
   int best_id = 0;
   const signed char *ptr = cdbk;
-  for (i = 0; i < nbVec; i++) {
-    dist = 0;
-    for (j = 0; j < nbDim; j++) {
-      tmp = SUB16(x[j], SHL16((spx_word16_t)*ptr++, 5));
-      dist = MAC16_16(dist, tmp, tmp);
+    for (i = 0; i < nbVec; i++) {
+      dist = 0;
+        for (j = 0; j < nbDim; j++) {
+          tmp = SUB16(x[j], SHL16((spx_word16_t)*ptr++, 5));
+          dist = MAC16_16(dist, tmp, tmp);
+        }
+        if (dist < best_dist) {
+          best_dist = dist;
+          best_id = i;
+        }
     }
-    if (dist < best_dist) {
-      best_dist = dist;
-      best_id = i;
-    }
-  }
 
   for (j = 0; j < nbDim; j++)
     x[j] = SUB16(x[j], SHL16((spx_word16_t)cdbk[best_id * nbDim + j], 5));
@@ -124,24 +126,25 @@ static int lsp_quant(spx_word16_t *x, const signed char *cdbk, int nbVec,
 /* Note: x is modified*/
 #ifndef OVERRIDE_LSP_WEIGHT_QUANT
 static int lsp_weight_quant(spx_word16_t *x, spx_word16_t *weight,
-                            const signed char *cdbk, int nbVec, int nbDim) {
+                            const signed char *cdbk, int nbVec, int nbDim)
+{
   int i, j;
   spx_word32_t dist;
   spx_word16_t tmp;
   spx_word32_t best_dist = VERY_LARGE32;
   int best_id = 0;
   const signed char *ptr = cdbk;
-  for (i = 0; i < nbVec; i++) {
-    dist = 0;
-    for (j = 0; j < nbDim; j++) {
-      tmp = SUB16(x[j], SHL16((spx_word16_t)*ptr++, 5));
-      dist = MAC16_32_Q15(dist, weight[j], MULT16_16(tmp, tmp));
+    for (i = 0; i < nbVec; i++) {
+      dist = 0;
+        for (j = 0; j < nbDim; j++) {
+          tmp = SUB16(x[j], SHL16((spx_word16_t)*ptr++, 5));
+          dist = MAC16_32_Q15(dist, weight[j], MULT16_16(tmp, tmp));
+        }
+        if (dist < best_dist) {
+          best_dist = dist;
+          best_id = i;
+        }
     }
-    if (dist < best_dist) {
-      best_dist = dist;
-      best_id = i;
-    }
-  }
 
   for (j = 0; j < nbDim; j++)
     x[j] = SUB16(x[j], SHL16((spx_word16_t)cdbk[best_id * nbDim + j], 5));
@@ -149,7 +152,8 @@ static int lsp_weight_quant(spx_word16_t *x, spx_word16_t *weight,
 }
 #endif
 
-void lsp_quant_nb(spx_lsp_t *lsp, spx_lsp_t *qlsp, int order, SpeexBits *bits) {
+void lsp_quant_nb(spx_lsp_t *lsp, spx_lsp_t *qlsp, int order, SpeexBits *bits)
+{
   int i;
   int id;
   spx_word16_t quant_weight[10];
@@ -206,7 +210,8 @@ void lsp_quant_nb(spx_lsp_t *lsp, spx_lsp_t *qlsp, int order, SpeexBits *bits) {
 #endif /* DISABLE_ENCODER */
 
 #ifndef DISABLE_DECODER
-void lsp_unquant_nb(spx_lsp_t *lsp, int order, SpeexBits *bits) {
+void lsp_unquant_nb(spx_lsp_t *lsp, int order, SpeexBits *bits)
+{
   int i, id;
   for (i = 0; i < order; i++)
     lsp[i] = LSP_LINEAR(i);
@@ -234,8 +239,8 @@ void lsp_unquant_nb(spx_lsp_t *lsp, int order, SpeexBits *bits) {
 #endif /* DISABLE_DECODER */
 
 #ifndef DISABLE_ENCODER
-void lsp_quant_lbr(spx_lsp_t *lsp, spx_lsp_t *qlsp, int order,
-                   SpeexBits *bits) {
+void lsp_quant_lbr(spx_lsp_t *lsp, spx_lsp_t *qlsp, int order, SpeexBits *bits)
+{
   int i;
   int id;
   spx_word16_t quant_weight[10];
@@ -278,7 +283,8 @@ void lsp_quant_lbr(spx_lsp_t *lsp, spx_lsp_t *qlsp, int order,
 #endif /* DISABLE_ENCODER */
 
 #ifndef DISABLE_DECODER
-void lsp_unquant_lbr(spx_lsp_t *lsp, int order, SpeexBits *bits) {
+void lsp_unquant_lbr(spx_lsp_t *lsp, int order, SpeexBits *bits)
+{
   int i, id;
   for (i = 0; i < order; i++)
     lsp[i] = LSP_LINEAR(i);
@@ -302,8 +308,8 @@ extern const signed char high_lsp_cdbk[];
 extern const signed char high_lsp_cdbk2[];
 
 #ifndef DISABLE_ENCODER
-void lsp_quant_high(spx_lsp_t *lsp, spx_lsp_t *qlsp, int order,
-                    SpeexBits *bits) {
+void lsp_quant_high(spx_lsp_t *lsp, spx_lsp_t *qlsp, int order, SpeexBits *bits)
+{
   int i;
   int id;
   spx_word16_t quant_weight[10];
@@ -351,7 +357,8 @@ void lsp_quant_high(spx_lsp_t *lsp, spx_lsp_t *qlsp, int order,
 #endif /* DISABLE_ENCODER */
 
 #ifndef DISABLE_DECODER
-void lsp_unquant_high(spx_lsp_t *lsp, int order, SpeexBits *bits) {
+void lsp_unquant_high(spx_lsp_t *lsp, int order, SpeexBits *bits)
+{
 
   int i, id;
   for (i = 0; i < order; i++)

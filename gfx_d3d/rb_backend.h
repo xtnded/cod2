@@ -1,5 +1,6 @@
 
-struct GfxViewParms {
+struct GfxViewParms
+{
   char origin[12];
   char axis[36];
   char viewport[24];
@@ -10,47 +11,60 @@ struct GfxViewParms {
   int depthHackNearClip;
 };
 
-typedef enum { SHADOW_NONE = 0, SHADOW_COOKIE = 1 } ShadowType;
+typedef enum
+{
+  SHADOW_NONE = 0,
+  SHADOW_COOKIE = 1
+} ShadowType;
 
-struct GfxPostProcessParms {
+struct GfxPostProcessParms
+{
   int blurRadius;
   char isRenderingFullScreen;
 };
 
-struct GfxLight {
+struct GfxLight
+{
   int def;
   char position[16];
   char color[12];
   GfxLightInfo u;
 };
 
-union GfxLightInfo {
+union GfxLightInfo
+{
   GfxLightDir dir;
 };
 
-struct GfxLightDef {
+struct GfxLightDef
+{
   GfxLightType type;
   GfxLightImage cookie;
   int64_t attenuation;
   int name;
 };
 
-struct GfxLightDir {
+struct GfxLightDir
+{
   char ambientColor[12];
 };
 
-typedef enum {
+typedef enum
+{
   GFX_LIGHT_TYPE_SUN = 0,
   GFX_LIGHT_TYPE_SKY = 1,
   GFX_LIGHT_TYPE_POINT = 2,
   GFX_LIGHT_TYPE_COUNT = 3
 } GfxLightType;
 
-struct GfxLightImage {
+struct GfxLightImage
+{
   int image;
   char samplerState;
 };
-struct GfxScene {
+
+struct GfxScene
+{
   int viewCount;
   GfxSceneDef def;
   int dlightCount;
@@ -64,32 +78,39 @@ struct GfxScene {
   char sceneMaterials[16384];
 };
 
-struct GfxSceneDef {
+struct GfxSceneDef
+{
   int time;
   int floatTime;
   int entityCount;
   int entities;
 };
-struct trXSkin_t {
+
+struct trXSkin_t
+{
   int materialHandles;
 };
 
-union _3729 {
+union _3729
+{
   int verts;
   int blends;
 };
 
-union _3664 {
+union _3664
+{
   short b;
   short s;
 };
 
-union _3665 {
+union _3665
+{
   short b;
   short s;
 };
 
-struct _3715 {
+struct _3715
+{
   int verts;
   int vertCount;
   int vertLimit;
@@ -113,27 +134,31 @@ struct _3715 {
   int plumeLimit;
 };
 
-struct GfxDebugPoly {
+struct GfxDebugPoly
+{
   char color[16];
   int firstVert;
   int vertCount;
 };
 
-struct trDebugString_t {
+struct trDebugString_t
+{
   char xyz[12];
   char color[16];
   int scale;
   char text[96];
 };
 
-struct trDebugLine_t {
+struct trDebugLine_t
+{
   char start[12];
   char end[12];
   char color[16];
   int depthTest;
 };
 
-struct GfxDebugPlume {
+struct GfxDebugPlume
+{
   char origin[12];
   char color[16];
   int score;
@@ -141,11 +166,14 @@ struct GfxDebugPlume {
   int duration;
 };
 
-struct GfxCmdHeader {
+struct GfxCmdHeader
+{
   short id;
   short byteCount;
 };
-typedef enum {
+
+typedef enum
+{
   R_RENDERTARGET_FRAME_BUFFER = 0,
   R_RENDERTARGET_RESOLVED_POST_SUN = 1,
   R_RENDERTARGET_RESOLVED_SCENE = 2,
@@ -163,32 +191,37 @@ typedef enum {
   R_RENDERTARGET_NONE = 14
 } GfxRenderTargetId;
 
-struct GfxLodParms {
+struct GfxLodParms
+{
   char origin[12];
   int scale;
   int bias;
 };
 
-struct GfxCmdDrawPoints {
+struct GfxCmdDrawPoints
+{
   int header;
   short pointCount;
   short size;
   char verts[16];
 };
 
-struct GfxPointVertex {
+struct GfxPointVertex
+{
   char xyz[12];
   int color;
 };
 
-struct GfxCmdDrawLines {
+struct GfxCmdDrawLines
+{
   int header;
   short lineCount;
   short width;
   char verts[32];
 };
 
-struct GfxBackEndData {
+struct GfxBackEndData
+{
   int frameCount;
   int drawSurfCount;
   char drawSurfs[524288];
@@ -208,7 +241,8 @@ struct GfxBackEndData {
   char debugGlobals[84];
 };
 
-struct GfxFog {
+struct GfxFog
+{
   GfxFogOffset techniqueOffset;
   int startTime;
   int finishTime;
@@ -221,47 +255,55 @@ struct GfxFog {
   char clearScreen;
 };
 
-struct GfxCmdArray {
+struct GfxCmdArray
+{
   char cmds[196608];
   int usedTotal;
   int usedCritical;
   int lastCmd;
 };
 
-struct SkinBuffers {
+struct SkinBuffers
+{
   char matArrayBuf[8192];
 };
 
-struct r_vb_state_t {
+struct r_vb_state_t
+{
   int used;
   int total;
   int buffer;
 };
 
-typedef enum {
+typedef enum
+{
   FOG_OFFSET_NONE = 0,
   FOG_OFFSET_LINEAR = 1,
   FOG_OFFSET_EXP = 2,
   FOG_OFFSET_COUNT = 3
 } GfxFogOffset;
 
-union _3714 {
+union _3714
+{
   char dx7[12288];
   char dx9[32768];
 };
 
-struct DObjSkelMat_s {
+struct DObjSkelMat_s
+{
   char axis[48];
   char origin[16];
 };
 
-struct GfxSModelCachedVertexDx7 {
+struct GfxSModelCachedVertexDx7
+{
   char xyz[12];
   int color;
   int64_t texCoord;
 };
 
-struct GfxSModelCachedVertex {
+struct GfxSModelCachedVertex
+{
   char xyz[12];
   char normal[12];
   int color;
@@ -271,7 +313,8 @@ struct GfxSModelCachedVertex {
   char tangent[12];
 };
 
-struct GfxDebugFrameGlob {
+struct GfxDebugFrameGlob
+{
   int restoreCmdList;
   int restoreFrontEndDataOut;
   char restoreSkinnedCache;
@@ -279,7 +322,8 @@ struct GfxDebugFrameGlob {
   char frontEndDataOut[2399596];
 };
 
-struct trStatistics_t {
+struct trStatistics_t
+{
   int c_indexes;
   int c_fxIndexes;
   int c_viewIndexes;
@@ -291,12 +335,15 @@ struct trStatistics_t {
   Image_MemUsage c_imageUsage;
 };
 
-struct Image_MemUsage {
+struct Image_MemUsage
+{
   int total;
   int lightmap;
   int minspec;
 };
-struct refexport_t {
+
+struct refexport_t
+{
   int Shutdown;
   int BeginRegistration;
   int RegisterModel;
@@ -388,7 +435,8 @@ struct refexport_t {
   int SetLodOrigin;
 };
 
-struct refimport_t {
+struct refimport_t
+{
   int Printf;
   int Error;
   int Milliseconds;
@@ -526,11 +574,13 @@ struct refimport_t {
   int CL_GetHudMsgIconMaterialName;
 };
 
-struct GfxGammaRamp {
+struct GfxGammaRamp
+{
   char entries[512];
 };
 
-struct GfxWindowParms {
+struct GfxWindowParms
+{
   int hwnd;
   int hz;
   char fullscreen;
@@ -543,7 +593,8 @@ struct GfxWindowParms {
   int aaSamples;
 };
 
-struct vidConfig_t {
+struct vidConfig_t
+{
   int width;
   int height;
   int displayFrequency;
@@ -557,7 +608,8 @@ struct vidConfig_t {
   char deviceSupportsGamma;
 };
 
-struct DxGlobals {
+struct DxGlobals
+{
   int hinst;
   int d3d9;
   int device;
@@ -615,7 +667,8 @@ struct DxGlobals {
   int tempSkinPos;
 };
 
-struct GfxRenderTarget {
+struct GfxRenderTarget
+{
   int image;
   int colorSurface;
   int depthStencilSurface;
@@ -623,20 +676,23 @@ struct GfxRenderTarget {
   int height;
 };
 
-struct GfxWindowTarget {
+struct GfxWindowTarget
+{
   int hwnd;
   int swapChain;
   int width;
   int height;
 };
 
-struct r_ib_state_t {
+struct r_ib_state_t
+{
   int used;
   int total;
   int buffer;
 };
 
-struct r_global_permanent_t {
+struct r_global_permanent_t
+{
   int materialLoaded;
   int materialCount;
   char sortedMaterials[4096];
@@ -690,7 +746,8 @@ struct r_global_permanent_t {
   char rawTexdef[12];
 };
 
-struct GfxWorld {
+struct GfxWorld
+{
   int name;
   int baseName;
   int nodeCount;
@@ -732,12 +789,14 @@ struct GfxWorld {
   int outdoorImage;
 };
 
-struct GfxWorldVertexData {
+struct GfxWorldVertexData
+{
   int vertices;
   int worldVb;
 };
 
-struct SunLightParseParams {
+struct SunLightParseParams
+{
   char name[64];
   int ambientScale;
   char ambientColor[12];
@@ -750,14 +809,16 @@ struct SunLightParseParams {
   char angles[12];
 };
 
-struct GfxLightGrid {
+struct GfxLightGrid
+{
   int pointCount;
   int points;
   int colorCount;
   int colors;
 };
 
-struct sunflare_t {
+struct sunflare_t
+{
   char hasValidData;
   char pad0[3];
   int spriteMaterial;
@@ -782,7 +843,9 @@ struct sunflare_t {
   int glareFadeOutTime;
   char sunFxPosition[12];
 };
-struct r_globals_t {
+
+struct r_globals_t
+{
   char registered;
   char forbidDelayLoadImages;
   char ignorePrecacheErrors;
@@ -810,41 +873,49 @@ struct r_globals_t {
   int cullGroups;
 };
 
-struct GfxStaticModelDynamic {
+struct GfxStaticModelDynamic
+{
   int viewCount;
   int staticSurfs;
 };
 
-struct GfxSurfaceDynamic {
+struct GfxSurfaceDynamic
+{
   int viewCount;
 };
 
-struct GfxCullGroupDynamic {
+struct GfxCullGroupDynamic
+{
   int viewCount;
 };
 
-struct GfxStaticSurface {
+struct GfxStaticSurface
+{
   char cachedLods[16];
 };
 
-struct GfxStaticModelSurfaceCached {
+struct GfxStaticModelSurfaceCached
+{
   int baseVertIndex;
   int smodelIndex;
   int xsurf;
   int surface;
 };
 
-struct DxTextureStageEnums {
+struct DxTextureStageEnums
+{
   int op;
   char arg[12];
 };
 
-struct DxTextureOpDecode {
+struct DxTextureOpDecode
+{
   int enumerant;
   int usedArgs;
 };
 
-struct GfxCodeMatrices {
+struct GfxCodeMatrices
+{
   int worldScale;
   char pad0[12];
   GfxCodeMatrix world;
@@ -862,19 +933,22 @@ struct GfxCodeMatrices {
   char OGLworldViewProjection[272];
 };
 
-struct GfxCodeMatrix {
+struct GfxCodeMatrix
+{
   char matrix[256];
   int valid;
 };
 
-struct GfxViewport {
+struct GfxViewport
+{
   int x;
   int y;
   int width;
   int height;
 };
 
-struct DxState {
+struct DxState
+{
   char vertexShaderConsts[4096];
   char pixelShaderConsts[4096];
   int64_t refStateBits;
@@ -914,12 +988,14 @@ struct DxState {
   int clipPlaneCount;
 };
 
-typedef enum {
+typedef enum
+{
   GFX_USE_VIEWPORT_FOR_VIEW = 0,
   GFX_USE_VIEWPORT_FULL = 1
 } GfxViewportBehavior;
 
-struct _3726 {
+struct _3726
+{
   GfxColor color;
   D3DFOGMODE mode;
   int start;
@@ -927,13 +1003,15 @@ struct _3726 {
   int density;
 };
 
-struct _3725 {
+struct _3725
+{
   int vb;
   int offset;
   int stride;
 };
 
-typedef enum {
+typedef enum
+{
   D3DFOG_NONE = 0,
   D3DFOG_EXP = 1,
   D3DFOG_EXP2 = 2,
@@ -941,12 +1019,14 @@ typedef enum {
   D3DFOG_FORCE_DWORD = 2147483647
 } _D3DFOGMODE;
 
-struct DxStencilDecode {
+struct DxStencilDecode
+{
   int shift;
   int renderState;
 };
 
-union XAssetHeader {
+union XAssetHeader
+{
   int parts;
   int model;
   int material;
@@ -968,30 +1048,35 @@ union XAssetHeader {
   int data;
 };
 
-typedef enum {
+typedef enum
+{
   GFX_LOCK_BEGIN_FRAME = 0,
   GFX_LOCK_RESUME_FRAME = 1
 } GfxLockType;
 
-struct GfxModelSkinnedSurface {
+struct GfxModelSkinnedSurface
+{
   GfxModelSurface surf;
   int skinnedCachedOffset;
 };
 
-union _3720 {
+union _3720
+{
   int variant;
   int dx7;
   int dx9;
 };
 
-struct GfxVertexDx7 {
+struct GfxVertexDx7
+{
   char xyz[12];
   char normal[12];
   int color;
   int64_t texCoord;
 };
 
-struct GfxVertex {
+struct GfxVertex
+{
   char xyzw[16];
   char normal[12];
   int color;
@@ -1000,12 +1085,14 @@ struct GfxVertex {
   char tangent[12];
 };
 
-struct GfxModelRigidSurface {
+struct GfxModelRigidSurface
+{
   int64_t surf;
   char boneAxis[48];
 };
 
-struct SkinXModelCmd {
+struct SkinXModelCmd
+{
   int surfs;
   int e;
   int mat;
@@ -1015,43 +1102,54 @@ struct SkinXModelCmd {
   char matOffset[64];
 };
 
-struct SkinRigidXModelCmd {
+struct SkinRigidXModelCmd
+{
   int surfs;
   int surfCount;
   int e;
   char mat[32];
 };
 
-struct GfxStaticModelCachedSurface {
+struct GfxStaticModelCachedSurface
+{
   int64_t surf;
   int surface;
   int ent;
 };
 
-union _3732 {
+union _3732
+{
   int v;
   int w;
 };
 
-union _3734 {
+union _3734
+{
   int v;
   int w;
 };
 
-struct stream_source_info_t {
+struct stream_source_info_t
+{
   char Stream;
   char Offset;
   char Type;
 };
 
-struct stream_dest_info_t {
+struct stream_dest_info_t
+{
   char Usage;
   char UsageIndex;
 };
 
-typedef enum { MTL_VERTEX_SHADER = 0, MTL_PIXEL_SHADER = 1 } MaterialShaderType;
+typedef enum
+{
+  MTL_VERTEX_SHADER = 0,
+  MTL_PIXEL_SHADER = 1
+} MaterialShaderType;
 
-struct _3752 {
+struct _3752
+{
   int vertexDeclCount;
   char vertexDeclHashTable[768];
   int techniqueSetCount;
@@ -1068,29 +1166,34 @@ struct _3752 {
   char shaderHashTable[1024];
 };
 
-struct BuiltInMaterialTable {
+struct BuiltInMaterialTable
+{
   int name;
   int material;
 };
 
-struct GfxRenderCommandExecState {
+struct GfxRenderCommandExecState
+{
   int cmd;
   int stackPos;
   int64_t retCmd;
 };
 
-struct GfxCmdCall {
+struct GfxCmdCall
+{
   GfxCmdHeader header;
   int subCmd;
 };
 
-struct GfxCmdSetClipPlanes {
+struct GfxCmdSetClipPlanes
+{
   int header;
   int clipPlaneCount;
   char clipPlanes[16];
 };
 
-struct GfxCmdStretchRaw {
+struct GfxCmdStretchRaw
+{
   int header;
   int x;
   int y;
@@ -1103,7 +1206,8 @@ struct GfxCmdStretchRaw {
   int dirty;
 };
 
-struct GfxCmdClearScreen {
+struct GfxCmdClearScreen
+{
   int header;
   char whichToClear;
   char stencil;
@@ -1112,12 +1216,14 @@ struct GfxCmdClearScreen {
   char color[16];
 };
 
-struct GfxCmdSetMaterialColor {
+struct GfxCmdSetMaterialColor
+{
   int header;
   char color[16];
 };
 
-struct GfxCmdSetLightProperties {
+struct GfxCmdSetLightProperties
+{
   int header;
   int lightIndex;
   char position[16];
@@ -1127,18 +1233,21 @@ struct GfxCmdSetLightProperties {
   int lightDef;
 };
 
-struct GfxCmdSetStencilRefValue {
+struct GfxCmdSetStencilRefValue
+{
   int header;
   int refValue;
 };
 
-struct GfxCmdSetShadowCookie {
+struct GfxCmdSetShadowCookie
+{
   int header;
   char lookupMatrix[64];
   int fade;
 };
 
-struct GfxCmdBeginView {
+struct GfxCmdBeginView
+{
   int header;
   GfxSceneDef sceneDef;
   int viewParms;
@@ -1146,22 +1255,26 @@ struct GfxCmdBeginView {
   int viewCount;
 };
 
-struct GfxCmdSetViewport {
+struct GfxCmdSetViewport
+{
   int header;
   char viewport[16];
 };
 
-struct GfxCmdSetRenderTarget {
+struct GfxCmdSetRenderTarget
+{
   int header;
   GfxRenderTargetId renderTargetId;
 };
 
-typedef enum {
+typedef enum
+{
   GFX_DRAW_SURFS_ITER_FORWARD = 0,
   GFX_DRAW_SURFS_ITER_BACKWARD = 1
 } GfxDrawSurfOrder;
 
-struct GfxCmdDrawSurfs {
+struct GfxCmdDrawSurfs
+{
   int header;
   int order;
   int drawSurfs;
@@ -1169,12 +1282,14 @@ struct GfxCmdDrawSurfs {
   int techType;
 };
 
-struct GfxCmdDrawSunPostEffects {
+struct GfxCmdDrawSunPostEffects
+{
   int header;
   int viewIndex;
 };
 
-struct GfxCmdDrawTriangles {
+struct GfxCmdDrawTriangles
+{
   int header;
   int material;
   int techType;
@@ -1182,7 +1297,8 @@ struct GfxCmdDrawTriangles {
   short vertexCount;
 };
 
-struct GfxCmdDrawSprite {
+struct GfxCmdDrawSprite
+{
   int header;
   int material;
   int rgbaColor;
@@ -1192,7 +1308,8 @@ struct GfxCmdDrawSprite {
   int renderFxFlags;
 };
 
-struct GfxCmdDrawTextInSpace {
+struct GfxCmdDrawTextInSpace
+{
   int header;
   char org[12];
   int font;
@@ -1202,7 +1319,8 @@ struct GfxCmdDrawTextInSpace {
   int text;
 };
 
-typedef enum {
+typedef enum
+{
   GFX_PRIM_STATS_WORLD = 0,
   GFX_PRIM_STATS_SMODELCACHED = 1,
   GFX_PRIM_STATS_SMODELRIGID = 2,
@@ -1217,7 +1335,8 @@ typedef enum {
   GFX_PRIM_STATS_COUNT = 11
 } GfxPrimStatsTarget;
 
-struct GfxCmdStretchPic {
+struct GfxCmdStretchPic
+{
   int header;
   int material;
   int x;
@@ -1231,7 +1350,8 @@ struct GfxCmdStretchPic {
   int color;
 };
 
-struct GfxCmdDrawFullScreenColoredQuad {
+struct GfxCmdDrawFullScreenColoredQuad
+{
   int header;
   int material;
   int s0;
@@ -1241,13 +1361,15 @@ struct GfxCmdDrawFullScreenColoredQuad {
   int color;
 };
 
-struct GfxCmdBlendSavedScreen {
+struct GfxCmdBlendSavedScreen
+{
   int header;
   int fadeMsec;
   int material;
 };
 
-struct GfxCmdDrawText {
+struct GfxCmdDrawText
+{
   int header;
   int x;
   int y;
@@ -1263,12 +1385,14 @@ struct GfxCmdDrawText {
   char text[3];
 };
 
-struct GfxCmdApplyLatePostEffects {
+struct GfxCmdApplyLatePostEffects
+{
   int header;
   int blurRadius;
 };
 
-struct GfxCmdStretchPicRotate {
+struct GfxCmdStretchPicRotate
+{
   int header;
   int material;
   int x;
@@ -1283,21 +1407,24 @@ struct GfxCmdStretchPicRotate {
   int rotation;
 };
 
-struct GfxCmdDrawQuadPic {
+struct GfxCmdDrawQuadPic
+{
   int header;
   int material;
   char verts[32];
   int color;
 };
 
-struct GfxCmdStencilPlanes {
+struct GfxCmdStencilPlanes
+{
   int header;
   int nearDist;
   int planeCount;
   int planeDists;
 };
 
-struct materialCommands_t {
+struct materialCommands_t
+{
   char pad0[370608];
   int indices;
   int optimizedIndices;
@@ -1316,16 +1443,20 @@ struct materialCommands_t {
   int firstOptimizedVertex;
 };
 
-union _3718 {};
+union _3718
+{
+};
 
-typedef enum {
+typedef enum
+{
   OPT_VERTS_NONE = 0,
   OPT_VERTS_WORLD = 1,
   OPT_VERTS_SMC = 2,
   OPT_VERTS_COUNT = 3
 } GfxOptimizedVertexSource;
 
-typedef enum {
+typedef enum
+{
   VERTDECL_GENERIC = 0,
   VERTDECL_WORLD = 1,
   VERTDECL_POS_TEX = 2,
@@ -1333,19 +1464,22 @@ typedef enum {
   VERTDECL_COUNT = 4
 } MaterialVertexDeclType;
 
-union _3719 {
+union _3719
+{
   char generic[348800];
   char world[370600];
 };
 
-struct GfxWorldVertexDx7 {
+struct GfxWorldVertexDx7
+{
   char xyz[12];
   int color;
   int64_t texCoord;
   int64_t lmapCoord;
 };
 
-struct r_backEndGlobals_t {
+struct r_backEndGlobals_t
+{
   char codeConsts[944];
   int frameCount;
   int viewCount;
@@ -1383,13 +1517,15 @@ struct r_backEndGlobals_t {
   int debugFont;
 };
 
-struct GfxEntityLighting {
+struct GfxEntityLighting
+{
   int viewCount;
   int sunVisibility;
   char colorForDir[96];
 };
 
-struct GfxBackEndLightSettings {
+struct GfxBackEndLightSettings
+{
   char position[16];
   char ambient[16];
   char color[16];
@@ -1397,7 +1533,8 @@ struct GfxBackEndLightSettings {
   int def;
 };
 
-struct DebugGlobals {
+struct DebugGlobals
+{
   int verts;
   int vertCount;
   int vertLimit;
@@ -1421,7 +1558,8 @@ struct DebugGlobals {
   int plumeLimit;
 };
 
-struct SunFlareDynamic {
+struct SunFlareDynamic
+{
   int flareIntensity;
   int currentBlind;
   int currentGlare;

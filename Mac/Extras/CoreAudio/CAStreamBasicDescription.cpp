@@ -1,6 +1,10 @@
 CAStreamBasicDescription::SetCanonical(unsigned long nChannels,
-                                       bool interleaved) {
+                                       bool interleaved)
+{
   UNIMPLEMENTED();
 }
 
-CAStreamBasicDescription::CAStreamBasicDescription() { UNIMPLEMENTED(); }
+CAStreamBasicDescription::CAStreamBasicDescription()
+{
+  UNIMPLEMENTED();
+}

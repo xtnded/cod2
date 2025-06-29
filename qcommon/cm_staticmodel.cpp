@@ -1,7 +1,7 @@
 int __cdecl CM_TraceStaticModelComplete(struct cStaticModel_s *sm,
                                         float const *const start,
-                                        float const *const end,
-                                        int contentmask) {
+                                        float const *const end, int contentmask)
+{
   const DObjAnimMat_s *BasePose; // eax
   trace_t v6;                    // [esp+28h] [ebp-60h] BYREF
   float v7;                      // [esp+4Ch] [ebp-3Ch] BYREF
@@ -29,7 +29,8 @@ int __cdecl CM_TraceStaticModelComplete(struct cStaticModel_s *sm,
 void __cdecl CM_TraceStaticModel(struct cStaticModel_s *sm,
                                  struct trace_t *results,
                                  float const *const start,
-                                 float const *const end, int contentmask) {
+                                 float const *const end, int contentmask)
+{
   const DObjAnimMat_s *BasePose; // eax
   int result;                    // eax
   __int64 v7;                    // [esp+0h] [ebp-78h]
@@ -53,21 +54,28 @@ void __cdecl CM_TraceStaticModel(struct cStaticModel_s *sm,
       (const DObjAnimMat_s *)XModelGetBasePose(*(const XModel **)a1->xmodel);
   result =
       XModelTraceLine(*(const XModel **)a1->xmodel, a2, BasePose, v13, v14, a5);
-  if (result >= 0) {
-    a2->entityNum = 1022;
-    HIDWORD(v7) = a1->invAxis;
-    LODWORD(v7) = a2->normal;
-    MatrixTransposeTransformVector(v7, v8);
-    Vec3Normalize(v8);
-    a2->normal[0] = v8[0];
-    a2->normal[1] = v8[1];
-    result = LODWORD(v9);
-    a2->normal[2] = v9;
-  }
+    if (result >= 0) {
+      a2->entityNum = 1022;
+      HIDWORD(v7) = a1->invAxis;
+      LODWORD(v7) = a2->normal;
+      MatrixTransposeTransformVector(v7, v8);
+      Vec3Normalize(v8);
+      a2->normal[0] = v8[0];
+      a2->normal[1] = v8[1];
+      result = LODWORD(v9);
+      a2->normal[2] = v9;
+    }
   return result;
 }
 
 int marker_cm_staticmodel;
-CM_Hunk_AllocXModel(int size) { UNIMPLEMENTED(); }
 
-CM_XModelPrecache(char const *name) { UNIMPLEMENTED(); }
+CM_Hunk_AllocXModel(int size)
+{
+  UNIMPLEMENTED();
+}
+
+CM_XModelPrecache(char const *name)
+{
+  UNIMPLEMENTED();
+}

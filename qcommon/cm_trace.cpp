@@ -1,6 +1,10 @@
-int __cdecl I_side(float) { UNIMPLEMENTED(); }
+int __cdecl I_side(float)
+{
+  UNIMPLEMENTED();
+}
 
-struct cmodel_t *__cdecl CM_ClipHandleToModel(int handle) {
+struct cmodel_t *__cdecl CM_ClipHandleToModel(int handle)
+{
   if (dword_1007E94 <= a1)
     return *(_DWORD *)(Sys_GetValue(3) + 20);
   else
@@ -8,7 +12,8 @@ struct cmodel_t *__cdecl CM_ClipHandleToModel(int handle) {
 }
 
 int __cdecl CM_TempBoxModel(float const *const mins, float const *const maxs,
-                            int contents) {
+                            int contents)
+{
   int Value; // eax
   int v4;    // esi
   float *v5; // edx
@@ -32,14 +37,16 @@ int __cdecl CM_TempBoxModel(float const *const mins, float const *const maxs,
   return 1023;
 }
 
-float __cdecl CM_RadiusOfModel(int handle) {
+float __cdecl CM_RadiusOfModel(int handle)
+{
   if (a1 >= dword_1007E94)
     return *(float *)(*(_DWORD *)(Sys_GetValue(3) + 20) + 24);
   else
     return *(float *)(unk_1007E98 + 72 * a1 + 24);
 }
 
-int __cdecl CM_ContentsOfModel(int handle) {
+int __cdecl CM_ContentsOfModel(int handle)
+{
   int Value; // eax
 
   if (a1 < dword_1007E94)
@@ -52,8 +59,8 @@ int __cdecl CM_ContentsOfModel(int handle) {
 
 int __cdecl CM_BoxSightTrace(int oldHitNum, float const *const start,
                              float const *const end, float const *const mins,
-                             float const *const maxs, int model,
-                             int brushmask) {
+                             float const *const maxs, int model, int brushmask)
+{
   int v7;                 // ecx
   int v8;                 // edx
   float *v9;              // eax
@@ -167,22 +174,23 @@ int __cdecl CM_BoxSightTrace(int oldHitNum, float const *const start,
   v7 = 1;
   v8 = 1;
   v9 = (float *)&v62;
-  do {
-    v10 = (float)(a5[v8 - 1] + a4[v8 - 1]) * 0.5;
-    v9[3] = a5[v8 - 1] - v10;
-    *(v9 - 20) = v10 + a2[v8 - 1];
-    v11 = v10 + a3[v8 - 1];
-    *(v9 - 17) = v11;
-    *(v9 - 6) = (float)(v11 + *(v9 - 20)) * 0.5;
-    v12 = v11 - *(v9 - 20);
-    v55.invDelta[v8 + 2] = v12;
-    v13 = v12 * 0.5;
-    *(float *)&v61[v8 * 4] = v13;
-    *v9 = fabs(v13);
-    ++v7;
-    ++v8;
-    ++v9;
-  } while (v7 != 4);
+    do {
+      v10 = (float)(a5[v8 - 1] + a4[v8 - 1]) * 0.5;
+      v9[3] = a5[v8 - 1] - v10;
+      *(v9 - 20) = v10 + a2[v8 - 1];
+      v11 = v10 + a3[v8 - 1];
+      *(v9 - 17) = v11;
+      *(v9 - 6) = (float)(v11 + *(v9 - 20)) * 0.5;
+      v12 = v11 - *(v9 - 20);
+      v55.invDelta[v8 + 2] = v12;
+      v13 = v12 * 0.5;
+      *(float *)&v61[v8 * 4] = v13;
+      *v9 = fabs(v13);
+      ++v7;
+      ++v8;
+      ++v9;
+    }
+  while (v7 != 4);
   CM_CalcTraceEntents(&v55);
   v60 = (float)((float)(v56 * v56) + (float)(v57 * v57)) + (float)(v58 * v58);
   v59 = fsqrt(v60);
@@ -193,25 +201,28 @@ int __cdecl CM_BoxSightTrace(int oldHitNum, float const *const start,
   v75 = v16;
   v76 = v65 - v16;
   v17 = &v55;
-  do {
-    v18 = v17->start[0];
-    v19 = v17->end[0];
-    if (v19 <= v17->start[0]) {
-      v17[2].invDelta[2] = v19 - v16;
-      v17[3].start[2] = v18 + v16;
-    } else {
-      v17[2].invDelta[2] = v18 - v16;
-      v17[3].start[2] = v19 + v16;
+    do {
+      v18 = v17->start[0];
+      v19 = v17->end[0];
+        if (v19 <= v17->start[0]) {
+          v17[2].invDelta[2] = v19 - v16;
+          v17[3].start[2] = v18 + v16;
+        }
+        else {
+          v17[2].invDelta[2] = v18 - v16;
+          v17[3].start[2] = v19 + v16;
+        }
+      v17 = (TraceExtents *)((char *)v17 + 4);
     }
-    v17 = (TraceExtents *)((char *)v17 + 4);
-  } while ((TraceExtents *)&v55.start[2] != v17);
-  if (v55.end[2] <= v55.start[2]) {
-    v68 = (float)(v55.end[2] - v76) - v75;
-    v71 = (float)(v55.start[2] + v76) + v75;
-  } else {
-    v68 = (float)(v55.start[2] - v76) - v75;
-    v71 = (float)(v55.end[2] + v76) + v75;
-  }
+  while ((TraceExtents *)&v55.start[2] != v17);
+    if (v55.end[2] <= v55.start[2]) {
+      v68 = (float)(v55.end[2] - v76) - v75;
+      v71 = (float)(v55.start[2] + v76) + v75;
+    }
+    else {
+      v68 = (float)(v55.start[2] - v76) - v75;
+      v71 = (float)(v55.end[2] + v76) + v75;
+    }
   v74 = (float)((float)((float)((float)(v14 * v64) * v65) * 16.0) * v59) >
         (float)((float)(v71 - v68) *
                 (float)((float)(v69 - v66) * (float)(v70 - v67)));
@@ -230,145 +241,153 @@ int __cdecl CM_BoxSightTrace(int oldHitNum, float const *const start,
   v84 = v22;
   v23 = (float *)Value[5];
   v85 = v23;
-  if (a6) {
-    if (a6 != 1023)
-      return CM_SightTraceThroughLeaf((int)&v55, (float *)(v46 + 28),
-                                      (trace_t *)&v86);
-    if ((*(_DWORD *)(v22 + 12) & v72) == 0 || v66 > (float)(v23[3] + 1.0) ||
-        v67 > (float)(v23[4] + 1.0) || v68 > (float)(v23[5] + 1.0) ||
-        (float)(*v23 - 1.0) > v69 || (float)(v23[1] - 1.0) > v70 ||
-        (float)(v23[2] - 1.0) > v71) {
-      return 0;
-    }
-    v25 = v55.start[0];
-    v94[0] = v55.start[0];
-    v26 = v55.start[1];
-    v94[1] = v55.start[1];
-    v27 = v55.start[2];
-    v47 = v76 + v55.start[2];
-    v95 = v76 + v55.start[2];
-    v92[0] = v55.start[0];
-    v92[1] = v55.start[1];
-    v28 = v55.start[2] - v76;
-    v93 = v55.start[2] - v76;
-    v89 = v55.end[0];
-    v90 = v55.end[1];
-    v91 = v76 + v55.end[2];
-    v105 = v55.end[0];
-    v106 = v55.end[1];
-    v107 = v55.end[2] - v76;
-    v29 = v23;
-    v30 = 1;
-    v31 = 1;
-    do {
-      v32 = *v29;
-      v33 = v29[3];
-      v34 = (float)(*v29 + v33) * 0.5;
-      *(float *)((char *)&v102 + v31 * 4 - 4) = v34;
-      v86.maxs[v31 + 2] = v32 - v34;
-      *((float *)&v86 + v31 + 11) = v33 - v34;
-      ++v30;
-      ++v31;
-      ++v29;
-    } while (v30 != 4);
-    v51 = fminf(v88, v87);
-    v52 = v88 - v51;
-    v48 = v102;
-    *(float *)v98 = v102;
-    v49 = v103;
-    *(float *)&v98[1] = v103;
-    v50 = v104;
-    v99 = (float)(v88 - v51) + v104;
-    *(float *)v96 = v102;
-    *(float *)&v96[1] = v103;
-    v97 = v104 - (float)(v88 - v51);
-    if (v28 <= v99) {
-      if ((float)(v104 - (float)(v88 - v51)) <= v47)
-        goto LABEL_30;
-      if (!CM_SightTraceSphereThroughSphere(
-              v55.start, v94, v51, (const traceWork_t *)v96,
-              (const float *)&v86.firstCollAabbIndex))
-        return -1;
-      if (v58 <= 0.0)
-        return 0;
-    LABEL_51:
-      v27 = v55.start[2];
-      v25 = v55.start[0];
-      v26 = v55.start[1];
-    LABEL_30:
-      v35 = v25 - v48;
-      v100[0] = v35;
-      v36 = v26 - v49;
-      v100[1] = v26 - v49;
-      v101 = v27 - v50;
-      v37 = (float)((float)(v35 * v35) + (float)(v36 * v36)) -
-            (float)((float)(v51 + v75) * (float)(v51 + v75));
-      if (v37 <= 0.0) {
-        v41 = fabs(v27 - v50) > (float)((float)(v65 - v75) + v52);
-      } else {
-        v38 = (float)(v35 * v56) + (float)(v36 * v57);
-        if (v38 >= 0.0 ||
-            (v53 = v60, v42 = v37 * v60,
-             (float)((float)(v38 * v38) - v42) < 0.0) ||
-            (v101 = 0.0, v45 = (float)(v38 * v38) - v42,
-             v54 = Vec3NormalizeTo(v100, v108),
-             v43 = (float)(v38 * 0.125) / v54,
-             v44 = (float)((float)((float)-v38 - fsqrt(v45)) / v53) + v43,
-             v44 >= *(float *)&v86.firstCollAabbIndex)) {
-        LABEL_32:
-          if (v107 <= v99) {
-            if (v97 <= v91 || v95 < v97)
-              return 0;
-            v39 = v94;
-            v40 = (const traceWork_t *)v96;
-          } else {
-            if (v99 < v93)
-              return 0;
-            v39 = v92;
-            v40 = (const traceWork_t *)v98;
-          }
-          if (!CM_SightTraceSphereThroughSphere(
-                  v55.start, v39, v51, v40,
-                  (const float *)&v86.firstCollAabbIndex))
-            return -1;
+    if (a6) {
+      if (a6 != 1023)
+        return CM_SightTraceThroughLeaf((int)&v55, (float *)(v46 + 28),
+                                        (trace_t *)&v86);
+        if ((*(_DWORD *)(v22 + 12) & v72) == 0 || v66 > (float)(v23[3] + 1.0) ||
+            v67 > (float)(v23[4] + 1.0) || v68 > (float)(v23[5] + 1.0) ||
+            (float)(*v23 - 1.0) > v69 || (float)(v23[1] - 1.0) > v70 ||
+            (float)(v23[2] - 1.0) > v71) {
           return 0;
         }
-        v41 = fabs((float)((float)((float)(v44 - v43) * v58) + v55.start[2]) -
-                   v50) > (float)((float)(v65 - v75) + v52);
-      }
-      if (!v41)
+      v25 = v55.start[0];
+      v94[0] = v55.start[0];
+      v26 = v55.start[1];
+      v94[1] = v55.start[1];
+      v27 = v55.start[2];
+      v47 = v76 + v55.start[2];
+      v95 = v76 + v55.start[2];
+      v92[0] = v55.start[0];
+      v92[1] = v55.start[1];
+      v28 = v55.start[2] - v76;
+      v93 = v55.start[2] - v76;
+      v89 = v55.end[0];
+      v90 = v55.end[1];
+      v91 = v76 + v55.end[2];
+      v105 = v55.end[0];
+      v106 = v55.end[1];
+      v107 = v55.end[2] - v76;
+      v29 = v23;
+      v30 = 1;
+      v31 = 1;
+        do {
+          v32 = *v29;
+          v33 = v29[3];
+          v34 = (float)(*v29 + v33) * 0.5;
+          *(float *)((char *)&v102 + v31 * 4 - 4) = v34;
+          v86.maxs[v31 + 2] = v32 - v34;
+          *((float *)&v86 + v31 + 11) = v33 - v34;
+          ++v30;
+          ++v31;
+          ++v29;
+        }
+      while (v30 != 4);
+      v51 = fminf(v88, v87);
+      v52 = v88 - v51;
+      v48 = v102;
+      *(float *)v98 = v102;
+      v49 = v103;
+      *(float *)&v98[1] = v103;
+      v50 = v104;
+      v99 = (float)(v88 - v51) + v104;
+      *(float *)v96 = v102;
+      *(float *)&v96[1] = v103;
+      v97 = v104 - (float)(v88 - v51);
+        if (v28 <= v99) {
+          if ((float)(v104 - (float)(v88 - v51)) <= v47)
+            goto LABEL_30;
+          if (!CM_SightTraceSphereThroughSphere(
+                  v55.start, v94, v51, (const traceWork_t *)v96,
+                  (const float *)&v86.firstCollAabbIndex))
+            return -1;
+          if (v58 <= 0.0)
+            return 0;
+        LABEL_51:
+          v27 = v55.start[2];
+          v25 = v55.start[0];
+          v26 = v55.start[1];
+        LABEL_30:
+          v35 = v25 - v48;
+          v100[0] = v35;
+          v36 = v26 - v49;
+          v100[1] = v26 - v49;
+          v101 = v27 - v50;
+          v37 = (float)((float)(v35 * v35) + (float)(v36 * v36)) -
+                (float)((float)(v51 + v75) * (float)(v51 + v75));
+            if (v37 <= 0.0) {
+              v41 = fabs(v27 - v50) > (float)((float)(v65 - v75) + v52);
+            }
+            else {
+              v38 = (float)(v35 * v56) + (float)(v36 * v57);
+                if (v38 >= 0.0 ||
+                    (v53 = v60, v42 = v37 * v60,
+                     (float)((float)(v38 * v38) - v42) < 0.0) ||
+                    (v101 = 0.0, v45 = (float)(v38 * v38) - v42,
+                     v54 = Vec3NormalizeTo(v100, v108),
+                     v43 = (float)(v38 * 0.125) / v54,
+                     v44 =
+                         (float)((float)((float)-v38 - fsqrt(v45)) / v53) + v43,
+                     v44 >= *(float *)&v86.firstCollAabbIndex)) {
+                LABEL_32:
+                    if (v107 <= v99) {
+                      if (v97 <= v91 || v95 < v97)
+                        return 0;
+                      v39 = v94;
+                      v40 = (const traceWork_t *)v96;
+                    }
+                    else {
+                      if (v99 < v93)
+                        return 0;
+                      v39 = v92;
+                      v40 = (const traceWork_t *)v98;
+                    }
+                  if (!CM_SightTraceSphereThroughSphere(
+                          v55.start, v39, v51, v40,
+                          (const float *)&v86.firstCollAabbIndex))
+                    return -1;
+                  return 0;
+                }
+              v41 = fabs((float)((float)((float)(v44 - v43) * v58) +
+                                 v55.start[2]) -
+                         v50) > (float)((float)(v65 - v75) + v52);
+            }
+          if (!v41)
+            return -1;
+          goto LABEL_32;
+        }
+      if (!CM_SightTraceSphereThroughSphere(
+              v55.start, v92, v51, (const traceWork_t *)v98,
+              (const float *)&v86.firstCollAabbIndex))
         return -1;
-      goto LABEL_32;
+      if (v58 < 0.0)
+        goto LABEL_51;
+      return 0;
     }
-    if (!CM_SightTraceSphereThroughSphere(
-            v55.start, v92, v51, (const traceWork_t *)v98,
-            (const float *)&v86.firstCollAabbIndex))
-      return -1;
-    if (v58 < 0.0)
-      goto LABEL_51;
-    return 0;
-  } else {
-    if (a1 <= 0)
-      return CM_SightTraceThroughTree((int)&v55, 0, v55.start,
-                                      (const traceWork_t *)v55.end,
-                                      (trace_t *)&v86);
-    if (a1 - 1 >= unk_1007E9C)
-      return CM_SightTraceThroughTree((int)&v55, 0, v55.start,
-                                      (const traceWork_t *)v55.end,
-                                      (trace_t *)&v86);
-    result = CM_SightTraceThroughBrush(v55.start, unk_1007EA0 + 48 * (a1 - 1));
-    if (!result)
-      return CM_SightTraceThroughTree((int)&v55, 0, v55.start,
-                                      (const traceWork_t *)v55.end,
-                                      (trace_t *)&v86);
-  }
+    else {
+      if (a1 <= 0)
+        return CM_SightTraceThroughTree((int)&v55, 0, v55.start,
+                                        (const traceWork_t *)v55.end,
+                                        (trace_t *)&v86);
+      if (a1 - 1 >= unk_1007E9C)
+        return CM_SightTraceThroughTree((int)&v55, 0, v55.start,
+                                        (const traceWork_t *)v55.end,
+                                        (trace_t *)&v86);
+      result =
+          CM_SightTraceThroughBrush(v55.start, unk_1007EA0 + 48 * (a1 - 1));
+      if (!result)
+        return CM_SightTraceThroughTree((int)&v55, 0, v55.start,
+                                        (const traceWork_t *)v55.end,
+                                        (trace_t *)&v86);
+    }
   return result;
 }
 
 void __cdecl CM_TransformedBoxTrace(
     struct trace_t *results, float const *const start, float const *const end,
     float const *const mins, float const *const maxs, int model, int brushmask,
-    float const *const origin, float const *const angles) {
+    float const *const origin, float const *const angles)
+{
   int v9;         // edx
   int v10;        // eax
   float v11;      // xmm1_4
@@ -402,76 +421,85 @@ void __cdecl CM_TransformedBoxTrace(
 
   v9 = 1;
   v10 = 1;
-  do {
-    v11 = (float)(a4[v10 - 1] + a5[v10 - 1]) * 0.5;
-    *(float *)((char *)&v34 + v10 * 4) = a4[v10 - 1] - v11;
-    v35.normal[v10 + 1] = a5[v10 - 1] - v11;
-    *(float *)&v35.partName[v10 * 4 + 2] = v11 + a2[v10 - 1];
-    *(float *)((char *)&v35.contents + v10 * 4) = v11 + a3[v10 - 1];
-    ++v9;
-    ++v10;
-  } while (v9 != 4);
+    do {
+      v11 = (float)(a4[v10 - 1] + a5[v10 - 1]) * 0.5;
+      *(float *)((char *)&v34 + v10 * 4) = a4[v10 - 1] - v11;
+      v35.normal[v10 + 1] = a5[v10 - 1] - v11;
+      *(float *)&v35.partName[v10 * 4 + 2] = v11 + a2[v10 - 1];
+      *(float *)((char *)&v35.contents + v10 * 4) = v11 + a3[v10 - 1];
+      ++v9;
+      ++v10;
+    }
+  while (v9 != 4);
   v36 = v36 - *a8;
   v37 = v37 - a8[1];
   v38 = v38 - a8[2];
   *(float *)&v35.material = *(float *)&v35.material - *a8;
   *(float *)&v35.entityNum = *(float *)&v35.entityNum - a8[1];
   *(float *)&v35.partGroup = *(float *)&v35.partGroup - a8[2];
-  if (*a9 == 0.0 && a9[1] == 0.0 && a9[2] == 0.0) {
-    v16 = 0;
-  } else {
-    AngleVectors(a9, &v26, &v29, &v32);
-    LODWORD(v29) ^= 0x80000000;
-    v30 = -v30;
-    v31 = -v31;
-    v12 = v36;
-    v13 = v37;
-    v36 = (float)((float)(v36 * v26) + (float)(v37 * v27)) + (float)(v28 * v38);
-    v37 = (float)((float)(v12 * v29) + (float)(v37 * v30)) + (float)(v38 * v31);
-    v38 = (float)((float)(v12 * v32) + (float)(v13 * v33)) + (float)(v38 * v34);
-    v14 = *(float *)&v35.material;
-    v15 = *(float *)&v35.entityNum;
-    *(float *)&v35.material = (float)((float)(*(float *)&v35.material * v26) +
-                                      (float)(v27 * *(float *)&v35.entityNum)) +
-                              (float)(v28 * *(float *)&v35.partGroup);
-    *(float *)&v35.entityNum =
-        (float)((float)(v14 * v29) + (float)(v30 * *(float *)&v35.entityNum)) +
-        (float)(v31 * *(float *)&v35.partGroup);
-    *(float *)&v35.partGroup =
-        (float)((float)(v14 * v32) + (float)(v15 * v33)) +
-        (float)(*(float *)&v35.partGroup * v34);
-    v16 = 1;
-  }
+    if (*a9 == 0.0 && a9[1] == 0.0 && a9[2] == 0.0) {
+      v16 = 0;
+    }
+    else {
+      AngleVectors(a9, &v26, &v29, &v32);
+      LODWORD(v29) ^= 0x80000000;
+      v30 = -v30;
+      v31 = -v31;
+      v12 = v36;
+      v13 = v37;
+      v36 =
+          (float)((float)(v36 * v26) + (float)(v37 * v27)) + (float)(v28 * v38);
+      v37 =
+          (float)((float)(v12 * v29) + (float)(v37 * v30)) + (float)(v38 * v31);
+      v38 =
+          (float)((float)(v12 * v32) + (float)(v13 * v33)) + (float)(v38 * v34);
+      v14 = *(float *)&v35.material;
+      v15 = *(float *)&v35.entityNum;
+      *(float *)&v35.material =
+          (float)((float)(*(float *)&v35.material * v26) +
+                  (float)(v27 * *(float *)&v35.entityNum)) +
+          (float)(v28 * *(float *)&v35.partGroup);
+      *(float *)&v35.entityNum =
+          (float)((float)(v14 * v29) +
+                  (float)(v30 * *(float *)&v35.entityNum)) +
+          (float)(v31 * *(float *)&v35.partGroup);
+      *(float *)&v35.partGroup =
+          (float)((float)(v14 * v32) + (float)(v15 * v33)) +
+          (float)(*(float *)&v35.partGroup * v34);
+      v16 = 1;
+    }
   fraction = a1->fraction;
   CM_Trace((int)a1, &v36, (float *)&v35.material, &v35, &v35.normal[2], a6, a7);
-  if (v16 && fraction > a1->fraction) {
-    v17 = 0;
-    for (i = v25;; i += 3) {
-      v19 = &v26 + v17;
-      v20 = i;
-      do {
-        *v20 = *v19;
-        v19 += 3;
-        ++v20;
-      } while (i + 3 != v20);
-      if (++v17 == 3)
-        break;
+    if (v16 && fraction > a1->fraction) {
+      v17 = 0;
+        for (i = v25;; i += 3) {
+          v19 = &v26 + v17;
+          v20 = i;
+            do {
+              *v20 = *v19;
+              v19 += 3;
+              ++v20;
+            }
+          while (i + 3 != v20);
+          if (++v17 == 3)
+            break;
+        }
+      v21 = a1->normal[0];
+      v22 = a1->normal[1];
+      v23 = a1->normal[2];
+      a1->normal[0] = (float)((float)(v21 * v25[0]) + (float)(v22 * v25[1])) +
+                      (float)(v23 * v25[2]);
+      a1->normal[1] = (float)((float)(v21 * v25[3]) + (float)(v22 * v25[4])) +
+                      (float)(v23 * v25[5]);
+      a1->normal[2] = (float)((float)(v21 * v25[6]) + (float)(v22 * v25[7])) +
+                      (float)(v23 * v25[8]);
     }
-    v21 = a1->normal[0];
-    v22 = a1->normal[1];
-    v23 = a1->normal[2];
-    a1->normal[0] = (float)((float)(v21 * v25[0]) + (float)(v22 * v25[1])) +
-                    (float)(v23 * v25[2]);
-    a1->normal[1] = (float)((float)(v21 * v25[3]) + (float)(v22 * v25[4])) +
-                    (float)(v23 * v25[5]);
-    a1->normal[2] = (float)((float)(v21 * v25[6]) + (float)(v22 * v25[7])) +
-                    (float)(v23 * v25[8]);
-  }
 }
 
 void __cdecl CM_BoxTrace(struct trace_t *results, float const *const start,
                          float const *const end, float const *const mins,
-                         float const *const maxs, int model, int brushmask) {
+                         float const *const maxs, int model, int brushmask)
+{
   memset(a1, 0, sizeof(trace_t));
   a1->fraction = 1.0;
   CM_Trace((int)a1, a2, a3, a4, a5, a6, a7);
@@ -480,7 +508,8 @@ void __cdecl CM_BoxTrace(struct trace_t *results, float const *const start,
 int __cdecl CM_TransformedBoxSightTrace(
     int hitNum, float const *const start, float const *const end,
     float const *const mins, float const *const maxs, int model, int brushmask,
-    float const *const origin, float const *const angles) {
+    float const *const origin, float const *const angles)
+{
   int v9;       // edx
   int v10;      // eax
   float v11;    // xmm1_4
@@ -509,65 +538,77 @@ int __cdecl CM_TransformedBoxSightTrace(
 
   v9 = 1;
   v10 = 1;
-  do {
-    v11 = (float)(a4[v10 - 1] + a5[v10 - 1]) * 0.5;
-    v27[v10 - 1] = a4[v10 - 1] - v11;
-    v27[v10 + 2] = a5[v10 - 1] - v11;
-    *(float *)((char *)&v31 + v10 * 4) = v11 + a2[v10 - 1];
-    v28[v10 + 2] = v11 + a3[v10 - 1];
-    ++v9;
-    ++v10;
-  } while (v9 != 4);
+    do {
+      v11 = (float)(a4[v10 - 1] + a5[v10 - 1]) * 0.5;
+      v27[v10 - 1] = a4[v10 - 1] - v11;
+      v27[v10 + 2] = a5[v10 - 1] - v11;
+      *(float *)((char *)&v31 + v10 * 4) = v11 + a2[v10 - 1];
+      v28[v10 + 2] = v11 + a3[v10 - 1];
+      ++v9;
+      ++v10;
+    }
+  while (v9 != 4);
   v32 = v32 - *a8;
   v33 = v33 - a8[1];
   v34 = v34 - a8[2];
   v29 = v29 - *a8;
   v30 = v30 - a8[1];
   v31 = v31 - a8[2];
-  if (*a9 != 0.0) {
-    v12 = a9;
-    goto LABEL_8;
-  }
-  if (a9[1] != 0.0 || a9[2] != 0.0) {
-    v12 = a9;
-  LABEL_8:
-    AngleVectors(v12, &v18, &v21, &v24);
-    LODWORD(v21) ^= 0x80000000;
-    v22 = -v22;
-    v23 = -v23;
-    v13 = v32;
-    v14 = v33;
-    v32 = (float)((float)(v32 * v18) + (float)(v33 * v19)) + (float)(v20 * v34);
-    v33 = (float)((float)(v13 * v21) + (float)(v33 * v22)) + (float)(v34 * v23);
-    v34 = (float)((float)(v13 * v24) + (float)(v14 * v25)) + (float)(v34 * v26);
-    v15 = v29;
-    v16 = v30;
-    v29 = (float)((float)(v29 * v18) + (float)(v19 * v30)) + (float)(v20 * v31);
-    v30 = (float)((float)(v15 * v21) + (float)(v22 * v30)) + (float)(v23 * v31);
-    v31 = (float)((float)(v15 * v24) + (float)(v16 * v25)) + (float)(v31 * v26);
-  }
+    if (*a9 != 0.0) {
+      v12 = a9;
+      goto LABEL_8;
+    }
+    if (a9[1] != 0.0 || a9[2] != 0.0) {
+      v12 = a9;
+    LABEL_8:
+      AngleVectors(v12, &v18, &v21, &v24);
+      LODWORD(v21) ^= 0x80000000;
+      v22 = -v22;
+      v23 = -v23;
+      v13 = v32;
+      v14 = v33;
+      v32 =
+          (float)((float)(v32 * v18) + (float)(v33 * v19)) + (float)(v20 * v34);
+      v33 =
+          (float)((float)(v13 * v21) + (float)(v33 * v22)) + (float)(v34 * v23);
+      v34 =
+          (float)((float)(v13 * v24) + (float)(v14 * v25)) + (float)(v34 * v26);
+      v15 = v29;
+      v16 = v30;
+      v29 =
+          (float)((float)(v29 * v18) + (float)(v19 * v30)) + (float)(v20 * v31);
+      v30 =
+          (float)((float)(v15 * v21) + (float)(v22 * v30)) + (float)(v23 * v31);
+      v31 =
+          (float)((float)(v15 * v24) + (float)(v16 * v25)) + (float)(v31 * v26);
+    }
   return CM_BoxSightTrace(a1, &v32, &v29, v27, v28, a6, a7);
 }
 
 void __cdecl CM_TransformedBoxTraceExternal(
     struct trace_t *results, float const *const start, float const *const end,
     float const *const mins, float const *const maxs, int model, int brushmask,
-    float const *const origin, float const *const angles) {
+    float const *const origin, float const *const angles)
+{
   memset(a1, 0, sizeof(trace_t));
   a1->fraction = 1.0;
   CM_TransformedBoxTrace(a1, a2, a3, a4, a5, a6, a7, a8, a9);
 }
 
 int marker_cm_trace;
-void __cdecl TransposeMatrix(float (*const)[3], float (*const)[3]) {
+
+void __cdecl TransposeMatrix(float (*const)[3], float (*const)[3])
+{
   UNIMPLEMENTED();
 }
 
-void __cdecl CM_GetBox(struct cbrush_t **, struct cmodel_t **) {
+void __cdecl CM_GetBox(struct cbrush_t **, struct cmodel_t **)
+{
   UNIMPLEMENTED();
 }
 
-void __cdecl CM_GetTrackThreadInfo(struct TraceThreadInfo *) {
+void __cdecl CM_GetTrackThreadInfo(struct TraceThreadInfo *)
+{
   UNIMPLEMENTED();
 }
 
@@ -575,70 +616,88 @@ int __cdecl CM_SightTraceSphereThroughSphere(struct traceWork_t const *,
                                              float const *const,
                                              float const *const,
                                              float const *const, float,
-                                             struct trace_t *) {
+                                             struct trace_t *)
+{
   UNIMPLEMENTED();
 }
 
-void __cdecl CM_SetAxialCullOnly(struct traceWork_t *) { UNIMPLEMENTED(); }
+void __cdecl CM_SetAxialCullOnly(struct traceWork_t *)
+{
+  UNIMPLEMENTED();
+}
 
-void __cdecl RotatePoint(float *const, float (*const)[3]) { UNIMPLEMENTED(); }
+void __cdecl RotatePoint(float *const, float (*const)[3])
+{
+  UNIMPLEMENTED();
+}
 
 int __cdecl CM_TraceSphereThroughSphere(struct traceWork_t const *,
                                         float const *const, float const *const,
                                         float const *const, float,
-                                        struct trace_t *) {
+                                        struct trace_t *)
+{
   UNIMPLEMENTED();
 }
 
 int __cdecl CM_SightTraceCylinderThroughCylinder(struct traceWork_t const *,
                                                  float const *const, float,
-                                                 float, struct trace_t *) {
+                                                 float, struct trace_t *)
+{
   UNIMPLEMENTED();
 }
 
 int __cdecl CM_SightTraceThroughBrush(struct traceWork_t const *,
-                                      struct cbrush_t *) {
+                                      struct cbrush_t *)
+{
   UNIMPLEMENTED();
 }
 
 int __cdecl CM_TraceCylinderThroughCylinder(struct traceWork_t const *,
                                             float const *const, float, float,
-                                            struct trace_t *) {
+                                            struct trace_t *)
+{
   UNIMPLEMENTED();
 }
 
 void __cdecl CM_TraceThroughBrush(struct traceWork_t const *, struct cbrush_t *,
-                                  struct trace_t *) {
+                                  struct trace_t *)
+{
   UNIMPLEMENTED();
 }
 
-void __cdecl CM_TestCapsuleInCapsule(struct traceWork_t *, struct trace_t *) {
+void __cdecl CM_TestCapsuleInCapsule(struct traceWork_t *, struct trace_t *)
+{
   UNIMPLEMENTED();
 }
 
 void __cdecl CM_TestBoxInBrush(struct traceWork_t const *, struct cbrush_t *,
-                               struct trace_t *) {
+                               struct trace_t *)
+{
   UNIMPLEMENTED();
 }
 
-void __cdecl CreateRotationMatrix(float const *const, float (*const)[3]) {
+void __cdecl CreateRotationMatrix(float const *const, float (*const)[3])
+{
   UNIMPLEMENTED();
 }
 
 int __cdecl CM_SightTraceCapsuleThroughCapsule(struct traceWork_t const *,
-                                               struct trace_t *) {
+                                               struct trace_t *)
+{
   UNIMPLEMENTED();
 }
 
 int __cdecl CM_SightTraceThroughLeafBrushNode_r(struct traceWork_t const *,
                                                 struct cLeafBrushNode_s *,
                                                 float const *const,
-                                                float const *const) {
+                                                float const *const)
+{
   UNIMPLEMENTED();
 }
 
 void __cdecl CM_TraceCapsuleThroughCapsule(struct traceWork_t const *,
-                                           struct trace_t *) {
+                                           struct trace_t *)
+{
   UNIMPLEMENTED();
 }
 
@@ -646,64 +705,76 @@ void __cdecl CM_TraceThroughLeafBrushNode_r(struct traceWork_t const *,
                                             struct cLeafBrushNode_s *,
                                             float const *const,
                                             float const *const,
-                                            struct trace_t *) {
+                                            struct trace_t *)
+{
   UNIMPLEMENTED();
 }
 
 void __cdecl CM_TestInLeafBrushNode_r(struct traceWork_t const *,
                                       struct cLeafBrushNode_s *,
-                                      struct trace_t *) {
+                                      struct trace_t *)
+{
   UNIMPLEMENTED();
 }
 
 int __cdecl CM_SightTraceThroughLeafBrushNode(struct traceWork_t const *,
-                                              struct cLeaf_t *) {
+                                              struct cLeaf_t *)
+{
   UNIMPLEMENTED();
 }
 
 bool __cdecl CM_TraceThroughLeafBrushNode(struct traceWork_t const *,
-                                          struct cLeaf_t *, struct trace_t *) {
+                                          struct cLeaf_t *, struct trace_t *)
+{
   UNIMPLEMENTED();
 }
 
 int __cdecl CM_TestInLeafBrushNode(struct traceWork_t *, struct cLeaf_t *,
-                                   struct trace_t *) {
+                                   struct trace_t *)
+{
   UNIMPLEMENTED();
 }
 
 void __cdecl CM_TraceThroughLeaf(struct traceWork_t const *, struct cLeaf_t *,
-                                 struct trace_t *) {
+                                 struct trace_t *)
+{
   UNIMPLEMENTED();
 }
 
 void __cdecl CM_TestInLeaf(struct traceWork_t *, struct cLeaf_t *,
-                           struct trace_t *) {
+                           struct trace_t *)
+{
   UNIMPLEMENTED();
 }
 
 int __cdecl CM_SightTraceThroughLeaf(struct traceWork_t const *,
-                                     struct cLeaf_t *, struct trace_t *) {
+                                     struct cLeaf_t *, struct trace_t *)
+{
   UNIMPLEMENTED();
 }
 
 void __cdecl CM_TraceThroughTree(struct traceWork_t const *, int,
                                  float const *const, float const *const,
-                                 struct trace_t *) {
+                                 struct trace_t *)
+{
   UNIMPLEMENTED();
 }
 
-void __cdecl CM_PositionTest(struct traceWork_t *, struct trace_t *) {
+void __cdecl CM_PositionTest(struct traceWork_t *, struct trace_t *)
+{
   UNIMPLEMENTED();
 }
 
 int __cdecl CM_SightTraceThroughTree(struct traceWork_t const *, int,
                                      float const *const, float const *const,
-                                     struct trace_t *) {
+                                     struct trace_t *)
+{
   UNIMPLEMENTED();
 }
 
 void __cdecl CM_Trace(struct trace_t *, float const *const, float const *const,
-                      float const *const, float const *const, int, int) {
+                      float const *const, float const *const, int, int)
+{
   int v9;              // ecx
   int v10;             // edx
   float *halfDeltaAbs; // eax
@@ -791,22 +862,23 @@ void __cdecl CM_Trace(struct trace_t *, float const *const, float const *const,
   v9 = 1;
   v10 = 1;
   halfDeltaAbs = v87.halfDeltaAbs;
-  do {
-    v12 = (float)(a5[v10 - 1] + *(float *)((char *)a4 + v10 * 4 - 4)) * 0.5;
-    halfDeltaAbs[3] = a5[v10 - 1] - v12;
-    *(halfDeltaAbs - 20) = v12 + a2[v10 - 1];
-    v13 = v12 + a3[v10 - 1];
-    *(halfDeltaAbs - 17) = v13;
-    *(halfDeltaAbs - 6) = (float)(v13 + *(halfDeltaAbs - 20)) * 0.5;
-    v14 = v13 - *(halfDeltaAbs - 20);
-    v87.delta[v10 - 1] = v14;
-    v15 = v14 * 0.5;
-    v87.halfDelta[v10 - 1] = v15;
-    *halfDeltaAbs = fabs(v15);
-    ++v9;
-    ++v10;
-    ++halfDeltaAbs;
-  } while (v9 != 4);
+    do {
+      v12 = (float)(a5[v10 - 1] + *(float *)((char *)a4 + v10 * 4 - 4)) * 0.5;
+      halfDeltaAbs[3] = a5[v10 - 1] - v12;
+      *(halfDeltaAbs - 20) = v12 + a2[v10 - 1];
+      v13 = v12 + a3[v10 - 1];
+      *(halfDeltaAbs - 17) = v13;
+      *(halfDeltaAbs - 6) = (float)(v13 + *(halfDeltaAbs - 20)) * 0.5;
+      v14 = v13 - *(halfDeltaAbs - 20);
+      v87.delta[v10 - 1] = v14;
+      v15 = v14 * 0.5;
+      v87.halfDelta[v10 - 1] = v15;
+      *halfDeltaAbs = fabs(v15);
+      ++v9;
+      ++v10;
+      ++halfDeltaAbs;
+    }
+  while (v9 != 4);
   CM_CalcTraceEntents(&v87.extents);
   *(float *)&v87.deltaLenSq = (float)((float)(v87.delta[0] * v87.delta[0]) +
                                       (float)(v87.delta[1] * v87.delta[1])) +
@@ -820,29 +892,34 @@ void __cdecl CM_Trace(struct trace_t *, float const *const, float const *const,
   *(float *)&v87.radius = v18;
   *(float *)&v87.offsetZ = v87.size[2] - v18;
   v19 = &v87;
-  do {
-    v20 = v19->extents.start[0];
-    v21 = v19->extents.end[0];
-    if (v21 <= v19->extents.start[0]) {
-      v19->bounds[0][0] = v21 - v18;
-      v19->bounds[1][0] = v20 + v18;
-    } else {
-      v19->bounds[0][0] = v20 - v18;
-      v19->bounds[1][0] = v21 + v18;
+    do {
+      v20 = v19->extents.start[0];
+      v21 = v19->extents.end[0];
+        if (v21 <= v19->extents.start[0]) {
+          v19->bounds[0][0] = v21 - v18;
+          v19->bounds[1][0] = v20 + v18;
+        }
+        else {
+          v19->bounds[0][0] = v20 - v18;
+          v19->bounds[1][0] = v21 + v18;
+        }
+      v19 = (traceWork_t *)((char *)v19 + 4);
     }
-    v19 = (traceWork_t *)((char *)v19 + 4);
-  } while (v19 != (traceWork_t *)&v87.extents.start[2]);
-  if (v87.extents.end[2] <= v87.extents.start[2]) {
-    v87.bounds[0][2] = (float)(v87.extents.end[2] - *(float *)&v87.offsetZ) -
-                       *(float *)&v87.radius;
-    v87.bounds[1][2] = (float)(v87.extents.start[2] + *(float *)&v87.offsetZ) +
-                       *(float *)&v87.radius;
-  } else {
-    v87.bounds[0][2] = (float)(v87.extents.start[2] - *(float *)&v87.offsetZ) -
-                       *(float *)&v87.radius;
-    v87.bounds[1][2] = (float)(v87.extents.end[2] + *(float *)&v87.offsetZ) +
-                       *(float *)&v87.radius;
-  }
+  while (v19 != (traceWork_t *)&v87.extents.start[2]);
+    if (v87.extents.end[2] <= v87.extents.start[2]) {
+      v87.bounds[0][2] = (float)(v87.extents.end[2] - *(float *)&v87.offsetZ) -
+                         *(float *)&v87.radius;
+      v87.bounds[1][2] =
+          (float)(v87.extents.start[2] + *(float *)&v87.offsetZ) +
+          *(float *)&v87.radius;
+    }
+    else {
+      v87.bounds[0][2] =
+          (float)(v87.extents.start[2] - *(float *)&v87.offsetZ) -
+          *(float *)&v87.radius;
+      v87.bounds[1][2] = (float)(v87.extents.end[2] + *(float *)&v87.offsetZ) +
+                         *(float *)&v87.radius;
+    }
   v87.axialCullOnly =
       (float)((float)((float)((float)(v16 * v87.size[1]) * v87.size[2]) *
                       16.0) *
@@ -859,344 +936,372 @@ void __cdecl CM_Trace(struct trace_t *, float const *const, float const *const,
   v87.threadInfo.checkcount.partitions = Value[3];
   v87.threadInfo.box_brush = Value[4];
   *(_DWORD *)v87.threadInfo.box_model = Value[5];
-  if (*a2 == *a3 && a2[1] == a3[1] && a2[2] == a3[2]) {
-    v87.isPoint = 0;
-    if (a6) {
-      if (a6 == (const float *)1023) {
-        if ((*(_DWORD *)(v87.threadInfo.box_brush + 12) & v87.contents) != 0) {
-          v40 = v87.extents.start[0];
-          v41 = v87.extents.start[1];
-          v72 = v87.extents.start[2];
-          v85 = v87.extents.start[2] + *(float *)&v87.offsetZ;
-          v81 = v87.extents.start[2] - *(float *)&v87.offsetZ;
-          v42 = *(float **)v87.threadInfo.box_model;
-          v43 = 1;
-          v44 = 1;
-          do {
-            v45 = *v42;
-            v46 = v42[3];
-            v47 = (float)(*v42 + v46) * 0.5;
-            v88.halfDeltaAbs[v44 - 2] = v47;
-            v86.extents.start[v44 - 1] = v45 - v47;
-            v86.extents.start[v44 + 2] = v46 - v47;
-            ++v43;
-            ++v44;
-            ++v42;
-          } while (v43 != 4);
-          v48 = fminf(v86.extents.end[2], v86.extents.end[0]);
-          v49 = v86.extents.end[2] - v48;
-          v50 = (float)(v48 + *(float *)&v87.radius) *
-                (float)(v48 + *(float *)&v87.radius);
-          v84 = v88.halfDelta[2];
-          v83 = v88.halfDeltaAbs[0];
-          v82 = v88.halfDeltaAbs[1];
-          v51 = v88.halfDeltaAbs[1] + v49;
-          v52 = (float)((float)(v88.halfDelta[2] - v40) *
-                        (float)(v88.halfDelta[2] - v40)) +
-                (float)((float)(v88.halfDeltaAbs[0] - v41) *
-                        (float)(v88.halfDeltaAbs[0] - v41));
-          if (v50 > (float)((float)((float)((float)(v88.halfDeltaAbs[1] + v49) -
-                                            v85) *
-                                    (float)((float)(v88.halfDeltaAbs[1] + v49) -
-                                            v85)) +
-                            v52)) {
-            *(_BYTE *)(a1 + 34) = 1;
-            *(_BYTE *)(a1 + 35) = 1;
-            *(_DWORD *)a1 = 0;
-          }
-          if (v50 >
-              (float)((float)((float)(v51 - v81) * (float)(v51 - v81)) + v52)) {
-            *(_BYTE *)(a1 + 34) = 1;
-            *(_BYTE *)(a1 + 35) = 1;
-            *(_DWORD *)a1 = 0;
-          }
-          if (v50 > (float)((float)((float)((float)(v82 - v49) - v85) *
-                                    (float)((float)(v82 - v49) - v85)) +
-                            v52)) {
-            *(_BYTE *)(a1 + 34) = 1;
-            *(_BYTE *)(a1 + 35) = 1;
-            *(_DWORD *)a1 = 0;
-          }
-          if (v50 > (float)(v52 + (float)((float)((float)(v82 - v49) - v81) *
-                                          (float)((float)(v82 - v49) - v81)))) {
-            *(_BYTE *)(a1 + 34) = 1;
-            *(_BYTE *)(a1 + 35) = 1;
-            *(_DWORD *)a1 = 0;
-          }
-          if ((float)((float)(v49 + v87.size[2]) - *(float *)&v87.radius) >=
-                  fabs(v72 - v88.halfDeltaAbs[1]) &&
-              v50 > (float)((float)((float)((float)(v40 - v84) *
-                                            (float)(v40 - v84)) +
-                                    (float)((float)(v41 - v83) *
-                                            (float)(v41 - v83))) +
-                            0.0)) {
-            *(_BYTE *)(a1 + 34) = 1;
-            *(_BYTE *)(a1 + 35) = 1;
-            *(_DWORD *)a1 = 0;
-          }
-        }
-      } else if (!*(_BYTE *)(a1 + 34)) {
-        contents = v87.contents;
-        if ((v87.contents & *(_DWORD *)(v75 + 32)) != 0) {
-          v37 = v75 + 28;
-          v38 = 0;
-          v39 = 0;
-          while (*(float *)(v37 + 12) < v87.bounds[1][v39] &&
-                 v87.bounds[0][v39] < *(float *)(v37 + 24)) {
-            ++v38;
-            ++v39;
-            v37 += 4;
-            if (v38 == 3) {
-              CM_TestInLeafBrushNode_r(
-                  (int)&v87,
-                  (unsigned __int8 *)(unk_1007E50 + 20 * *(_DWORD *)(v75 + 64)),
-                  a1);
-              if (*(_BYTE *)(a1 + 34))
-                return;
+    if (*a2 == *a3 && a2[1] == a3[1] && a2[2] == a3[2]) {
+      v87.isPoint = 0;
+        if (a6) {
+            if (a6 == (const float *)1023) {
+                if ((*(_DWORD *)(v87.threadInfo.box_brush + 12) &
+                     v87.contents) != 0) {
+                  v40 = v87.extents.start[0];
+                  v41 = v87.extents.start[1];
+                  v72 = v87.extents.start[2];
+                  v85 = v87.extents.start[2] + *(float *)&v87.offsetZ;
+                  v81 = v87.extents.start[2] - *(float *)&v87.offsetZ;
+                  v42 = *(float **)v87.threadInfo.box_model;
+                  v43 = 1;
+                  v44 = 1;
+                    do {
+                      v45 = *v42;
+                      v46 = v42[3];
+                      v47 = (float)(*v42 + v46) * 0.5;
+                      v88.halfDeltaAbs[v44 - 2] = v47;
+                      v86.extents.start[v44 - 1] = v45 - v47;
+                      v86.extents.start[v44 + 2] = v46 - v47;
+                      ++v43;
+                      ++v44;
+                      ++v42;
+                    }
+                  while (v43 != 4);
+                  v48 = fminf(v86.extents.end[2], v86.extents.end[0]);
+                  v49 = v86.extents.end[2] - v48;
+                  v50 = (float)(v48 + *(float *)&v87.radius) *
+                        (float)(v48 + *(float *)&v87.radius);
+                  v84 = v88.halfDelta[2];
+                  v83 = v88.halfDeltaAbs[0];
+                  v82 = v88.halfDeltaAbs[1];
+                  v51 = v88.halfDeltaAbs[1] + v49;
+                  v52 = (float)((float)(v88.halfDelta[2] - v40) *
+                                (float)(v88.halfDelta[2] - v40)) +
+                        (float)((float)(v88.halfDeltaAbs[0] - v41) *
+                                (float)(v88.halfDeltaAbs[0] - v41));
+                    if (v50 >
+                        (float)((float)((float)((float)(v88.halfDeltaAbs[1] +
+                                                        v49) -
+                                                v85) *
+                                        (float)((float)(v88.halfDeltaAbs[1] +
+                                                        v49) -
+                                                v85)) +
+                                v52)) {
+                      *(_BYTE *)(a1 + 34) = 1;
+                      *(_BYTE *)(a1 + 35) = 1;
+                      *(_DWORD *)a1 = 0;
+                    }
+                    if (v50 > (float)((float)((float)(v51 - v81) *
+                                              (float)(v51 - v81)) +
+                                      v52)) {
+                      *(_BYTE *)(a1 + 34) = 1;
+                      *(_BYTE *)(a1 + 35) = 1;
+                      *(_DWORD *)a1 = 0;
+                    }
+                    if (v50 >
+                        (float)((float)((float)((float)(v82 - v49) - v85) *
+                                        (float)((float)(v82 - v49) - v85)) +
+                                v52)) {
+                      *(_BYTE *)(a1 + 34) = 1;
+                      *(_BYTE *)(a1 + 35) = 1;
+                      *(_DWORD *)a1 = 0;
+                    }
+                    if (v50 >
+                        (float)(v52 +
+                                (float)((float)((float)(v82 - v49) - v81) *
+                                        (float)((float)(v82 - v49) - v81)))) {
+                      *(_BYTE *)(a1 + 34) = 1;
+                      *(_BYTE *)(a1 + 35) = 1;
+                      *(_DWORD *)a1 = 0;
+                    }
+                    if ((float)((float)(v49 + v87.size[2]) -
+                                *(float *)&v87.radius) >=
+                            fabs(v72 - v88.halfDeltaAbs[1]) &&
+                        v50 > (float)((float)((float)((float)(v40 - v84) *
+                                                      (float)(v40 - v84)) +
+                                              (float)((float)(v41 - v83) *
+                                                      (float)(v41 - v83))) +
+                                      0.0)) {
+                      *(_BYTE *)(a1 + 34) = 1;
+                      *(_BYTE *)(a1 + 35) = 1;
+                      *(_DWORD *)a1 = 0;
+                    }
+                }
+            }
+            else if (!*(_BYTE *)(a1 + 34)) {
               contents = v87.contents;
-              break;
+                if ((v87.contents & *(_DWORD *)(v75 + 32)) != 0) {
+                  v37 = v75 + 28;
+                  v38 = 0;
+                  v39 = 0;
+                    while (*(float *)(v37 + 12) < v87.bounds[1][v39] &&
+                           v87.bounds[0][v39] < *(float *)(v37 + 24)) {
+                      ++v38;
+                      ++v39;
+                      v37 += 4;
+                        if (v38 == 3) {
+                          CM_TestInLeafBrushNode_r(
+                              (int)&v87,
+                              (unsigned __int8 *)(unk_1007E50 +
+                                                  20 * *(_DWORD *)(v75 + 64)),
+                              a1);
+                          if (*(_BYTE *)(a1 + 34))
+                            return;
+                          contents = v87.contents;
+                          break;
+                        }
+                    }
+                }
+              if ((contents & *(_DWORD *)(v75 + 36)) != 0)
+                CM_MeshTestInLeaf(&v87, (cLeaf_t *)(v75 + 28), (trace_t *)a1);
             }
-          }
         }
-        if ((contents & *(_DWORD *)(v75 + 36)) != 0)
-          CM_MeshTestInLeaf(&v87, (cLeaf_t *)(v75 + 28), (trace_t *)a1);
-      }
-    } else if (!*(_BYTE *)(a1 + 34)) {
-      v88.extents.end[1] = v87.extents.start[0] - v87.size[0];
-      v88.extents.end[2] = v87.extents.start[1] - v87.size[1];
-      v88.extents.invDelta[0] = v87.extents.start[2] - v87.size[2];
-      v88.extents.invDelta[1] = v87.extents.start[0] + v87.size[0];
-      v88.extents.invDelta[2] = v87.extents.start[1] + v87.size[1];
-      v88.delta[0] = v87.extents.start[2] + v87.size[2];
-      v25 = &v88;
-      do {
-        v25->extents.end[1] = v25->extents.end[1] - 1.0;
-        v25->extents.invDelta[1] = v25->extents.invDelta[1] + 1.0;
-        v25 = (traceWork_t *)((char *)v25 + 4);
-      } while ((traceWork_t *)v88.extents.end != v25);
-      v88.extents.start[0] = 0.0;
-      LODWORD(v88.extents.start[1]) = 1024;
-      LODWORD(v88.extents.end[0]) = &v86;
-      v88.delta[1] = 0.0;
-      v88.extents.start[2] = 0.0;
-      CM_BoxLeafnums_r((leafList_s *)&v88, 0);
-      if (SLODWORD(v88.extents.start[0]) > 0 && !*(_BYTE *)(a1 + 34)) {
-        v26 = 0;
-        do {
-          v27 =
-              (cLeaf_t *)(dword_1007E48 + 44 * LODWORD(v86.extents.start[v26]));
-          v28 = v87.contents;
-          if ((v87.contents & v27->brushContents) != 0) {
-            v29 = dword_1007E48 + 44 * LODWORD(v86.extents.start[v26]);
-            v30 = 0;
-            v31 = 0;
-            while (*(float *)(v29 + 12) < v87.bounds[1][v31] &&
-                   v87.bounds[0][v31] < *(float *)(v29 + 24)) {
-              ++v30;
-              ++v31;
-              v29 += 4;
-              if (v30 == 3) {
-                CM_TestInLeafBrushNode_r(
-                    (int)&v87,
-                    (unsigned __int8 *)(unk_1007E50 + 20 * v27->leafBrushNode),
-                    a1);
-                if (*(_BYTE *)(a1 + 34))
-                  goto LABEL_31;
-                v28 = v87.contents;
-                break;
-              }
+        else if (!*(_BYTE *)(a1 + 34)) {
+          v88.extents.end[1] = v87.extents.start[0] - v87.size[0];
+          v88.extents.end[2] = v87.extents.start[1] - v87.size[1];
+          v88.extents.invDelta[0] = v87.extents.start[2] - v87.size[2];
+          v88.extents.invDelta[1] = v87.extents.start[0] + v87.size[0];
+          v88.extents.invDelta[2] = v87.extents.start[1] + v87.size[1];
+          v88.delta[0] = v87.extents.start[2] + v87.size[2];
+          v25 = &v88;
+            do {
+              v25->extents.end[1] = v25->extents.end[1] - 1.0;
+              v25->extents.invDelta[1] = v25->extents.invDelta[1] + 1.0;
+              v25 = (traceWork_t *)((char *)v25 + 4);
             }
-          }
-          if ((v28 & v27->terrainContents) != 0)
-            CM_MeshTestInLeaf(&v87, v27, (trace_t *)a1);
-        LABEL_31:
-          ++v26;
-        } while (SLODWORD(v88.extents.start[0]) > v26 && !*(_BYTE *)(a1 + 34));
-      }
+          while ((traceWork_t *)v88.extents.end != v25);
+          v88.extents.start[0] = 0.0;
+          LODWORD(v88.extents.start[1]) = 1024;
+          LODWORD(v88.extents.end[0]) = &v86;
+          v88.delta[1] = 0.0;
+          v88.extents.start[2] = 0.0;
+          CM_BoxLeafnums_r((leafList_s *)&v88, 0);
+            if (SLODWORD(v88.extents.start[0]) > 0 && !*(_BYTE *)(a1 + 34)) {
+              v26 = 0;
+                do {
+                  v27 = (cLeaf_t *)(dword_1007E48 +
+                                    44 * LODWORD(v86.extents.start[v26]));
+                  v28 = v87.contents;
+                    if ((v87.contents & v27->brushContents) != 0) {
+                      v29 =
+                          dword_1007E48 + 44 * LODWORD(v86.extents.start[v26]);
+                      v30 = 0;
+                      v31 = 0;
+                        while (*(float *)(v29 + 12) < v87.bounds[1][v31] &&
+                               v87.bounds[0][v31] < *(float *)(v29 + 24)) {
+                          ++v30;
+                          ++v31;
+                          v29 += 4;
+                            if (v30 == 3) {
+                              CM_TestInLeafBrushNode_r(
+                                  (int)&v87,
+                                  (unsigned __int8 *)(unk_1007E50 +
+                                                      20 * v27->leafBrushNode),
+                                  a1);
+                              if (*(_BYTE *)(a1 + 34))
+                                goto LABEL_31;
+                              v28 = v87.contents;
+                              break;
+                            }
+                        }
+                    }
+                  if ((v28 & v27->terrainContents) != 0)
+                    CM_MeshTestInLeaf(&v87, v27, (trace_t *)a1);
+                LABEL_31:
+                  ++v26;
+                }
+              while (SLODWORD(v88.extents.start[0]) > v26 &&
+                     !*(_BYTE *)(a1 + 34));
+            }
+        }
+      return;
     }
-    return;
-  }
   v87.isPoint =
       (float)((float)(v87.size[0] + v87.size[1]) + v87.size[2]) == 0.0;
   v32 = *(float *)&v87.radius;
   LODWORD(v87.radiusOffset[0]) = v87.radius;
   LODWORD(v87.radiusOffset[1]) = v87.radius;
   v87.radiusOffset[2] = *(float *)&v87.radius + *(float *)&v87.offsetZ;
-  if (!a6) {
-    v88.delta[2] = v87.extents.start[0];
-    v88.deltaLen = LODWORD(v87.extents.start[1]);
-    v88.deltaLenSq = LODWORD(v87.extents.start[2]);
-    v88.midpoint[0] = 0.0;
-    v88.midpoint[1] = v87.extents.end[0];
-    v88.midpoint[2] = v87.extents.end[1];
-    v88.halfDelta[0] = v87.extents.end[2];
-    v88.halfDelta[1] = *(float *)a1;
-    CM_TraceThroughTree(&v87, 0, &v88.delta[2], (traceWork_t *)&v88.midpoint[1],
-                        (trace_t *)a1);
-    return;
-  }
-  if (a6 == (const float *)1023) {
-    if ((*(_DWORD *)(v87.threadInfo.box_brush + 12) & v87.contents) == 0 ||
-        v87.bounds[0][0] >
-            (float)(*(float *)(*(_DWORD *)v87.threadInfo.box_model + 12) +
-                    1.0) ||
-        v87.bounds[0][1] >
-            (float)(*(float *)(*(_DWORD *)v87.threadInfo.box_model + 16) +
-                    1.0) ||
-        v87.bounds[0][2] >
-            (float)(*(float *)(*(_DWORD *)v87.threadInfo.box_model + 20) +
-                    1.0) ||
-        (float)(**(float **)v87.threadInfo.box_model - 1.0) >
-            v87.bounds[1][0] ||
-        (float)(*(float *)(*(_DWORD *)v87.threadInfo.box_model + 4) - 1.0) >
-            v87.bounds[1][1] ||
-        (float)(*(float *)(*(_DWORD *)v87.threadInfo.box_model + 8) - 1.0) >
-            v87.bounds[1][2]) {
+    if (!a6) {
+      v88.delta[2] = v87.extents.start[0];
+      v88.deltaLen = LODWORD(v87.extents.start[1]);
+      v88.deltaLenSq = LODWORD(v87.extents.start[2]);
+      v88.midpoint[0] = 0.0;
+      v88.midpoint[1] = v87.extents.end[0];
+      v88.midpoint[2] = v87.extents.end[1];
+      v88.halfDelta[0] = v87.extents.end[2];
+      v88.halfDelta[1] = *(float *)a1;
+      CM_TraceThroughTree(&v87, 0, &v88.delta[2],
+                          (traceWork_t *)&v88.midpoint[1], (trace_t *)a1);
       return;
     }
-    v53 = v87.extents.start[0];
-    v88.axialCullOnly = LODWORD(v87.extents.start[0]);
-    v54 = v87.extents.start[1];
-    v88.radius = LODWORD(v87.extents.start[1]);
-    v73 = v87.extents.start[2];
-    *(float *)&v88.offsetZ = v87.extents.start[2] + *(float *)&v87.offsetZ;
-    v88.bounds[1][2] = v87.extents.start[0];
-    v88.contents = LODWORD(v87.extents.start[1]);
-    *(float *)&v88.isPoint = v87.extents.start[2] - *(float *)&v87.offsetZ;
-    v88.bounds[0][2] = v87.extents.end[0];
-    v88.bounds[1][0] = v87.extents.end[1];
-    v88.bounds[1][1] = v87.extents.end[2] + *(float *)&v87.offsetZ;
-    v88.size[2] = v87.extents.end[0];
-    v88.bounds[0][0] = v87.extents.end[1];
-    v88.bounds[0][1] = v87.extents.end[2] - *(float *)&v87.offsetZ;
-    v55 = *(float **)v87.threadInfo.box_model;
-    v56 = 1;
-    v57 = 1;
-    do {
-      v58 = *v55;
-      v59 = v55[3];
-      v60 = (float)(*v55 + v59) * 0.5;
-      v88.size[v57 - 2] = v60;
-      v88.extents.start[v57 - 1] = v58 - v60;
-      v88.extents.start[v57 + 2] = v59 - v60;
-      ++v56;
-      ++v57;
-      ++v55;
-    } while (v56 != 4);
-    v79 = fminf(v88.extents.end[2], v88.extents.end[0]);
-    v80 = v88.extents.end[2] - v79;
-    v76 = v88.halfDeltaAbs[2];
-    v86.extents.start[0] = v88.halfDeltaAbs[2];
-    v77 = v88.size[0];
-    v86.extents.start[1] = v88.size[0];
-    v78 = v88.size[1];
-    v86.extents.start[2] = (float)(v88.extents.end[2] - v79) + v88.size[1];
-    v88.radiusOffset[0] = v88.halfDeltaAbs[2];
-    v88.radiusOffset[1] = v88.size[0];
-    v88.radiusOffset[2] = v88.size[1] - (float)(v88.extents.end[2] - v79);
-    if (*(float *)&v88.isPoint > v86.extents.start[2]) {
-      if (!CM_TraceSphereThroughSphere((int)&v87, &v88.bounds[1][2],
-                                       &v88.size[2], v79, &v86, (float *)a1) ||
-          v87.delta[2] >= 0.0) {
-        return;
-      }
-    } else {
-      if ((float)(v88.size[1] - (float)(v88.extents.end[2] - v79)) <=
-          *(float *)&v88.offsetZ)
-        goto LABEL_87;
-      if (!CM_TraceSphereThroughSphere(
-              (int)&v87, (float *)&v88.axialCullOnly, &v88.bounds[0][2], v79,
-              (traceWork_t *)v88.radiusOffset, (float *)a1) ||
-          v87.delta[2] <= 0.0) {
-        return;
-      }
-    }
-    v73 = v87.extents.start[2];
-    v53 = v87.extents.start[0];
-    v54 = v87.extents.start[1];
-    v32 = *(float *)&v87.radius;
-  LABEL_87:
-    v61 = v53 - v76;
-    v88.halfDelta[2] = v53 - v76;
-    v62 = v54 - v77;
-    v88.halfDeltaAbs[0] = v54 - v77;
-    v88.halfDeltaAbs[1] = v73 - v78;
-    v63 = (float)((float)(v61 * v61) + (float)(v62 * v62)) -
-          (float)((float)(v79 + v32) * (float)(v79 + v32));
-    if (v63 <= 0.0) {
-      v65 = (float)(v87.size[2] - v32) + v80;
-      if (fabs(v73 - v78) <= v65) {
-        *(_DWORD *)a1 = 0;
-        *(_BYTE *)(a1 + 35) = 1;
-        v88.halfDeltaAbs[1] = 0.0;
-        Vec3NormalizeTo(&v88.halfDelta[2], (float *)(a1 + 4));
-        *(_DWORD *)(a1 + 20) = *(_DWORD *)(v87.threadInfo.box_brush + 12);
-        v88.halfDelta[2] = v87.extents.end[0] - v76;
-        v88.halfDeltaAbs[0] = v87.extents.end[1] - v77;
-        v88.halfDeltaAbs[1] = v87.extents.end[2] - v78;
-        if (v65 >= fabs(v87.extents.end[2] - v78))
-          *(_BYTE *)(a1 + 34) = 1;
-        return;
-      }
-    } else {
-      v64 = (float)(v61 * v87.delta[0]) + (float)(v62 * v87.delta[1]);
-      if (v64 < 0.0) {
-        v66 = (float)(v87.delta[0] * v87.delta[0]) +
-              (float)(v87.delta[1] * v87.delta[1]);
-        v67 = v63 * v66;
-        if ((float)((float)(v64 * v64) - v67) >= 0.0) {
-          v88.halfDeltaAbs[1] = 0.0;
-          v71 = (float)(v64 * v64) - v67;
-          v70 = Vec3NormalizeTo(&v88.halfDelta[2],
-                                (float *)&v88.threadInfo.checkcount.global);
-          v68 = (float)(v70 * 0.125) / v64;
-          v69 = (float)((float)((float)-v64 - fsqrt(v71)) / v66) + v68;
-          if (*(float *)a1 > v69 &&
-              fabs((float)((float)((float)(v69 - v68) * v87.delta[2]) +
-                           v87.extents.start[2]) -
-                   v78) <=
-                  (float)((float)(v87.size[2] - *(float *)&v87.radius) + v80)) {
-            *(float *)a1 = fmaxf(0.0, v69);
-            *(_DWORD *)(a1 + 4) = v88.threadInfo.checkcount.global;
-            *(_DWORD *)(a1 + 8) = v88.threadInfo.checkcount.edges;
-            *(_DWORD *)(a1 + 12) = v88.threadInfo.checkcount.verts;
-            *(_DWORD *)(a1 + 20) = *(_DWORD *)(v87.threadInfo.box_brush + 12);
-            return;
-          }
+    if (a6 == (const float *)1023) {
+        if ((*(_DWORD *)(v87.threadInfo.box_brush + 12) & v87.contents) == 0 ||
+            v87.bounds[0][0] >
+                (float)(*(float *)(*(_DWORD *)v87.threadInfo.box_model + 12) +
+                        1.0) ||
+            v87.bounds[0][1] >
+                (float)(*(float *)(*(_DWORD *)v87.threadInfo.box_model + 16) +
+                        1.0) ||
+            v87.bounds[0][2] >
+                (float)(*(float *)(*(_DWORD *)v87.threadInfo.box_model + 20) +
+                        1.0) ||
+            (float)(**(float **)v87.threadInfo.box_model - 1.0) >
+                v87.bounds[1][0] ||
+            (float)(*(float *)(*(_DWORD *)v87.threadInfo.box_model + 4) - 1.0) >
+                v87.bounds[1][1] ||
+            (float)(*(float *)(*(_DWORD *)v87.threadInfo.box_model + 8) - 1.0) >
+                v87.bounds[1][2]) {
+          return;
         }
-      }
+      v53 = v87.extents.start[0];
+      v88.axialCullOnly = LODWORD(v87.extents.start[0]);
+      v54 = v87.extents.start[1];
+      v88.radius = LODWORD(v87.extents.start[1]);
+      v73 = v87.extents.start[2];
+      *(float *)&v88.offsetZ = v87.extents.start[2] + *(float *)&v87.offsetZ;
+      v88.bounds[1][2] = v87.extents.start[0];
+      v88.contents = LODWORD(v87.extents.start[1]);
+      *(float *)&v88.isPoint = v87.extents.start[2] - *(float *)&v87.offsetZ;
+      v88.bounds[0][2] = v87.extents.end[0];
+      v88.bounds[1][0] = v87.extents.end[1];
+      v88.bounds[1][1] = v87.extents.end[2] + *(float *)&v87.offsetZ;
+      v88.size[2] = v87.extents.end[0];
+      v88.bounds[0][0] = v87.extents.end[1];
+      v88.bounds[0][1] = v87.extents.end[2] - *(float *)&v87.offsetZ;
+      v55 = *(float **)v87.threadInfo.box_model;
+      v56 = 1;
+      v57 = 1;
+        do {
+          v58 = *v55;
+          v59 = v55[3];
+          v60 = (float)(*v55 + v59) * 0.5;
+          v88.size[v57 - 2] = v60;
+          v88.extents.start[v57 - 1] = v58 - v60;
+          v88.extents.start[v57 + 2] = v59 - v60;
+          ++v56;
+          ++v57;
+          ++v55;
+        }
+      while (v56 != 4);
+      v79 = fminf(v88.extents.end[2], v88.extents.end[0]);
+      v80 = v88.extents.end[2] - v79;
+      v76 = v88.halfDeltaAbs[2];
+      v86.extents.start[0] = v88.halfDeltaAbs[2];
+      v77 = v88.size[0];
+      v86.extents.start[1] = v88.size[0];
+      v78 = v88.size[1];
+      v86.extents.start[2] = (float)(v88.extents.end[2] - v79) + v88.size[1];
+      v88.radiusOffset[0] = v88.halfDeltaAbs[2];
+      v88.radiusOffset[1] = v88.size[0];
+      v88.radiusOffset[2] = v88.size[1] - (float)(v88.extents.end[2] - v79);
+        if (*(float *)&v88.isPoint > v86.extents.start[2]) {
+            if (!CM_TraceSphereThroughSphere((int)&v87, &v88.bounds[1][2],
+                                             &v88.size[2], v79, &v86,
+                                             (float *)a1) ||
+                v87.delta[2] >= 0.0) {
+              return;
+            }
+        }
+        else {
+          if ((float)(v88.size[1] - (float)(v88.extents.end[2] - v79)) <=
+              *(float *)&v88.offsetZ)
+            goto LABEL_87;
+            if (!CM_TraceSphereThroughSphere(
+                    (int)&v87, (float *)&v88.axialCullOnly, &v88.bounds[0][2],
+                    v79, (traceWork_t *)v88.radiusOffset, (float *)a1) ||
+                v87.delta[2] <= 0.0) {
+              return;
+            }
+        }
+      v73 = v87.extents.start[2];
+      v53 = v87.extents.start[0];
+      v54 = v87.extents.start[1];
+      v32 = *(float *)&v87.radius;
+    LABEL_87:
+      v61 = v53 - v76;
+      v88.halfDelta[2] = v53 - v76;
+      v62 = v54 - v77;
+      v88.halfDeltaAbs[0] = v54 - v77;
+      v88.halfDeltaAbs[1] = v73 - v78;
+      v63 = (float)((float)(v61 * v61) + (float)(v62 * v62)) -
+            (float)((float)(v79 + v32) * (float)(v79 + v32));
+        if (v63 <= 0.0) {
+          v65 = (float)(v87.size[2] - v32) + v80;
+            if (fabs(v73 - v78) <= v65) {
+              *(_DWORD *)a1 = 0;
+              *(_BYTE *)(a1 + 35) = 1;
+              v88.halfDeltaAbs[1] = 0.0;
+              Vec3NormalizeTo(&v88.halfDelta[2], (float *)(a1 + 4));
+              *(_DWORD *)(a1 + 20) = *(_DWORD *)(v87.threadInfo.box_brush + 12);
+              v88.halfDelta[2] = v87.extents.end[0] - v76;
+              v88.halfDeltaAbs[0] = v87.extents.end[1] - v77;
+              v88.halfDeltaAbs[1] = v87.extents.end[2] - v78;
+              if (v65 >= fabs(v87.extents.end[2] - v78))
+                *(_BYTE *)(a1 + 34) = 1;
+              return;
+            }
+        }
+        else {
+          v64 = (float)(v61 * v87.delta[0]) + (float)(v62 * v87.delta[1]);
+            if (v64 < 0.0) {
+              v66 = (float)(v87.delta[0] * v87.delta[0]) +
+                    (float)(v87.delta[1] * v87.delta[1]);
+              v67 = v63 * v66;
+                if ((float)((float)(v64 * v64) - v67) >= 0.0) {
+                  v88.halfDeltaAbs[1] = 0.0;
+                  v71 = (float)(v64 * v64) - v67;
+                  v70 = Vec3NormalizeTo(
+                      &v88.halfDelta[2],
+                      (float *)&v88.threadInfo.checkcount.global);
+                  v68 = (float)(v70 * 0.125) / v64;
+                  v69 = (float)((float)((float)-v64 - fsqrt(v71)) / v66) + v68;
+                    if (*(float *)a1 > v69 &&
+                        fabs(
+                            (float)((float)((float)(v69 - v68) * v87.delta[2]) +
+                                    v87.extents.start[2]) -
+                            v78) <= (float)((float)(v87.size[2] -
+                                                    *(float *)&v87.radius) +
+                                            v80)) {
+                      *(float *)a1 = fmaxf(0.0, v69);
+                      *(_DWORD *)(a1 + 4) = v88.threadInfo.checkcount.global;
+                      *(_DWORD *)(a1 + 8) = v88.threadInfo.checkcount.edges;
+                      *(_DWORD *)(a1 + 12) = v88.threadInfo.checkcount.verts;
+                      *(_DWORD *)(a1 + 20) =
+                          *(_DWORD *)(v87.threadInfo.box_brush + 12);
+                      return;
+                    }
+                }
+            }
+        }
+        if (v88.bounds[0][1] <= v86.extents.start[2]) {
+          if (v88.radiusOffset[2] > v88.bounds[1][1] &&
+              *(float *)&v88.offsetZ >= v88.radiusOffset[2])
+            CM_TraceSphereThroughSphere(
+                (int)&v87, (float *)&v88.axialCullOnly, &v88.bounds[0][2], v79,
+                (traceWork_t *)v88.radiusOffset, (float *)a1);
+        }
+        else if (v86.extents.start[2] >= *(float *)&v88.isPoint) {
+          CM_TraceSphereThroughSphere((int)&v87, &v88.bounds[1][2],
+                                      &v88.size[2], v79, &v86, (float *)a1);
+        }
+      return;
     }
-    if (v88.bounds[0][1] <= v86.extents.start[2]) {
-      if (v88.radiusOffset[2] > v88.bounds[1][1] &&
-          *(float *)&v88.offsetZ >= v88.radiusOffset[2])
-        CM_TraceSphereThroughSphere(
-            (int)&v87, (float *)&v88.axialCullOnly, &v88.bounds[0][2], v79,
-            (traceWork_t *)v88.radiusOffset, (float *)a1);
-    } else if (v86.extents.start[2] >= *(float *)&v88.isPoint) {
-      CM_TraceSphereThroughSphere((int)&v87, &v88.bounds[1][2], &v88.size[2],
-                                  v79, &v86, (float *)a1);
-    }
-    return;
-  }
   if (*(float *)a1 == 0.0)
     return;
   v33 = v87.contents;
-  if ((v87.contents & *(_DWORD *)(v75 + 32)) != 0) {
-    if (CM_TraceThroughLeafBrushNode((int)&v87, v75 + 28, (unsigned int *)a1))
-      return;
-    v33 = v87.contents;
-  }
-  if ((v33 & *(_DWORD *)(v75 + 36)) != 0 && *(_WORD *)(v75 + 30) &&
-      *(float *)a1 != 0.0) {
-    v34 = 0;
-    for (i = (trace_t *)a1;; i = (trace_t *)a1) {
-      CM_TraceThroughAabbTree(
-          &v87,
-          (CollisionAabbTree *)(unk_1007E90 +
-                                32 * (v34 + *(unsigned __int16 *)(v75 + 28))),
-          i);
-      if (++v34 >= *(unsigned __int16 *)(v75 + 30) || *(float *)a1 == 0.0)
-        break;
+    if ((v87.contents & *(_DWORD *)(v75 + 32)) != 0) {
+      if (CM_TraceThroughLeafBrushNode((int)&v87, v75 + 28, (unsigned int *)a1))
+        return;
+      v33 = v87.contents;
     }
-  }
+    if ((v33 & *(_DWORD *)(v75 + 36)) != 0 && *(_WORD *)(v75 + 30) &&
+        *(float *)a1 != 0.0) {
+      v34 = 0;
+        for (i = (trace_t *)a1;; i = (trace_t *)a1) {
+          CM_TraceThroughAabbTree(
+              &v87,
+              (CollisionAabbTree *)(unk_1007E90 +
+                                    32 * (v34 +
+                                          *(unsigned __int16 *)(v75 + 28))),
+              i);
+          if (++v34 >= *(unsigned __int16 *)(v75 + 30) || *(float *)a1 == 0.0)
+            break;
+        }
+    }
 }
