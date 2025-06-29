@@ -1,3 +1,5 @@
+
+#include "../qcommon/qcommon.h"
 float const *const colorBlack;
 float const *const colorRed;
 float const *const colorGreen;
@@ -439,10 +441,15 @@ void __cdecl Info_SetValueForKey(char *s, char const *key, char const *value) {
   }
 }
 
-void __cdecl Com_InitThreadData(int threadContext) {
-  Sys_SetValue(1, (char *)&va_info + 2052 * a1);
-  Sys_SetValue(2, (char *)&g_com_error + 72 * a1);
-  return Sys_SetValue(3, (char *)&g_traceThreadInfo + 24 * a1);
+va_info_t va_info[NUMTHREADS];
+jmp_buf g_com_error[NUMTHREADS];
+TraceThreadInfo g_traceThreadInfo[NUMTHREADS];
+
+void Com_InitThreadData(int threadContext)
+{
+	Sys_SetValue(THREAD_VALUE_VA, &va_info[threadContext]);
+	Sys_SetValue(THREAD_VALUE_COM_ERROR, &g_com_error[threadContext]);
+	Sys_SetValue(THREAD_VALUE_TRACE, &g_traceThreadInfo[threadContext]);
 }
 
 void __cdecl I_strncat(char *dest, int size, char const *src) {

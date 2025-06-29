@@ -99,3 +99,15 @@ typedef struct {
   huff_t compressor;
   huff_t decompressor; // char decompressor[28700];
 } huffman_t;
+
+
+#define THREAD_CONTEXT_MAIN 0
+#define THREAD_CONTEXT_DATABASE 1
+enum ThreadValue
+{
+	THREAD_VALUE_PROF_STACK,
+	THREAD_VALUE_VA,
+	THREAD_VALUE_COM_ERROR,
+	THREAD_VALUE_TRACE,
+	THREAD_VALUE_COUNT
+};
