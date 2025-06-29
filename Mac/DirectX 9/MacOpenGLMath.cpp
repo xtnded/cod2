@@ -1,12 +1,5 @@
-COpenGLMatrix::SetIdentity()
-{	UNIMPLEMENTED();
-}
+COpenGLMatrix::SetIdentity() { UNIMPLEMENTED(); }
 
-COpenGLMatrix::Transpose()
-{	UNIMPLEMENTED();
-}
+COpenGLMatrix::Transpose() { UNIMPLEMENTED(); }
 
-COpenGLMatrix::Inverse(COpenGLMatrix& mResult)
-{	UNIMPLEMENTED();
-}
-
+COpenGLMatrix::Inverse(COpenGLMatrix &mResult) { UNIMPLEMENTED(); }

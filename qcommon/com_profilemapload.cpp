@@ -1,5 +1,3 @@
-bool __cdecl Com_IsMapProfilerActive()
-{	UNIMPLEMENTED();
-}
+bool __cdecl Com_IsMapProfilerActive() { return 0; }
 
 int marker_com_profilemapload;

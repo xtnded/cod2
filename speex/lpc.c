@@ -72,44 +72,41 @@
  */
 
 /* returns minimum mean square error    */
-spx_word32_t _spx_lpc(
-spx_coef_t       *lpc, /* out: [0...p-1] LPC coefficients      */
-const spx_word16_t *ac,  /* in:  [0...p] autocorrelation values  */
-int          p
-)
-{
-   int i, j;
-   spx_word16_t r;
-   spx_word16_t error = ac[0];
+spx_word32_t
+_spx_lpc(spx_coef_t *lpc,        /* out: [0...p-1] LPC coefficients      */
+         const spx_word16_t *ac, /* in:  [0...p] autocorrelation values  */
+         int p) {
+  int i, j;
+  spx_word16_t r;
+  spx_word16_t error = ac[0];
 
-   for (i = 0; i < p; i++) {
+  for (i = 0; i < p; i++) {
 
-      /* Sum up this iteration's reflection coefficient */
-      spx_word32_t rr = NEG32(SHL32(EXTEND32(ac[i + 1]),13));
-      for (j = 0; j < i; j++)
-         rr = SUB32(rr,MULT16_16(lpc[j],ac[i - j]));
+    /* Sum up this iteration's reflection coefficient */
+    spx_word32_t rr = NEG32(SHL32(EXTEND32(ac[i + 1]), 13));
+    for (j = 0; j < i; j++)
+      rr = SUB32(rr, MULT16_16(lpc[j], ac[i - j]));
 #ifdef FIXED_POINT
-      r = DIV32_16(rr+PSHR32(error,1),ADD16(error,8));
+    r = DIV32_16(rr + PSHR32(error, 1), ADD16(error, 8));
 #else
-      r = rr/(error+.003*ac[0]);
+    r = rr / (error + .003 * ac[0]);
 #endif
-      /*  Update LPC coefficients and total error */
-      lpc[i] = r;
-      for (j = 0; j < (i+1)>>1; j++)
-      {
-         spx_word16_t tmp1, tmp2;
-         /* It could be that j == i-1-j, in which case, we're updating the same value twice, which is OK */
-         tmp1 = lpc[j];
-         tmp2 = lpc[i-1-j];
-         lpc[j]     = MAC16_16_P13(tmp1,r,tmp2);
-         lpc[i-1-j] = MAC16_16_P13(tmp2,r,tmp1);
-      }
+    /*  Update LPC coefficients and total error */
+    lpc[i] = r;
+    for (j = 0; j < (i + 1) >> 1; j++) {
+      spx_word16_t tmp1, tmp2;
+      /* It could be that j == i-1-j, in which case, we're updating the same
+       * value twice, which is OK */
+      tmp1 = lpc[j];
+      tmp2 = lpc[i - 1 - j];
+      lpc[j] = MAC16_16_P13(tmp1, r, tmp2);
+      lpc[i - 1 - j] = MAC16_16_P13(tmp2, r, tmp1);
+    }
 
-      error = SUB16(error,MULT16_16_Q13(r,MULT16_16_Q13(error,r)));
-   }
-   return error;
+    error = SUB16(error, MULT16_16_Q13(r, MULT16_16_Q13(error, r)));
+  }
+  return error;
 }
-
 
 #ifdef FIXED_POINT
 
@@ -121,52 +118,40 @@ int          p
  */
 
 #ifndef OVERRIDE_SPEEX_AUTOCORR
-void _spx_autocorr(
-const spx_word16_t *x,   /*  in: [0...n-1] samples x   */
-spx_word16_t       *ac,  /* out: [0...lag-1] ac values */
-int          lag,
-int          n
-)
-{
-   spx_word32_t d;
-   int i, j;
-   spx_word32_t ac0=1;
-   int shift, ac_shift;
+void _spx_autocorr(const spx_word16_t *x, /*  in: [0...n-1] samples x   */
+                   spx_word16_t *ac,      /* out: [0...lag-1] ac values */
+                   int lag, int n) {
+  spx_word32_t d;
+  int i, j;
+  spx_word32_t ac0 = 1;
+  int shift, ac_shift;
 
-   for (j=0;j<n;j++)
-      ac0 = ADD32(ac0,SHR32(MULT16_16(x[j],x[j]),8));
-   ac0 = ADD32(ac0,n);
-   shift = 8;
-   while (shift && ac0<0x40000000)
-   {
-      shift--;
-      ac0 <<= 1;
-   }
-   ac_shift = 18;
-   while (ac_shift && ac0<0x40000000)
-   {
-      ac_shift--;
-      ac0 <<= 1;
-   }
+  for (j = 0; j < n; j++)
+    ac0 = ADD32(ac0, SHR32(MULT16_16(x[j], x[j]), 8));
+  ac0 = ADD32(ac0, n);
+  shift = 8;
+  while (shift && ac0 < 0x40000000) {
+    shift--;
+    ac0 <<= 1;
+  }
+  ac_shift = 18;
+  while (ac_shift && ac0 < 0x40000000) {
+    ac_shift--;
+    ac0 <<= 1;
+  }
 
+  for (i = 0; i < lag; i++) {
+    d = 0;
+    for (j = i; j < n; j++) {
+      d = ADD32(d, SHR32(MULT16_16(x[j], x[j - i]), shift));
+    }
 
-   for (i=0;i<lag;i++)
-   {
-      d=0;
-      for (j=i;j<n;j++)
-      {
-         d = ADD32(d,SHR32(MULT16_16(x[j],x[j-i]), shift));
-      }
-
-      ac[i] = SHR32(d, ac_shift);
-   }
+    ac[i] = SHR32(d, ac_shift);
+  }
 }
 #endif
 
-
 #else
-
-
 
 /* Compute the autocorrelation
  *                      ,--,
@@ -174,25 +159,19 @@ int          n
  *                      `--'
  * for lags between 0 and lag-1, and x == 0 outside 0...n-1
  */
-void _spx_autocorr(
-const spx_word16_t *x,   /*  in: [0...n-1] samples x   */
-float       *ac,  /* out: [0...lag-1] ac values */
-int          lag,
-int          n
-)
-{
-   float d;
-   int i;
-   while (lag--)
-   {
-      for (i = lag, d = 0; i < n; i++)
-         d += x[i] * x[i-lag];
-      ac[lag] = d;
-   }
-   ac[0] += 10;
+void _spx_autocorr(const spx_word16_t *x, /*  in: [0...n-1] samples x   */
+                   float *ac,             /* out: [0...lag-1] ac values */
+                   int lag, int n) {
+  float d;
+  int i;
+  while (lag--) {
+    for (i = lag, d = 0; i < n; i++)
+      d += x[i] * x[i - lag];
+    ac[lag] = d;
+  }
+  ac[0] += 10;
 }
 
 #endif
-
 
 #endif /* DISABLE_ENCODER */

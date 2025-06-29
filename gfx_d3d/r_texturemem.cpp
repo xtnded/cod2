@@ -1,4 +1,1 @@
-R_AvailableTextureMemory()
-{	UNIMPLEMENTED();
-}
-
+R_AvailableTextureMemory() { UNIMPLEMENTED(); }

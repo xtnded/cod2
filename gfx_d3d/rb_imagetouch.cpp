@@ -1,4 +1,1 @@
-RB_TouchAllImages()
-{	UNIMPLEMENTED();
-}
-
+RB_TouchAllImages() { UNIMPLEMENTED(); }

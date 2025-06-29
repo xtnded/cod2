@@ -1,5 +1,3 @@
-void __cdecl R_ClearFlares()
-{	UNIMPLEMENTED();
-}
+void __cdecl R_ClearFlares() { ; }
 
 int marker_r_flares;
