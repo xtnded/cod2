@@ -1,73 +1,88 @@
+
+#pragma pack(push, 1)
 #include <stdint.h>
+
+// typedef long long int64_t;
+// typedef int int32_t;
+// typedef short int16_t;
+// typedef char int8_t;
+// typedef unsigned long long uint64_t;
+// typedef unsigned int uint32_t;
+// typedef unsigned short uint16_t;
+// typedef unsigned char uint8_t;
+typedef float vec2_t[2];
+typedef float vec3_t[3];
+typedef float vec4_t[4];
+typedef float matrix4_t[16];
 
 struct HFSUniStr255
 {
-	short length;
-	char unicode[510];
+	uint16_t length;
+	uint8_t unicode[510];
 };
 
 struct FSRef
 {
-	char hidden[80];
-};
-
-struct KeyStruct
-{
-	char ignore0[64];
-	CFUUIDBytes uuid1;
-	int ignore1;
-	char creatorName[64];
-	int ignore2;
-	char creatorMachine[64];
-	char ignore3[32];
-	int64_t dateCreated;
-	int ignore4;
-	char gameName[64];
-	char ignore5[16];
-	int gameCreator;
-	int ignore6;
-	char playerName[64];
-	char ignore7[64];
-	char uuid2[16];
-	char ignore8[16];
-	int checkSum;
-	char ignore9[512];
+	uint8_t hidden[80];
 };
 
 struct CFUUIDBytes
 {
-	char byte0;
-	char byte1;
-	char byte2;
-	char byte3;
-	char byte4;
-	char byte5;
-	char byte6;
-	char byte7;
-	char byte8;
-	char byte9;
-	char byte10;
-	char byte11;
-	char byte12;
-	char byte13;
-	char byte14;
-	char byte15;
+	int8_t byte0;
+	int8_t byte1;
+	int8_t byte2;
+	int8_t byte3;
+	int8_t byte4;
+	int8_t byte5;
+	int8_t byte6;
+	int8_t byte7;
+	int8_t byte8;
+	int8_t byte9;
+	int8_t byte10;
+	int8_t byte11;
+	int8_t byte12;
+	int8_t byte13;
+	int8_t byte14;
+	int8_t byte15;
+};
+
+struct KeyStruct
+{
+	uint8_t ignore0[64];
+	CFUUIDBytes uuid1;
+	int32_t ignore1;
+	char creatorName[64];
+	int32_t ignore2;
+	uint8_t creatorMachine[64];
+	uint8_t ignore3[32];
+	uint64_t dateCreated;
+	int32_t ignore4;
+	char gameName[64];
+	uint8_t ignore5[16];
+	int32_t gameCreator;
+	int32_t ignore6;
+	char playerName[64];
+	uint8_t ignore7[64];
+	char uuid2[16];
+	uint8_t ignore8[16];
+	int32_t checkSum;
+	uint8_t ignore9[512];
 };
 
 struct LSItemInfoRecord
 {
-	int flags;
-	int filetype;
-	int creator;
-	int extension;
-	int iconFileName;
-	int kindID;
+	uint32_t flags;
+	int32_t filetype;
+	int32_t creator;
+	int32_t extension;
+	char iconFileName[4];
+	uint32_t kindID;
 };
 
 struct AEDesc
 {
-	int descriptorType;
-	int dataHandle;
+	char descriptorType[4];
+	uint32_t dataHandle;
 };
 
 struct CAEDesc
@@ -76,22 +91,22 @@ struct CAEDesc
 
 struct Point
 {
-	short v;
-	short h;
+	int16_t v;
+	int16_t h;
 };
 
 struct MacRect
 {
-	short top;
-	short left;
-	short bottom;
-	short right;
+	int16_t top;
+	int16_t left;
+	int16_t bottom;
+	int16_t right;
 };
 
 struct FSSpec
 {
-	short vRefNum;
-	int parID;
+	uint16_t vRefNum;
+	uint32_t parID;
 	char name[64];
 };
 
@@ -109,8 +124,8 @@ struct CAETarget
 
 struct ProcessSerialNumber
 {
-	int highLongOfPSN;
-	int lowLongOfPSN;
+	int32_t highLongOfPSN;
+	int32_t lowLongOfPSN;
 };
 
 struct CAEObject
@@ -119,171 +134,179 @@ struct CAEObject
 
 struct CGSize
 {
-	int width;
-	int height;
+	uint32_t width;
+	int32_t height;
 };
 
 struct EventTypeSpec
 {
-	int eventClass;
-	int eventKind;
+	int32_t eventClass;
+	int32_t eventKind;
 };
 
 struct ControlID
 {
-	int signature;
-	int id;
+	int32_t signature;
+	uint32_t id;
 };
 
 struct ControlEditTextSelectionRec
 {
-	short selStart;
-	short selEnd;
+	int16_t selStart;
+	uint16_t selEnd;
+};
+
+struct $_2251
+{
+	void *menuRef;
+	uint16_t menuItemIndex;
 };
 
 struct HICommand
 {
-	int attributes;
-	int commandID;
-};
-
-struct _2251
-{
-	int menuRef;
-	short menuItemIndex;
+	int32_t attributes;
+	char commandID[4];
+	$_2251 menu;
 };
 
 struct ControlKind
 {
-	int signature;
-	int kind;
-};
-
-struct TXNTypeAttributes
-{
-	int tag;
-	int size;
-	TXNAttributeData data;
+	int32_t signature;
+	int32_t kind;
 };
 
 union TXNAttributeData
 {
-	int dataPtr;
-	int dataValue;
-	int atsuFeatures;
-	int atsuVariations;
-	int urlReference;
+	void *dataPtr;
+	int32_t dataValue;
+	int32_t atsuFeatures;
+	int32_t atsuVariations;
+	void *urlReference;
+};
+
+struct TXNTypeAttributes
+{
+	int32_t tag;
+	uint32_t size;
+	TXNAttributeData data;
 };
 
 struct TXNATSUIFeatures
 {
-	int featureCount;
-	int featureTypes;
-	int featureSelectors;
+	uint32_t featureCount;
+	int32_t featureTypes;
+	int32_t featureSelectors;
 };
 
 struct TXNATSUIVariations
 {
-	int variationCount;
-	int variationAxis;
-	int variationValues;
-};
-
-struct ControlFontStyleRec
-{
-	short flags;
-	short font;
-	short size;
-	short style;
-	short mode;
-	short just;
-	MacRGBColor foreColor;
-	char backColor[6];
+	uint32_t variationCount;
+	int32_t variationAxis;
+	int32_t variationValues;
 };
 
 struct MacRGBColor
 {
-	short red;
-	short green;
-	short blue;
+	int16_t red;
+	int16_t green;
+	int16_t blue;
+};
+
+struct ControlFontStyleRec
+{
+	int16_t flags;
+	int16_t font;
+	uint16_t size;
+	int16_t style;
+	int16_t mode;
+	int16_t just;
+	MacRGBColor foreColor;
+	uint16_t backColor[3];
 };
 
 struct StShowCursor
 {
+	int8_t mWasVisible;
 };
 
 struct GDevice
 {
-	short gdRefNum;
-	short gdID;
-	short gdType;
-	int gdITable;
-	short gdResPref;
-	int gdSearchProc;
-	int gdCompProc;
-	short gdFlags;
-	int gdPMap;
-	int gdRefCon;
-	int gdNextGD;
+	uint16_t gdRefNum;
+	uint16_t gdID;
+	int16_t gdType;
+	int32_t gdITable;
+	int16_t gdResPref;
+	int32_t gdSearchProc;
+	int32_t gdCompProc;
+	int16_t gdFlags;
+	int32_t gdPMap;
+	void *gdRefCon;
+	int32_t gdNextGD;
 	MacRect gdRect;
-	int gdMode;
-	short gdCCBytes;
-	short gdCCDepth;
-	int gdCCXData;
-	int gdCCXMask;
-	int gdExt;
+	int32_t gdMode;
+	int16_t gdCCBytes;
+	int16_t gdCCDepth;
+	int32_t gdCCXData;
+	uint32_t gdCCXMask;
+	int32_t gdExt;
 };
 
 struct ITab
 {
-	int iTabSeed;
-	short iTabRes;
-	char iTTable;
+	int32_t iTabSeed;
+	int16_t iTabRes;
+	int8_t iTTable;
 };
 
 struct SProcRec
 {
-	int nxtSrch;
-	int srchProc;
+	int32_t nxtSrch;
+	int32_t srchProc;
 };
 
 struct CProcRec
 {
-	int nxtComp;
-	int compProc;
+	int32_t nxtComp;
+	int32_t compProc;
 };
 
 struct PixMap
 {
-	int baseAddr;
-	short rowBytes;
-	int64_t bounds;
-	short pmVersion;
-	short packType;
-	int packSize;
-	int hRes;
-	int vRes;
-	short pixelType;
-	short pixelSize;
-	short cmpCount;
-	short cmpSize;
-	int pixelFormat;
-	int pmTable;
-	int pmExt;
+	int32_t baseAddr;
+	int16_t rowBytes;
+	uint64_t bounds;
+	char pmVersion[2];
+	int16_t packType;
+	uint32_t packSize;
+	int32_t hRes;
+	int32_t vRes;
+	int16_t pixelType;
+	uint16_t pixelSize;
+	uint16_t cmpCount;
+	uint16_t cmpSize;
+	int32_t pixelFormat;
+	int32_t pmTable;
+	int32_t pmExt;
 };
 
 struct ColorTable
 {
-	int ctSeed;
-	short ctFlags;
-	short ctSize;
-	int64_t ctTable;
+	int32_t ctSeed;
+	int16_t ctFlags;
+	uint16_t ctSize;
+	uint64_t ctTable;
 };
 
 struct ColorSpec
 {
-	short value;
+	int16_t value;
 	MacRGBColor rgb;
+};
+
+struct CGPoint
+{
+	int32_t x;
+	int32_t y;
 };
 
 struct CGRect
@@ -292,54 +315,48 @@ struct CGRect
 	CGSize size;
 };
 
-struct CGPoint
-{
-	int x;
-	int y;
-};
-
 struct OpaqueContextRef
 {
-	int mContext;
-	int mDrawable;
-	int mRendererID;
-	char mDoubleBuffered;
+	char mContext[4];
+	int32_t mDrawable;
+	uint32_t mRendererID;
+	int8_t mDoubleBuffered;
 };
 
 struct CResInfo
 {
-	int width;
-	int height;
-	int depth;
-	int rate;
+	uint32_t width;
+	int32_t height;
+	int32_t depth;
+	int32_t rate;
 };
 
 struct ComponentInstanceRecord
 {
-	int data;
+	int32_t data;
 };
 
 struct ImageDescription
 {
-	int idSize;
-	int cType;
-	int resvd1;
-	short resvd2;
-	short dataRefIndex;
-	short version;
-	short revisionLevel;
-	int vendor;
-	int temporalQuality;
-	int spatialQuality;
-	short width;
-	short height;
-	int hRes;
-	int vRes;
-	int dataSize;
-	short frameCount;
+	uint32_t idSize;
+	int32_t cType;
+	int32_t resvd1;
+	int16_t resvd2;
+	uint16_t dataRefIndex;
+	char version[2];
+	int16_t revisionLevel;
+	int32_t vendor;
+	int32_t temporalQuality;
+	int32_t spatialQuality;
+	uint16_t width;
+	int16_t height;
+	int32_t hRes;
+	int32_t vRes;
+	uint32_t dataSize;
+	uint16_t frameCount;
 	char name[32];
-	short depth;
-	short clutID;
+	int16_t depth;
+	uint16_t clutID;
 };
 
 struct random_access_iterator_tag
@@ -358,67 +375,38 @@ struct input_iterator_tag
 {
 };
 
-struct _D3DGAMMARAMP
+struct D3DGAMMARAMP
 {
-	char red[512];
-	char green[512];
-	char blue[512];
+	uint8_t red[512];
+	uint8_t green[512];
+	uint8_t blue[512];
 };
 
-struct _Vector_impl
+struct Vector_impl
 {
-	int _M_start;
-	int _M_finish;
-	int _M_end_of_storage;
+	int32_t _M_start;
+	int32_t _M_finish;
+	int32_t _M_end_of_storage;
 };
 
-struct __false_type
-{
-};
-
-struct CDisplayInfo
-{
-	int mDisplayID;
-	char mBounds[16];
-	CResList mResolutions;
-	string mCardDescription;
-	int mCardVendorID;
-	int mCardDeviceID;
-	int mCardType;
-	int mGLVendor;
-	int mGLRenderer;
-	int mGLExtensions;
-	int mVideoMemory;
-	int mTextureMemory;
-	int mMaxTextureUnits;
-	int mMaxTextureImageUnits;
-	int mPCPixelShaderVersion;
-	char mIsValid;
-	char mSupportsSeparateBlendFunc;
-	char mSupportsAnisotropicFiltering;
-	char pad0[1];
-	int mMaxSupportedAnisotropy;
-	int mMaxSampleBuffers;
-	int mMaxSamples;
-	char mDoesSuperSampling;
-	char mDoesMultiSampling;
-	char mDoesAlphaSampling;
-};
-
-struct _Alloc_hider
-{
-	int _M_p;
-};
-
-struct _Rep
+struct false_type
 {
 };
 
-struct _Rep_base
+struct Alloc_hider
 {
-	int _M_length;
-	int _M_capacity;
-	int _M_refcount;
+	int32_t _M_p;
+};
+
+struct Rep
+{
+};
+
+struct Rep_base
+{
+	uint32_t _M_length;
+	int32_t _M_capacity;
+	uint32_t _M_refcount;
 };
 
 typedef enum
@@ -442,7 +430,7 @@ typedef enum
 	kCGLBadCodeModule = 10015,
 	kCGLBadAlloc = 10016,
 	kCGLBadConnection = 10017
-} _CGLError;
+} CGLError;
 
 typedef enum
 {
@@ -481,107 +469,197 @@ typedef enum
 	kCGLPFAPBuffer = 90,
 	kCGLPFARemotePBuffer = 91,
 	kCGLPFAVirtualScreenCount = 128
-} _CGLPixelFormatAttribute;
-
-struct RemoveDirectoryInfo
-{
-	int error;
-	int actualObjects;
-	FSCatalogInfo catalogInfo;
-};
+} CGLPixelFormatAttribute;
 
 struct FSCatalogInfo
 {
-	short nodeFlags;
-	short volume;
-	int parentDirID;
-	int nodeID;
-	char sharingFlags;
-	char userPrivileges;
-	char reserved1;
-	char reserved2;
-	UTCDateTime createDate;
-	int64_t contentModDate;
-	int64_t attributeModDate;
-	int64_t accessDate;
-	int64_t backupDate;
-	char permissions[16];
+	int16_t nodeFlags;
+	int16_t volume;
+	uint32_t parentDirID;
+	uint32_t nodeID;
+	int8_t sharingFlags;
+	int8_t userPrivileges;
+	int8_t reserved1;
+	int8_t reserved2;
+	uint64_t createDate;
+	uint64_t contentModDate;
+	uint64_t attributeModDate;
+	uint64_t accessDate;
+	uint64_t backupDate;
+	uint8_t permissions[16];
 	char finderInfo[16];
 	char extFinderInfo[16];
-	int64_t dataLogicalSize;
-	int64_t dataPhysicalSize;
-	int64_t rsrcLogicalSize;
-	int64_t rsrcPhysicalSize;
-	int valence;
-	int textEncodingHint;
+	vec2_t dataLogicalSize;
+	vec2_t dataPhysicalSize;
+	vec2_t rsrcLogicalSize;
+	vec2_t rsrcPhysicalSize;
+	uint32_t valence;
+	char textEncodingHint[4];
+};
+
+struct RemoveDirectoryInfo
+{
+	int32_t error;
+	int32_t actualObjects;
+	FSCatalogInfo catalogInfo;
 };
 
 struct UTCDateTime
 {
-	short highSeconds;
-	int lowSeconds;
-	short fraction;
+	int16_t highSeconds;
+	int32_t lowSeconds;
+	int16_t fraction;
 };
 
 struct CMMapFile
 {
+	void *mFileRef;
+	uint32_t mFileSize;
+	void *mMemRef;
 };
 
-struct __sFILE
+struct sFILE
 {
-	int _p;
-	int _r;
-	int _w;
-	short _flags;
-	short _file;
-	__sbuf _bf;
-	int _lbfsize;
-	int _cookie;
-	int _close;
-	int _read;
-	int _seek;
-	int _write;
-	int64_t _ub;
-	int _extra;
-	int _ur;
-	char _ubuf[3];
-	char _nbuf;
-	int64_t _lb;
-	int _blksize;
-	int64_t _offset;
+	int32_t _p;
+	int32_t _r;
+	int32_t _w;
+	int16_t _flags;
+	int16_t _file;
+	uint64_t _bf;
+	uint32_t _lbfsize;
+	int32_t _cookie;
+	int32_t _close;
+	int32_t _read;
+	int32_t _seek;
+	int32_t _write;
+	uint64_t _ub;
+	int32_t _extra;
+	int32_t _ur;
+	uint8_t _ubuf[3];
+	int8_t _nbuf;
+	uint64_t _lb;
+	uint32_t _blksize;
+	vec2_t _offset;
 };
 
-struct __sbuf
+struct sbuf
 {
-	int _base;
-	int _size;
-};
-
-struct stat
-{
-	int st_dev;
-	int st_ino;
-	short st_mode;
-	short st_nlink;
-	int st_uid;
-	int st_gid;
-	int st_rdev;
-	timespec st_atimespec;
-	int64_t st_mtimespec;
-	int64_t st_ctimespec;
-	int64_t st_size;
-	int64_t st_blocks;
-	int st_blksize;
-	int st_flags;
-	int st_gen;
-	int st_lspare;
-	char st_qspare[16];
+	int32_t _base;
+	uint32_t _size;
 };
 
 struct timespec
 {
-	int tv_sec;
-	int tv_nsec;
+	int32_t tv_sec;
+	int32_t tv_nsec;
+};
+
+struct stat
+{
+	int32_t st_dev;
+	int32_t st_ino;
+	int16_t st_mode;
+	int16_t st_nlink;
+	uint32_t st_uid;
+	uint32_t st_gid;
+	int32_t st_rdev;
+	timespec st_atimespec;
+	char st_mtimespec[8];
+	char st_ctimespec[8];
+	vec2_t st_size;
+	uint64_t st_blocks;
+	uint32_t st_blksize;
+	uint32_t st_flags;
+	int32_t st_gen;
+	int32_t st_lspare;
+	uint8_t st_qspare[16];
+};
+
+struct DInfo
+{
+	uint64_t frRect;
+	int16_t frFlags;
+	int32_t frLocation;
+	int16_t frView;
+};
+
+struct DXInfo
+{
+	int32_t frScroll;
+	int32_t frOpenChain;
+	int8_t frScript;
+	int8_t frXFlags;
+	int16_t frComment;
+	int32_t frPutAway;
+};
+
+struct DirInfo
+{
+	int32_t qLink;
+	int16_t qType;
+	int16_t ioTrap;
+	char ioCmdAddr[4];
+	int32_t ioCompletion;
+	int16_t ioResult;
+	char ioNamePtr[4];
+	uint16_t ioVRefNum;
+	uint16_t ioFRefNum;
+	uint8_t ioFVersNum;
+	int8_t filler1;
+	uint16_t ioFDirIndex;
+	int8_t ioFlAttrib;
+	int8_t ioACUser;
+	DInfo ioDrUsrWds;
+	uint32_t ioDrDirID;
+	int16_t ioDrNmFls;
+	uint8_t filler3[18];
+	int32_t ioDrCrDat;
+	int32_t ioDrMdDat;
+	int32_t ioDrBkDat;
+	DXInfo ioDrFndrInfo;
+	uint32_t ioDrParID;
+};
+
+struct FXInfo
+{
+	uint16_t fdIconID;
+	uint8_t fdReserved[6];
+	int8_t fdScript;
+	int8_t fdXFlags;
+	int16_t fdComment;
+	int32_t fdPutAway;
+};
+
+struct HFileInfo
+{
+	int32_t qLink;
+	int16_t qType;
+	int16_t ioTrap;
+	char ioCmdAddr[4];
+	int32_t ioCompletion;
+	int16_t ioResult;
+	char ioNamePtr[4];
+	uint16_t ioVRefNum;
+	uint16_t ioFRefNum;
+	uint8_t ioFVersNum;
+	int8_t filler1;
+	uint16_t ioFDirIndex;
+	int8_t ioFlAttrib;
+	int8_t ioACUser;
+	char ioFlFndrInfo[16];
+	uint32_t ioDirID;
+	int16_t ioFlStBlk;
+	uint32_t ioFlLgLen;
+	uint32_t ioFlPyLen;
+	int16_t ioFlRStBlk;
+	uint32_t ioFlRLgLen;
+	uint32_t ioFlRPyLen;
+	int32_t ioFlCrDat;
+	int32_t ioFlMdDat;
+	int32_t ioFlBkDat;
+	FXInfo ioFlXFndrInfo;
+	uint32_t ioFlParID;
+	int32_t ioFlClpSiz;
 };
 
 union CInfoPBRec
@@ -590,165 +668,93 @@ union CInfoPBRec
 	DirInfo dirInfo;
 };
 
-struct HFileInfo
-{
-	int qLink;
-	short qType;
-	short ioTrap;
-	int ioCmdAddr;
-	int ioCompletion;
-	short ioResult;
-	int ioNamePtr;
-	short ioVRefNum;
-	short ioFRefNum;
-	char ioFVersNum;
-	char filler1;
-	short ioFDirIndex;
-	char ioFlAttrib;
-	char ioACUser;
-	FInfo ioFlFndrInfo;
-	int ioDirID;
-	short ioFlStBlk;
-	int ioFlLgLen;
-	int ioFlPyLen;
-	short ioFlRStBlk;
-	int ioFlRLgLen;
-	int ioFlRPyLen;
-	int ioFlCrDat;
-	int ioFlMdDat;
-	int ioFlBkDat;
-	FXInfo ioFlXFndrInfo;
-	int ioFlParID;
-	int ioFlClpSiz;
-};
-
-struct DirInfo
-{
-	int qLink;
-	short qType;
-	short ioTrap;
-	int ioCmdAddr;
-	int ioCompletion;
-	short ioResult;
-	int ioNamePtr;
-	short ioVRefNum;
-	short ioFRefNum;
-	char ioFVersNum;
-	char filler1;
-	short ioFDirIndex;
-	char ioFlAttrib;
-	char ioACUser;
-	DInfo ioDrUsrWds;
-	int ioDrDirID;
-	short ioDrNmFls;
-	char filler3[18];
-	int ioDrCrDat;
-	int ioDrMdDat;
-	int ioDrBkDat;
-	DXInfo ioDrFndrInfo;
-	int ioDrParID;
-};
-
 struct FInfo
 {
-	int fdType;
-	int fdCreator;
-	short fdFlags;
-	Point fdLocation;
-	short fdFldr;
-};
-
-struct FXInfo
-{
-	short fdIconID;
-	char fdReserved[6];
-	char fdScript;
-	char fdXFlags;
-	short fdComment;
-	int fdPutAway;
-};
-
-struct DInfo
-{
-	MacRect frRect;
-	short frFlags;
-	int frLocation;
-	short frView;
-};
-
-struct DXInfo
-{
-	int frScroll;
-	int frOpenChain;
-	char frScript;
-	char frXFlags;
-	short frComment;
-	int frPutAway;
+	int32_t fdType;
+	int32_t fdCreator;
+	int16_t fdFlags;
+	int32_t fdLocation;
+	int16_t fdFldr;
 };
 
 struct QElem
 {
-	int qLink;
-	short qType;
-	short qData;
+	int32_t qLink;
+	int16_t qType;
+	int16_t qData;
 };
 
 struct MacImageInfo
 {
-	short width;
-	short height;
-	int rowBytes;
-	int data;
+	uint16_t width;
+	int16_t height;
+	int32_t rowBytes;
+	int32_t data;
 };
 
 struct CMacLogFile
 {
+	int32_t mFile;
 };
 
 struct StPortState
 {
+	int32_t mSavedPort;
 };
 
 struct StGWorldState
 {
+	int32_t mSavedPort;
+	int32_t mSavedDevice;
 };
 
 struct StSetDirectory
 {
+	uint16_t mSavedVRefNum;
+	char pad0[2];
+	uint32_t mSavedDirID;
+	int8_t mSavedIsValid;
+};
+
+struct Cursor
+{
+	uint8_t data[32];
+	uint8_t mask[32];
+	Point hotSpot;
 };
 
 struct EventRecord
 {
-	short what;
-	int message;
-	int when;
-	int where;
-	short modifiers;
+	int16_t what;
+	char message[4];
+	int32_t when;
+	int32_t where;
+	int16_t modifiers;
 };
 
 struct FSVolumeInfo
 {
 	UTCDateTime createDate;
-	int64_t modifyDate;
-	int64_t backupDate;
-	int64_t checkedDate;
-	int fileCount;
-	int folderCount;
-	int64_t totalBytes;
-	int64_t freeBytes;
-	int blockSize;
-	int totalBlocks;
-	int freeBlocks;
-	int nextAllocation;
-	int rsrcClumpSize;
-	int dataClumpSize;
-	int nextCatalogID;
+	uint64_t modifyDate;
+	uint64_t backupDate;
+	uint64_t checkedDate;
+	uint32_t fileCount;
+	uint32_t folderCount;
+	uint64_t totalBytes;
+	uint64_t freeBytes;
+	uint32_t blockSize;
+	int32_t totalBlocks;
+	int32_t freeBlocks;
+	int32_t nextAllocation;
+	uint32_t rsrcClumpSize;
+	uint32_t dataClumpSize;
+	uint32_t nextCatalogID;
 	char finderInfo[32];
-	short flags;
-	short filesystemID;
-	short signature;
-	short driveNumber;
-	short driverRefNum;
+	int16_t flags;
+	uint16_t filesystemID;
+	int16_t signature;
+	uint16_t driveNumber;
+	char driverRefNum[2];
 };
 
 typedef enum
@@ -756,19 +762,255 @@ typedef enum
 	kCFCompareLessThan = -1,
 	kCFCompareEqualTo = 0,
 	kCFCompareGreaterThan = 1
-} _18;
+} $_18;
 
 struct GetVolParmsInfoBuffer
 {
-	short vMVersion;
-	int vMAttrib;
-	int vMLocalHand;
-	int vMServerAdr;
-	int vMVolumeGrade;
-	short vMForeignPrivID;
-	int vMExtendedAttributes;
-	int vMDeviceID;
-	int vMMaxNameLength;
+	char vMVersion[2];
+	int32_t vMAttrib;
+	int32_t vMLocalHand;
+	int32_t vMServerAdr;
+	int32_t vMVolumeGrade;
+	uint16_t vMForeignPrivID;
+	int32_t vMExtendedAttributes;
+	uint32_t vMDeviceID;
+	char vMMaxNameLength[4];
+};
+
+struct HVolumeParam
+{
+	int32_t qLink;
+	int16_t qType;
+	int16_t ioTrap;
+	char ioCmdAddr[4];
+	int32_t ioCompletion;
+	int16_t ioResult;
+	char ioNamePtr[4];
+	uint16_t ioVRefNum;
+	int32_t filler2;
+	uint16_t ioVolIndex;
+	int32_t ioVCrDate;
+	int32_t ioVLsMod;
+	int16_t ioVAtrb;
+	int16_t ioVNmFls;
+	int16_t ioVBitMap;
+	int16_t ioAllocPtr;
+	int16_t ioVNmAlBlks;
+	int32_t ioVAlBlkSiz;
+	int32_t ioVClpSiz;
+	int16_t ioAlBlSt;
+	uint32_t ioVNxtCNID;
+	int16_t ioVFrBlk;
+	int16_t ioVSigWord;
+	char ioVDrvInfo[2];
+	uint16_t ioVDRefNum;
+	uint16_t ioVFSID;
+	int32_t ioVBkUp;
+	uint16_t ioVSeqNum;
+	int32_t ioVWrCnt;
+	int32_t ioVFilCnt;
+	int32_t ioVDirCnt;
+	char ioVFndrInfo[32];
+};
+
+struct CatPositionRec
+{
+	int32_t initialize;
+	vec3_t priv;
+};
+
+struct CSParam
+{
+	int32_t qLink;
+	int16_t qType;
+	int16_t ioTrap;
+	char ioCmdAddr[4];
+	int32_t ioCompletion;
+	int16_t ioResult;
+	char ioNamePtr[4];
+	uint16_t ioVRefNum;
+	void *ioMatchPtr;
+	uint32_t ioReqMatchCount;
+	uint32_t ioActMatchCount;
+	int32_t ioSearchBits;
+	char ioSearchInfo1[4];
+	char ioSearchInfo2[4];
+	uint32_t ioSearchTime;
+	CatPositionRec ioCatPosition;
+	void *ioOptBuffer;
+	uint32_t ioOptBufSize;
+};
+
+struct ForeignPrivParam
+{
+	int32_t qLink;
+	int16_t qType;
+	int16_t ioTrap;
+	char ioCmdAddr[4];
+	int32_t ioCompletion;
+	int16_t ioResult;
+	char ioNamePtr[4];
+	uint16_t ioVRefNum;
+	int32_t ioFiller21;
+	int32_t ioFiller22;
+	void *ioForeignPrivBuffer;
+	uint32_t ioForeignPrivActCount;
+	uint32_t ioForeignPrivReqCount;
+	int32_t ioFiller23;
+	uint32_t ioForeignPrivDirID;
+	char ioForeignPrivInfo1[4];
+	char ioForeignPrivInfo2[4];
+	char ioForeignPrivInfo3[4];
+	char ioForeignPrivInfo4[4];
+};
+
+struct HIOParam
+{
+	int32_t qLink;
+	int16_t qType;
+	int16_t ioTrap;
+	char ioCmdAddr[4];
+	int32_t ioCompletion;
+	int16_t ioResult;
+	char ioNamePtr[4];
+	uint16_t ioVRefNum;
+	uint16_t ioRefNum;
+	uint8_t ioVersNum;
+	int8_t ioPermssn;
+	int32_t ioMisc;
+	void *ioBuffer;
+	uint32_t ioReqCount;
+	uint32_t ioActCount;
+	uint16_t ioPosMode;
+	uint32_t ioPosOffset;
+};
+
+struct WDParam
+{
+	int32_t qLink;
+	int16_t qType;
+	int16_t ioTrap;
+	char ioCmdAddr[4];
+	int32_t ioCompletion;
+	int16_t ioResult;
+	char ioNamePtr[4];
+	uint16_t ioVRefNum;
+	int16_t ioWDCreated;
+	uint16_t ioWDIndex;
+	uint32_t ioWDProcID;
+	uint16_t ioWDVRefNum;
+	int16_t filler10;
+	int32_t filler11;
+	int32_t filler12;
+	int32_t filler13;
+	uint32_t ioWDDirID;
+};
+
+struct CopyParam
+{
+	int32_t qLink;
+	int16_t qType;
+	int16_t ioTrap;
+	char ioCmdAddr[4];
+	int32_t ioCompletion;
+	int16_t ioResult;
+	char ioNamePtr[4];
+	uint16_t ioVRefNum;
+	uint16_t ioDstVRefNum;
+	int16_t filler8;
+	char ioNewName[4];
+	char ioCopyName[4];
+	uint32_t ioNewDirID;
+	int32_t filler14;
+	int32_t filler15;
+	uint32_t ioDirID;
+};
+
+struct AccessParam
+{
+	int32_t qLink;
+	int16_t qType;
+	int16_t ioTrap;
+	char ioCmdAddr[4];
+	int32_t ioCompletion;
+	int16_t ioResult;
+	char ioNamePtr[4];
+	uint16_t ioVRefNum;
+	uint16_t ioRefNum;
+	int16_t ioDenyModes;
+	int16_t filler4;
+	int8_t filler5;
+	int8_t ioACUser;
+	int32_t filler6;
+	uint32_t ioACOwnerID;
+	uint32_t ioACGroupID;
+	int32_t ioACAccess;
+	uint32_t ioDirID;
+};
+
+struct FIDParam
+{
+	int32_t qLink;
+	int16_t qType;
+	int16_t ioTrap;
+	char ioCmdAddr[4];
+	int32_t ioCompletion;
+	int16_t ioResult;
+	char ioNamePtr[4];
+	uint16_t ioVRefNum;
+	int32_t filler14;
+	char ioDestNamePtr[4];
+	int32_t filler15;
+	uint32_t ioDestDirID;
+	int32_t filler16;
+	int32_t filler17;
+	uint32_t ioSrcDirID;
+	int16_t filler18;
+	uint32_t ioFileID;
+};
+
+struct HFileParam
+{
+	int32_t qLink;
+	int16_t qType;
+	int16_t ioTrap;
+	char ioCmdAddr[4];
+	int32_t ioCompletion;
+	int16_t ioResult;
+	char ioNamePtr[4];
+	uint16_t ioVRefNum;
+	uint16_t ioFRefNum;
+	uint8_t ioFVersNum;
+	int8_t filler1;
+	uint16_t ioFDirIndex;
+	int8_t ioFlAttrib;
+	uint8_t ioFlVersNum;
+	FInfo ioFlFndrInfo;
+	uint32_t ioDirID;
+	int16_t ioFlStBlk;
+	uint32_t ioFlLgLen;
+	uint32_t ioFlPyLen;
+	int16_t ioFlRStBlk;
+	uint32_t ioFlRLgLen;
+	uint32_t ioFlRPyLen;
+	int32_t ioFlCrDat;
+	int32_t ioFlMdDat;
+};
+
+struct ObjParam
+{
+	int32_t qLink;
+	int16_t qType;
+	int16_t ioTrap;
+	char ioCmdAddr[4];
+	int32_t ioCompletion;
+	int16_t ioResult;
+	char ioNamePtr[4];
+	uint16_t ioVRefNum;
+	int16_t filler7;
+	int16_t ioObjType;
+	char ioObjNamePtr[4];
+	uint32_t ioObjID;
 };
 
 union HParamBlockRec
@@ -785,508 +1027,260 @@ union HParamBlockRec
 	ForeignPrivParam foreignPrivParam;
 };
 
-struct HIOParam
-{
-	int qLink;
-	short qType;
-	short ioTrap;
-	int ioCmdAddr;
-	int ioCompletion;
-	short ioResult;
-	int ioNamePtr;
-	short ioVRefNum;
-	short ioRefNum;
-	char ioVersNum;
-	char ioPermssn;
-	int ioMisc;
-	int ioBuffer;
-	int ioReqCount;
-	int ioActCount;
-	short ioPosMode;
-	int ioPosOffset;
-};
-
-struct HFileParam
-{
-	int qLink;
-	short qType;
-	short ioTrap;
-	int ioCmdAddr;
-	int ioCompletion;
-	short ioResult;
-	int ioNamePtr;
-	short ioVRefNum;
-	short ioFRefNum;
-	char ioFVersNum;
-	char filler1;
-	short ioFDirIndex;
-	char ioFlAttrib;
-	char ioFlVersNum;
-	FInfo ioFlFndrInfo;
-	int ioDirID;
-	short ioFlStBlk;
-	int ioFlLgLen;
-	int ioFlPyLen;
-	short ioFlRStBlk;
-	int ioFlRLgLen;
-	int ioFlRPyLen;
-	int ioFlCrDat;
-	int ioFlMdDat;
-};
-
-struct HVolumeParam
-{
-	int qLink;
-	short qType;
-	short ioTrap;
-	int ioCmdAddr;
-	int ioCompletion;
-	short ioResult;
-	int ioNamePtr;
-	short ioVRefNum;
-	int filler2;
-	short ioVolIndex;
-	int ioVCrDate;
-	int ioVLsMod;
-	short ioVAtrb;
-	short ioVNmFls;
-	short ioVBitMap;
-	short ioAllocPtr;
-	short ioVNmAlBlks;
-	int ioVAlBlkSiz;
-	int ioVClpSiz;
-	short ioAlBlSt;
-	int ioVNxtCNID;
-	short ioVFrBlk;
-	short ioVSigWord;
-	short ioVDrvInfo;
-	short ioVDRefNum;
-	short ioVFSID;
-	int ioVBkUp;
-	short ioVSeqNum;
-	int ioVWrCnt;
-	int ioVFilCnt;
-	int ioVDirCnt;
-	char ioVFndrInfo[32];
-};
-
-struct AccessParam
-{
-	int qLink;
-	short qType;
-	short ioTrap;
-	int ioCmdAddr;
-	int ioCompletion;
-	short ioResult;
-	int ioNamePtr;
-	short ioVRefNum;
-	short ioRefNum;
-	short ioDenyModes;
-	short filler4;
-	char filler5;
-	char ioACUser;
-	int filler6;
-	int ioACOwnerID;
-	int ioACGroupID;
-	int ioACAccess;
-	int ioDirID;
-};
-
-struct ObjParam
-{
-	int qLink;
-	short qType;
-	short ioTrap;
-	int ioCmdAddr;
-	int ioCompletion;
-	short ioResult;
-	int ioNamePtr;
-	short ioVRefNum;
-	short filler7;
-	short ioObjType;
-	int ioObjNamePtr;
-	int ioObjID;
-};
-
-struct CopyParam
-{
-	int qLink;
-	short qType;
-	short ioTrap;
-	int ioCmdAddr;
-	int ioCompletion;
-	short ioResult;
-	int ioNamePtr;
-	short ioVRefNum;
-	short ioDstVRefNum;
-	short filler8;
-	int ioNewName;
-	int ioCopyName;
-	int ioNewDirID;
-	int filler14;
-	int filler15;
-	int ioDirID;
-};
-
-struct WDParam
-{
-	int qLink;
-	short qType;
-	short ioTrap;
-	int ioCmdAddr;
-	int ioCompletion;
-	short ioResult;
-	int ioNamePtr;
-	short ioVRefNum;
-	short ioWDCreated;
-	short ioWDIndex;
-	int ioWDProcID;
-	short ioWDVRefNum;
-	short filler10;
-	int filler11;
-	int filler12;
-	int filler13;
-	int ioWDDirID;
-};
-
-struct FIDParam
-{
-	int qLink;
-	short qType;
-	short ioTrap;
-	int ioCmdAddr;
-	int ioCompletion;
-	short ioResult;
-	int ioNamePtr;
-	short ioVRefNum;
-	int filler14;
-	int ioDestNamePtr;
-	int filler15;
-	int ioDestDirID;
-	int filler16;
-	int filler17;
-	int ioSrcDirID;
-	short filler18;
-	int ioFileID;
-};
-
-struct CSParam
-{
-	int qLink;
-	short qType;
-	short ioTrap;
-	int ioCmdAddr;
-	int ioCompletion;
-	short ioResult;
-	int ioNamePtr;
-	short ioVRefNum;
-	int ioMatchPtr;
-	int ioReqMatchCount;
-	int ioActMatchCount;
-	int ioSearchBits;
-	int ioSearchInfo1;
-	int ioSearchInfo2;
-	int ioSearchTime;
-	CatPositionRec ioCatPosition;
-	int ioOptBuffer;
-	int ioOptBufSize;
-};
-
-struct ForeignPrivParam
-{
-	int qLink;
-	short qType;
-	short ioTrap;
-	int ioCmdAddr;
-	int ioCompletion;
-	short ioResult;
-	int ioNamePtr;
-	short ioVRefNum;
-	int ioFiller21;
-	int ioFiller22;
-	int ioForeignPrivBuffer;
-	int ioForeignPrivActCount;
-	int ioForeignPrivReqCount;
-	int ioFiller23;
-	int ioForeignPrivDirID;
-	int ioForeignPrivInfo1;
-	int ioForeignPrivInfo2;
-	int ioForeignPrivInfo3;
-	int ioForeignPrivInfo4;
-};
-
-struct CatPositionRec
-{
-	int initialize;
-	char priv[12];
-};
-
 struct UnsignedWide
 {
-	int lo;
-	int hi;
+	int32_t lo;
+	int32_t hi;
 };
 
 struct NumVersion
 {
-	char nonRelRev;
-	char stage;
-	char minorAndBugRev;
-	char majorRev;
+	int8_t nonRelRev;
+	int8_t stage;
+	int8_t minorAndBugRev;
+	int8_t majorRev;
 };
 
 struct ProcessInfoRec
 {
-	int processInfoLength;
-	int processName;
-	int64_t processNumber;
-	int processType;
-	int processSignature;
-	int processMode;
-	int processLocation;
-	int processSize;
-	int processFreeMem;
-	int64_t processLauncher;
-	int processLaunchDate;
-	int processActiveTime;
-	int processAppSpec;
+	char processInfoLength[4];
+	char processName[4];
+	uint64_t processNumber;
+	int32_t processType;
+	int32_t processSignature;
+	int32_t processMode;
+	int32_t processLocation;
+	uint32_t processSize;
+	int32_t processFreeMem;
+	uint64_t processLauncher;
+	int32_t processLaunchDate;
+	uint32_t processActiveTime;
+	char processAppSpec[4];
 };
 
 struct AlertStdCFStringAlertParamRec
 {
-	int version;
-	char movable;
-	char helpButton;
-	int defaultText;
-	int cancelText;
-	int otherText;
-	short defaultButton;
-	short cancelButton;
-	short position;
-	int flags;
+	char version[4];
+	int8_t movable;
+	int8_t helpButton;
+	char defaultText[4];
+	char cancelText[4];
+	char otherText[4];
+	int16_t defaultButton;
+	int16_t cancelButton;
+	uint16_t position;
+	uint32_t flags;
 };
 
-struct _OSVERSIONINFOA
+struct OSVERSIONINFOA
 {
-	int dwOSVersionInfoSize;
-	int dwMajorVersion;
-	int dwMinorVersion;
-	int dwBuildNumber;
-	int dwPlatformId;
+	char dwOSVersionInfoSize[4];
+	char dwMajorVersion[4];
+	char dwMinorVersion[4];
+	uint32_t dwBuildNumber;
+	uint32_t dwPlatformId;
 	char szCSDVersion[128];
 };
 
-struct _MEMORYSTATUS
+struct MEMORYSTATUS
 {
-	int dwLength;
-	int dwMemoryLoad;
-	int dwTotalPhys;
-	int dwAvailPhys;
-	int dwTotalPageFile;
-	int dwAvailPageFile;
-	int dwTotalVirtual;
-	int dwAvailVirtual;
+	uint32_t dwLength;
+	int32_t dwMemoryLoad;
+	int32_t dwTotalPhys;
+	int32_t dwAvailPhys;
+	int32_t dwTotalPageFile;
+	int32_t dwAvailPageFile;
+	int32_t dwTotalVirtual;
+	int32_t dwAvailVirtual;
 };
 
-union _LARGE_INTEGER
+struct $_3465
 {
-	int64_t QuadPart;
+	int32_t LowPart;
+	int32_t HighPart;
 };
 
-struct _3464
+struct $_3464
 {
-	int LowPart;
-	int HighPart;
+	int32_t LowPart;
+	int32_t HighPart;
 };
 
-struct _3465
+union LARGE_INTEGER
 {
-	int LowPart;
-	int HighPart;
+	$_3464 unnamed_field;
+	$_3465 u;
+	uint64_t QuadPart;
 };
 
-struct HWND__
+struct $_3513
 {
-	int unused;
+	uint32_t Offset;
+	uint32_t OffsetHigh;
 };
 
-struct _OVERLAPPED
+union $_3512
 {
-	int Internal;
-	int InternalHigh;
-	char pad0[8];
-	int hEvent;
+	$_3513 unnamed_field;
+	int32_t Pointer;
 };
 
-union _3512
+struct OVERLAPPED
 {
-	int Pointer;
+	int32_t Internal;
+	int32_t InternalHigh;
+	$_3512 unnamed_field;
+	int32_t hEvent;
 };
 
-struct _3513
+struct SECURITY_ATTRIBUTES
 {
-	int Offset;
-	int OffsetHigh;
+	uint32_t nLength;
+	char lpSecurityDescriptor[4];
+	uint32_t bInheritHandle;
 };
 
-struct _SECURITY_ATTRIBUTES
+struct opaque_pthread_mutex_t
 {
-	int nLength;
-	int lpSecurityDescriptor;
-	int bInheritHandle;
+	int32_t __sig;
+	uint8_t __opaque[40];
 };
 
-struct _opaque_pthread_mutex_t
+struct opaque_pthread_mutexattr_t
 {
-	int __sig;
-	char __opaque[40];
+	int32_t __sig;
+	uint64_t __opaque;
 };
 
-struct _opaque_pthread_mutexattr_t
+struct opaque_pthread_t
 {
-	int __sig;
-	int64_t __opaque;
+	int32_t __sig;
+	int32_t __cleanup_stack;
+	uint8_t __opaque[596];
 };
 
-struct _opaque_pthread_t
+struct darwin_pthread_handler_rec
 {
-	int __sig;
-	int __cleanup_stack;
-	char __opaque[596];
-};
-
-struct __darwin_pthread_handler_rec
-{
-	int __routine;
-	int __arg;
-	int __next;
+	int32_t __routine;
+	int32_t __arg;
+	int32_t __next;
 };
 
 struct sched_param
 {
-	int sched_priority;
-	int opaque;
+	int32_t sched_priority;
+	int32_t opaque;
 };
 
-struct _SYSTEMTIME
+struct SYSTEMTIME
 {
-	short wYear;
-	short wMonth;
-	short wDayOfWeek;
-	short wDay;
-	short wHour;
-	short wMinute;
-	short wSecond;
-	short wMilliseconds;
+	int16_t wYear;
+	int16_t wMonth;
+	int16_t wDayOfWeek;
+	int16_t wDay;
+	int16_t wHour;
+	int16_t wMinute;
+	int16_t wSecond;
+	int16_t wMilliseconds;
 };
 
 struct DateTimeRec
 {
-	short year;
-	short month;
-	short day;
-	short hour;
-	short minute;
-	short second;
-	short dayOfWeek;
+	int16_t year;
+	int16_t month;
+	int16_t day;
+	int16_t hour;
+	int16_t minute;
+	int16_t second;
+	int16_t dayOfWeek;
 };
 
-union _ULARGE_INTEGER
+struct $_3466
 {
-	int64_t QuadPart;
+	int32_t LowPart;
+	int32_t HighPart;
 };
 
-struct _3466
+struct $_3467
 {
-	int LowPart;
-	int HighPart;
+	int32_t LowPart;
+	int32_t HighPart;
 };
 
-struct _3467
+union ULARGE_INTEGER
 {
-	int LowPart;
-	int HighPart;
+	$_3466 unnamed_field;
+	$_3467 u;
+	uint64_t QuadPart;
 };
 
 struct tagRECT
 {
-	int left;
-	int top;
-	int right;
-	int bottom;
+	int32_t left;
+	int32_t top;
+	int32_t right;
+	int32_t bottom;
 };
 
 struct tagPOINT
 {
-	int x;
-	int y;
+	int32_t x;
+	int32_t y;
 };
 
-struct _FILETIME
+struct FILETIME
 {
-	int dwLowDateTime;
-	int dwHighDateTime;
+	uint32_t dwLowDateTime;
+	uint32_t dwHighDateTime;
 };
 
 struct LocalDateTime
 {
-	short highSeconds;
-	int lowSeconds;
-	short fraction;
+	int16_t highSeconds;
+	int32_t lowSeconds;
+	int16_t fraction;
+};
+
+struct $_614
+{
+	int16_t era;
+	int16_t year;
+	int16_t month;
+	int16_t day;
+	int16_t hour;
+	int16_t minute;
+	int16_t second;
+	int16_t dayOfWeek;
+	int16_t dayOfYear;
+	int16_t weekOfYear;
+	int16_t pm;
+	int16_t res1;
+	int16_t res2;
+	int16_t res3;
+};
+
+struct $_615
+{
+	int16_t eraAlt;
+	uint8_t oldDate[14];
 };
 
 union LongDateRec
 {
-	char list[28];
+	$_614 ld;
+	uint8_t list[28];
+	$_615 od;
 };
 
-struct _614
+struct MEMORY_BASIC_INFORMATION
 {
-	short era;
-	short year;
-	short month;
-	short day;
-	short hour;
-	short minute;
-	short second;
-	short dayOfWeek;
-	short dayOfYear;
-	short weekOfYear;
-	short pm;
-	short res1;
-	short res2;
-	short res3;
-};
-
-struct _615
-{
-	short eraAlt;
-	char oldDate[14];
-};
-
-struct _MEMORY_BASIC_INFORMATION
-{
-	int BaseAddress;
-	int AllocationBase;
-	int AllocationProtect;
-	int RegionSize;
-	int State;
-	int Protect;
-	int Type;
-};
-
-struct HINSTANCE__
-{
-	int unused;
-};
-
-struct FFData
-{
-	FFType findType;
-	char wildcard[32];
-	int items;
-	char pad0[4];
-	char iterValid;
+	char BaseAddress[4];
+	int32_t AllocationBase;
+	int32_t AllocationProtect;
+	uint32_t RegionSize;
+	int32_t State;
+	int32_t Protect;
+	int32_t Type;
 };
 
 typedef enum
@@ -1296,91 +1290,89 @@ typedef enum
 	kAnyItemType = 2
 } FFType;
 
-struct _WIN32_FIND_DATAA
+struct WIN32_FIND_DATAA
 {
-	int dwFileAttributes;
-	int64_t ftCreationTime;
-	int64_t ftLastAccessTime;
-	int64_t ftLastWriteTime;
-	int nFileSizeHigh;
-	int nFileSizeLow;
-	int dwReserved0;
-	int dwReserved1;
+	int32_t dwFileAttributes;
+	uint64_t ftCreationTime;
+	uint64_t ftLastAccessTime;
+	uint64_t ftLastWriteTime;
+	uint32_t nFileSizeHigh;
+	uint32_t nFileSizeLow;
+	int32_t dwReserved0;
+	int32_t dwReserved1;
 	char cFileName[260];
 	char cAlternateFileName[14];
 	char pad0[2];
-	int dwFileType;
-	int dwCreatorType;
-	short wFinderFlags;
+	int32_t dwFileType;
+	int32_t dwCreatorType;
+	int16_t wFinderFlags;
 };
 
 struct FFItem
 {
 	FSRef ref;
 	char name[260];
-	int64_t modDate;
-	short flags;
-};
-
-struct WinCursor
-{
+	uint64_t modDate;
+	int16_t flags;
 };
 
 struct ANIHeader
 {
-	int cbSizeOf;
-	int cFrames;
-	int cSteps;
-	int cx;
-	int cy;
-	int cBitCount;
-	int cPlanes;
-	int JifRate;
-	int flags;
+	uint32_t cbSizeOf;
+	int32_t cFrames;
+	int32_t cSteps;
+	int32_t cx;
+	int32_t cy;
+	uint32_t cBitCount;
+	int32_t cPlanes;
+	int32_t JifRate;
+	uint32_t flags;
+};
+
+struct WinCursor
+{
+	uint32_t mHandle;
+	char mName[4];
+	ANIHeader mHeader;
+	int32_t mIcons;
+	int32_t mRate;
+	int32_t mSequence;
+	int32_t mStep;
+	uint32_t mNextTime;
+	int8_t mFirstTime;
 };
 
 struct WinIcon
 {
+	uint32_t mID;
 };
 
-struct HCURSOR__
+struct BITMAPINFOHEADER
 {
-	int unused;
-};
-
-struct tagBITMAPINFOHEADER
-{
-	int biSize;
-	int biWidth;
-	int biHeight;
-	short biPlanes;
-	short biBitCount;
-	int biCompression;
-	int biSizeImage;
-	int biXPelsPerMeter;
-	int biYPelsPerMeter;
-	int biClrUsed;
-	int biClrImportant;
+	uint32_t biSize;
+	uint32_t biWidth;
+	int32_t biHeight;
+	int16_t biPlanes;
+	uint16_t biBitCount;
+	int32_t biCompression;
+	uint32_t biSizeImage;
+	int32_t biXPelsPerMeter;
+	int32_t biYPelsPerMeter;
+	int32_t biClrUsed;
+	int32_t biClrImportant;
 };
 
 struct tagRGBQUAD
 {
-	char rgbBlue;
-	char rgbGreen;
-	char rgbRed;
-	char rgbReserved;
-};
-
-struct Cursor
-{
-	char data[32];
-	char mask[32];
-	Point hotSpot;
+	int8_t rgbBlue;
+	int8_t rgbGreen;
+	int8_t rgbRed;
+	int8_t rgbReserved;
 };
 
 struct CColorConverter
 {
-	int CColorConverter;
+	void *_vptr$CColorConverter;
 };
 
 typedef enum
@@ -1416,10 +1408,14 @@ typedef enum
 
 struct StColorConverter
 {
+	int32_t mType;
 };
 
 struct CDirect3D
 {
+	char pad0[4];
+	uint32_t mRefCount;
+	char mPrimaryContext[4];
 };
 
 struct IDirect3D9
@@ -1489,7 +1485,7 @@ typedef enum
 	D3DFMT_A32B32G32R32F = 116,
 	D3DFMT_CxV8U8 = 117,
 	D3DFMT_FORCE_DWORD = 2147483647
-} _D3DFORMAT;
+} D3DFORMAT;
 
 typedef enum
 {
@@ -1498,7 +1494,7 @@ typedef enum
 	D3DDEVTYPE_SW = 3,
 	D3DDEVTYPE_NULLREF = 4,
 	D3DDEVTYPE_FORCE_DWORD = 2147483647
-} _D3DDEVTYPE;
+} D3DDEVTYPE;
 
 typedef enum
 {
@@ -1510,7 +1506,7 @@ typedef enum
 	D3DRTYPE_VERTEXBUFFER = 6,
 	D3DRTYPE_INDEXBUFFER = 7,
 	D3DRTYPE_FORCE_DWORD = 2147483647
-} _D3DRESOURCETYPE;
+} D3DRESOURCETYPE;
 
 typedef enum
 {
@@ -1532,146 +1528,141 @@ typedef enum
 	D3DMULTISAMPLE_15_SAMPLES = 15,
 	D3DMULTISAMPLE_16_SAMPLES = 16,
 	D3DMULTISAMPLE_FORCE_DWORD = 2147483647
-} _D3DMULTISAMPLE_TYPE;
+} D3DMULTISAMPLE_TYPE;
 
 struct IUnknown
 {
-	int IUnknown;
+	void *_vptr$IUnknown;
 };
 
-struct HMONITOR__
-{
-	int unused;
-};
-
-struct _D3DADAPTER_IDENTIFIER9
+struct D3DADAPTER_IDENTIFIER9
 {
 	char Driver[512];
 	char Description[512];
 	char DeviceName[32];
 	LARGE_INTEGER DriverVersion;
-	int VendorId;
-	int DeviceId;
-	int SubSysId;
-	int Revision;
+	uint32_t VendorId;
+	uint32_t DeviceId;
+	uint32_t SubSysId;
+	int32_t Revision;
 	char DeviceIdentifier[16];
-	int WHQLLevel;
+	int32_t WHQLLevel;
 };
 
-struct _D3DDISPLAYMODE
+struct D3DDISPLAYMODE
 {
-	int Width;
-	int Height;
-	int RefreshRate;
-	int Format;
+	uint32_t Width;
+	int32_t Height;
+	void *RefreshRate;
+	int32_t Format;
 };
 
-struct _D3DCAPS9
+struct D3DPSHADERCAPS2_0
 {
-	int DeviceType;
-	int AdapterOrdinal;
-	int Caps;
-	int Caps2;
-	int Caps3;
-	int PresentationIntervals;
-	int CursorCaps;
-	int DevCaps;
-	int PrimitiveMiscCaps;
-	int RasterCaps;
-	int ZCmpCaps;
-	int SrcBlendCaps;
-	int DestBlendCaps;
-	int AlphaCmpCaps;
-	int ShadeCaps;
-	int TextureCaps;
-	int TextureFilterCaps;
-	int CubeTextureFilterCaps;
-	int VolumeTextureFilterCaps;
-	int TextureAddressCaps;
-	int VolumeTextureAddressCaps;
-	int LineCaps;
-	int MaxTextureWidth;
-	int MaxTextureHeight;
-	int MaxVolumeExtent;
-	int MaxTextureRepeat;
-	int MaxTextureAspectRatio;
-	int MaxAnisotropy;
-	int MaxVertexW;
-	int GuardBandLeft;
-	int GuardBandTop;
-	int GuardBandRight;
-	int GuardBandBottom;
-	int ExtentsAdjust;
-	int StencilCaps;
-	int FVFCaps;
-	int TextureOpCaps;
-	int MaxTextureBlendStages;
-	int MaxSimultaneousTextures;
-	int VertexProcessingCaps;
-	int MaxActiveLights;
-	int MaxUserClipPlanes;
-	int MaxVertexBlendMatrices;
-	int MaxVertexBlendMatrixIndex;
-	int MaxPointSize;
-	int MaxPrimitiveCount;
-	int MaxVertexIndex;
-	int MaxStreams;
-	int MaxStreamStride;
-	int VertexShaderVersion;
-	int MaxVertexShaderConst;
-	int PixelShaderVersion;
-	int PixelShader1xMaxValue;
-	int DevCaps2;
-	int MaxNpatchTessellationLevel;
-	int Reserved5;
-	int MasterAdapterOrdinal;
-	int AdapterOrdinalInGroup;
-	int NumberOfAdaptersInGroup;
-	int DeclTypes;
-	int NumSimultaneousRTs;
-	int StretchRectFilterCaps;
+	int32_t Caps;
+	int32_t DynamicFlowControlDepth;
+	uint32_t NumTemps;
+	int32_t StaticFlowControlDepth;
+	uint32_t NumInstructionSlots;
+};
+
+struct D3DVSHADERCAPS2_0
+{
+	int32_t Caps;
+	int32_t DynamicFlowControlDepth;
+	uint32_t NumTemps;
+	int32_t StaticFlowControlDepth;
+};
+
+struct D3DCAPS9
+{
+	int32_t DeviceType;
+	int32_t AdapterOrdinal;
+	int32_t Caps;
+	int32_t Caps2;
+	int32_t Caps3;
+	int32_t PresentationIntervals;
+	int32_t CursorCaps;
+	int32_t DevCaps;
+	int32_t PrimitiveMiscCaps;
+	int32_t RasterCaps;
+	int32_t ZCmpCaps;
+	uint32_t SrcBlendCaps;
+	uint32_t DestBlendCaps;
+	int32_t AlphaCmpCaps;
+	int32_t ShadeCaps;
+	char TextureCaps[4];
+	char TextureFilterCaps[4];
+	char CubeTextureFilterCaps[4];
+	char VolumeTextureFilterCaps[4];
+	char TextureAddressCaps[4];
+	char VolumeTextureAddressCaps[4];
+	int32_t LineCaps;
+	char MaxTextureWidth[4];
+	char MaxTextureHeight[4];
+	int32_t MaxVolumeExtent;
+	char MaxTextureRepeat[4];
+	char MaxTextureAspectRatio[4];
+	int32_t MaxAnisotropy;
+	int32_t MaxVertexW;
+	int32_t GuardBandLeft;
+	int32_t GuardBandTop;
+	int32_t GuardBandRight;
+	int32_t GuardBandBottom;
+	int32_t ExtentsAdjust;
+	int32_t StencilCaps;
+	int32_t FVFCaps;
+	char TextureOpCaps[4];
+	char MaxTextureBlendStages[4];
+	char MaxSimultaneousTextures[4];
+	int32_t VertexProcessingCaps;
+	int32_t MaxActiveLights;
+	int32_t MaxUserClipPlanes;
+	uint32_t MaxVertexBlendMatrices;
+	uint32_t MaxVertexBlendMatrixIndex;
+	uint32_t MaxPointSize;
+	uint32_t MaxPrimitiveCount;
+	uint32_t MaxVertexIndex;
+	int32_t MaxStreams;
+	uint32_t MaxStreamStride;
+	char VertexShaderVersion[4];
+	int32_t MaxVertexShaderConst;
+	char PixelShaderVersion[4];
+	int32_t PixelShader1xMaxValue;
+	int32_t DevCaps2;
+	int32_t MaxNpatchTessellationLevel;
+	int32_t Reserved5;
+	int32_t MasterAdapterOrdinal;
+	int32_t AdapterOrdinalInGroup;
+	uint32_t NumberOfAdaptersInGroup;
+	int32_t DeclTypes;
+	uint32_t NumSimultaneousRTs;
+	int32_t StretchRectFilterCaps;
 	D3DVSHADERCAPS2_0 VS20Caps;
 	D3DPSHADERCAPS2_0 PS20Caps;
-	int VertexTextureFilterCaps;
-	int MaxVShaderInstructionsExecuted;
-	int MaxPShaderInstructionsExecuted;
-	int MaxVertexShader30InstructionSlots;
-	int MaxPixelShader30InstructionSlots;
+	char VertexTextureFilterCaps[4];
+	int32_t MaxVShaderInstructionsExecuted;
+	int32_t MaxPShaderInstructionsExecuted;
+	int32_t MaxVertexShader30InstructionSlots;
+	int32_t MaxPixelShader30InstructionSlots;
 };
 
-struct _D3DPRESENT_PARAMETERS_
+struct D3DPRESENT_PARAMETERS_
 {
-	int BackBufferWidth;
-	int BackBufferHeight;
-	int BackBufferFormat;
-	int BackBufferCount;
-	int MultiSampleType;
-	int MultiSampleQuality;
-	D3DSWAPEFFECT SwapEffect;
-	int hDeviceWindow;
-	int Windowed;
-	int EnableAutoDepthStencil;
-	int AutoDepthStencilFormat;
-	int Flags;
-	int FullScreen_RefreshRateInHz;
-	int PresentationInterval;
-};
-
-struct _D3DVSHADERCAPS2_0
-{
-	int Caps;
-	int DynamicFlowControlDepth;
-	int NumTemps;
-	int StaticFlowControlDepth;
-};
-
-struct _D3DPSHADERCAPS2_0
-{
-	int Caps;
-	int DynamicFlowControlDepth;
-	int NumTemps;
-	int StaticFlowControlDepth;
-	int NumInstructionSlots;
+	void *BackBufferWidth;
+	void *BackBufferHeight;
+	void *BackBufferFormat;
+	uint32_t BackBufferCount;
+	int32_t MultiSampleType;
+	int32_t MultiSampleQuality;
+	int32_t SwapEffect;
+	int32_t hDeviceWindow;
+	int32_t Windowed;
+	int32_t EnableAutoDepthStencil;
+	int32_t AutoDepthStencilFormat;
+	uint32_t Flags;
+	void *FullScreen_RefreshRateInHz;
+	int32_t PresentationInterval;
 };
 
 typedef enum
@@ -1680,18 +1671,18 @@ typedef enum
 	D3DSWAPEFFECT_FLIP = 2,
 	D3DSWAPEFFECT_COPY = 3,
 	D3DSWAPEFFECT_FORCE_DWORD = 2147483647
-} _D3DSWAPEFFECT;
+} D3DSWAPEFFECT;
 
 struct IDirect3DDevice9
 {
 };
 
-struct _GUID
+struct GUID
 {
-	int Data1;
-	short Data2;
-	short Data3;
-	int64_t Data4;
+	int32_t Data1;
+	int16_t Data2;
+	int16_t Data3;
+	uint64_t Data4;
 };
 
 typedef enum
@@ -1700,7 +1691,7 @@ typedef enum
 	D3DBACKBUFFER_TYPE_LEFT = 1,
 	D3DBACKBUFFER_TYPE_RIGHT = 2,
 	D3DBACKBUFFER_TYPE_FORCE_DWORD = 2147483647
-} _D3DBACKBUFFER_TYPE;
+} D3DBACKBUFFER_TYPE;
 
 typedef enum
 {
@@ -1709,7 +1700,7 @@ typedef enum
 	D3DPOOL_SYSTEMMEM = 2,
 	D3DPOOL_SCRATCH = 3,
 	D3DPOOL_FORCE_DWORD = 2147483647
-} _D3DPOOL;
+} D3DPOOL;
 
 typedef enum
 {
@@ -1720,7 +1711,7 @@ typedef enum
 	D3DTEXF_PYRAMIDALQUAD = 6,
 	D3DTEXF_GAUSSIANQUAD = 7,
 	D3DTEXF_FORCE_DWORD = 2147483647
-} _D3DTEXTUREFILTERTYPE;
+} D3DTEXTUREFILTERTYPE;
 
 typedef enum
 {
@@ -1735,7 +1726,7 @@ typedef enum
 	D3DTS_TEXTURE6 = 22,
 	D3DTS_TEXTURE7 = 23,
 	D3DTS_FORCE_DWORD = 2147483647
-} _D3DTRANSFORMSTATETYPE;
+} D3DTRANSFORMSTATETYPE;
 
 typedef enum
 {
@@ -1843,7 +1834,7 @@ typedef enum
 	D3DRS_DESTBLENDALPHA = 208,
 	D3DRS_BLENDOPALPHA = 209,
 	D3DRS_FORCE_DWORD = 2147483647
-} _D3DRENDERSTATETYPE;
+} D3DRENDERSTATETYPE;
 
 typedef enum
 {
@@ -1851,7 +1842,7 @@ typedef enum
 	D3DSBT_PIXELSTATE = 2,
 	D3DSBT_VERTEXSTATE = 3,
 	D3DSBT_FORCE_DWORD = 2147483647
-} _D3DSTATEBLOCKTYPE;
+} D3DSTATEBLOCKTYPE;
 
 typedef enum
 {
@@ -1874,7 +1865,7 @@ typedef enum
 	D3DTSS_RESULTARG = 28,
 	D3DTSS_CONSTANT = 32,
 	D3DTSS_FORCE_DWORD = 2147483647
-} _D3DTEXTURESTAGESTATETYPE;
+} D3DTEXTURESTAGESTATETYPE;
 
 typedef enum
 {
@@ -1892,7 +1883,7 @@ typedef enum
 	D3DSAMP_ELEMENTINDEX = 12,
 	D3DSAMP_DMAPOFFSET = 13,
 	D3DSAMP_FORCE_DWORD = 2147483647
-} _D3DSAMPLERSTATETYPE;
+} D3DSAMPLERSTATETYPE;
 
 typedef enum
 {
@@ -1903,7 +1894,7 @@ typedef enum
 	D3DPT_TRIANGLESTRIP = 5,
 	D3DPT_TRIANGLEFAN = 6,
 	D3DPT_FORCE_DWORD = 2147483647
-} _D3DPRIMITIVETYPE;
+} D3DPRIMITIVETYPE;
 
 typedef enum
 {
@@ -1921,82 +1912,124 @@ typedef enum
 	D3DQUERYTYPE_PIXELTIMINGS = 16,
 	D3DQUERYTYPE_BANDWIDTHTIMINGS = 17,
 	D3DQUERYTYPE_CACHEUTILIZATION = 18
-} _D3DQUERYTYPE;
+} D3DQUERYTYPE;
 
-struct _D3DDEVICE_CREATION_PARAMETERS
+struct D3DDEVICE_CREATION_PARAMETERS
 {
-	int AdapterOrdinal;
-	int DeviceType;
-	int hFocusWindow;
-	int BehaviorFlags;
+	int32_t AdapterOrdinal;
+	int32_t DeviceType;
+	int32_t hFocusWindow;
+	uint32_t BehaviorFlags;
 };
 
 struct IDirect3DSurface9
 {
 };
 
-struct _D3DRASTER_STATUS
+struct D3DRASTER_STATUS
 {
-	int InVBlank;
-	int ScanLine;
+	int32_t InVBlank;
+	int32_t ScanLine;
 };
 
 struct IDirect3DBaseTexture9
 {
 };
 
-struct _D3DMATRIX
+struct $_3551
 {
+	int32_t _11;
+	int32_t _12;
+	int32_t _13;
+	int32_t _14;
+	int32_t _21;
+	int32_t _22;
+	int32_t _23;
+	int32_t _24;
+	int32_t _31;
+	int32_t _32;
+	int32_t _33;
+	int32_t _34;
+	int32_t _41;
+	int32_t _42;
+	int32_t _43;
+	int32_t _44;
 };
 
-struct _D3DVIEWPORT9
+union $_3550
 {
-	int X;
-	int Y;
-	int Width;
-	int Height;
-	int MinZ;
-	int MaxZ;
+	$_3551 unnamed_field;
+	uint8_t m[64];
 };
 
-struct _D3DMATERIAL9
+struct D3DMATRIX
+{
+	$_3550 unnamed_field;
+};
+
+struct D3DVIEWPORT9
+{
+	int32_t X;
+	int32_t Y;
+	uint32_t Width;
+	int32_t Height;
+	int32_t MinZ;
+	int32_t MaxZ;
+};
+
+struct D3DCOLORVALUE
+{
+	int32_t r;
+	int32_t g;
+	int32_t b;
+	int32_t a;
+};
+
+struct D3DMATERIAL9
 {
 	D3DCOLORVALUE Diffuse;
-	char Ambient[16];
+	uint8_t Ambient[16];
 	char Specular[16];
-	char Emissive[16];
-	int Power;
+	uint8_t Emissive[16];
+	int32_t Power;
 };
 
-struct _D3DLIGHT9
+struct D3DVECTOR
 {
-	D3DLIGHTTYPE Type;
-	char Diffuse[16];
+	int32_t x;
+	int32_t y;
+	int32_t z;
+};
+
+struct D3DLIGHT9
+{
+	int32_t Type;
+	uint8_t Diffuse[16];
 	char Specular[16];
-	char Ambient[16];
+	uint8_t Ambient[16];
 	D3DVECTOR Position;
-	char Direction[12];
-	int Range;
-	int Falloff;
-	int Attenuation0;
-	int Attenuation1;
-	int Attenuation2;
-	int Theta;
-	int Phi;
+	vec3_t Direction;
+	int32_t Range;
+	int32_t Falloff;
+	int32_t Attenuation0;
+	int32_t Attenuation1;
+	int32_t Attenuation2;
+	int32_t Theta;
+	int32_t Phi;
 };
 
-struct _D3DCLIPSTATUS9
+struct D3DCLIPSTATUS9
 {
-	int ClipUnion;
-	int ClipIntersection;
+	int32_t ClipUnion;
+	int32_t ClipIntersection;
 };
 
 struct tagPALETTEENTRY
 {
-	char peRed;
-	char peGreen;
-	char peBlue;
-	char peFlags;
+	int8_t peRed;
+	int8_t peGreen;
+	int8_t peBlue;
+	int8_t peFlags;
 };
 
 struct IDirect3DVertexBuffer9
@@ -2027,10 +2060,19 @@ struct IDirect3DSwapChain9
 {
 };
 
-struct _RGNDATA
+struct RGNDATAHEADER
+{
+	uint32_t dwSize;
+	int32_t iType;
+	uint32_t nCount;
+	uint32_t nRgnSize;
+	uint8_t rcBound[16];
+};
+
+struct RGNDATA
 {
 	RGNDATAHEADER rdh;
-	char Buffer;
+	int8_t Buffer;
 };
 
 struct IDirect3DTexture9
@@ -2045,25 +2087,12 @@ struct IDirect3DCubeTexture9
 {
 };
 
-struct _D3DRECT
+struct D3DRECT
 {
-	int x1;
-	int y1;
-	int x2;
-	int y2;
-};
-
-union _3550
-{
-	char m[64];
-};
-
-struct _D3DCOLORVALUE
-{
-	int r;
-	int g;
-	int b;
-	int a;
+	int32_t x1;
+	int32_t y1;
+	int32_t x2;
+	int32_t y2;
 };
 
 typedef enum
@@ -2072,64 +2101,43 @@ typedef enum
 	D3DLIGHT_SPOT = 2,
 	D3DLIGHT_DIRECTIONAL = 3,
 	D3DLIGHT_FORCE_DWORD = 2147483647
-} _D3DLIGHTTYPE;
-
-struct _D3DVECTOR
-{
-	int x;
-	int y;
-	int z;
-};
+} D3DLIGHTTYPE;
 
 struct IDirect3DStateBlock9
 {
 };
 
-struct _D3DVERTEXELEMENT9
+struct D3DVERTEXELEMENT9
 {
-	short Stream;
-	short Offset;
-	char Type;
-	char Method;
-	char Usage;
-	char UsageIndex;
+	int16_t Stream;
+	uint16_t Offset;
+	int8_t Type;
+	int8_t Method;
+	int8_t Usage;
+	uint8_t UsageIndex;
 };
 
-struct _D3DRECTPATCH_INFO
+struct D3DRECTPATCH_INFO
 {
-	int StartVertexOffsetWidth;
-	int StartVertexOffsetHeight;
-	int Width;
-	int Height;
-	int Stride;
-	D3DBASISTYPE Basis;
-	D3DDEGREETYPE Degree;
+	uint32_t StartVertexOffsetWidth;
+	uint32_t StartVertexOffsetHeight;
+	uint32_t Width;
+	int32_t Height;
+	uint32_t Stride;
+	int32_t Basis;
+	int32_t Degree;
 };
 
-struct _D3DTRIPATCH_INFO
+struct D3DTRIPATCH_INFO
 {
-	int StartVertexOffset;
-	int NumVertices;
-	int Basis;
-	int Degree;
+	uint32_t StartVertexOffset;
+	uint32_t NumVertices;
+	int32_t Basis;
+	int32_t Degree;
 };
 
 struct IDirect3DQuery9
 {
-};
-
-struct HDC__
-{
-	int unused;
-};
-
-struct _RGNDATAHEADER
-{
-	int dwSize;
-	int iType;
-	int nCount;
-	int nRgnSize;
-	char rcBound[16];
 };
 
 typedef enum
@@ -2141,27 +2149,7 @@ typedef enum
 	D3DCUBEMAP_FACE_POSITIVE_Z = 4,
 	D3DCUBEMAP_FACE_NEGATIVE_Z = 5,
 	D3DCUBEMAP_FACE_FORCE_DWORD = 2147483647
-} _D3DCUBEMAP_FACES;
-
-struct _3551
-{
-	int _11;
-	int _12;
-	int _13;
-	int _14;
-	int _21;
-	int _22;
-	int _23;
-	int _24;
-	int _31;
-	int _32;
-	int _33;
-	int _34;
-	int _41;
-	int _42;
-	int _43;
-	int _44;
-};
+} D3DCUBEMAP_FACES;
 
 typedef enum
 {
@@ -2169,7 +2157,7 @@ typedef enum
 	D3DBASIS_BSPLINE = 1,
 	D3DBASIS_CATMULL_ROM = 2,
 	D3DBASIS_FORCE_DWORD = 2147483647
-} _D3DBASISTYPE;
+} D3DBASISTYPE;
 
 typedef enum
 {
@@ -2178,75 +2166,75 @@ typedef enum
 	D3DDEGREE_CUBIC = 3,
 	D3DDEGREE_QUINTIC = 5,
 	D3DDEGREE_FORCE_DWORD = 2147483647
-} _D3DDEGREETYPE;
+} D3DDEGREETYPE;
 
-struct _D3DSURFACE_DESC
+struct D3DSURFACE_DESC
 {
-	int Format;
-	int Type;
-	int Usage;
-	int Pool;
-	int MultiSampleType;
-	int MultiSampleQuality;
-	int Width;
-	int Height;
+	int32_t Format;
+	int32_t Type;
+	int32_t Usage;
+	int32_t Pool;
+	int32_t MultiSampleType;
+	int32_t MultiSampleQuality;
+	uint32_t Width;
+	int32_t Height;
 };
 
-struct _D3DLOCKED_RECT
+struct D3DLOCKED_RECT
 {
-	int Pitch;
-	int pBits;
+	int32_t Pitch;
+	int32_t pBits;
 };
 
-struct _D3DVERTEXBUFFER_DESC
+struct D3DVERTEXBUFFER_DESC
 {
-	int Format;
-	int Type;
-	int Usage;
-	int Pool;
-	int Size;
-	int FVF;
+	int32_t Format;
+	int32_t Type;
+	int32_t Usage;
+	int32_t Pool;
+	uint32_t Size;
+	int32_t FVF;
 };
 
-struct _D3DINDEXBUFFER_DESC
+struct D3DINDEXBUFFER_DESC
 {
-	int Format;
-	int Type;
-	int Usage;
-	int Pool;
-	int Size;
+	int32_t Format;
+	int32_t Type;
+	int32_t Usage;
+	int32_t Pool;
+	uint32_t Size;
 };
 
-struct _D3DVOLUME_DESC
+struct D3DVOLUME_DESC
 {
-	int Format;
-	int Type;
-	int Usage;
-	int Pool;
-	int Width;
-	int Height;
-	int Depth;
+	int32_t Format;
+	int32_t Type;
+	int32_t Usage;
+	int32_t Pool;
+	uint32_t Width;
+	int32_t Height;
+	int32_t Depth;
 };
 
-struct _D3DLOCKED_BOX
+struct D3DLOCKED_BOX
 {
-	int RowPitch;
-	int SlicePitch;
-	int pBits;
+	int32_t RowPitch;
+	int32_t SlicePitch;
+	int32_t pBits;
 };
 
 struct IDirect3DVolume9
 {
 };
 
-struct _D3DBOX
+struct D3DBOX
 {
-	int Left;
-	int Top;
-	int Right;
-	int Bottom;
-	int Front;
-	int Back;
+	int32_t Left;
+	int32_t Top;
+	int32_t Right;
+	int32_t Bottom;
+	int32_t Front;
+	int32_t Back;
 };
 
 struct CVAOPacketFixedFunction
@@ -2259,16 +2247,16 @@ struct CVAOPacket
 
 struct COpenGLVAO
 {
-	int COpenGLVAO;
-	char pad0[4];
-	int mpVAStart;
-	int mSize;
-	CColorArray mColorArray;
-	CSecondaryColorArray mSecondaryColorArray;
-	CNormalArray mNormalArray;
-	CVertexArray mVertexArray;
-	char mTexCoordArrays[192];
-	char mGenericArrays[384];
+	void *_vptr$COpenGLVAO;
+	uint32_t mpVAOID;
+	int32_t mpVAStart;
+	uint32_t mSize;
+	vec3_t mColorArray[2];
+	vec3_t mSecondaryColorArray[2];
+	vec3_t mNormalArray[2];
+	vec3_t mVertexArray[2];
+	uint8_t mTexCoordArrays[192];
+	uint8_t mGenericArrays[384];
 };
 
 typedef enum
@@ -2297,7 +2285,14 @@ struct CVertexArray
 
 struct CBaseVA
 {
-	int CBaseVA;
+	void *_vptr$CBaseVA;
+	int8_t mEnabled;
+	int8_t mNeedsValidation;
+	char pad0[2];
+	uint32_t mSize;
+	int32_t mType;
+	uint32_t mStride;
+	int32_t mPointer;
 };
 
 struct CTexCoordArray
@@ -2306,27 +2301,24 @@ struct CTexCoordArray
 
 struct VertexProgramStreamState
 {
-	char mNeedsValidation;
-	char mEnabled;
+	int8_t mNeedsValidation;
+	int8_t mEnabled;
 	char pad0[2];
-	int mVSize;
-	int mVType;
-	char mNormalized;
+	uint32_t mVSize;
+	int32_t mVType;
+	int8_t mNormalized;
 	char pad1[3];
-	int mStride;
-	int mpStream;
+	uint32_t mStride;
+	int32_t mpStream;
 };
 
 struct CVAOPacketProgrammable
 {
 };
 
-struct CDirect3DDevice
-{
-};
-
 struct COpenGLMatrix
 {
+	uint8_t m[64];
 };
 
 typedef enum
@@ -2338,71 +2330,96 @@ typedef enum
 
 struct ProgrammableShaderType
 {
-	char mUsed;
+	int8_t mUsed;
 	char pad0[3];
-	int mStream;
-	int mStreamOffset;
-	int mVSize;
-	int mVType;
-	char mNormalized;
+	int32_t mStream;
+	uint32_t mStreamOffset;
+	uint32_t mVSize;
+	int32_t mVType;
+	int8_t mNormalized;
 	char pad1[3];
-	int mStride;
+	uint32_t mStride;
 };
 
 struct DXVector3
 {
-	char m[12];
-};
-
-struct LightInfoType
-{
-	char Enabled;
-	char pad0[3];
-	int Type;
-	int Range;
-	DXVector4 Diffuse;
-	char Specular[16];
-	char Ambient[16];
-	char Direction[12];
-	char Position[12];
-	char DirectionCS[12];
-	int Exponent;
-	int Cutoff;
-	int Theta;
-	int Phi;
-	int Falloff;
-	int Attenuation0;
-	int Attenuation1;
-	int Attenuation2;
-	char CSDirection[12];
-	char CSPosition[12];
-	int Range2;
-	char VdLd[12];
-	int CosHalfTheta;
-	int CosHalfPhi;
-	int C1;
-};
-
-struct CDirect3DVertexShader
-{
-};
-
-struct CDirect3DPixelShader
-{
-};
-
-struct CTexStage
-{
+	vec3_t m;
 };
 
 struct DXVector4
 {
-	char m[16];
+	uint8_t m[16];
 };
 
-struct COpenGLVertexProgram
+struct LightInfoType
 {
-	int COpenGLVertexProgram;
+	int8_t Enabled;
+	char pad0[3];
+	int32_t Type;
+	int32_t Range;
+	DXVector4 Diffuse;
+	char Specular[16];
+	uint8_t Ambient[16];
+	vec3_t Direction;
+	vec3_t Position;
+	vec3_t DirectionCS;
+	int32_t Exponent;
+	int32_t Cutoff;
+	int32_t Theta;
+	int32_t Phi;
+	int32_t Falloff;
+	int32_t Attenuation0;
+	int32_t Attenuation1;
+	int32_t Attenuation2;
+	vec3_t CSDirection;
+	vec3_t CSPosition;
+	int32_t Range2;
+	vec3_t VdLd;
+	int32_t CosHalfTheta;
+	int32_t CosHalfPhi;
+	int32_t C1;
+};
+
+struct CDirect3DVertexShader
+{
+	char pad0[404];
+	uint32_t mRefCount;
+	int8_t mRunInSoftware;
+};
+
+struct CDirect3DPixelShader
+{
+	char pad0[4];
+	uint32_t mRefCount;
+	char mTextureUseMask[4];
+};
+
+struct CTexStage
+{
+	int8_t mIsProgrammableOnly;
+	char pad0[3];
+	int32_t mTex;
+	char mAddressU[4];
+	char mAddressV[4];
+	char mAddressW[4];
+	int32_t mMinFilter;
+	int32_t mMagFilter;
+	int32_t mMipFilter;
+	int32_t mAnisotropy;
+	int32_t mLodBias;
+	int32_t mBorderColor;
+	int32_t mColorOp;
+	int32_t mColorArg0;
+	int32_t mColorArg1;
+	int32_t mColorArg2;
+	int32_t mAlphaOp;
+	int32_t mAlphaArg0;
+	int32_t mAlphaArg1;
+	int32_t mAlphaArg2;
+	uint32_t mTransformFlags;
+	uint32_t mCoordIndex;
+	uint8_t mTexFactor[16];
+	matrix4_t mTexMatrix;
 };
 
 typedef enum
@@ -2413,7 +2430,7 @@ typedef enum
 	D3DTADDRESS_BORDER = 4,
 	D3DTADDRESS_MIRRORONCE = 5,
 	D3DTADDRESS_FORCE_DWORD = 2147483647
-} _D3DTEXTUREADDRESS;
+} D3DTEXTUREADDRESS;
 
 typedef enum
 {
@@ -2444,7 +2461,7 @@ typedef enum
 	D3DTOP_MULTIPLYADD = 25,
 	D3DTOP_LERP = 26,
 	D3DTOP_FORCE_DWORD = 2147483647
-} _D3DTEXTUREOP;
+} D3DTEXTUREOP;
 
 typedef enum
 {
@@ -2455,21 +2472,21 @@ typedef enum
 	D3DTTFF_COUNT4 = 4,
 	D3DTTFF_PROJECTED = 256,
 	D3DTTFF_FORCE_DWORD = 2147483647
-} _D3DTEXTURETRANSFORMFLAGS;
+} D3DTEXTURETRANSFORMFLAGS;
 
 struct VertexProgramState
 {
-	int mOpenGLProgramID;
-	char mStreams[384];
-};
-
-struct CDirect3DVertexBuffer
-{
+	uint32_t mOpenGLProgramID;
+	uint8_t mStreams[384];
 };
 
 struct CMemoryBuffer
 {
-	int CMemoryBuffer;
+	void *_vptr$CMemoryBuffer;
+	void *mRawBufferPtr;
+	void *mAlignedBufferPtr;
+	uint32_t mLength;
+	int32_t mOwner;
 };
 
 typedef enum
@@ -2478,91 +2495,49 @@ typedef enum
 	IS_NOT_OWNER = 1
 } OwnershipType;
 
-struct CStaticCacheInfo
+struct List_impl
 {
-	int CStaticCacheInfo;
+	uint64_t _M_node;
 };
 
-struct _List_impl
+struct List_node_base
 {
-	_List_node_base _M_node;
-};
-
-struct _List_node_base
-{
-	int _M_next;
-	int _M_prev;
+	int32_t _M_next;
+	int32_t _M_prev;
 };
 
 struct CCacheInfoBlock
 {
-	int CCacheInfoBlock;
-};
-
-struct CTexUnit
-{
-	char mIsProgramableOnly;
-	char mTargetEnabled[3];
-	char mTexID[12];
-	char mTexWrapS[12];
-	char mTexWrapT[12];
-	char mTexWrapR[12];
-	char mTexBorderColor[12];
-	char mTexMinFilter[12];
-	char mTexMagFilter[12];
-	char mTexAnisotropicFilter[12];
-	char mTexLastLevel[12];
-	int mCombinerColorOp;
-	int mCombinerColorSource0;
-	int mCombinerColorOperand0;
-	int mCombinerColorSource1;
-	int mCombinerColorOperand1;
-	int mCombinerColorSource2;
-	int mCombinerColorOperand2;
-	int mCombinerAlphaOp;
-	int mCombinerAlphaSource0;
-	int mCombinerAlphaOperand0;
-	int mCombinerAlphaSource1;
-	int mCombinerAlphaOperand1;
-	int mCombinerAlphaSource2;
-	int mCombinerAlphaOperand2;
-	int mCombinerRGBScale;
-	int mCombinerAlphaScale;
-	char mTexFactor[16];
-	int mLodBias;
-	char mTexMatrix[64];
-	char mTexCoordArray[24];
-	int mTexGenEnable;
-	char mTexGenMode[16];
-};
-
-struct COpenGL
-{
-	int COpenGL;
-};
-
-struct COpenGLTexture
-{
-	int COpenGLTexture;
+	char _vptr$CCacheInfoBlock[4];
+	int8_t Dirty;
 };
 
 struct TextureInfoType
 {
-	int mpTexID;
-	int mTexWrapS;
-	int mTexWrapT;
-	int mTexWrapR;
-	int mTexBorderColor;
-	int mTexMinFilter;
-	int mTexMagFilter;
-	int mTexLastLevel;
-	int mTexAnisotropicFilter;
+	uint32_t mpTexID;
+	int32_t mTexWrapS;
+	int32_t mTexWrapT;
+	int32_t mTexWrapR;
+	int32_t mTexBorderColor;
+	int32_t mTexMinFilter;
+	int32_t mTexMagFilter;
+	int32_t mTexLastLevel;
+	int32_t mTexAnisotropicFilter;
+};
+
+struct COpenGLTexture
+{
+	char _vptr$COpenGLTexture[4];
+	TextureInfoType mTextureInfo;
+	uint32_t mWidth;
+	int32_t mHeight;
+	int32_t mDepth;
 };
 
 struct ParameterType
 {
-	int NeedsValidation;
-	char v[16];
+	uint32_t NeedsValidation;
+	uint8_t v[16];
 };
 
 struct D3DXMATRIX
@@ -2571,31 +2546,45 @@ struct D3DXMATRIX
 
 struct D3DXFLOAT16
 {
+	int16_t value;
 };
 
 struct D3DXVECTOR4
 {
-	int x;
-	int y;
-	int z;
-	int w;
+	int32_t x;
+	int32_t y;
+	int32_t z;
+	int32_t w;
 };
 
 struct AttribInfo
 {
-	int Size;
-	int Stride;
-	int Type;
-	int Ptr;
-	char Storage[16];
-};
-
-struct CDirect3DTexture
-{
+	uint32_t Size;
+	uint32_t Stride;
+	int32_t Type;
+	void *Ptr;
+	uint8_t Storage[16];
 };
 
 struct CDirect3DSurface
 {
+	char pad0[4];
+	uint32_t mRefCount;
+	int32_t mSurfaceType;
+	uint32_t mCubemapID;
+	int32_t mLevel;
+	uint32_t mWidth;
+	int32_t mHeight;
+	int32_t mFormat;
+	int32_t mpSurfaceMemory;
+	int8_t mIsDirty;
+	char pad1[3];
+	char mpOpenGLTextureInfo[4];
+	int8_t mOwnOpenGLTextureInfo;
+	char pad2[3];
+	int32_t mOpenGLInternalFormat;
+	int32_t mOpenGLFormat;
+	int32_t mOpenGLElementType;
 };
 
 typedef enum
@@ -2605,62 +2594,145 @@ typedef enum
 	VOLUME_SURFACE = 2
 } SurfaceType;
 
-struct CDirect3DVolumeTexture
-{
-};
-
 struct CDirect3DVolume
 {
+	char pad0[4];
+	uint32_t mRefCount;
+	int32_t mLevel;
+	uint32_t mWidth;
+	int32_t mHeight;
+	int32_t mDepth;
+	int32_t mFormat;
+	int32_t mpSurfaceMemory;
+	int8_t mIsDirty;
+	char pad1[3];
+	char mpOpenGLTextureInfo[4];
+	int32_t mOpenGLInternalFormat;
+	int32_t mOpenGLFormat;
+	int32_t mOpenGLElementType;
 };
 
 struct CDirect3DCubeTexture
 {
+	char pad0[56];
+	uint32_t mRefCount;
+	uint32_t mEdgeLength;
+	int32_t mLevels;
+	uint8_t mSurfaceFaceIndices[24];
+	char mTextureMemory[20];
+	vec3_t mSurfaces;
 };
 
-struct __true_type
+struct true_type
 {
 };
 
 struct CDirect3DIndexBuffer
 {
+	char pad0[4];
+	uint32_t mRefCount;
+	uint32_t mLength;
+	CMemoryBuffer mIndexBufferMemory;
+	uint32_t mFormatSize;
+	int32_t mUsage;
+	int32_t mLockStart;
+	uint32_t mLockSize;
+	int8_t mHasBeenLocked;
 };
 
 struct COpenGLATITextFragmentShader
 {
+	char pad0[12];
+	uint32_t mProgramID;
 };
 
 struct COpenGLNVidiaRegisterCombinersProgram
 {
+	char pad0[12];
+	int32_t mpCallbackFunc;
+	uint32_t mNumConstants;
 };
 
 struct COpenGLARBFragmentProgram
 {
+	char pad0[12];
+	char mName[4];
+	int32_t mCode;
+	uint32_t mProgramID;
 };
 
 struct CDirect3DSwapChain
 {
+	char pad0[4];
+	uint32_t mRefCount;
+	void *mBackBuffer;
 };
 
 struct CFence
 {
+	uint32_t mFenceID;
+	int32_t mStart;
+	uint32_t mSizeInBytes;
+	uint32_t mFrameCount;
 };
 
 struct CDirect3DVertexDeclaration
 {
+	char pad0[4];
+	uint32_t mRefCount;
+	uint32_t mNumElements;
+	int32_t mpVertexElements;
 };
 
 struct FreeRequest
 {
-	int mPtr;
-	int mLength;
-	int mDelay;
+	void *mPtr;
+	uint32_t mLength;
+	int32_t mDelay;
+};
+
+struct CTexUnit
+{
+	int8_t mIsProgramableOnly;
+	uint8_t mTargetEnabled[3];
+	vec3_t mTexID;
+	vec3_t mTexWrapS;
+	vec3_t mTexWrapT;
+	vec3_t mTexWrapR;
+	vec3_t mTexBorderColor;
+	vec3_t mTexMinFilter;
+	vec3_t mTexMagFilter;
+	vec3_t mTexAnisotropicFilter;
+	vec3_t mTexLastLevel;
+	int32_t mCombinerColorOp;
+	int32_t mCombinerColorSource0;
+	int32_t mCombinerColorOperand0;
+	int32_t mCombinerColorSource1;
+	int32_t mCombinerColorOperand1;
+	int32_t mCombinerColorSource2;
+	int32_t mCombinerColorOperand2;
+	int32_t mCombinerAlphaOp;
+	int32_t mCombinerAlphaSource0;
+	int32_t mCombinerAlphaOperand0;
+	int32_t mCombinerAlphaSource1;
+	int32_t mCombinerAlphaOperand1;
+	int32_t mCombinerAlphaSource2;
+	int32_t mCombinerAlphaOperand2;
+	int32_t mCombinerRGBScale;
+	int32_t mCombinerAlphaScale;
+	uint8_t mTexFactor[16];
+	int32_t mLodBias;
+	matrix4_t mTexMatrix;
+	uint8_t mTexCoordArray[24];
+	int32_t mTexGenEnable;
+	uint8_t mTexGenMode[16];
 };
 
 struct OpenGLStateInfoType
 {
-	int PName;
-	OGLSITPTypes PType;
-	int SName;
+	char PName[4];
+	int32_t PType;
+	char SName[4];
 };
 
 typedef enum
@@ -2699,17 +2771,17 @@ typedef enum
 	D3DXIFF_HDR = 7,
 	D3DXIFF_PFM = 8,
 	D3DXIFF_FORCE_DWORD = 2147483647
-} _D3DXIMAGE_FILEFORMAT;
+} D3DXIMAGE_FILEFORMAT;
 
-struct _D3DXIMAGE_INFO
+struct D3DXIMAGE_INFO
 {
-	int Width;
-	int Height;
-	int Depth;
-	int MipLevels;
-	int Format;
-	int ResourceType;
-	int ImageFileFormat;
+	uint32_t Width;
+	int32_t Height;
+	int32_t Depth;
+	int32_t MipLevels;
+	int32_t Format;
+	int32_t ResourceType;
+	int32_t ImageFileFormat;
 };
 
 struct ID3DXFont
@@ -2720,438 +2792,536 @@ struct ID3DXSprite
 {
 };
 
-struct _D3DXFONT_DESCA
+struct D3DXFONT_DESCA
 {
-	int Height;
-	int Width;
-	int Weight;
-	int MipLevels;
-	int Italic;
-	char CharSet;
-	char OutputPrecision;
-	char Quality;
-	char PitchAndFamily;
+	int32_t Height;
+	uint32_t Width;
+	int32_t Weight;
+	int32_t MipLevels;
+	int32_t Italic;
+	int8_t CharSet;
+	int8_t OutputPrecision;
+	int8_t Quality;
+	int8_t PitchAndFamily;
 	char FaceName[32];
 };
 
-struct _D3DXFONT_DESCW
+struct D3DXFONT_DESCW
 {
-	int Height;
-	int Width;
-	int Weight;
-	int MipLevels;
-	int Italic;
-	char CharSet;
-	char OutputPrecision;
-	char Quality;
-	char PitchAndFamily;
+	int32_t Height;
+	uint32_t Width;
+	int32_t Weight;
+	int32_t MipLevels;
+	int32_t Italic;
+	int8_t CharSet;
+	int8_t OutputPrecision;
+	int8_t Quality;
+	int8_t PitchAndFamily;
 	char FaceName[128];
 };
 
 struct tagTEXTMETRICA
 {
-	int tmHeight;
-	int tmAscent;
-	int tmDescent;
-	int tmInternalLeading;
-	int tmExternalLeading;
-	int tmAveCharWidth;
-	int tmMaxCharWidth;
-	int tmWeight;
-	int tmOverhang;
-	int tmDigitizedAspectX;
-	int tmDigitizedAspectY;
-	char tmFirstChar;
-	char tmLastChar;
-	char tmDefaultChar;
-	char tmBreakChar;
-	char tmItalic;
-	char tmUnderlined;
-	char tmStruckOut;
-	char tmPitchAndFamily;
-	char tmCharSet;
+	int32_t tmHeight;
+	int32_t tmAscent;
+	int32_t tmDescent;
+	int32_t tmInternalLeading;
+	int32_t tmExternalLeading;
+	uint32_t tmAveCharWidth;
+	uint32_t tmMaxCharWidth;
+	int32_t tmWeight;
+	int32_t tmOverhang;
+	char tmDigitizedAspectX[4];
+	char tmDigitizedAspectY[4];
+	int8_t tmFirstChar;
+	int8_t tmLastChar;
+	int8_t tmDefaultChar;
+	int8_t tmBreakChar;
+	int8_t tmItalic;
+	int8_t tmUnderlined;
+	int8_t tmStruckOut;
+	int8_t tmPitchAndFamily;
+	int8_t tmCharSet;
 };
 
 struct tagTEXTMETRICW
 {
-	int tmHeight;
-	int tmAscent;
-	int tmDescent;
-	int tmInternalLeading;
-	int tmExternalLeading;
-	int tmAveCharWidth;
-	int tmMaxCharWidth;
-	int tmWeight;
-	int tmOverhang;
-	int tmDigitizedAspectX;
-	int tmDigitizedAspectY;
-	int tmFirstChar;
-	int tmLastChar;
-	int tmDefaultChar;
-	int tmBreakChar;
-	char tmItalic;
-	char tmUnderlined;
-	char tmStruckOut;
-	char tmPitchAndFamily;
-	char tmCharSet;
+	int32_t tmHeight;
+	int32_t tmAscent;
+	int32_t tmDescent;
+	int32_t tmInternalLeading;
+	int32_t tmExternalLeading;
+	uint32_t tmAveCharWidth;
+	uint32_t tmMaxCharWidth;
+	int32_t tmWeight;
+	int32_t tmOverhang;
+	char tmDigitizedAspectX[4];
+	char tmDigitizedAspectY[4];
+	int32_t tmFirstChar;
+	int32_t tmLastChar;
+	int32_t tmDefaultChar;
+	int32_t tmBreakChar;
+	int8_t tmItalic;
+	int8_t tmUnderlined;
+	int8_t tmStruckOut;
+	int8_t tmPitchAndFamily;
+	int8_t tmCharSet;
 };
 
-struct _DDSURFACEDESC2
+union $_3575
 {
-	int dwSize;
-	int dwFlags;
-	int dwHeight;
-	int dwWidth;
-	char pad0[12];
-	int dwAlphaBitDepth;
-	int dwReserved;
-	int lpSurface;
-	char pad1[8];
-	DDCOLORKEY ddckCKDestBlt;
-	int64_t ddckCKSrcOverlay;
-	int64_t ddckCKSrcBlt;
-	char pad2[32];
-	DDSCAPS2 ddsCaps;
-	int dwTextureStage;
+	uint64_t ddckCKDestOverlay;
+	int32_t dwEmptyFaceColor;
 };
 
-union _3572
+struct DDCOLORKEY
 {
-	int lPitch;
-	int dwLinearSize;
+	int32_t dwColorSpaceLowValue;
+	int32_t dwColorSpaceHighValue;
 };
 
-union _3573
+union $_3574
 {
-	int dwBackBufferCount;
-	int dwDepth;
+	uint32_t dwMipMapCount;
+	void *dwRefreshRate;
+	uint32_t dwSrcVBHandle;
 };
 
-union _3574
+union $_3572
 {
-	int dwMipMapCount;
-	int dwRefreshRate;
-	int dwSrcVBHandle;
+	int32_t lPitch;
+	uint32_t dwLinearSize;
 };
 
-union _3575
+struct $_3561
 {
-	int64_t ddckCKDestOverlay;
-	int dwEmptyFaceColor;
+	int32_t overflowed;
+	int32_t data;
+	uint32_t maxsize;
+	uint32_t cursize;
+	uint32_t readcount;
+	int32_t bit;
 };
 
-struct _DDCOLORKEY
+struct DDSCAPS2
 {
-	int dwColorSpaceLowValue;
-	int dwColorSpaceHighValue;
+	int32_t dwCaps;
+	int32_t dwCaps2;
+	int32_t dwCaps3;
+	$_3561 unnamed_field;
 };
 
-union _3576
+union $_3566
+{
+	uint32_t dwBBitMask;
+	uint32_t dwVBitMask;
+	uint32_t dwStencilBitMask;
+	uint32_t dwBumpLuminanceBitMask;
+};
+
+struct $_3562
+{
+	int32_t min;
+	int32_t max;
+};
+
+union $_3567
+{
+	uint32_t dwRGBAlphaBitMask;
+	uint32_t dwYUVAlphaBitMask;
+	uint32_t dwLuminanceAlphaBitMask;
+	uint32_t dwRGBZBitMask;
+	uint32_t dwYUVZBitMask;
+};
+
+struct $_3563
+{
+	int32_t min;
+	int32_t max;
+};
+
+struct $_3565
+{
+	int16_t wFlipMSTypes;
+	int16_t wBltMSTypes;
+};
+
+union $_3564
+{
+	uint32_t dwGBitMask;
+	uint32_t dwUBitMask;
+	uint32_t dwZBitMask;
+	uint32_t dwBumpDvBitMask;
+	$_3565 MultiSampleCaps;
+};
+
+struct DDPIXELFORMAT
+{
+	uint32_t dwSize;
+	uint32_t dwFlags;
+	int32_t dwFourCC;
+	$_3562 unnamed_field1;
+	$_3563 unnamed_field2;
+	$_3564 unnamed_field3;
+	$_3566 unnamed_field4;
+	$_3567 unnamed_field5;
+};
+
+union $_3576
 {
 	DDPIXELFORMAT ddpfPixelFormat;
-	int dwFVF;
+	int32_t dwFVF;
 };
 
-struct _DDSCAPS2
+union $_3573
 {
-	int dwCaps;
-	int dwCaps2;
-	int dwCaps3;
+	uint32_t dwBackBufferCount;
+	int32_t dwDepth;
 };
 
-struct _DDPIXELFORMAT
+struct DDSURFACEDESC2
 {
-	int dwSize;
-	int dwFlags;
-	int dwFourCC;
-};
-
-union _3561
-{
-	int dwCaps4;
-	int dwVolumeDepth;
-};
-
-union _3562
-{
-	int dwRGBBitCount;
-	int dwYUVBitCount;
-	int dwZBufferBitDepth;
-	int dwAlphaBitDepth;
-	int dwLuminanceBitCount;
-	int dwBumpBitCount;
-	int dwPrivateFormatBitCount;
-};
-
-union _3563
-{
-	int dwRBitMask;
-	int dwYBitMask;
-	int dwStencilBitDepth;
-	int dwLuminanceBitMask;
-	int dwBumpDuBitMask;
-	int dwOperations;
-};
-
-union _3564
-{
-	int dwGBitMask;
-	int dwUBitMask;
-	int dwZBitMask;
-	int dwBumpDvBitMask;
-};
-
-union _3566
-{
-	int dwBBitMask;
-	int dwVBitMask;
-	int dwStencilBitMask;
-	int dwBumpLuminanceBitMask;
-};
-
-union _3567
-{
-	int dwRGBAlphaBitMask;
-	int dwYUVAlphaBitMask;
-	int dwLuminanceAlphaBitMask;
-	int dwRGBZBitMask;
-	int dwYUVZBitMask;
-};
-
-struct _3565
-{
-	short wFlipMSTypes;
-	short wBltMSTypes;
+	uint32_t dwSize;
+	uint32_t dwFlags;
+	int32_t dwHeight;
+	uint32_t dwWidth;
+	$_3572 unnamed_field1;
+	$_3573 unnamed_field2;
+	$_3574 unnamed_field3;
+	int32_t dwAlphaBitDepth;
+	int32_t dwReserved;
+	int32_t lpSurface;
+	$_3575 unnamed_field4;
+	DDCOLORKEY ddckCKDestBlt;
+	uint64_t ddckCKSrcOverlay;
+	uint64_t ddckCKSrcBlt;
+	$_3576 unnamed_field5;
+	DDSCAPS2 ddsCaps;
+	char dwTextureStage[4];
 };
 
 struct tagBITMAPFILEHEADER
 {
-	short bfType;
-	int bfSize;
-	short bfReserved1;
-	short bfReserved2;
-	int bfOffBits;
+	int16_t bfType;
+	uint32_t bfSize;
+	int16_t bfReserved1;
+	int16_t bfReserved2;
+	int32_t bfOffBits;
 };
 
 struct tagBITMAPINFO
 {
 	BITMAPINFOHEADER bmiHeader;
-	int bmiColors;
+	int32_t bmiColors;
 };
 
 struct DXTexColor
 {
-	char a;
-	char r;
-	char g;
-	char b;
+	int8_t a;
+	int8_t r;
+	int8_t g;
+	int8_t b;
 };
 
 struct FIFO
 {
-	int FIFO;
+	void *_vptr$FIFO;
+	int32_t mMaxElements;
+	int32_t mpElements;
+	int32_t mpHead;
+	int32_t mpTail;
+	uint32_t mNumElements;
 };
 
 struct Tuple
 {
-	char v[6];
+	uint8_t v[6];
+	char pad0[2];
+	int32_t Score;
 };
 
 struct CMacGameEngine
 {
-	int CMacGameEngine;
+	void *_vptr$CMacGameEngine;
+	int32_t mArgc;
+	int32_t mArgv;
+	void *mAppHandlerRef;
+	void *mWindowHandlerRef;
+	int8_t mFakeRightButtonDown;
+	char pad0[3];
+	int32_t mLastModifierSet;
+	int8_t mIsQuitting;
+	int8_t mIsRunning;
+	int8_t mWheelEventPosted;
 };
 
 struct CompressionInfo
 {
-	int recordSize;
-	int format;
-	short compressionID;
-	short samplesPerPacket;
-	short bytesPerPacket;
-	short bytesPerFrame;
-	short bytesPerSample;
-	short futureUse1;
+	uint32_t recordSize;
+	int32_t format;
+	uint16_t compressionID;
+	int16_t samplesPerPacket;
+	int16_t bytesPerPacket;
+	int16_t bytesPerFrame;
+	int16_t bytesPerSample;
+	int16_t futureUse1;
 };
 
 struct rlimit
 {
-	int64_t rlim_cur;
-	int64_t rlim_max;
-};
-
-struct _3555
-{
-	int file;
-	unz_global_info gi;
-	int byte_before_the_zipfile;
-	int num_file;
-	int pos_in_central_dir;
-	int current_file_ok;
-	int central_pos;
-	int size_central_dir;
-	int offset_central_dir;
-	unz_file_info cur_file_info;
-	unz_file_info_internal cur_file_info_internal;
-	int pfile_in_zip_read;
+	uint64_t rlim_cur;
+	uint64_t rlim_max;
 };
 
 struct unz_global_info_s
 {
-	int number_entry;
-	int size_comment;
-};
-
-struct unz_file_info_s
-{
-	int version;
-	int version_needed;
-	int flag;
-	int compression_method;
-	int dosDate;
-	int crc;
-	int compressed_size;
-	int uncompressed_size;
-	int size_filename;
-	int size_file_extra;
-	int size_file_comment;
-	int disk_num_start;
-	int internal_fa;
-	int external_fa;
-	tm_unz tmu_date;
-};
-
-struct unz_file_info_internal_s
-{
-	int offset_curfile;
+	uint32_t number_entry;
+	uint32_t size_comment;
 };
 
 struct tm_unz_s
 {
-	int tm_sec;
-	int tm_min;
-	int tm_hour;
-	int tm_mday;
-	int tm_mon;
-	int tm_year;
+	int32_t tm_sec;
+	int32_t tm_min;
+	int32_t tm_hour;
+	int32_t tm_mday;
+	int32_t tm_mon;
+	int32_t tm_year;
 };
 
-struct file_in_zip_read_info_s
+struct unz_file_info_s
 {
-	int read_buffer;
-	z_stream stream;
-	int pos_in_zipfile;
-	int stream_initialised;
-	int offset_local_extrafield;
-	int size_local_extrafield;
-	int pos_local_extrafield;
-	int rest_read_compressed;
-	int rest_read_uncompressed;
-	int file;
-	int compression_method;
-	int byte_before_the_zipfile;
+	char version[4];
+	char version_needed[4];
+	int32_t flag;
+	int32_t compression_method;
+	int32_t dosDate;
+	int32_t crc;
+	uint32_t compressed_size;
+	uint32_t uncompressed_size;
+	char size_filename[4];
+	uint32_t size_file_extra;
+	uint32_t size_file_comment;
+	uint32_t disk_num_start;
+	int32_t internal_fa;
+	int32_t external_fa;
+	tm_unz_s tmu_date;
+};
+
+struct unz_file_info_internal_s
+{
+	uint32_t offset_curfile;
+};
+struct $_3555
+{
+	int32_t file;
+	unz_global_info_s gi;
+	int32_t byte_before_the_zipfile;
+	uint32_t num_file;
+	uint32_t pos_in_central_dir;
+	int32_t current_file_ok;
+	uint32_t central_pos;
+	uint32_t size_central_dir;
+	uint32_t offset_central_dir;
+	unz_file_info_s cur_file_info;
+	unz_file_info_internal_s cur_file_info_internal;
+	int32_t pfile_in_zip_read;
 };
 
 struct z_stream_s
 {
-	int next_in;
-	int avail_in;
-	int total_in;
-	int next_out;
-	int avail_out;
-	int total_out;
-	int msg;
-	int state;
-	int zalloc;
-	int zfree;
-	int opaque;
-	int data_type;
-	int adler;
-	int reserved;
+	int32_t next_in;
+	int32_t avail_in;
+	int32_t total_in;
+	int32_t next_out;
+	int32_t avail_out;
+	int32_t total_out;
+	int32_t msg;
+	int32_t state;
+	int32_t zalloc;
+	int32_t zfree;
+	int32_t opaque;
+	int32_t data_type;
+	int32_t adler;
+	int32_t reserved;
+};
+struct file_in_zip_read_info_s
+{
+	void *read_buffer;
+	z_stream_s stream;
+	uint32_t pos_in_zipfile;
+	int32_t stream_initialised;
+	uint32_t offset_local_extrafield;
+	uint32_t size_local_extrafield;
+	uint32_t pos_local_extrafield;
+	int32_t rest_read_compressed;
+	int32_t rest_read_uncompressed;
+	int32_t file;
+	int32_t compression_method;
+	int32_t byte_before_the_zipfile;
 };
 
 struct WSAData
 {
-	short wVersion;
-	short wHighVersion;
+	char wVersion[2];
+	char wHighVersion[2];
 	char szDescription[257];
 	char szSystemStatus[129];
-	short iMaxSockets;
-	short iMaxUdpDg;
+	int16_t iMaxSockets;
+	int16_t iMaxUdpDg;
 	char pad0[2];
-	int lpVendorInfo;
+	char lpVendorInfo[4];
 };
 
-union _3672
+struct lerpFrame_t
 {
-	int f;
-	int n;
-	int b;
+	float yawAngle;
+	int32_t yawing;
+	float pitchAngle;
+	int32_t pitching;
+	uint32_t animationNumber;
+	int32_t animation;
+	uint32_t animationTime;
+	vec3_t oldFramePos;
+	float animSpeedScale;
+	uint32_t oldFrameSnapshotTime;
 };
 
-union _3673
+struct $_3672
 {
-	int f;
-	int n;
-	int b;
+	char infoValid[4];
+	uint32_t nextValid;
+	uint32_t clientNum;
+	char name[32];
+	int32_t team;
+	int32_t oldteam;
+	int32_t score;
+	int32_t location;
+	int32_t health;
+	char model[64];
+	char attachModelNames[384];
+	char attachTagNames[384];
+	lerpFrame_t legs;
+	uint8_t torso[48];
+	int32_t lerpMoveDir;
+	int32_t lerpLean;
+	vec3_t playerAngles;
+	int32_t leftHandGun;
+	int32_t dobjDirty;
+	vec3_t angles[6];
+	vec3_t tag_origin_angles;
+	vec3_t tag_origin_offset;
+	vec3_t clientConditions[6];
+	int32_t pXAnimTree;
+	uint32_t iDObjWeapon;
+	uint32_t stanceTransitionTime;
+	uint32_t turnAnimEndTime;
+	int8_t turnAnimType;
 };
 
-struct _3671
+struct scr_anim_s
+{
+	uint16_t index;
+	int16_t tree;
+};
+struct $_3674
+{
+	int32_t tree;
+	scr_anim_s root;
+	int32_t torso;
+	int32_t legs;
+	int32_t turning;
+};
+
+struct scr_animtree_t
+{
+	int32_t anims;
+};
+
+struct animScriptData_t
+{
+	uint8_t animations[49152];
+	uint32_t numAnimations;
+	char scriptAnims[84624];
+	char scriptCannedAnims[84624];
+	char scriptStateChange[8256];
+	char scriptEvents[9804];
+	char scriptItems[499712];
+	char numScriptItems[4];
+	scr_animtree_t animTree;
+	int16_t torsoAnim;
+	int16_t legsAnim;
+	int16_t turningAnim;
+	char pad0[2];
+	char soundAlias[4];
+	char playSoundAlias[4];
+};
+
+struct $_3673
+{
+	animScriptData_t animScriptData;
+	$_3674 generic_human;
+	uint32_t time;
+	uint32_t latestSnapshotTime;
+	uint32_t frametime;
+	int32_t anim_user;
+	char GetXModel[4];
+	int32_t CreateDObj;
+	int32_t SafeDObjFree;
+	int32_t AllocXAnim;
+	char clientinfo[77312];
+};
+
+struct $_3671
 {
 	char va_string[2048];
-	int index;
+	uint32_t index;
 };
-/* 
+
 struct orientation_t
 {
-	char origin[12];
-	char axis[36];
-}; */
+	vec3_t origin;
+	vec3_t axis[3];
+};
 
 struct cspField_t
 {
-	int szName;
-	int iOffset;
-	int iFieldType;
+	char szName[4];
+	uint32_t iOffset;
+	int32_t iFieldType;
+};
+
+struct TraceCheckCount
+{
+	int32_t global;
+	int32_t edges;
+	int32_t verts;
+	int32_t partitions;
 };
 
 struct TraceThreadInfo
 {
 	TraceCheckCount checkcount;
-	int box_brush;
-	int box_model;
+	int32_t box_brush;
+	char box_model[4];
 };
 
-struct TraceCheckCount
-{
-	int global;
-	int edges;
-	int verts;
-	int partitions;
-};
-/* 
 struct cplane_s
 {
-	char normal[12];
-	int dist;
-	char type;
-	char signbits;
-	short pad;
-}; */
+	vec3_t normal;
+	int32_t dist;
+	int8_t type;
+	int8_t signbits;
+	int16_t pad;
+};
 
 struct DObjAnimMat_s
 {
-	char quat[16];
-	char trans[12];
-	int transWeight;
+	vec4_t quat;
+	vec3_t trans;
+	int32_t transWeight;
 };
 
-union _3674
-{
-	int f;
-	int i;
-};
-/* 
 typedef enum
 {
 	PMSG_CONSOLE = 0,
@@ -3159,8 +3329,23 @@ typedef enum
 	PMSG_BOLDGAME = 2,
 	PMSG_SUBTITLE = 3,
 	PMSG_LOGFILE = 4
-} print_msg_type_t; */
-/* 
+} print_msg_type_t;
+
+struct tm
+{
+	int32_t tm_sec;
+	int32_t tm_min;
+	int32_t tm_hour;
+	int32_t tm_mday;
+	int32_t tm_mon;
+	int32_t tm_year;
+	int32_t tm_wday;
+	int32_t tm_yday;
+	int32_t tm_isdst;
+	int32_t tm_gmtoff;
+	int32_t tm_zone;
+};
+
 typedef enum
 {
 	ERR_FATAL = 0,
@@ -3170,16 +3355,11 @@ typedef enum
 	ERR_SCRIPT = 4,
 	ERR_SCRIPT_DROP = 5,
 	ERR_LOCALIZATION = 6
-} errorParm_t; */
-/* 
-struct _3728
+} errorParm_t;
+
+struct $_3728
 {
-	int evTime;
-	sysEventType_t evType;
-	int evValue;
-	int evValue2;
-	int evPtrLength;
-	int evPtr;
+	uint8_t pixels[24];
 };
 
 typedef enum
@@ -3190,86 +3370,92 @@ typedef enum
 	SE_GAMEPAD_AXIS = 3,
 	SE_CONSOLE = 4,
 	SE_PACKET = 5
-} sysEventType_t; */
-/* 
-struct dvar_s
-{
-	int name;
-	short flags;
-	char type;
-	char modified;
-	DvarValue current;
-	int latched;
-	int reset;
-	DvarLimits domain;
-	int next;
-	int hashNext;
-}; */
-/* 
+} sysEventType_t;
+
 union DvarValue
 {
-	char enabled;
-	int integer;
-	int value;
-	int vector;
-	int string;
-	int color;
-}; */
-/* 
+	int8_t enabled;
+	int32_t integer;
+	int32_t value;
+	int32_t vector;
+	char string[4];
+	int32_t color;
+};
+
+struct $_3557
+{
+	char stringCount[4];
+	char strings[4];
+};
+
+struct $_3560
+{
+	int32_t min;
+	int32_t max;
+};
+
+struct $_3559
+{
+	int32_t min;
+	int32_t max;
+};
+
+struct $_3558
+{
+	int32_t min;
+	int32_t max;
+};
+
 union DvarLimits
 {
-}; */
-
-struct _3557
-{
-	int stringCount;
-	int strings;
+	$_3557 enumeration;
+	$_3558 integer;
+	$_3559 value;
+	$_3560 vector;
 };
 
-struct _3558
+struct dvar_s
 {
-	int min;
-	int max;
+	char name[4];
+	int16_t flags;
+	int8_t type;
+	int8_t modified;
+	DvarValue current;
+	int32_t latched;
+	int32_t reset;
+	DvarLimits domain;
+	int32_t next;
+	int32_t hashNext;
 };
 
-struct _3559
-{
-	int min;
-	int max;
-};
-
-struct _3560
-{
-	int min;
-	int max;
-};
-/* 
 struct field_t
 {
-	int cursor;
-	int scroll;
-	int drawWidth;
-	int widthInPixels;
-	int charHeight;
-	int fixedSize;
-	char buffer[256];
-}; */
+	int32_t cursor;
+	int32_t scroll;
+	uint32_t drawWidth;
+	uint32_t widthInPixels;
+	int32_t charHeight;
+	uint32_t fixedSize;
+	uint8_t buffer[256];
+};
 
 struct SysInfo
 {
-	int64_t cpuGHz;
-	int sysMB;
-	char SSE;
+	uint64_t cpuGHz;
+	int32_t sysMB;
+	int8_t SSE;
 	char gpuDescription[512];
 };
 
-struct _3722
+struct $_3722
 {
-	netadrtype_t type;
-	int ip;
-	short port;
+	int32_t use;
+	uint32_t fadeTime;
+	int32_t sensitivity;
+	float maxPitchSpeed;
+	float maxYawSpeed;
 };
-/* 
+
 typedef enum
 {
 	NA_BOT = 0,
@@ -3277,10 +3463,11 @@ typedef enum
 	NA_LOOPBACK = 2,
 	NA_BROADCAST = 3,
 	NA_IP = 4
-} netadrtype_t; */
+} netadrtype_t;
 
 struct LargeLocal
 {
+	uint32_t startPos;
 };
 
 typedef enum
@@ -3291,8 +3478,8 @@ typedef enum
 
 struct languageInfo_t
 {
-	int pszName;
-	int bPresent;
+	char pszName[4];
+	int32_t bPresent;
 };
 
 struct pack_t
@@ -3300,31 +3487,31 @@ struct pack_t
 	char iwdFilename[256];
 	char iwdBasename[256];
 	char iwdGamename[256];
-	int handle;
-	int checksum;
-	int pure_checksum;
-	int numfiles;
-	char referenced;
+	uint32_t handle;
+	int32_t checksum;
+	int32_t pure_checksum;
+	uint32_t numfiles;
+	int8_t referenced;
 	char pad0[3];
-	int hashSize;
-	int hashTable;
-	int buildBuffer;
+	uint32_t hashSize;
+	int32_t hashTable;
+	void *buildBuffer;
 };
 
 struct fileInPack_s
 {
-	int pos;
-	int name;
-	int next;
+	uint32_t pos;
+	char name[4];
+	int32_t next;
 };
 
 struct searchpath_s
 {
-	int next;
-	int pack;
-	int dir;
-	int bLocalized;
-	int language;
+	int32_t next;
+	int32_t pack;
+	int32_t dir;
+	int32_t bLocalized;
+	int32_t language;
 };
 
 struct directory_t
@@ -3339,542 +3526,555 @@ typedef enum
 	FS_LIST_ALL = 1
 } FsListBehavior_e;
 
-struct _3609
+struct $_3609
 {
-	int file;
-	int64_t gi;
-	int byte_before_the_zipfile;
-	int num_file;
-	int pos_in_central_dir;
-	int current_file_ok;
-	int central_pos;
-	int size_central_dir;
-	int offset_central_dir;
+	int32_t file;
+	uint64_t gi;
+	int32_t byte_before_the_zipfile;
+	uint32_t num_file;
+	uint32_t pos_in_central_dir;
+	int32_t current_file_ok;
+	uint32_t central_pos;
+	uint32_t size_central_dir;
+	uint32_t offset_central_dir;
 	char cur_file_info[80];
-	unz_file_info_internal cur_file_info_internal;
-	int pfile_in_zip_read;
+	unz_file_info_internal_s cur_file_info_internal;
+	int32_t pfile_in_zip_read;
 };
-/* 
+
 typedef enum
 {
 	FS_READ = 0,
 	FS_WRITE = 1,
 	FS_APPEND = 2,
 	FS_APPEND_SYNC = 3
-} fsMode_t; */
-
-struct fileHandleData_t
-{
-	qfile_ut handleFiles;
-	int handleSync;
-	int fileSize;
-	int zipFilePos;
-	int zipFile;
-	int streamed;
-	char name[256];
-};
-
-struct qfile_us
-{
-	qfile_gut file;
-	int unique;
-};
+} fsMode_t;
 
 union qfile_gus
 {
-	int o;
-	int z;
+	int32_t o;
+	int32_t z;
+};
+struct qfile_us
+{
+	qfile_gus file;
+	int32_t unique;
+};
+struct fileHandleData_t
+{
+	qfile_us handleFiles;
+	uint32_t handleSync;
+	uint32_t fileSize;
+	uint32_t zipFilePos;
+	int32_t zipFile;
+	int32_t streamed;
+	char name[256];
 };
 
-union _3621
+struct fileData_s
 {
-	int parts;
-	int model;
-	int material;
-	int image;
-	int sound;
-	int sndCurve;
-	int clipMap;
-	int world;
-	int lightDef;
-	int font;
-	int menuList;
-	int menu;
-	int localize;
-	int weapon;
-	int sndDriverGlobals;
-	int fx;
-	int impactFx;
-	int rawfile;
-	int data;
+	int32_t data;
+	int32_t next;
+	int8_t type;
+	int8_t name;
 };
 
-struct _3704
+struct $_3622
 {
-	int magic;
-	int size;
-	int64_t dummy;
+	int32_t colorForDir;
+	int32_t sunVisibility;
 };
 
-struct _3705
+union $_3621
 {
-	int permanent;
-	int temp;
+	$_3622 dx7;
+	vec3_t baseCoords;
+	vec3_t origin;
+};
+
+typedef enum
+{
+	PARSEMODE_DEFINES = 0,
+	PARSEMODE_ANIMATION = 1,
+	PARSEMODE_CANNED_ANIMATIONS = 2,
+	PARSEMODE_STATECHANGES = 3,
+	PARSEMODE_EVENTS = 4,
+	NUM_PARSEMODES = 5
+} $_3704;
+
+struct $_3705
+{
+	char pszScript[64];
+	char pszName[64];
+	int32_t bTeamBased;
 };
 
 struct XAnimParts_s
 {
-	short numframes;
-	char bLoop;
-	char bDelta;
-	int framerate;
-	int frequency;
-	char notifyCount;
+	uint16_t numframes;
+	int8_t bLoop;
+	int8_t bDelta;
+	int32_t framerate;
+	int32_t frequency;
+	uint8_t notifyCount;
 	char pad0[1];
-	short boneCount;
-	int names;
-	int simpleQuatBits;
-	int parts;
-	int notify;
-	int deltaPart;
-	int name;
-	char isDefault;
+	uint16_t boneCount;
+	char names[4];
+	int32_t simpleQuatBits;
+	int32_t parts;
+	int32_t notify;
+	int32_t deltaPart;
+	char name[4];
+	int8_t isDefault;
 };
 
 struct XAnimPart
 {
-	int trans;
-	int quat;
+	int32_t trans;
+	int32_t quat;
 };
 
 struct XAnimNotifyInfo
 {
-	short name;
+	char name[2];
 	char pad0[2];
-	int time;
+	uint32_t time;
 };
 
 struct XAnimDeltaPart
 {
-	int trans;
-	int quat;
+	int32_t trans;
+	int32_t quat;
 };
 
-struct XAnimPartTrans
+union XAnimDynamicIndices
 {
-	short size;
-	char pad0[2];
-	XAnimPartTransData u;
+	int8_t _1;
+	int16_t _2;
 };
 
-struct XAnimPartQuat
+struct XAnimPartTransFrames
 {
-	short size;
-	char pad0[2];
-	XAnimPartQuatData u;
-};
-
-struct XAnimDeltaPartTrans
-{
-	short size;
-	char pad0[2];
-	XAnimDeltaPartTransData u;
-};
-
-struct XAnimDeltaPartQuat
-{
-	short size;
-	char pad0[2];
-	XAnimDeltaPartQuatData u;
+	int32_t frames;
+	XAnimDynamicIndices indices;
 };
 
 union XAnimPartTransData
 {
 	XAnimPartTransFrames frames;
-	char frame0[12];
+	vec3_t frame0;
 };
 
-union XAnimPartQuatData
+struct XAnimPartTrans
 {
-	XAnimPartQuatDataFrames frames;
-	int64_t frame0;
-	int frame02;
+	uint16_t size;
+	char pad0[2];
+	XAnimPartTransData u;
 };
 
-union XAnimDeltaPartTransData
+union XAnimPartQuatFrames
 {
-	XAnimDeltaPartTransFrames frames;
-	char frame0[12];
-};
-
-union XAnimDeltaPartQuatData
-{
-	XAnimDeltaPartQuatDataFrames frames;
-	int frame0;
-};
-
-struct XAnimPartTransFrames
-{
-	int frames;
-	XAnimDynamicIndices indices;
+	int32_t frames;
+	int32_t frames2;
 };
 
 struct XAnimPartQuatDataFrames
 {
 	XAnimPartQuatFrames u;
-	short indices;
+	int16_t indices;
+};
+
+union XAnimPartQuatData
+{
+	XAnimPartQuatDataFrames frames;
+	uint64_t frame0;
+	int32_t frame02;
+};
+
+struct XAnimPartQuat
+{
+	uint16_t size;
+	char pad0[2];
+	XAnimPartQuatData u;
 };
 
 struct XAnimDeltaPartTransFrames
 {
-	int frames;
-	short indices;
+	int32_t frames;
+	int16_t indices;
+};
+
+union XAnimDeltaPartTransData
+{
+	XAnimDeltaPartTransFrames frames;
+	vec3_t frame0;
+};
+
+struct XAnimDeltaPartTrans
+{
+	uint16_t size;
+	char pad0[2];
+	XAnimDeltaPartTransData u;
 };
 
 struct XAnimDeltaPartQuatDataFrames
 {
-	int frames;
-	short indices;
+	int32_t frames;
+	int16_t indices;
 };
 
-union XAnimDynamicIndices
+union XAnimDeltaPartQuatData
 {
-	char _1;
-	short _2;
+	XAnimDeltaPartQuatDataFrames frames;
+	int32_t frame0;
 };
 
-union XAnimPartQuatFrames
+struct XAnimDeltaPartQuat
 {
-	int frames;
-	int frames2;
+	uint16_t size;
+	char pad0[2];
+	XAnimDeltaPartQuatData u;
 };
 
 struct XAnim_s
 {
-	int debugName;
-	int size;
-	int debugAnimNames;
-	int64_t entries;
+	char debugName[4];
+	uint32_t size;
+	char debugAnimNames[4];
+	uint64_t entries;
+};
+
+struct $_3693
+{
+	uint32_t dobjHandle;
+	uint32_t boneIndex;
 };
 
 struct XAnimEntry
 {
-	short numAnims;
-	short parent;
-};
-
-union _3693
-{
-	int parts;
-	XAnimParent s;
+	uint16_t numAnims;
+	int16_t parent;
+	$_3693 u;
 };
 
 struct XAnimParent
 {
-	short flags;
-	short children;
+	int16_t flags;
+	int16_t children;
 };
 
 struct XAnimTree_s
 {
-	int anims;
-	short entnum;
-	char bAbs;
-	char bUseGoalWeight;
-	short infoArray;
-};
-
-struct XAnimInfo
-{
-	short notifyChild;
-	short notifyIndex;
-	short notifyName;
-	short notifyType;
-	short prev;
-	short next;
-	XAnimState s;
+	int32_t anims;
+	uint16_t entnum;
+	int8_t bAbs;
+	int8_t bUseGoalWeight;
+	char infoArray[2];
 };
 
 struct XAnimState
 {
-	int time;
-	int oldTime;
-	short timeCount;
-	short oldTimeCount;
-	int goalTime;
-	int goalWeight;
-	int weight;
-	int rate;
+	uint32_t time;
+	uint32_t oldTime;
+	uint16_t timeCount;
+	uint16_t oldTimeCount;
+	uint32_t goalTime;
+	int32_t goalWeight;
+	int32_t weight;
+	int32_t rate;
+};
+
+struct XAnimInfo
+{
+	int16_t notifyChild;
+	uint16_t notifyIndex;
+	char notifyName[2];
+	int16_t notifyType;
+	int16_t prev;
+	int16_t next;
+	XAnimState s;
 };
 
 struct XAnimNotify_s
 {
-	int name;
-	int type;
-	int timeFrac;
+	char name[4];
+	int32_t type;
+	float timeFrac;
 };
 
 struct XAnimTime
 {
-	int time;
-	int frameCount;
-	int frameFrac;
-	int frameIndex;
+	uint32_t time;
+	uint32_t frameCount;
+	float frameFrac;
+	uint32_t frameIndex;
 };
 
 struct XAnimSimpleRotPos
 {
-	int64_t rot;
-	int posWeight;
-	char pos[12];
+	uint64_t rot;
+	uint32_t posWeight;
+	vec3_t pos;
 };
 
 struct DObj_s
 {
-	int tree;
-	int skel;
-	int timeStamp;
-	int animToModel;
-	short duplicateParts;
+	int32_t tree;
+	int32_t skel;
+	uint32_t timeStamp;
+	char animToModel[4];
+	int16_t duplicateParts;
 	char pad0[2];
-	int locked;
-	char numModels;
-	char numBones;
-	char ignoreCollision;
+	int32_t locked;
+	uint8_t numModels;
+	uint8_t numBones;
+	int8_t ignoreCollision;
 	char pad1[1];
 	char models[32];
-	int64_t modelParents;
-	int64_t matOffset;
-	char mins[12];
-	char maxs[12];
+	char modelParents[8];
+	vec2_t matOffset;
+	vec3_t mins;
+	vec3_t maxs;
 };
 
 struct DSkel
 {
-	char animPartBits[16];
-	char controlPartBits[16];
-	char skelPartBits[16];
-	char mat[32];
+	uint8_t animPartBits[16];
+	uint8_t controlPartBits[16];
+	uint8_t skelPartBits[16];
+	uint8_t mat[32];
 };
 
 struct XModel
 {
-	int parts;
+	int32_t parts;
 	char lodInfo[80];
-	int collSurfs;
-	int numCollSurfs;
-	int contents;
-	int boneInfo;
-	char mins[12];
-	char maxs[12];
-	short numLods;
-	short collLod;
-	int xskins;
-	int memUsage;
-	int name;
-	char flags;
-	char bad;
+	int32_t collSurfs;
+	uint32_t numCollSurfs;
+	int32_t contents;
+	char boneInfo[4];
+	vec3_t mins;
+	vec3_t maxs;
+	uint16_t numLods;
+	int16_t collLod;
+	int32_t xskins;
+	int32_t memUsage;
+	char name[4];
+	int8_t flags;
+	int8_t bad;
 };
 
 struct XModelLodInfo
 {
-	int dist;
-	int filename;
-	short numsurfs;
+	int32_t dist;
+	char filename[4];
+	uint16_t numsurfs;
 	char pad0[2];
-	int surfNames;
-	int surfs;
+	char surfNames[4];
+	int32_t surfs;
 };
 
 struct XBoneInfo_s
 {
-	char bounds[24];
-	char offset[12];
-	int radiusSquared;
+	vec3_t bounds[2];
+	vec3_t offset;
+	int32_t radiusSquared;
 };
 
 struct XModelParts_s
 {
-	short numBones;
-	short numRootBones;
-	int hierarchy;
-	int quats;
-	int trans;
-	int partClassification;
-	char skel[80];
+	uint16_t numBones;
+	uint16_t numRootBones;
+	int32_t hierarchy;
+	int32_t quats;
+	int32_t trans;
+	int32_t partClassification;
+	DSkel skel;
 };
 
 struct XModelCollSurf_s
 {
-	int collTris;
-	int numCollTris;
-	char mins[12];
-	char maxs[12];
-	int boneIdx;
-	int contents;
-	int surfFlags;
+	int32_t collTris;
+	uint32_t numCollTris;
+	vec3_t mins;
+	vec3_t maxs;
+	uint32_t boneIdx;
+	int32_t contents;
+	uint32_t surfFlags;
 };
 
 struct XBoneHierarchy
 {
-	int names;
-	char parentList;
+	char names[4];
+	int8_t parentList;
 };
 
 struct XModelSurfs_s
 {
-	int surfs;
-	char partBits[16];
+	int32_t surfs;
+	uint8_t partBits[16];
 };
 
 struct XModelCollTri_s
 {
-	char plane[16];
-	char svec[16];
-	char tvec[16];
+	vec4_t plane;
+	uint8_t svec[16];
+	uint8_t tvec[16];
 };
 
 struct XAnimCalcAnimInfo
 {
-	char rotTransArray[16384];
-	char animPartBits[16];
-	char ignorePartBits[16];
+	uint8_t rotTransArray[16384];
+	uint8_t animPartBits[16];
+	uint8_t ignorePartBits[16];
 };
 
 struct XAnimToXModel
 {
-	char partBits[16];
-	char boneIndex[128];
+	uint8_t partBits[16];
+	uint8_t boneIndex[128];
+};
+
+struct HashEntry
+{
+	char status_next[2];
+	$_3705 u;
+};
+
+struct $_3709
+{
+	float fLastWeaponPosFrac;
+	uint32_t bPositionToADS;
+	vec3_t vPositionLastOrg;
+	float fLastIdleFactor;
+	vec3_t vLastMoveOrg;
+	vec3_t vLastMoveAng;
+};
+
+struct $_3710
+{
+	uint32_t vertexStride;
+};
+
+union $_3708
+{
+	$_3709 buf;
+	$_3710 tess;
 };
 
 struct RefString
 {
-	char pad0[4];
-	char str;
-};
-
-union _3708
-{
-};
-
-struct _3709
-{
-	char byteLen;
-	char user;
-	short refCount;
+	$_3708 unnamed_field;
+	int8_t str;
 };
 
 struct scrStringGlob_t
 {
-	char hashTable[65536];
-	char inited;
+	uint8_t hashTable[65536];
+	int8_t inited;
 	char pad0[3];
-	int nextFreeEntry;
+	int32_t nextFreeEntry;
 };
 
 struct MemoryNode
 {
-	short prev;
-	short next;
-	int padding;
+	int16_t prev;
+	int16_t next;
+	int32_t padding;
 };
 
-struct _3611
+struct $_3611
 {
-	int mt_buffer;
+	uint8_t material[64];
+	uint32_t surfaceFlags;
+	uint32_t contentFlags;
 };
 
-struct _3634
+struct $_3634
 {
-	char nodes[524288];
-	char leftBits[256];
-	char numBits[256];
-	char logBits[256];
-	char head[34];
+	uint8_t nodes[524288];
+	uint8_t leftBits[256];
+	uint8_t numBits[256];
+	uint8_t logBits[256];
+	uint8_t head[34];
 	char pad0[2];
-	int totalAlloc;
-	int totalAllocBuckets;
+	int32_t totalAlloc;
+	int32_t totalAllocBuckets;
 };
-/* 
+
 struct trace_t
 {
-	int fraction;
-	char normal[12];
-	int surfaceFlags;
-	int contents;
-	int material;
-	short entityNum;
-	short partName;
-	short partGroup;
-	char allsolid;
-	char startsolid;
-}; */
+	float fraction;
+	vec3_t normal;
+	uint32_t surfaceFlags;
+	int32_t contents;
+	int32_t material;
+	uint16_t entityNum;
+	char partName[2];
+	int16_t partGroup;
+	int8_t allsolid;
+	int8_t startsolid;
+};
 
 struct TraceExtents
 {
-	char start[12];
-	char end[12];
-	char invDelta[12];
+	vec3_t start;
+	vec3_t end;
+	vec3_t invDelta;
 };
 
-struct _3740
+struct $_3740
 {
-	short boneNames;
+	char boneNames[2];
 	char pad0[2];
-	int64_t hierarchy;
+	uint64_t hierarchy;
 	char modelParts[100];
 	char modelSurf[20];
-	XBoneInfo boneInfo;
-	char partClassification;
+	XBoneInfo_s boneInfo;
+	int8_t partClassification;
 	char pad1[1];
-	short surfNames;
+	char surfNames[2];
 };
-/* 
+
 struct qtime_s
 {
-	int tm_sec;
-	int tm_min;
-	int tm_hour;
-	int tm_mday;
-	int tm_mon;
-	int tm_year;
-	int tm_wday;
-	int tm_yday;
-	int tm_isdst;
-}; */
-
-struct CStringEdPackage
-{
-	char pad0[16];
-	mapStringEntries_t m_StringEntries;
+	int32_t tm_sec;
+	int32_t tm_min;
+	int32_t tm_hour;
+	int32_t tm_mday;
+	int32_t tm_mon;
+	int32_t tm_year;
+	int32_t tm_wday;
+	int32_t tm_yday;
+	int32_t tm_isdst;
 };
 
-struct _Rb_tree_node_base
+struct Rb_tree_node_base
 {
-	_Rb_tree_color _M_color;
-	int _M_parent;
-	int _M_left;
-	int _M_right;
+	int32_t _M_color;
+	int32_t _M_parent;
+	int32_t _M_left;
+	int32_t _M_right;
 };
 
 typedef enum
 {
 	_S_red = 0,
 	_S_black = 1
-} _Rb_tree_color;
+} Rb_tree_color;
 
 struct gitem_s
 {
-	int classname;
-	int pickup_sound;
-	int64_t world_model;
-	int icon;
-	int pickup_name;
-	int quantity;
-	itemType_t giType;
-	int giTag;
-	int giAmmoIndex;
-	int giClipIndex;
+	char classname[4];
+	char pickup_sound[4];
+	char world_model[8];
+	int32_t icon;
+	char pickup_name[4];
+	int32_t quantity;
+	int32_t giType;
+	int32_t giTag;
+	uint32_t giAmmoIndex;
+	uint32_t giClipIndex;
 };
 
 typedef enum
@@ -3888,45 +4088,45 @@ typedef enum
 struct snd_listener
 {
 	orientation_t orient;
-	int entnum;
-	char active;
+	uint32_t entnum;
+	int8_t active;
 };
 
 struct SndCurve
 {
-	int filename;
-	int knotCount;
-	char knots[64];
+	char filename[4];
+	uint32_t knotCount;
+	uint8_t knots[64];
 };
 
 struct snd_alias_t
 {
-	int pszAliasName;
-	int pszSubtitle;
-	int pszSecondaryAliasName;
-	int soundFile;
-	int iSequence;
-	float fVolMin;
-	float fVolMax;
-	float fPitchMin;
-	float fPitchMax;
-	float fDistMin;
-	float fDistMax;
-	int flags;
-	float fSlavePercentage;
-	float fProbability;
-	float fLfePercentage;
-	int startDelay;
-	int volumeFalloffCurve;
+	char pszAliasName[4];
+	int32_t pszSubtitle;
+	char pszSecondaryAliasName[4];
+	char soundFile[4];
+	int32_t iSequence;
+	int32_t fVolMin;
+	int32_t fVolMax;
+	int32_t fPitchMin;
+	int32_t fPitchMax;
+	int32_t fDistMin;
+	int32_t fDistMax;
+	uint32_t flags;
+	int32_t fSlavePercentage;
+	int32_t fProbability;
+	int32_t fLfePercentage;
+	int32_t startDelay;
+	int32_t volumeFalloffCurve;
 };
 
 struct SoundFile
 {
-	int soundName;
-	int fileMem;
-	char isStreamFound;
+	char soundName[4];
+	int32_t fileMem;
+	int8_t isStreamFound;
 	char pad0[3];
-	snd_alias_type_t type;
+	int32_t type;
 };
 
 typedef enum
@@ -3940,27 +4140,27 @@ typedef enum
 
 struct snd_channelvolgroup
 {
-	char channelvol[132];
-	char active;
+	uint8_t channelvol[132];
+	int8_t active;
 };
 
 struct snd_volume_info_t
 {
-	int volume;
-	int goalvolume;
-	int goalrate;
+	int32_t volume;
+	int32_t goalvolume;
+	int32_t goalrate;
 };
 
 struct snd_enveffect
 {
-	int roomtype;
-	int drylevel;
-	int drygoal;
-	int dryrate;
-	int wetlevel;
-	int wetgoal;
-	int wetrate;
-	char active;
+	int32_t roomtype;
+	int32_t drylevel;
+	int32_t drygoal;
+	int32_t dryrate;
+	int32_t wetlevel;
+	int32_t wetgoal;
+	int32_t wetrate;
+	int8_t active;
 };
 
 typedef enum
@@ -3981,52 +4181,52 @@ typedef enum
 
 struct snd_overlay_info_t
 {
-	int pszSampleName;
-	float fBaseVolume;
-	float fCurVolume;
-	int dist;
-	float fPitch;
+	char pszSampleName[4];
+	int32_t fBaseVolume;
+	int32_t fCurVolume;
+	int32_t dist;
+	int32_t fPitch;
 };
 
 struct MemoryFile
 {
-	int buffer;
-	int bufferSize;
-	int bytesUsed;
-	char errorOnOverflow;
-	char memoryOverflow;
+	void *buffer;
+	uint32_t bufferSize;
+	int32_t bytesUsed;
+	int8_t errorOnOverflow;
+	int8_t memoryOverflow;
 	char pad0[2];
-	int archiveProc;
+	int32_t archiveProc;
 };
 
 struct snd_channel_info_t
 {
-	int entnum;
-	int entchannel;
-	int startDelay;
-	int looptime;
-	int endtime;
-	int basevolume;
-	int baserate;
-	int pitch;
-	int srcChannelCount;
-	int pAlias0;
-	int pAlias1;
-	int lerp;
-	char org[12];
-	char offset[12];
-	char paused;
-	char master;
+	uint32_t entnum;
+	int32_t entchannel;
+	int32_t startDelay;
+	uint32_t looptime;
+	uint32_t endtime;
+	int32_t basevolume;
+	int32_t baserate;
+	int32_t pitch;
+	uint32_t srcChannelCount;
+	char pAlias0[4];
+	char pAlias1[4];
+	int32_t lerp;
+	vec3_t org;
+	vec3_t offset;
+	int8_t paused;
+	int8_t master;
 	char pad0[2];
-	int system;
+	int32_t system;
 };
 
 struct snd_alias_list_t
 {
-	int aliasName;
-	int head;
-	int count;
-	int pHashNext;
+	char aliasName[4];
+	int32_t head;
+	uint32_t count;
+	int32_t pHashNext;
 };
 
 typedef enum
@@ -4040,77 +4240,87 @@ typedef enum
 	SND_KEEP_CHANNEL_VOLUMES = 16
 } snd_stopsounds_arg_t;
 
-struct _3619
+struct $_3619
 {
-	int fraction;
-	int rate;
-	int basevolume;
-	int volume;
-	int pan;
-	char org[12];
+	int32_t connState;
+	uint32_t connectPacketCount;
+	uint32_t clientNum;
+	char servername[1024];
+	char messageString[1024];
 };
 
-struct _3617
+struct $_3617
 {
-	int fraction;
-	int pitch;
-	int volume;
-	int pan;
+	float fraction;
+	int32_t pitch;
+	int32_t volume;
+	int32_t pan;
 };
 
-struct _3618
+struct $_3618
 {
-	int fraction;
-	int pitch;
-	int volume;
-	char org[12];
+	uint32_t codePos;
+	void *buf;
+	void *sourceBuf;
+	uint32_t len;
+	uint32_t sortedIndex;
+	int8_t archive;
 };
 
-struct _3623
+struct $_3624
 {
-	char Initialized2d;
-	char Initialized3d;
-	char paused;
+	void *buffer;
+	uint32_t size;
+};
+
+struct $_3623
+{
+	int8_t Initialized2d;
+	int8_t Initialized3d;
+	int8_t paused;
 	char pad0[1];
-	int playback_rate;
-	int playback_bits;
-	int playback_channels;
-	int timescale;
-	int pausetime;
-	int cpu;
-	char pad1[8];
-	int volume;
-	char mastervol[12];
-	char channelVolGroups[544];
-	int channelvol;
-	char background[24];
-	int ambient_track;
-	int slaveLerp;
-	char envEffects[96];
-	int effect;
-	char defaultPauseSettings[11];
-	char pauseSettings[11];
-	char pad2[2];
-	char listeners[56];
-	int time;
-	int looptime;
+	int32_t playback_rate;
+	int32_t playback_bits;
+	int32_t playback_channels;
+	uint32_t timescale;
+	uint32_t pausetime;
+	int32_t cpu;
+	$_3624 restore;
+	int32_t volume;
+	vec3_t mastervol;
+	uint8_t channelVolGroups[544];
+	int32_t channelvol;
+	uint8_t background[24];
+	int32_t ambient_track;
+	int32_t slaveLerp;
+	vec3_t envEffects[8];
+	int32_t effect;
+	uint8_t defaultPauseSettings[11];
+	uint8_t pauseSettings[11];
+	char pad1[2];
+	uint8_t listeners[56];
+	uint32_t time;
+	uint32_t looptime;
 	char chaninfo[4240];
-	int max_2D_channels;
-	int max_3D_channels;
-	int max_stream_channels;
+	int32_t max_2D_channels;
+	int32_t max_3D_channels;
+	int32_t max_stream_channels;
 };
 
-struct _3624
+struct cmd_function_s
 {
-	int buffer;
-	int size;
+	int32_t next;
+	char name[4];
+	int32_t autoCompleteDir;
+	int32_t autoCompleteExt;
+	int32_t function;
 };
 
 struct cmd_t
 {
-	int data;
-	int maxsize;
-	int cmdsize;
+	int32_t data;
+	uint32_t maxsize;
+	char cmdsize[4];
 };
 
 typedef enum
@@ -4120,209 +4330,247 @@ typedef enum
 	DVAR_SOURCE_SCRIPT = 2
 } DvarSetSource;
 
+struct AILSOUNDINFO
+{
+	int32_t format;
+	void *data_ptr;
+	uint32_t data_len;
+	int32_t rate;
+	int32_t bits;
+	int32_t channels;
+	int32_t samples;
+	uint32_t block_size;
+	void *initial_ptr;
+};
+
 struct MssSound
 {
 	AILSOUNDINFO info;
-	char data;
-};
-
-struct _AILSOUNDINFO
-{
-	int format;
-	int data_ptr;
-	int data_len;
-	int rate;
-	int bits;
-	int channels;
-	int samples;
-	int block_size;
-	int initial_ptr;
+	int8_t data;
 };
 
 struct snd_save_2D_sample_t
 {
-	int fraction;
-	int pitch;
-	int volume;
-	int pan;
+	float fraction;
+	int32_t pitch;
+	int32_t volume;
+	int32_t pan;
 };
 
 struct snd_save_3D_sample_t
 {
-	int fraction;
-	int pitch;
-	int volume;
-	char org[12];
+	float fraction;
+	int32_t pitch;
+	int32_t volume;
+	vec3_t org;
 };
 
 struct snd_save_stream_t
 {
-	int fraction;
-	int rate;
-	int basevolume;
-	int volume;
-	int pan;
-	char org[12];
+	float fraction;
+	int32_t rate;
+	int32_t basevolume;
+	int32_t volume;
+	int32_t pan;
+	vec3_t org;
 };
 
-struct _AILMIXINFO
+struct ADPCMDATATAG
+{
+	uint32_t blocksize;
+	int32_t extrasamples;
+	int32_t blockleft;
+	int32_t step;
+	int32_t savesrc;
+	int32_t sample;
+	int32_t destend;
+	int32_t srcend;
+	int32_t samplesL;
+	int32_t samplesR;
+	uint8_t moresamples[32];
+};
+struct AILMIXINFO
 {
 	char Info[36];
-	ADPCMDATA mss_adpcm;
-	int src_fract;
-	int left_val;
-	int right_val;
+	ADPCMDATATAG mss_adpcm;
+	float src_fract;
+	int32_t left_val;
+	int32_t right_val;
 };
 
-struct _ADPCMDATATAG
+struct $_3748
 {
-	int blocksize;
-	int extrasamples;
-	int blockleft;
-	int step;
-	int savesrc;
-	int sample;
-	int destend;
-	int srcend;
-	int samplesL;
-	int samplesR;
-	char moresamples[32];
+	uint32_t handle;
+	int32_t rate;
+	uint32_t width;
+	int32_t channels;
+	void *buf;
+	uint8_t bufReady[32];
+	uint32_t bufSize;
+	void *bufUsed;
+	void *readBuf;
+	void *writeBuf;
+	uint64_t sampleTime;
+	uint64_t bufRate;
 };
 
 struct MssLocal
 {
-	int driver_2D;
-	int provider_3D;
-	char handle_2D[32];
-	char handle_3D[128];
-	char handle_stream[52];
+	char driver_2D[4];
+	uint32_t provider_3D;
+	uint8_t handle_2D[32];
+	uint8_t handle_3D[128];
+	uint8_t handle_stream[52];
+	$_3748 raw;
 };
 
-struct _3748
-{
-	int handle;
-	int rate;
-	int width;
-	int channels;
-	int buf;
-	char bufReady[32];
-	int bufSize;
-	int bufUsed;
-	int readBuf;
-	int writeBuf;
-	int64_t sampleTime;
-	int64_t bufRate;
-};
-/* 
 struct Effect
 {
-	int Effect;
-	char pad0[60];
-	FxGfxEntity mRefEnt;
-	int mFlags;
-	int mClusterId;
-	int mSortGroup;
-	int mModel;
-	int mTimeStart;
-	int mTimeEnd;
-	FxBoltFramePtr mBolt;
+	void *_vptr$Effect;
+	vec3_t mOrigin1;
+	uint32_t mGroupFlags;
+	vec3_t mMin;
+	vec3_t mMax;
+	int32_t mImpactFx;
+	int32_t mDeathFx;
+	int32_t mFx;
+	uint32_t mPrimIndex;
+	uint32_t mFrameNormTime;
+	uint8_t mRefEnt[104];
+	uint32_t mFlags;
+	uint32_t mClusterId;
+	int32_t mSortGroup;
+	char mModel[4];
+	uint32_t mTimeStart;
+	uint32_t mTimeEnd;
+	int32_t mBolt;
 };
 
 struct FxGfxEntity
 {
-	int customMaterial;
-	int rotation;
-	char axis[36];
-	char dlightColor[12];
-	int materialTime;
-	char origin[12];
-	int64_t radius;
-	int materialRGBA;
-	int materialSubimageIndex;
-	int scale;
-	char endpos[12];
+	int32_t customMaterial;
+	int32_t rotation;
+	vec3_t axis[3];
+	vec3_t dlightColor;
+	uint32_t materialTime;
+	vec3_t origin;
+	uint64_t radius;
+	int32_t materialRGBA;
+	uint32_t materialSubimageIndex;
+	int32_t scale;
+	vec3_t endpos;
 };
 
 struct FxBoltFramePtr
 {
+	void *mFramePtr;
 };
 
 struct FxArchive
 {
+	int32_t mMemFile;
+	int8_t mIsReading;
+	int8_t mIsWriting;
+	char pad0[2];
+	int32_t mUncompressedBytes;
+	uint32_t mNonZeroCount;
+	uint32_t mZeroCount;
+	uint32_t mRunIdPos;
 };
 
 struct EffectTemplate
 {
-	int mEffectName;
-	int mPrimitiveCount;
-	char mPrimitives[96];
+	char mEffectName[4];
+	uint32_t mPrimitiveCount;
+	uint8_t mPrimitives[96];
+};
+
+struct FxBoltInfo
+{
+	uint32_t dobjHandle;
+	uint32_t boneIndex;
 };
 
 struct FxBoltFrame
 {
-	char pad0[60];
+	uint32_t mRefCount;
+	uint32_t mTimeStamp;
+	orientation_t mOrient;
+	int32_t mNextFrame;
 	FxBoltInfo mBolt;
+};
+
+struct TMediaList
+{
+	int32_t elements;
+	uint16_t size;
+	uint16_t maxSize;
+};
+
+struct MediaHandles
+{
+	TMediaList mMediaList;
+};
+
+struct FxRange
+{
+	int32_t mMin;
+	int32_t mMax;
 };
 
 struct PrimitiveTemplate
 {
 	char mName[32];
-	char mMaterialImpact[32];
-	PrimType mType;
-	int mParentPrimIndex;
+	uint8_t mMaterialImpact[32];
+	int32_t mType;
+	uint32_t mParentPrimIndex;
 	FxRange mSpawnDelay;
-	int64_t mSpawnCount;
-	int64_t mLife;
-	int64_t mSpawnRange;
+	uint64_t mSpawnCount;
+	uint64_t mLife;
+	uint64_t mSpawnRange;
 	MediaHandles mMediaHandles;
-	int64_t mImpactFxHandles;
-	int64_t mDeathFxHandles;
-	int64_t mEmitterFxHandles;
-	int64_t mPlayFxHandles;
-	int mAttributeFlags;
-	int mSpawnFlags;
-	int mGroupFlags;
-	char mNonUniformScale;
-	char useLength;
+	uint64_t mImpactFxHandles;
+	uint64_t mDeathFxHandles;
+	uint64_t mEmitterFxHandles;
+	uint64_t mPlayFxHandles;
+	uint32_t mAttributeFlags;
+	uint32_t mSpawnFlags;
+	uint32_t mGroupFlags;
+	int8_t mNonUniformScale;
+	uint8_t useLength;
 	char pad0[2];
-	char mMin[12];
-	char mMax[12];
-	int64_t mOrigin1X;
-	int64_t mOrigin1Y;
-	int64_t mOrigin1Z;
-	int64_t mOrigin2X;
-	int64_t mOrigin2Y;
-	int64_t mOrigin2Z;
-	int64_t mRadius;
-	int64_t mHeight;
-	int64_t mWindModifier;
-	char mFxChannels[288];
-	int64_t mRotation;
-	int64_t mAngle1;
-	int64_t mAngle2;
-	int64_t mAngle3;
-	int64_t mAngle1Delta;
-	int64_t mAngle2Delta;
-	int64_t mAngle3Delta;
-	int64_t mGravity;
-	int64_t mDensity;
-	int64_t mVariance;
-	int64_t mTexCoordS;
-	int64_t mTexCoordT;
-	int64_t mElasticity;
-	StartFrameMode mSequenceStartFrameMode;
-	int mSequenceFixedFrameValue;
-	PlayRateMode mSequencePlayRateMode;
-	int mSequenceFixedFpsValue;
-	LoopMode mSequenceLoopMode;
-	int mSequenceLoopTimes;
-	int spawnFrustumCullRadius;
-};
-
-struct FxBoltInfo
-{
-	int dobjHandle;
-	int boneIndex;
+	vec3_t mMin;
+	vec3_t mMax;
+	uint64_t mOrigin1X;
+	uint64_t mOrigin1Y;
+	uint64_t mOrigin1Z;
+	uint64_t mOrigin2X;
+	uint64_t mOrigin2Y;
+	uint64_t mOrigin2Z;
+	uint64_t mRadius;
+	uint64_t mHeight;
+	uint64_t mWindModifier;
+	uint8_t mFxChannels[288];
+	uint64_t mRotation;
+	double mAngle1;
+	double mAngle2;
+	double mAngle3;
+	double mAngle1Delta;
+	double mAngle2Delta;
+	double mAngle3Delta;
+	uint64_t mGravity;
+	uint64_t mDensity;
+	uint64_t mVariance;
+	vec2_t mTexCoordS;
+	vec2_t mTexCoordT;
+	uint64_t mElasticity;
+	int32_t mSequenceStartFrameMode;
+	int32_t mSequenceFixedFrameValue;
+	int32_t mSequencePlayRateMode;
+	int32_t mSequenceFixedFpsValue;
+	int32_t mSequenceLoopMode;
+	uint32_t mSequenceLoopTimes;
+	int32_t spawnFrustumCullRadius;
 };
 
 typedef enum
@@ -4341,17 +4589,6 @@ typedef enum
 	PT_SCREENFLASH = 11,
 	PT_CLOUD = 12
 } PrimType;
-
-struct FxRange
-{
-	int mMin;
-	int mMax;
-};
-
-struct MediaHandles
-{
-	TMediaList mMediaList;
-};
 
 typedef enum
 {
@@ -4404,389 +4641,449 @@ typedef enum
 	FXCHAN_COUNT = 24
 } FxChannelId;
 
+struct FxCurveIterator
+{
+	int32_t master;
+	uint32_t currentKeyIndex;
+};
+
 struct FxChannelInstance
 {
 	FxCurveIterator curveIterator;
-	int scale;
-};
-
-struct TMediaList
-{
-	int elements;
-	short size;
-	short maxSize;
-};
-
-union TMediaElement
-{
-	int model;
-	int material;
-	EffectTemplateLoadPtr u;
-	int data;
-};
-
-struct FxChannel
-{
-	int curve;
-	int64_t scaleRange;
-};
-
-struct BackCompatibleParameters
-{
-	char fxChannels[1536];
-};
-
-struct GPGroup
-{
-};
-
-struct GPValue
-{
-};
-
-struct FxCurveIterator
-{
-	int master;
-	int currentKeyIndex;
+	int32_t scale;
 };
 
 union EffectTemplateLoadPtr
 {
-	int fx;
-	int name;
+	int32_t fx;
+	char name[4];
+};
+
+union TMediaElement
+{
+	char model[4];
+	int32_t material;
+	EffectTemplateLoadPtr u;
+	int32_t data;
+};
+
+struct FxChannel
+{
+	int32_t curve;
+	uint64_t scaleRange;
+};
+
+struct BackCompatibleParameters
+{
+	uint8_t fxChannels[1536];
+};
+
+struct GPGroup
+{
+	char pad0[16];
+	int32_t mPairs;
+	int32_t mInOrderPairs;
+	int32_t mCurrentPair;
+	int32_t mSubGroups;
+	int32_t mInOrderSubGroups;
+	int32_t mCurrentSubGroup;
+	int32_t mParent;
+	int8_t mWriteable;
+};
+
+struct GPValue
+{
+	char pad0[16];
+	int32_t mList;
 };
 
 struct FxFlagEntry
 {
-	int flag;
-	int64_t masks;
+	int32_t flag;
+	uint64_t masks;
 };
 
 struct GPObject
 {
-};
-ents;
-	short size;
-	short maxSize;
-};
-
-union TMediaElement
-{
-	int model;
-	int material;
-	EffectTemplateLoadPtr u;
-	int data;
+	char mName[4];
+	int32_t mNext;
+	int32_t mInOrderNext;
+	int32_t mInOrderPrevious;
 };
 
-struct FxChannel
+struct FxChannelBackwardCompatible
 {
-	int curve;
-	int64_t scaleRange;
+	vec3_t start[2];
+	vec3_t end[2];
+	uint64_t parm;
+	uint32_t flags;
+	int8_t containsData;
 };
 
-struct BackCompatibleParameters
+struct FxCurve
 {
-	char fxChannels[1536];
+	uint32_t dimensionCount;
+	uint32_t keyCount;
+	int32_t keys;
 };
 
-struct GPGroup
+struct TextPool
 {
+	int32_t mPool;
+	int32_t mNext;
+	uint32_t mSize;
+	int32_t mUsed;
 };
 
-struct GPValue
+struct $_3580
 {
+	float fraction;
+	vec3_t normal;
+	uint32_t surfaceFlags;
+	int32_t contents;
+	int32_t material;
+	uint16_t entityNum;
+	char partName[2];
+	int16_t partGroup;
+	int8_t allsolid;
+	int8_t startsolid;
 };
 
-struct FxCurveIterator
+struct ScheduledEffect
 {
-	int master;
-	int currentKeyIndex;
-};
-
-union EffectTemplateLoadPtr
-{
-	int fx;
-	int name;
-};
-
-struct FxFlagEntry
-{
-	int flag;
-	int64_t masks;
-};
-
-sstruct Effect
-{
-	int Effect;
-	char pad0[60];
-	FxGfxEntity mRefEnt;
-	int mFlags;
-	int mClusterId;
-	int mSortGroup;
-	int mModel;
-	int mTimeStart;
-	int mTimeEnd;
-	FxBoltFramePtr mBolt;
-};
-
-struct FxGfxEntity
-{
-	int customMaterial;
-	int rotation;
-	char axis[36];
-	char dlightColor[12];
-	int materialTime;
-	char origin[12];
-	int64_t radius;
-	int materialRGBA;
-	int materialSubimageIndex;
-	int scale;
-	char endpos[12];
-};
-
-struct FxBoltFramePtr
-{
-};
-
-struct FxArchive
-{
-};
-
-struct EffectTemplate
-{
-	int mEffectName;
-	int mPrimitiveCount;
-	char mPrimitives[96];
-};
-
-struct FxBoltFrame
-{
-	char pad0[60];
+	int32_t mFx;
+	uint32_t mPrimIndex;
+	uint32_t mStartTime;
 	FxBoltInfo mBolt;
+	vec3_t mOrigin;
+	vec3_t mAxis[3];
+	int32_t mSeed;
+	uint32_t mIndexInBatch;
+	int32_t mScheduledNext;
 };
 
-struct PrimitiveTemplate
+struct EffectVisInfo
 {
-	char mName[32];
-	char mMaterialImpact[32];
-	PrimType mType;
-	int mParentPrimIndex;
-	FxRange mSpawnDelay;
-	int64_t mSpawnCount;
-	int64_t mLife;
-	int64_t mSpawnRange;
-	MediaHandles mMediaHandles;
-	int64_t mImpactFxHandles;
-	int64_t mDeathFxHandles;
-	int64_t mEmitterFxHandles;
-	int64_t mPlayFxHandles;
-	int mAttributeFlags;
-	int mSpawnFlags;
-	int mGroupFlags;
-	char mNonUniformScale;
-	char useLength;
-	char pad0[2];
-	char mMin[12];
-	char mMax[12];
-	int64_t mOrigin1X;
-	int64_t mOrigin1Y;
-	int64_t mOrigin1Z;
-	int64_t mOrigin2X;
-	int64_t mOrigin2Y;
-	int64_t mOrigin2Z;
-	int64_t mRadius;
-	int64_t mHeight;
-	int64_t mWindModifier;
-	char mFxChannels[288];
-	int64_t mRotation;
-	int64_t mAngle1;
-	int64_t mAngle2;
-	int64_t mAngle3;
-	int64_t mAngle1Delta;
-	int64_t mAngle2Delta;
-	int64_t mAngle3Delta;
-	int64_t mGravity;
-	int64_t mDensity;
-	int64_t mVariance;
-	int64_t mTexCoordS;
-	int64_t mTexCoordT;
-	int64_t mElasticity;
-	StartFrameMode mSequenceStartFrameMode;
-	int mSequenceFixedFrameValue;
-	PlayRateMode mSequencePlayRateMode;
-	int mSequenceFixedFpsValue;
-	LoopMode mSequenceLoopMode;
-	int mSequenceLoopTimes;
-	int spawnFrustumCullRadius;
+	vec3_t origin;
+	int32_t distSq;
+	int32_t vis;
 };
 
-struct FxBoltInfo
+struct EffectPrimitive
 {
-	int dobjHandle;
-	int boneIndex;
+	int32_t fx;
+	int32_t primTemp;
+	int32_t boltFrame;
+};
+
+struct Particle
+{
+	char pad0[196];
+	vec3_t mImpactVector;
+	vec3_t mAxis[3];
+	int32_t mGravity;
+	int32_t mWindWeight;
+	int32_t mCurrentRotation;
+	int32_t mElasticity;
+	int8_t mNonUniformScale;
+	char pad1[3];
+	int32_t mStartFrame;
+	int32_t mPlayRate;
+	int32_t mLoopMode;
+	uint32_t mLoopTimes;
+	int32_t mRandomColorsWeight;
+	int32_t mRandomAlphaWeight;
+	uint32_t mRandomSizeWeight;
+	uint32_t mRandomSize2Weight;
+	int32_t mRandomRotationDeltaWeight;
+	vec3_t mRandomVelocityWeights;
+	vec3_t mRandomVelocity2Weights;
+	vec3_t colorChannelInstance;
+	vec3_t colorRandChannelInstance;
+	vec3_t alphaChannelInstance;
+	vec3_t alphaRandChannelInstance;
+	vec3_t sizeChannelInstance;
+	vec3_t sizeRandChannelInstance;
+	vec3_t size2ChannelInstance;
+	vec3_t size2RandChannelInstance;
+	vec3_t rotationDeltaChannelInstance;
+	vec3_t rotationDeltaRandChannelInstance;
+	vec3_t velocityXChannelInstance;
+	vec3_t velocityYChannelInstance;
+	vec3_t velocityZChannelInstance;
+	vec3_t velocityXRandChannelInstance;
+	vec3_t velocityYRandChannelInstance;
+	vec3_t velocityZRandChannelInstance;
+	vec3_t velocity2XChannelInstance;
+	vec3_t velocity2YChannelInstance;
+	vec3_t velocity2ZChannelInstance;
+	vec3_t velocity2XRandChannelInstance;
+	vec3_t velocity2YRandChannelInstance;
+	vec3_t velocity2ZRandChannelInstance;
+};
+
+struct SortedCluster
+{
+	uint32_t clusterId;
+	int32_t distSq;
+};
+
+struct Cloud
+{
+	char pad0[588];
+	vec3_t tumbleAxis;
+	uint32_t length;
+	uint8_t useLength;
+	char pad1[3];
+	uint32_t randomLengthWeight;
+	vec3_t lengthChannelInstance;
+	vec3_t lengthRandChannelInstance;
+};
+
+struct Flash
+{
+};
+
+struct Light
+{
+	char pad0[196];
+	int32_t mRandomColorsWeight;
+	uint32_t mRandomSizeWeight;
+	vec3_t colorChannelInstance;
+	vec3_t colorRandChannelInstance;
+	vec3_t sizeChannelInstance;
+	vec3_t sizeRandChannelInstance;
+};
+
+struct Cylinder
+{
+};
+
+struct Tail
+{
+	char pad0[588];
+	vec3_t mOldOrigin;
+	uint32_t length;
+	uint32_t randomLengthWeight;
+	vec3_t lengthChannelInstance;
+	vec3_t lengthRandChannelInstance;
+};
+
+struct Line
+{
+	char pad0[588];
+	vec3_t mOrigin2;
+};
+
+struct Emitter
+{
+	char pad0[588];
+	vec3_t mOldOrigin;
+	vec3_t mOldVelocity;
+	vec3_t mOldBindOrg;
+	uint32_t mOldTime;
+	int32_t mStep;
+	vec3_t mAngles;
+	vec3_t mAngleDelta;
+	int32_t mEmitterFx;
+	int32_t mDensity;
+	int32_t mVariance;
+};
+
+struct OrientedParticle
+{
+	char pad0[588];
+	vec3_t mNormal;
+};
+
+struct FxCamera
+{
+	vec3_t vieworg;
+	vec3_t frustum[8];
+	uint32_t numPlanes;
+};
+
+struct FxHelper
+{
+	uint32_t time;
+	uint32_t mTime;
+	uint32_t mOldTime;
+	uint32_t mFrameTime;
+	uint32_t mTimeFrozen;
+	FxCamera mCamera;
+	uint8_t mPrevCamera[112];
+	int32_t mSeed;
+	float adsZoomFactor;
+};
+
+struct GfxEntity
+{
+	int32_t reType;
+	uint32_t renderFxFlags;
+	$_3621 lighting;
+	vec3_t axis[3];
+	int32_t scale;
+	vec3_t origin;
+	vec3_t endpos;
+	int32_t customMaterial;
+	int32_t materialRGBA;
+	uint32_t materialTime;
+	uint32_t materialSubimageIndex;
+	uint64_t radius;
+	int32_t rotation;
+	int32_t minScreenRadius;
+};
+
+struct refdef_s
+{
+	int32_t x;
+	int32_t y;
+	uint32_t width;
+	int32_t height;
+	int32_t fov_x;
+	int32_t fov_y;
+	vec3_t vieworg;
+	vec3_t viewaxis[3];
+	uint32_t time;
+	int32_t zNear;
+	int32_t blurRadius;
+	uint32_t viewIndex;
 };
 
 typedef enum
 {
-	PT_NONE = 0,
-	PT_PARTICLE = 1,
-	PT_LINE = 2,
-	PT_TAIL = 3,
-	PT_CYLINDER = 4,
-	PT_EMITTER = 5,
-	PT_DECAL = 6,
-	PT_ORIENTEDPARTICLE = 7,
-	PT_FXRUNNER = 8,
-	PT_LIGHT = 9,
-	PT_CAMERASHAKE = 10,
-	PT_SCREENFLASH = 11,
-	PT_CLOUD = 12
-} PrimType;
+	RT_DOBJ = 0,
+	RT_XMODEL = 1,
+	RT_STATICMODEL = 2,
+	RT_BRUSHMODEL = 3,
+	RT_SPRITE = 4,
+	RT_RAIL_CORE = 5,
+	RT_PARTICLE_CLOUD = 6,
+	RT_ORIENTED_QUAD = 7,
+	RT_LINE = 8,
+	RT_CYLINDER = 9,
+	RT_MAX_REF_ENTITY_TYPE = 10
+} refEntityType_t;
 
-struct FxRange
+struct $_3666
 {
-	int mMin;
-	int mMax;
+	uint8_t extents[36];
+	uint32_t passEntityNum;
+	uint32_t passOwnerNum;
+	uint32_t contentmask;
+	int32_t bLocational;
+	int32_t priorityMap;
 };
 
-struct MediaHandles
+union GfxColor
 {
-	TMediaList mMediaList;
+	int32_t packed;
+	int32_t array;
+};
+
+struct GfxWorldVertex
+{
+	vec3_t xyz;
+	vec3_t normal;
+	GfxColor color;
+	vec2_t texCoord;
+	vec2_t lmapCoord;
+	vec3_t binormal;
+	vec3_t tangent;
+};
+
+struct $_3667
+{
+	vec3_t start;
+	vec3_t end;
+	uint64_t passEntityNum;
+	uint32_t contentmask;
+	int32_t locational;
+};
+
+struct EffectCluster
+{
+	vec3_t origin;
+	uint32_t refCount;
+};
+
+struct SortedEffect
+{
+	int32_t effect;
+	int32_t distSq;
+};
+
+struct GenericParser2
+{
+	uint8_t mTopLevel[48];
+	char mTextPool[4];
+	int8_t mWriteable;
+};
+
+struct FxScheduler
+{
+	int32_t mSeed;
+	int32_t mScheduledHead;
+	uint32_t mScheduledCount;
 };
 
 typedef enum
 {
-	SFM_FIXED_FRAME = 0,
-	SFM_RANDOM = 1,
-	SFM_INDEXED = 2,
-	SFM_MODE_COUNT = 3
-} StartFrameMode;
+	MEDIA_MATERIALS = 0,
+	MEDIA_MODELS = 1,
+	MEDIA_EFFECTS = 2
+} EMediaTypes;
 
-typedef enum
+struct cLeaf_t
 {
-	PRM_FIXED_FPS = 0,
-	PRM_SYNC_TO_PARTICLE_LIFETIME = 1,
-	PRM_MODE_COUNT = 2
-} PlayRateMode;
-
-typedef enum
-{
-	LM_FOREVER = 0,
-	LM_TIMES = 1,
-	LM_MODE_COUNT = 2
-} LoopMode;
-
-typedef enum
-{
-	FXCHAN_COLOR = 0,
-	FXCHAN_COLOR_RAND = 1,
-	FXCHAN_ALPHA = 2,
-	FXCHAN_ALPHA_RAND = 3,
-	FXCHAN_SIZE = 4,
-	FXCHAN_SIZE_RAND = 5,
-	FXCHAN_SIZE2 = 6,
-	FXCHAN_SIZE2_RAND = 7,
-	FXCHAN_LENGTH = 8,
-	FXCHAN_LENGTH_RAND = 9,
-	FXCHAN_ROTATION_DELTA = 10,
-	FXCHAN_ROTATION_DELTA_RAND = 11,
-	FXCHAN_VELOCITY_X = 12,
-	FXCHAN_VELOCITY_Y = 13,
-	FXCHAN_VELOCITY_Z = 14,
-	FXCHAN_VELOCITY_X_RAND = 15,
-	FXCHAN_VELOCITY_Y_RAND = 16,
-	FXCHAN_VELOCITY_Z_RAND = 17,
-	FXCHAN_VELOCITY2_X = 18,
-	FXCHAN_VELOCITY2_Y = 19,
-	FXCHAN_VELOCITY2_Z = 20,
-	FXCHAN_VELOCITY2_X_RAND = 21,
-	FXCHAN_VELOCITY2_Y_RAND = 22,
-	FXCHAN_VELOCITY2_Z_RAND = 23,
-	FXCHAN_COUNT = 24
-} FxChannelId;
-
-struct FxChannelInstance
-{
-	FxCurveIterator curveIterator;
-	int scale;
+	uint16_t firstCollAabbIndex;
+	uint16_t collAabbCount;
+	int32_t brushContents;
+	int32_t terrainContents;
+	vec3_t mins;
+	vec3_t maxs;
+	int32_t leafBrushNode;
+	int16_t cluster;
 };
 
-struct TMediaList
+struct cmodel_t
 {
-	int elements;
-	short size;
-	short maxSize;
+	vec3_t mins;
+	vec3_t maxs;
+	int32_t radius;
+	cLeaf_t leaf;
 };
 
-union TMediaElement
+struct traceWork_t
 {
-	int model;
-	int material;
-	EffectTemplateLoadPtr u;
-	int data;
-};
-
-struct FxChannel
-{
-	int curve;
-	int64_t scaleRange;
-};
-
-struct BackCompatibleParameters
-{
-	char fxChannels[1536];
-};
-
-struct GPGroup
-{
-};
-
-struct GPValue
-{
-};
-
-struct FxCurveIterator
-{
-	int master;
-	int currentKeyIndex;
-};
-
-union EffectTemplateLoadPtr
-{
-	int fx;
-	int name;
-};
-
-struct FxFlagEntry
-{
-	int flag;
-	int64_t masks;
-}; */
-
-struct GPObject
-{
-};
-GPObject
-{
-};
-r size[12];
-	char bounds[24];
-	int contents;
-	int isPoint;
-	int axialCullOnly;
-	int radius;
-	int offsetZ;
-	char radiusOffset[12];
+	TraceExtents extents;
+	vec3_t delta;
+	uint32_t deltaLen;
+	uint32_t deltaLenSq;
+	vec3_t midpoint;
+	vec3_t halfDelta;
+	vec3_t halfDeltaAbs;
+	vec3_t size;
+	vec3_t bounds[2];
+	int32_t contents;
+	int32_t isPoint;
+	int32_t axialCullOnly;
+	int32_t radius;
+	uint32_t offsetZ;
+	vec3_t radiusOffset;
 	TraceThreadInfo threadInfo;
 };
 
-struct cLeafBrushNode_s
+struct cLeafBrushNodeChildren_t
 {
-	char axis;
-	char pad0[1];
-	short leafBrushCount;
-	int contents;
-	cLeafBrushNodeData_t data;
+	int32_t dist;
+	int32_t range;
+	uint32_t childOffset;
+};
+
+struct cLeafBrushNodeLeaf_t
+{
+	int32_t brushes;
 };
 
 union cLeafBrushNodeData_t
@@ -4795,222 +5092,217 @@ union cLeafBrushNodeData_t
 	cLeafBrushNodeChildren_t children;
 };
 
-struct cLeafBrushNodeLeaf_t
+struct cLeafBrushNode_s
 {
-	int brushes;
-};
-
-struct cLeafBrushNodeChildren_t
-{
-	int dist;
-	int range;
-	int childOffset;
+	int8_t axis;
+	char pad0[1];
+	uint16_t leafBrushCount;
+	int32_t contents;
+	cLeafBrushNodeData_t data;
 };
 
 struct cbrush_t
 {
-	char mins[12];
-	int contents;
-	char maxs[12];
-	int numsides;
-	int sides;
-	char axialMaterialNum[12];
+	vec3_t mins;
+	int32_t contents;
+	vec3_t maxs;
+	uint32_t numsides;
+	uint32_t sides;
+	vec3_t axialMaterialNum;
 };
 
 struct cbrushside_t
 {
-	int plane;
-	int materialNum;
+	int32_t plane;
+	uint32_t materialNum;
 };
 
-struct _3681
+struct $_3681
 {
-	int plane;
-	int children;
+	int32_t plane;
+	int32_t children;
 };
 
 struct leafList_s
 {
-	int count;
-	int maxcount;
-	int overflowed;
-	int list;
-	char bounds[24];
-	int lastLeaf;
+	uint32_t count;
+	uint32_t maxcount;
+	int32_t overflowed;
+	int32_t list;
+	vec3_t bounds[2];
+	int32_t lastLeaf;
 };
 
 struct CollisionTriangle
 {
-	char plane[16];
-	char svec[16];
-	char tvec[16];
-	char verts[12];
-	char edges[12];
+	vec4_t plane;
+	uint8_t svec[16];
+	uint8_t tvec[16];
+	vec3_t verts;
+	vec3_t edges;
 };
 
-struct _3684
+struct $_3684
 {
-	char origin[12];
-	char axis[36];
-};
-
-struct CollisionAabbTree
-{
-	char origin[12];
-	char halfSize[12];
-	short materialIndex;
-	short childCount;
-	CollisionAabbTreeIndex u;
+	vec3_t origin;
+	vec3_t axis[3];
 };
 
 union CollisionAabbTreeIndex
 {
-	int firstChildIndex;
-	int partitionIndex;
+	uint32_t firstChildIndex;
+	uint32_t partitionIndex;
 };
 
-struct _3687
+struct CollisionAabbTree
 {
-	char triCount;
-	char borderCount;
+	vec3_t origin;
+	vec3_t halfSize;
+	uint16_t materialIndex;
+	uint16_t childCount;
+	CollisionAabbTreeIndex u;
+};
+
+struct $_3687
+{
+	uint8_t triCount;
+	uint8_t borderCount;
 	char pad0[2];
-	int tris;
-	int borders;
+	int32_t tris;
+	int32_t borders;
 };
 
 struct CollisionBorder
 {
-	char distEq[12];
-	int zBase;
-	int zSlope;
-	int start;
-	int length;
+	vec3_t distEq;
+	int32_t zBase;
+	int32_t zSlope;
+	int32_t start;
+	uint32_t length;
 };
 
-struct _3682
+struct $_3682
 {
-	short firstCollAabbIndex;
-	short collAabbCount;
-	int brushContents;
-	int terrainContents;
-	char mins[12];
-	char maxs[12];
-	int leafBrushNode;
-	short cluster;
+	uint8_t eval_stack[16];
+	char dialog_error_message[4];
+	int32_t loading;
+	uint32_t starttime;
+	uint8_t localVarsStack[8192];
 };
-/* 
-struct playerState_s
+
+struct $_3593
 {
-	int commandTime;
-	int pm_type;
-	int bobCycle;
-	int pm_flags;
-	int pm_time;
-	char origin[12];
-	char velocity[12];
-	int64_t oldVelocity;
-	int weaponTime;
-	int weaponDelay;
-	int grenadeTimeLeft;
-	int weaponRestrictKickTime;
-	int foliageSoundTime;
-	int gravity;
-	int leanf;
-	int speed;
-	char delta_angles[12];
-	int groundEntityNum;
-	char vLadderVec[12];
-	int jumpTime;
-	int jumpOriginZ;
-	int legsTimer;
-	int legsAnim;
-	int torsoTimer;
-	int torsoAnim;
-	int legsAnimDuration;
-	int torsoAnimDuration;
-	int damageTimer;
-	int damageDuration;
-	int flinchYaw;
-	int movementDir;
-	int eFlags;
-	int eventSequence;
-	char events[16];
-	char eventParms[16];
-	int oldEventSequence;
-	int clientNum;
-	int offHandIndex;
-	int weapon;
-	int weaponstate;
-	float fWeaponPosFrac;
-	int adsDelayTime;
-	int viewmodelIndex;
-	char viewangles[12];
-	int viewHeightTarget;
-	int viewHeightCurrent;
-	int viewHeightLerpTime;
-	int viewHeightLerpTarget;
-	int viewHeightLerpDown;
-	int viewHeightLerpPosAdj;
-	int64_t viewAngleClampBase;
-	int64_t viewAngleClampRange;
-	int damageEvent;
-	int damageYaw;
-	int damagePitch;
-	int damageCount;
-	char stats[24];
-	char ammo[512];
-	char ammoclip[512];
-	char weapons[16];
-	int64_t weaponslots;
-	char weaponrechamber[16];
-	char mins[12];
-	char maxs[12];
-	int proneDirection;
-	int proneDirectionPitch;
-	int proneTorsoPitch;
-	int viewlocked;
-	int viewlocked_entNum;
-	int cursorHint;
-	int cursorHintString;
-	int cursorHintEntIndex;
-	int iCompassFriendInfo;
-	float fTorsoHeight;
-	float fTorsoPitch;
-	float fWaistPitch;
-	int holdBreathScale;
-	int holdBreathTimer;
-	MantleState mantleState;
-	int entityEventSequence;
-	int weapAnim;
-	int aimSpreadScale;
-	int shellshockIndex;
-	int shellshockTime;
-	int shellshockDuration;
-	char objective[448];
-	int deltaTime;
-}; */
+	uint8_t current[3968];
+	uint8_t archival[3968];
+};
 
 struct MantleState
 {
-	int yaw;
-	int timer;
-	int transIndex;
-	int flags;
+	int32_t yaw;
+	uint32_t timer;
+	uint32_t transIndex;
+	uint32_t flags;
 };
 
-struct _3593
+struct playerState_s
 {
-	char current[3968];
-	char archival[3968];
+	char commandTime[4];
+	int32_t pm_type;
+	int32_t bobCycle;
+	uint32_t pm_flags;
+	uint32_t pm_time;
+	vec3_t origin;
+	vec3_t velocity;
+	uint64_t oldVelocity;
+	uint32_t weaponTime;
+	int32_t weaponDelay;
+	uint32_t grenadeTimeLeft;
+	uint32_t weaponRestrictKickTime;
+	char foliageSoundTime[4];
+	int32_t gravity;
+	int32_t leanf;
+	float speed;
+	vec3_t delta_angles;
+	uint32_t groundEntityNum;
+	vec3_t vLadderVec;
+	uint32_t jumpTime;
+	int32_t jumpOriginZ;
+	uint32_t legsTimer;
+	int32_t legsAnim;
+	uint32_t torsoTimer;
+	int32_t torsoAnim;
+	int32_t legsAnimDuration;
+	int32_t torsoAnimDuration;
+	uint32_t damageTimer;
+	int32_t damageDuration;
+	int32_t flinchYaw;
+	int32_t movementDir;
+	uint32_t eFlags;
+	int32_t eventSequence;
+	uint8_t events[16];
+	uint8_t eventParms[16];
+	int32_t oldEventSequence;
+	uint32_t clientNum;
+	uint32_t offHandIndex;
+	int32_t weapon;
+	int32_t weaponstate;
+	float fWeaponPosFrac;
+	uint32_t adsDelayTime;
+	char viewmodelIndex[4];
+	vec3_t viewangles;
+	int32_t viewHeightTarget;
+	int32_t viewHeightCurrent;
+	uint32_t viewHeightLerpTime;
+	int32_t viewHeightLerpTarget;
+	int32_t viewHeightLerpDown;
+	uint32_t viewHeightLerpPosAdj;
+	double viewAngleClampBase;
+	double viewAngleClampRange;
+	int32_t damageEvent;
+	int32_t damageYaw;
+	int32_t damagePitch;
+	uint32_t damageCount;
+	uint8_t stats[24];
+	uint8_t ammo[512];
+	uint8_t ammoclip[512];
+	uint8_t weapons[16];
+	uint64_t weaponslots;
+	uint8_t weaponrechamber[16];
+	vec3_t mins;
+	vec3_t maxs;
+	int32_t proneDirection;
+	int32_t proneDirectionPitch;
+	int32_t proneTorsoPitch;
+	int32_t viewlocked;
+	uint32_t viewlocked_entNum;
+	int32_t cursorHint;
+	char cursorHintString[4];
+	uint32_t cursorHintEntIndex;
+	char iCompassFriendInfo[4];
+	int32_t fTorsoHeight;
+	int32_t fTorsoPitch;
+	int32_t fWaistPitch;
+	int32_t holdBreathScale;
+	uint32_t holdBreathTimer;
+	MantleState mantleState;
+	int32_t entityEventSequence;
+	int32_t weapAnim;
+	int32_t aimSpreadScale;
+	uint32_t shellshockIndex;
+	uint32_t shellshockTime;
+	int32_t shellshockDuration;
+	uint8_t objective[448];
+	uint32_t deltaTime;
+	$_3593 hud;
 };
 
 struct objective_t
 {
-	objectiveState_t state;
-	char origin[12];
-	int entNum;
-	int teamNum;
-	int icon;
+	int32_t state;
+	vec3_t origin;
+	uint32_t entNum;
+	uint32_t teamNum;
+	int32_t icon;
 };
 
 typedef enum
@@ -5024,40 +5316,54 @@ typedef enum
 	OBJST_NUMSTATES = 6
 } objectiveState_t;
 
+struct $_3592
+{
+	int8_t r;
+	int8_t g;
+	int8_t b;
+	int8_t a;
+};
+
+union hudelem_color_t
+{
+	$_3592 unnamed_field;
+	int32_t rgba;
+};
+
 struct hudelem_s
 {
-	he_type_t type;
-	int x;
-	int y;
-	int z;
-	int fontScale;
-	int font;
-	int alignOrg;
-	int alignScreen;
+	int32_t type;
+	int32_t x;
+	int32_t y;
+	int32_t z;
+	int32_t fontScale;
+	int32_t font;
+	int32_t alignOrg;
+	int32_t alignScreen;
 	hudelem_color_t color;
-	int fromColor;
-	int fadeStartTime;
-	int fadeTime;
-	int label;
-	int width;
-	int height;
-	int materialIndex;
-	int fromWidth;
-	int fromHeight;
-	int scaleStartTime;
-	int scaleTime;
-	int fromX;
-	int fromY;
-	int fromAlignOrg;
-	int fromAlignScreen;
-	int moveStartTime;
-	int moveTime;
-	int time;
-	int duration;
-	int value;
-	int text;
-	int sort;
-	int foreground;
+	int32_t fromColor;
+	uint32_t fadeStartTime;
+	uint32_t fadeTime;
+	int32_t label;
+	uint32_t width;
+	int32_t height;
+	uint32_t materialIndex;
+	uint32_t fromWidth;
+	int32_t fromHeight;
+	uint32_t scaleStartTime;
+	uint32_t scaleTime;
+	int32_t fromX;
+	int32_t fromY;
+	int32_t fromAlignOrg;
+	int32_t fromAlignScreen;
+	uint32_t moveStartTime;
+	uint32_t moveTime;
+	uint32_t time;
+	int32_t duration;
+	int32_t value;
+	char text[4];
+	int32_t sort;
+	int32_t foreground;
 };
 
 typedef enum
@@ -5079,79 +5385,175 @@ typedef enum
 	HE_TYPE_COUNT = 14
 } he_type_t;
 
-union hudelem_color_t
-{
-	int rgba;
-};
-
-struct _3592
-{
-	char r;
-	char g;
-	char b;
-	char a;
-};
-/* 
-struct entityState_s
-{
-	int number;
-	int eType;
-	int eFlags;
-	trajectory_t pos;
-	char apos[36];
-	int time;
-	int time2;
-	char origin2[12];
-	char angles2[12];
-	int otherEntityNum;
-	int attackerEntityNum;
-	int groundEntityNum;
-	int constantLight;
-	int loopSound;
-	int surfType;
-	char pad0[4];
-	int clientNum;
-	int iHeadIcon;
-	int iHeadIconTeam;
-	int solid;
-	int eventParm;
-	int eventSequence;
-	char events[16];
-	char eventParms[16];
-	int weapon;
-	int legsAnim;
-	int torsoAnim;
-	int leanf;
-	char pad1[4];
-	int dmgFlags;
-	int animMovetype;
-	float fTorsoHeight;
-	float fTorsoPitch;
-	float fWaistPitch;
-}; */
-/* 
 struct trajectory_t
 {
-	trType_t trType;
-	int trTime;
-	int trDuration;
-	char trBase[12];
-	char trDelta[12];
-}; */
-
-union _3596
-{
-	int brushmodel;
-	int item;
-	int xmodel;
+	int32_t trType;
+	uint32_t trTime;
+	int32_t trDuration;
+	vec3_t trBase;
+	vec3_t trDelta;
 };
 
-union _3597
+union $_3597
 {
-	int scale;
-	int eventParm2;
+	int32_t scale;
+	int32_t eventParm2;
 };
-/* 
+
+union $_3596
+{
+	char brushmodel[4];
+	int32_t item;
+	char xmodel[4];
+};
+
+struct entityState_s
+{
+	uint32_t number;
+	int32_t eType;
+	uint32_t eFlags;
+	trajectory_t pos;
+	uint8_t apos[36];
+	uint32_t time;
+	uint32_t time2;
+	vec3_t origin2;
+	vec3_t angles2;
+	uint32_t otherEntityNum;
+	uint32_t attackerEntityNum;
+	uint32_t groundEntityNum;
+	int32_t constantLight;
+	char loopSound[4];
+	int32_t surfType;
+	$_3596 index;
+	uint32_t clientNum;
+	int32_t iHeadIcon;
+	int32_t iHeadIconTeam;
+	uint32_t solid;
+	int32_t eventParm;
+	int32_t eventSequence;
+	uint8_t events[16];
+	uint8_t eventParms[16];
+	int32_t weapon;
+	int32_t legsAnim;
+	int32_t torsoAnim;
+	int32_t leanf;
+	$_3597 unnamed_field;
+	uint32_t dmgFlags;
+	int32_t animMovetype;
+	int32_t fTorsoHeight;
+	int32_t fTorsoPitch;
+	int32_t fWaistPitch;
+};
+
+struct entityShared_t
+{
+	int8_t linked;
+	int8_t bmodel;
+	int8_t svFlags;
+	char pad0[1];
+	uint64_t clientMask;
+	int8_t inuse;
+	char pad1[3];
+	uint32_t broadcastTime;
+	vec3_t mins;
+	vec3_t maxs;
+	int32_t contents;
+	vec3_t absmin;
+	vec3_t absmax;
+	vec3_t currentOrigin;
+	vec3_t currentAngles;
+	uint32_t ownerNum;
+	uint32_t eventTime;
+};
+struct item_ent_t
+{
+	uint32_t count2;
+	uint16_t index;
+};
+struct corpse_ent_t
+{
+	uint32_t deathAnimStartTime;
+};
+
+struct trigger_ent_t
+{
+	int32_t threshold;
+	int32_t accumulate;
+	uint32_t timestamp;
+	uint32_t singleUserEntIndex;
+};
+
+struct grenade_ent_t
+{
+	uint32_t time;
+};
+
+struct mover_ent_t
+{
+	uint32_t decelTime;
+	uint32_t aDecelTime;
+	float speed;
+	float aSpeed;
+	uint32_t midTime;
+	uint32_t aMidTime;
+	vec3_t pos1;
+	vec3_t pos2;
+	vec3_t pos3;
+	vec3_t apos1;
+	vec3_t apos2;
+	vec3_t apos3;
+};
+union $_3701
+{
+	item_ent_t item;
+	trigger_ent_t trigger;
+	mover_ent_t mover;
+	corpse_ent_t corpse;
+	grenade_ent_t grenade;
+};
+struct gentity_s
+{
+	entityState_s s;
+	entityShared_t r;
+	int32_t client;
+	char pTurretInfo[4];
+	int8_t physicsObject;
+	int8_t takedamage;
+	int8_t active;
+	int8_t nopickup;
+	int8_t model;
+	int8_t attachIgnoreCollision;
+	int8_t handler;
+	int8_t team;
+	char classname[2];
+	int16_t target;
+	char targetname[2];
+	char pad0[2];
+	uint32_t spawnflags;
+	uint32_t flags;
+	uint32_t eventTime;
+	int32_t freeAfterEvent;
+	int32_t unlinkAfterEvent;
+	uint32_t clipmask;
+	int32_t processedFrame;
+	int32_t parent;
+	int32_t nextthink;
+	int32_t health;
+	int32_t maxHealth;
+	int32_t damage;
+	uint32_t count;
+	int32_t chain;
+	$_3701 unnamed_field;
+	char tagInfo[4];
+	int32_t tagChildren;
+	char attachModelNames[7];
+	char pad1[1];
+	char attachTagNames[14];
+	char pad2[2];
+	uint32_t useCount;
+	int32_t nextFree;
+};
+
 typedef enum
 {
 	TR_STATIONARY = 0,
@@ -5163,7 +5565,7 @@ typedef enum
 	TR_GRAVITY_PAUSED = 6,
 	TR_ACCELERATE = 7,
 	TR_DECELERATE = 8
-} trType_t; */
+} trType_t;
 
 typedef enum
 {
@@ -5173,57 +5575,57 @@ typedef enum
 
 struct pmove_t
 {
-	int ps;
-	usercmd_t cmd;
+	int32_t ps;
+	char cmd[28];
 	char oldcmd[28];
-	int tracemask;
-	int numtouch;
-	char touchents[128];
-	char mins[12];
-	char maxs[12];
-	int xyspeed;
-	int proneChange;
-	char handler;
-	char mantleStarted;
+	uint32_t tracemask;
+	uint32_t numtouch;
+	uint8_t touchents[128];
+	vec3_t mins;
+	vec3_t maxs;
+	float xyspeed;
+	int32_t proneChange;
+	int8_t handler;
+	int8_t mantleStarted;
 	char pad0[2];
-	char mantleEndPos[12];
-	int mantleDuration;
+	vec3_t mantleEndPos;
+	int32_t mantleDuration;
 };
-/* 
+
 struct usercmd_s
 {
-	int serverTime;
-	int buttons;
-	char weapon;
-	char offHandIndex;
+	uint32_t serverTime;
+	int32_t buttons;
+	int8_t weapon;
+	uint8_t offHandIndex;
 	char pad0[2];
-	char angles[12];
-	char forwardmove;
-	char rightmove;
-}; */
+	vec3_t angles;
+	int8_t forwardmove;
+	int8_t rightmove;
+};
 
 struct pml_t
 {
-	char forward[12];
-	char right[12];
-	char up[12];
-	int frametime;
-	int msec;
-	int walking;
-	int groundPlane;
-	int almostGroundPlane;
-	char groundTrace[36];
-	int impactSpeed;
-	char previous_origin[12];
-	char previous_velocity[12];
-	int previous_waterlevel;
+	vec3_t forward;
+	vec3_t right;
+	vec3_t up;
+	uint32_t frametime;
+	int32_t msec;
+	int32_t walking;
+	int32_t groundPlane;
+	int32_t almostGroundPlane;
+	trace_t groundTrace;
+	float impactSpeed;
+	vec3_t previous_origin;
+	vec3_t previous_velocity;
+	int32_t previous_waterlevel;
 };
 
 struct viewLerpWaypoint_s
 {
-	int iFrac;
-	float fViewHeight;
-	int iOffset;
+	float iFrac;
+	int32_t fViewHeight;
+	uint32_t iOffset;
 };
 
 typedef enum
@@ -5235,177 +5637,163 @@ typedef enum
 	TEAM_NUM_TEAMS = 4
 } team_t;
 
-struct lerpFrame_t
-{
-	int yawAngle;
-	int yawing;
-	int pitchAngle;
-	int pitching;
-	int animationNumber;
-	int animation;
-	int animationTime;
-	char oldFramePos[12];
-	int animSpeedScale;
-	int oldFrameSnapshotTime;
-};
-
 struct animation_s
 {
 	char name[64];
-	int initialLerp;
-	int moveSpeed;
-	int duration;
-	int nameHash;
-	int flags;
-	int64_t movetype;
-	int noteType;
+	int32_t initialLerp;
+	float moveSpeed;
+	int32_t duration;
+	char nameHash[4];
+	uint32_t flags;
+	uint64_t movetype;
+	int32_t noteType;
 };
 
 struct pmoveHandler_t
 {
-	int trace;
-	int pointcontents;
-	int playerEvent;
+	int32_t trace;
+	int32_t pointcontents;
+	int32_t playerEvent;
 };
 
 struct DObjModel_s
 {
-	int model;
-	int boneName;
-	int ignoreCollision;
+	char model[4];
+	char boneName[4];
+	int32_t ignoreCollision;
 };
 
 struct dheader_s
 {
-	int ident;
-	int version;
-	char lumps[312];
+	uint32_t ident;
+	char version[4];
+	uint8_t lumps[312];
 };
 
 struct lump_t
 {
-	int filelen;
-	int fileofs;
+	uint32_t filelen;
+	int32_t fileofs;
 };
 
 struct clipMap_t
 {
-	int name;
-	int numStaticModels;
-	int staticModelList;
-	int numMaterials;
-	int materials;
-	int numBrushSides;
-	int brushsides;
-	int numNodes;
-	int nodes;
-	int numLeafs;
-	int leafs;
-	int leafbrushNodesCount;
-	int leafbrushNodes;
-	int numLeafBrushes;
-	int leafbrushes;
-	int numLeafSurfaces;
-	int leafsurfaces;
-	int vertCount;
-	int verts;
-	int edgeCount;
-	int edges;
-	int triCount;
-	int tris;
-	int borderCount;
-	int borders;
-	int partitionCount;
-	int partitions;
-	int aabbTreeCount;
-	int aabbTrees;
-	int numSubModels;
-	int cmodels;
-	short numBrushes;
+	char name[4];
+	char numStaticModels[4];
+	char staticModelList[4];
+	uint32_t numMaterials;
+	int32_t materials;
+	uint32_t numBrushSides;
+	uint32_t brushsides;
+	uint32_t numNodes;
+	int32_t nodes;
+	uint32_t numLeafs;
+	int32_t leafs;
+	uint32_t leafbrushNodesCount;
+	int32_t leafbrushNodes;
+	uint32_t numLeafBrushes;
+	int32_t leafbrushes;
+	uint32_t numLeafSurfaces;
+	int32_t leafsurfaces;
+	uint32_t vertCount;
+	int32_t verts;
+	uint32_t edgeCount;
+	int32_t edges;
+	uint32_t triCount;
+	int32_t tris;
+	uint32_t borderCount;
+	int32_t borders;
+	uint32_t partitionCount;
+	int32_t partitions;
+	uint32_t aabbTreeCount;
+	int32_t aabbTrees;
+	char numSubModels[4];
+	char cmodels[4];
+	uint16_t numBrushes;
 	char pad0[2];
-	int brushes;
-	int numClusters;
-	int clusterBytes;
-	int visibility;
-	int vised;
-	int numEntityChars;
-	int entityString;
-	int box_brush;
+	int32_t brushes;
+	uint32_t numClusters;
+	int32_t clusterBytes;
+	int32_t visibility;
+	int32_t vised;
+	uint32_t numEntityChars;
+	char entityString[4];
+	int32_t box_brush;
 	char box_model[72];
-	int pathNodeCount;
-	int pathNodes;
-	int chainNodeCount;
-	int chainNodes;
-	int chainNodesRev;
-	int visBytes;
-	int pathVis;
-	int nodeTreeCount;
-	int nodeTree;
-	int checksum;
+	char pathNodeCount[4];
+	char pathNodes[4];
+	uint32_t chainNodeCount;
+	int32_t chainNodes;
+	int32_t chainNodesRev;
+	int32_t visBytes;
+	char pathVis[4];
+	uint32_t nodeTreeCount;
+	int32_t nodeTree;
+	int32_t checksum;
 };
 
 struct dmaterial_t
 {
-	char material[64];
-	int surfaceFlags;
-	int contentFlags;
+	uint8_t material[64];
+	uint32_t surfaceFlags;
+	uint32_t contentFlags;
 };
 
 struct cNode_t
 {
-	int plane;
-	int children;
+	int32_t plane;
+	int32_t children;
 };
 
 struct CollisionVertex
 {
-	char xyz[12];
+	vec3_t xyz;
 };
 
 struct CollisionEdge
 {
-	char origin[12];
-	char axis[36];
+	vec3_t origin;
+	vec3_t axis[3];
 };
 
 struct CollisionPartition
 {
-	char triCount;
-	char borderCount;
+	uint8_t triCount;
+	uint8_t borderCount;
 	char pad0[2];
-	int tris;
-	int borders;
+	int32_t tris;
+	int32_t borders;
+};
+
+struct cStaticModelWritable
+{
+	char nextModelInWorldSector[2];
 };
 
 struct cStaticModel_s
 {
 	cStaticModelWritable writable;
 	char pad0[2];
-	int xmodel;
-	char origin[12];
-	char invAxis[36];
-	char absmin[12];
-	char absmax[12];
-};
-
-struct cStaticModelWritable
-{
-	short nextModelInWorldSector;
+	char xmodel[4];
+	vec3_t origin;
+	vec3_t invAxis[3];
+	vec3_t absmin;
+	vec3_t absmax;
 };
 
 struct DObjTrace_s
 {
-	int fraction;
-	int surfaceflags;
-	char normal[12];
-	short partName;
-	short partGroup;
+	float fraction;
+	uint32_t surfaceflags;
+	vec3_t normal;
+	char partName[2];
+	int16_t partGroup;
 };
 
 struct DSurface_s
 {
-	short modelIndex;
-	short subMatIndex;
+	char modelIndex[2];
+	uint16_t subMatIndex;
 };
 
 typedef enum
@@ -5427,433 +5815,471 @@ typedef enum
 	MAX_LANGUAGES = 14
 } language_t;
 
-struct _3799
+struct $_3799
 {
-	int language;
-	int strings;
+	int32_t language;
+	char strings[4];
 };
 
-struct _3612
+struct $_3612
 {
-	char normal[12];
-	int dist;
+	vec3_t normal;
+	int32_t dist;
 };
 
-struct _3616
+union sval_u
 {
-	short numSides;
-	short materialNum;
+	int32_t type;
+	char stringValue[4];
+	uint32_t idValue;
+	float floatValue;
+	int32_t intValue;
+	int32_t node;
+	uint32_t sourcePosValue;
+	uint32_t codePosValue;
+	char debugString[4];
+	int32_t block;
+};
+struct $_3616
+{
+	sval_u val;
+	uint32_t pos;
 };
 
-struct _3614
+union $_3615
 {
-	char pad0[4];
-	int materialNum;
+	uint32_t planeNum;
+	int32_t bound;
 };
 
-union _3615
+struct $_3614
 {
-	int planeNum;
-	int bound;
+	$_3615 u;
+	uint32_t materialNum;
 };
 
-struct _3689
+struct $_3689
 {
-	char origin[12];
-	char halfSize[12];
-	short materialIndex;
-	short childCount;
+	vec3_t origin;
+	vec3_t halfSize;
+	uint16_t materialIndex;
+	uint16_t childCount;
 	CollisionAabbTreeIndex u;
 };
 
-struct _3651
+union $_3652
 {
-	char origin[12];
-	char halfSize[12];
-	short materialIndex;
-	short childCount;
+	int16_t prev;
+	int16_t prevSibling;
 };
 
-union _3652
+struct $_3651
 {
-	int firstChildIndex;
-	int partitionIndex;
+	vec3_t origin;
+	vec3_t halfSize;
+	uint16_t materialIndex;
+	uint16_t childCount;
+	$_3652 u;
 };
 
-struct _3629
+struct $_3629
 {
-	int cluster;
-	int area;
-	int firstCollAabbIndex;
-	int collAabbCount;
-	int firstLeafBrush;
-	int numLeafBrushes;
-	int cellNum;
-	int firstLightIndex;
-	int numLights;
+	int32_t cluster;
+	int32_t area;
+	uint32_t firstCollAabbIndex;
+	uint32_t collAabbCount;
+	int32_t firstLeafBrush;
+	uint32_t numLeafBrushes;
+	uint32_t cellNum;
+	uint32_t firstLightIndex;
+	uint32_t numLights;
 };
 
-struct _3610
+struct $_3610
 {
-	char mins[12];
-	char maxs[12];
-	int firstTriangle;
-	int numTriangles;
-	int firstSurface;
-	int numSurfaces;
-	int firstBrush;
-	int numBrushes;
+	uint8_t token[1024];
+	int32_t lines;
+	int8_t ungetToken;
+	int8_t spaceDelimited;
+	int8_t keepStringQuotes;
+	int8_t csv;
+	uint8_t negativeNumbers;
+	char pad0[3];
+	void *errorPrefix;
+	void *warningPrefix;
+	int32_t backup_lines;
+	char backup_text[4];
+	uint8_t parseFile[64];
 };
 
-struct _3613
+struct $_3613
 {
-	int planeNum;
-	int64_t children;
-	char mins[12];
-	char maxs[12];
+	uint32_t planeNum;
+	uint64_t children;
+	vec3_t mins;
+	vec3_t maxs;
 };
 
-struct _3683
+struct loadAssets_t
 {
-	char xyz[12];
+	char menuEnterSound[4];
+	char menuExitSound[4];
+	char menuBuzzSound[4];
+	int32_t fadeClamp;
+	int32_t fadeCycle;
+	int32_t fadeAmount;
+	int32_t fadeInAmount;
+	int32_t shadowX;
+	int32_t shadowY;
+	vec4_t shadowColor;
+	int32_t shadowFadeClamp;
 };
 
-struct _3646
+struct $_3683
 {
-	int checkStamp;
-	char xyz[12];
+	loadAssets_t loadAssets;
+	uint64_t menuList;
+	uint8_t items[1024];
+	uint8_t menus[512];
 };
 
-struct _3647
+struct $_3646
 {
-	int checkStamp;
-	char origin[12];
-	char axis[36];
-	int length;
+	int32_t checkStamp;
+	vec3_t xyz;
 };
 
-struct _3648
+struct $_3647
 {
-	char plane[16];
-	char svec[16];
-	char tvec[16];
-	char vertIndices[12];
-	char edgeIndices[12];
+	int32_t checkStamp;
+	vec3_t origin;
+	vec3_t axis[3];
+	uint32_t length;
 };
 
-struct _3686
+struct $_3648
 {
-	char distEq[12];
-	int zBase;
-	int zSlope;
-	int start;
-	int length;
+	vec4_t plane;
+	uint8_t svec[16];
+	uint8_t tvec[16];
+	vec3_t vertIndices;
+	vec3_t edgeIndices;
 };
 
-struct _3649
+struct $_3686
 {
-	char distEq[12];
-	int zBase;
-	int zSlope;
-	int start;
-	int length;
+	vec3_t distEq;
+	int32_t zBase;
+	int32_t zSlope;
+	int32_t start;
+	uint32_t length;
 };
 
-struct _3650
+struct $_3649
 {
-	short checkStamp;
-	char triCount;
-	char borderCount;
-	int firstTriIndex;
-	int firstBorderIndex;
+	vec3_t distEq;
+	int32_t zBase;
+	int32_t zSlope;
+	int32_t start;
+	uint32_t length;
 };
 
-struct _3699
+struct $_3650
 {
-	int numPlanes;
-	int planes;
-	int cmod_base;
+	int16_t checkStamp;
+	uint8_t triCount;
+	uint8_t borderCount;
+	uint32_t firstTriIndex;
+	uint32_t firstBorderIndex;
+};
+
+struct $_3699
+{
+	vec3_t xyz;
+	vec4_t color;
+	int32_t scale;
+	char text[96];
 };
 
 struct WeaponDef
 {
-	int szInternalName;
-	int szDisplayName;
-	int szOverlayName;
-	int szGunXModel;
-	int szHandXModel;
-	char szXAnims[92];
-	int szModeName;
-	int playerAnimType;
-	weapType_t weapType;
-	weapClass_t weapClass;
-	weapSlot_t weapSlot;
-	OffhandClass offhandClass;
-	int bSlotStackable;
-	weapStance_t stance;
-	int szViewFlashEffect;
-	int szWorldFlashEffect;
-	int szPickupSound;
-	int szAmmoPickupSound;
-	int szProjectileSound;
-	int szPullbackSound;
-	int szFireSound;
-	int szFireSoundPlayer;
-	int szFireLoopSound;
-	int szFireLoopSoundPlayer;
-	int szFireStopSound;
-	int szFireStopSoundPlayer;
-	int szFireLastSound;
-	int szFireLastSoundPlayer;
-	int meleeSwipeSound;
-	int szRechamberSound;
-	int szRechamberSoundPlayer;
-	int szReloadSound;
-	int szReloadSoundPlayer;
-	int szReloadEmptySound;
-	int szReloadEmptySoundPlayer;
-	int szReloadStartSound;
-	int szReloadStartSoundPlayer;
-	int szReloadEndSound;
-	int szReloadEndSoundPlayer;
-	int szRaiseSound;
-	int szAltSwitchSound;
-	int szPutawaySound;
-	int szNoteTrackSoundA;
-	int szNoteTrackSoundB;
-	int szNoteTrackSoundC;
-	int szNoteTrackSoundD;
-	int szShellEjectEffect;
-	int szLastShotEjectEffect;
-	int szReticleCenter;
-	int szReticleSide;
-	int iReticleCenterSize;
-	int iReticleSideSize;
-	int iReticleMinOfs;
-	char vStandMove[12];
-	char vStandRot[12];
-	char vDuckedOfs[12];
-	char vDuckedMove[12];
-	char vDuckedRot[12];
-	char vProneOfs[12];
-	char vProneMove[12];
-	char vProneRot[12];
-	float fPosMoveRate;
-	float fPosProneMoveRate;
+	char szInternalName[4];
+	char szDisplayName[4];
+	char szOverlayName[4];
+	char szGunXModel[4];
+	char szHandXModel[4];
+	uint8_t szXAnims[92];
+	char szModeName[4];
+	int32_t playerAnimType;
+	int32_t weapType;
+	int32_t weapClass;
+	int32_t weapSlot;
+	int32_t offhandClass;
+	int32_t bSlotStackable;
+	int32_t stance;
+	int32_t szViewFlashEffect;
+	int32_t szWorldFlashEffect;
+	char szPickupSound[4];
+	char szAmmoPickupSound[4];
+	char szProjectileSound[4];
+	char szPullbackSound[4];
+	char szFireSound[4];
+	char szFireSoundPlayer[4];
+	char szFireLoopSound[4];
+	char szFireLoopSoundPlayer[4];
+	char szFireStopSound[4];
+	char szFireStopSoundPlayer[4];
+	char szFireLastSound[4];
+	char szFireLastSoundPlayer[4];
+	char meleeSwipeSound[4];
+	char szRechamberSound[4];
+	char szRechamberSoundPlayer[4];
+	char szReloadSound[4];
+	char szReloadSoundPlayer[4];
+	char szReloadEmptySound[4];
+	char szReloadEmptySoundPlayer[4];
+	char szReloadStartSound[4];
+	char szReloadStartSoundPlayer[4];
+	char szReloadEndSound[4];
+	char szReloadEndSoundPlayer[4];
+	char szRaiseSound[4];
+	char szAltSwitchSound[4];
+	char szPutawaySound[4];
+	char szNoteTrackSoundA[4];
+	char szNoteTrackSoundB[4];
+	char szNoteTrackSoundC[4];
+	char szNoteTrackSoundD[4];
+	int32_t szShellEjectEffect;
+	int32_t szLastShotEjectEffect;
+	int32_t szReticleCenter;
+	uint32_t szReticleSide;
+	uint32_t iReticleCenterSize;
+	uint32_t iReticleSideSize;
+	int32_t iReticleMinOfs;
+	vec3_t vStandMove;
+	vec3_t vStandRot;
+	vec3_t vDuckedOfs;
+	vec3_t vDuckedMove;
+	vec3_t vDuckedRot;
+	vec3_t vProneOfs;
+	vec3_t vProneMove;
+	vec3_t vProneRot;
+	uint32_t fPosMoveRate;
+	uint32_t fPosProneMoveRate;
 	float fStandMoveMinSpeed;
 	float fDuckedMoveMinSpeed;
 	float fProneMoveMinSpeed;
-	float fPosRotRate;
-	float fPosProneRotRate;
+	uint32_t fPosRotRate;
+	uint32_t fPosProneRotRate;
 	float fStandRotMinSpeed;
 	float fDuckedRotMinSpeed;
 	float fProneRotMinSpeed;
-	int szWorldModel;
-	int szHudIcon;
-	int szModeIcon;
-	int iStartAmmo;
-	int szAmmoName;
-	int iAmmoIndex;
-	int szClipName;
-	int iClipIndex;
-	int iMaxAmmo;
-	int iClipSize;
-	int shotCount;
-	int szSharedAmmoCapName;
-	int iSharedAmmoCapIndex;
-	int iSharedAmmoCap;
-	int damage;
-	int playerDamage;
-	int iMeleeDamage;
-	int iDamageType;
-	int iFireDelay;
-	int iMeleeDelay;
-	int iFireTime;
-	int iRechamberTime;
-	int iRechamberBoltTime;
-	int iHoldFireTime;
-	int iMeleeTime;
-	int iReloadTime;
-	int iReloadEmptyTime;
-	int iReloadAddTime;
-	int iReloadStartTime;
-	int iReloadStartAddTime;
-	int iReloadEndTime;
-	int iDropTime;
-	int iRaiseTime;
-	int iAltDropTime;
-	int iAltRaiseTime;
-	int quickDropTime;
-	int quickRaiseTime;
-	int iFuseTime;
-	int autoAimRange;
-	int slowdownAimRange;
-	int slowdownAimRangeAds;
-	int lockonAimRange;
-	int lockonAimRangeAds;
-	int enemyCrosshairRange;
+	char szWorldModel[4];
+	int32_t szHudIcon;
+	int32_t szModeIcon;
+	int32_t iStartAmmo;
+	char szAmmoName[4];
+	uint32_t iAmmoIndex;
+	char szClipName[4];
+	uint32_t iClipIndex;
+	int32_t iMaxAmmo;
+	uint32_t iClipSize;
+	uint32_t shotCount;
+	char szSharedAmmoCapName[4];
+	uint32_t iSharedAmmoCapIndex;
+	int32_t iSharedAmmoCap;
+	int32_t damage;
+	int32_t playerDamage;
+	int32_t iMeleeDamage;
+	uint32_t iDamageType;
+	int32_t iFireDelay;
+	int32_t iMeleeDelay;
+	uint32_t iFireTime;
+	uint32_t iRechamberTime;
+	uint32_t iRechamberBoltTime;
+	uint32_t iHoldFireTime;
+	uint32_t iMeleeTime;
+	uint32_t iReloadTime;
+	uint32_t iReloadEmptyTime;
+	uint32_t iReloadAddTime;
+	uint32_t iReloadStartTime;
+	uint32_t iReloadStartAddTime;
+	uint32_t iReloadEndTime;
+	uint32_t iDropTime;
+	uint32_t iRaiseTime;
+	uint32_t iAltDropTime;
+	uint32_t iAltRaiseTime;
+	uint32_t quickDropTime;
+	uint32_t quickRaiseTime;
+	uint32_t iFuseTime;
+	int32_t autoAimRange;
+	int32_t slowdownAimRange;
+	int32_t slowdownAimRangeAds;
+	int32_t lockonAimRange;
+	int32_t lockonAimRangeAds;
+	int32_t enemyCrosshairRange;
 	float fMoveSpeedScale;
-	float fAdsZoomFov;
+	int32_t fAdsZoomFov;
 	float fAdsZoomInFrac;
 	float fAdsZoomOutFrac;
-	int szOverlayMaterial;
-	weapOverlayReticle_t overlayReticle;
-	int overlayWidth;
-	int overlayHeight;
+	int32_t szOverlayMaterial;
+	int32_t overlayReticle;
+	uint32_t overlayWidth;
+	int32_t overlayHeight;
 	float fAdsBobFactor;
-	float fAdsViewBobMult;
-	float fHipSpreadStandMin;
-	float fHipSpreadDuckedMin;
-	float fHipSpreadProneMin;
-	int hipSpreadStandMax;
-	int hipSpreadDuckedMax;
-	int hipSpreadProneMax;
-	float fHipSpreadDecayRate;
-	float fHipSpreadFireAdd;
-	float fHipSpreadTurnAdd;
-	float fHipSpreadMoveAdd;
-	float fHipSpreadDuckedDecay;
-	float fHipSpreadProneDecay;
-	float fHipReticleSidePos;
-	int iAdsTransInTime;
-	int iAdsTransOutTime;
-	float fAdsIdleAmount;
-	float fHipIdleAmount;
-	int adsIdleSpeed;
-	int hipIdleSpeed;
+	int32_t fAdsViewBobMult;
+	int32_t fHipSpreadStandMin;
+	int32_t fHipSpreadDuckedMin;
+	int32_t fHipSpreadProneMin;
+	int32_t hipSpreadStandMax;
+	int32_t hipSpreadDuckedMax;
+	int32_t hipSpreadProneMax;
+	int32_t fHipSpreadDecayRate;
+	int32_t fHipSpreadFireAdd;
+	int32_t fHipSpreadTurnAdd;
+	int32_t fHipSpreadMoveAdd;
+	int32_t fHipSpreadDuckedDecay;
+	int32_t fHipSpreadProneDecay;
+	uint32_t fHipReticleSidePos;
+	uint32_t iAdsTransInTime;
+	uint32_t iAdsTransOutTime;
+	uint32_t fAdsIdleAmount;
+	uint32_t fHipIdleAmount;
+	float adsIdleSpeed;
+	float hipIdleSpeed;
 	float fIdleCrouchFactor;
 	float fIdleProneFactor;
-	float fGunMaxPitch;
-	float fGunMaxYaw;
-	int swayMaxAngle;
-	int swayLerpSpeed;
-	int swayPitchScale;
-	int swayYawScale;
-	int swayHorizScale;
-	int swayVertScale;
-	int swayShellShockScale;
-	int adsSwayMaxAngle;
-	int adsSwayLerpSpeed;
-	int adsSwayPitchScale;
-	int adsSwayYawScale;
-	int adsSwayHorizScale;
-	int adsSwayVertScale;
-	int bRifleBullet;
-	int armorPiercing;
-	int bSemiAuto;
-	int bBoltAction;
-	int bADSPositionInfo;
-	int bRechamberWhileAds;
-	int adsViewErrorMin;
-	int adsViewErrorMax;
-	int bCookOffHold;
-	int bClipOnly;
-	int bWideListIcon;
-	int bADSFire;
-	int killIcon;
-	int wideKillIcon;
-	int flipKillIcon;
-	int bNoPartialReload;
-	int bSegmentedReload;
-	int iReloadAmmoAdd;
-	int iReloadStartAdd;
-	int szAltWeaponName;
-	int iAltWeaponIndex;
-	int iDropAmmoMin;
-	int iDropAmmoMax;
-	int iExplosionRadius;
-	int iExplosionInnerDamage;
-	int iExplosionOuterDamage;
-	int iProjectileSpeed;
-	int iProjectileSpeedUp;
-	int szProjectileModel;
-	weapProjExposion_t projExplosion;
-	int szProjExplosionEffect;
-	int szProjExplosionSound;
-	int bProjImpactExplode;
-	char parallelBounce[92];
-	char perpendicularBounce[92];
-	int szProjTrailEffect;
-	int iProjectileDLight;
-	char vProjectileColor[12];
-	float fAdsAimPitch;
+	int32_t fGunMaxPitch;
+	int32_t fGunMaxYaw;
+	float swayMaxAngle;
+	float swayLerpSpeed;
+	int32_t swayPitchScale;
+	int32_t swayYawScale;
+	int32_t swayHorizScale;
+	int32_t swayVertScale;
+	int32_t swayShellShockScale;
+	float adsSwayMaxAngle;
+	float adsSwayLerpSpeed;
+	int32_t adsSwayPitchScale;
+	int32_t adsSwayYawScale;
+	int32_t adsSwayHorizScale;
+	int32_t adsSwayVertScale;
+	int32_t bRifleBullet;
+	int32_t armorPiercing;
+	int32_t bSemiAuto;
+	int32_t bBoltAction;
+	char bADSPositionInfo[4];
+	int32_t bRechamberWhileAds;
+	int32_t adsViewErrorMin;
+	int32_t adsViewErrorMax;
+	int32_t bCookOffHold;
+	int32_t bClipOnly;
+	uint32_t bWideListIcon;
+	int32_t bADSFire;
+	int32_t killIcon;
+	uint32_t wideKillIcon;
+	int32_t flipKillIcon;
+	int32_t bNoPartialReload;
+	int32_t bSegmentedReload;
+	int32_t iReloadAmmoAdd;
+	int32_t iReloadStartAdd;
+	char szAltWeaponName[4];
+	uint32_t iAltWeaponIndex;
+	uint32_t iDropAmmoMin;
+	uint32_t iDropAmmoMax;
+	int32_t iExplosionRadius;
+	int32_t iExplosionInnerDamage;
+	int32_t iExplosionOuterDamage;
+	float iProjectileSpeed;
+	float iProjectileSpeedUp;
+	char szProjectileModel[4];
+	int32_t projExplosion;
+	int32_t szProjExplosionEffect;
+	char szProjExplosionSound[4];
+	int32_t bProjImpactExplode;
+	uint8_t parallelBounce[92];
+	uint8_t perpendicularBounce[92];
+	int32_t szProjTrailEffect;
+	int32_t iProjectileDLight;
+	vec3_t vProjectileColor;
+	int32_t fAdsAimPitch;
 	float fAdsCrosshairInFrac;
 	float fAdsCrosshairOutFrac;
-	int adsGunKickReducedKickBullets;
-	int adsGunKickReducedKickPercent;
-	float fAdsGunKickPitchMin;
-	float fAdsGunKickPitchMax;
-	float fAdsGunKickYawMin;
-	float fAdsGunKickYawMax;
-	float fAdsGunKickAccel;
+	int32_t adsGunKickReducedKickBullets;
+	int32_t adsGunKickReducedKickPercent;
+	int32_t fAdsGunKickPitchMin;
+	int32_t fAdsGunKickPitchMax;
+	int32_t fAdsGunKickYawMin;
+	int32_t fAdsGunKickYawMax;
+	int32_t fAdsGunKickAccel;
 	float fAdsGunKickSpeedMax;
 	float fAdsGunKickSpeedDecay;
-	float fAdsGunKickStaticDecay;
-	float fAdsViewKickPitchMin;
-	float fAdsViewKickPitchMax;
-	float fAdsViewKickYawMin;
-	float fAdsViewKickYawMax;
+	int32_t fAdsGunKickStaticDecay;
+	int32_t fAdsViewKickPitchMin;
+	int32_t fAdsViewKickPitchMax;
+	int32_t fAdsViewKickYawMin;
+	int32_t fAdsViewKickYawMax;
 	float fAdsViewKickCenterSpeed;
-	float fAdsViewScatterMin;
-	float fAdsViewScatterMax;
-	float fAdsSpread;
-	int hipGunKickReducedKickBullets;
-	int hipGunKickReducedKickPercent;
-	float fHipGunKickPitchMin;
-	float fHipGunKickPitchMax;
-	float fHipGunKickYawMin;
-	float fHipGunKickYawMax;
-	float fHipGunKickAccel;
+	int32_t fAdsViewScatterMin;
+	int32_t fAdsViewScatterMax;
+	int32_t fAdsSpread;
+	int32_t hipGunKickReducedKickBullets;
+	int32_t hipGunKickReducedKickPercent;
+	int32_t fHipGunKickPitchMin;
+	int32_t fHipGunKickPitchMax;
+	int32_t fHipGunKickYawMin;
+	int32_t fHipGunKickYawMax;
+	int32_t fHipGunKickAccel;
 	float fHipGunKickSpeedMax;
 	float fHipGunKickSpeedDecay;
-	float fHipGunKickStaticDecay;
-	float fHipViewKickPitchMin;
-	float fHipViewKickPitchMax;
-	float fHipViewKickYawMin;
-	float fHipViewKickYawMax;
+	int32_t fHipGunKickStaticDecay;
+	int32_t fHipViewKickPitchMin;
+	int32_t fHipViewKickPitchMax;
+	int32_t fHipViewKickYawMin;
+	int32_t fHipViewKickYawMax;
 	float fHipViewKickCenterSpeed;
-	float fHipViewScatterMin;
-	float fHipViewScatterMax;
-	int fightDist;
-	int maxDist;
-	int64_t accuracyGraphName;
-	int64_t accuracyGraphKnots;
-	int64_t accuracyGraphKnotCount;
-	int iPositionReloadTransTime;
-	int leftArc;
-	int rightArc;
-	int topArc;
-	int bottomArc;
-	int accuracy;
-	int aiSpread;
-	int playerSpread;
-	int64_t minTurnSpeed;
-	int64_t maxTurnSpeed;
-	int pitchConvergenceTime;
-	int yawConvergenceTime;
-	int suppressTime;
-	int maxRange;
-	float fAnimHorRotateInc;
-	float fPlayerPositionDist;
-	int szUseHintString;
-	int dropHintString;
-	int iUseHintStringIndex;
-	int dropHintStringIndex;
-	int horizViewJitter;
-	int vertViewJitter;
-	int szScript;
-	float fOOPosAnimLength;
-	int minDamage;
-	int minPlayerDamage;
-	float fMaxDamageRange;
-	float fMinDamageRange;
-	int destabilizationBaseTime;
-	int destabilizationTimeReductionRatio;
-	int destabilizationAngleMax;
-	int destabilizeDistance;
-	char locationDamageMultipliers[76];
-	int fireRumble;
-	int meleeImpactRumble;
+	int32_t fHipViewScatterMin;
+	int32_t fHipViewScatterMax;
+	int32_t fightDist;
+	int32_t maxDist;
+	char accuracyGraphName[8];
+	uint64_t accuracyGraphKnots;
+	uint64_t accuracyGraphKnotCount;
+	uint32_t iPositionReloadTransTime;
+	int32_t leftArc;
+	int32_t rightArc;
+	int32_t topArc;
+	int32_t bottomArc;
+	int32_t accuracy;
+	int32_t aiSpread;
+	int32_t playerSpread;
+	double minTurnSpeed;
+	double maxTurnSpeed;
+	uint32_t pitchConvergenceTime;
+	uint32_t yawConvergenceTime;
+	uint32_t suppressTime;
+	int32_t maxRange;
+	int32_t fAnimHorRotateInc;
+	uint32_t fPlayerPositionDist;
+	char szUseHintString[4];
+	char dropHintString[4];
+	char iUseHintStringIndex[4];
+	char dropHintStringIndex[4];
+	int32_t horizViewJitter;
+	int32_t vertViewJitter;
+	char szScript[4];
+	uint64_t fOOPosAnimLength;
+	int32_t minDamage;
+	int32_t minPlayerDamage;
+	int32_t fMaxDamageRange;
+	int32_t fMinDamageRange;
+	uint32_t destabilizationBaseTime;
+	uint32_t destabilizationTimeReductionRatio;
+	float destabilizationAngleMax;
+	int32_t destabilizeDistance;
+	uint8_t locationDamageMultipliers[76];
+	int32_t fireRumble;
+	int32_t meleeImpactRumble;
 };
 
 typedef enum
@@ -5924,573 +6350,796 @@ typedef enum
 
 struct weaponState_t
 {
-	int ps;
-	int xyspeed;
-	int frametime;
-	char vLastMoveAng[12];
+	int32_t ps;
+	float xyspeed;
+	uint32_t frametime;
+	vec3_t vLastMoveAng;
 	float fLastIdleFactor;
-	int time;
-	int damageTime;
-	int v_dmg_pitch;
-	int v_dmg_roll;
-	char vGunOffset[12];
-	char vGunSpeed[12];
-	char swayAngles[12];
-	int weapIdleTime;
+	uint32_t time;
+	uint32_t damageTime;
+	int32_t v_dmg_pitch;
+	int32_t v_dmg_roll;
+	vec3_t vGunOffset;
+	vec3_t vGunSpeed;
+	vec3_t swayAngles;
+	uint32_t weapIdleTime;
 };
 
 struct viewState_t
 {
-	int ps;
-	int damageTime;
-	int time;
-	int v_dmg_pitch;
-	int v_dmg_roll;
-	int xyspeed;
-	int frametime;
+	int32_t ps;
+	uint32_t damageTime;
+	uint32_t time;
+	int32_t v_dmg_pitch;
+	int32_t v_dmg_roll;
+	float xyspeed;
+	uint32_t frametime;
 	float fLastIdleFactor;
-	int weapIdleTime;
+	uint32_t weapIdleTime;
+};
+
+struct VariableStackBuffer
+{
+	uint32_t pos;
+	uint16_t size;
+	uint16_t bufLen;
+	uint16_t localId;
+	int8_t time;
+	int8_t buf;
+};
+
+union VariableUnion
+{
+	int32_t intValue;
+	float floatValue;
+	char stringValue[4];
+	int32_t vectorValue;
+	uint32_t codePosValue;
+	int32_t pointerValue;
+	int32_t stackValue;
+	uint32_t entityOffset;
 };
 
 struct VariableValue_s
 {
 	VariableUnion u;
-	int type;
-};
-
-union VariableUnion
-{
-	int intValue;
-	int floatValue;
-	int stringValue;
-	int vectorValue;
-	int codePosValue;
-	int pointerValue;
-	int stackValue;
-	int entityOffset;
+	int32_t type;
 };
 
 struct scr_entref_t
 {
-	short entnum;
-	short classnum;
+	uint16_t entnum;
+	uint16_t classnum;
 };
 
 struct function_stack_t
 {
-	int pos;
-	int localId;
-	int localVarCount;
-	int top;
-	int startTop;
+	uint32_t pos;
+	uint32_t localId;
+	uint32_t localVarCount;
+	int32_t top;
+	int32_t startTop;
 };
 
-struct scr_anim_s
+struct $_3635
 {
-	short index;
-	short tree;
-};
-
-struct scr_animtree_t
-{
-	int anims;
-};
-
-struct _3635
-{
-	int localVars;
-	int maxstack;
-	int function_count;
-	int function_frame;
-	int top;
-	char debugCode;
-	char abort_on_error;
-	char terminal_error;
-	char pad0[1];
-	int inparamcount;
-	int outparamcount;
-	char function_frame_start[768];
-	char stack[16384];
+	void *fieldBuffer;
+	int32_t mark;
+	uint16_t canonicalStrCount;
+	int8_t developer;
+	int8_t developer_script;
+	int8_t evaluate;
+	char pad0[3];
+	char error_message[4];
+	uint32_t error_index;
+	uint32_t time;
+	uint32_t timeArrayId;
+	uint32_t pauseArrayId;
+	uint32_t levelId;
+	uint32_t gameId;
+	uint32_t animId;
+	int32_t freeEntList;
+	int32_t tempVariable;
+	int8_t bInited;
+	char pad1[1];
+	uint16_t savecount;
+	int32_t checksum;
+	uint32_t entId;
+	char entFieldName[4];
+	void *programBuffer;
+	char endScriptBuffer[4];
+	uint8_t saveIdMap[131068];
+	uint8_t saveIdMapRev[131068];
 };
 
 struct function_frame_t
 {
-	char fs[20];
-	int topType;
+	uint8_t fs[20];
+	int32_t topType;
 };
 
-struct _3636
+struct $_3636
 {
-	int dummy;
+	int8_t dummy;
+};
+
+struct Variable
+{
+	uint16_t id;
+	$_3652 u;
+};
+
+struct $_3656
+{
+	int32_t colorForDir;
+	int32_t sunVisibility;
+};
+
+struct $_3654
+{
+	int32_t ps;
+	uint32_t damageTime;
+	uint32_t time;
+	int32_t v_dmg_pitch;
+	int32_t v_dmg_roll;
+	float xyspeed;
+	uint32_t frametime;
+	float fLastIdleFactor;
+	uint32_t weapIdleTime;
+};
+
+union $_3655
+{
+	$_3656 dx7;
+	vec3_t baseCoords;
+	vec3_t origin;
 };
 
 struct VariableValueInternal
 {
 	Variable hash;
-	char pad0[10];
-	short nextSibling;
+	$_3654 u;
+	$_3655 w;
+	$_3656 v;
+	int16_t nextSibling;
 };
 
-struct Variable
+struct $_3653
 {
-	short id;
-};
-
-union _3654
-{
-	short next;
-	VariableUnion u;
-	ObjectInfo o;
-};
-
-union _3655
-{
-	int status;
-	int type;
-	int name;
-	int classnum;
-	int notifyName;
-	int waitTime;
-	int parentLocalId;
-};
-
-union _3656
-{
-	short next;
-	short index;
+	int32_t ps;
+	float xyspeed;
+	uint32_t frametime;
+	vec3_t vLastMoveAng;
+	float fLastIdleFactor;
+	uint32_t time;
+	uint32_t damageTime;
+	int32_t v_dmg_pitch;
+	int32_t v_dmg_roll;
+	vec3_t vGunOffset;
+	vec3_t vGunSpeed;
+	vec3_t swayAngles;
+	uint32_t weapIdleTime;
 };
 
 struct ObjectInfo
 {
-	short refCount;
-};
-
-union _3653
-{
-	short size;
-	short entnum;
-	short nextEntId;
-	short self;
-};
-
-struct VariableStackBuffer
-{
-	int pos;
-	short size;
-	short bufLen;
-	short localId;
-	char time;
-	char buf;
+	uint16_t refCount;
+	$_3653 u;
 };
 
 struct ThreadDebugInfo
 {
-	char pos[128];
-	int posSize;
-	int varUsage;
-	int endonUsage;
+	uint8_t pos[128];
+	uint32_t posSize;
+	int32_t varUsage;
+	int32_t endonUsage;
 };
 
-struct _3657
+struct $_3657
 {
-	char variableList[1048544];
+	uint8_t variableList[1048544];
 };
 
 struct scr_classStruct_t
 {
-	short id;
-	short entArrayId;
-	char charId;
+	uint16_t id;
+	uint16_t entArrayId;
+	int8_t charId;
 	char pad0[3];
-	int name;
+	char name[4];
 };
 
 struct scr_block_s
 {
-	int abortLevel;
-	int localVarsCreateCount;
-	int localVarsPublicCount;
-	int localVarsCount;
-	int64_t localVarsInitBits;
-	char localVars[256];
+	int32_t abortLevel;
+	uint32_t localVarsCreateCount;
+	uint32_t localVarsPublicCount;
+	uint32_t localVarsCount;
+	uint64_t localVarsInitBits;
+	uint8_t localVars[256];
 };
 
 struct scr_localVar_t
 {
-	int name;
+	char name[4];
 };
 
 struct VariableCompileValue
 {
-	int64_t value;
-	int sourcePos;
+	uint64_t value;
+	uint32_t sourcePos;
 };
 
 struct ContinueStatementInfo
 {
-	int codePos;
-	int nextCodePos;
-	int next;
+	uint32_t codePos;
+	uint32_t nextCodePos;
+	int32_t next;
 };
 
 struct BreakStatementInfo
 {
-	int codePos;
-	int nextCodePos;
-	int next;
+	uint32_t codePos;
+	uint32_t nextCodePos;
+	int32_t next;
 };
 
 struct CaseStatementInfo
 {
-	int name;
-	int codePos;
-	int sourcePos;
-	int next;
+	char name[4];
+	uint32_t codePos;
+	uint32_t sourcePos;
+	int32_t next;
 };
 
 struct PrecacheEntry
 {
-	short filename;
-	char include;
+	char filename[2];
+	int8_t include;
 	char pad0[1];
-	int sourcePos;
-	int next;
+	uint32_t sourcePos;
+	int32_t next;
 };
 
-struct _3620
+struct $_3620
 {
-	char dummy;
+	uint8_t msgs[22528];
+	int32_t get;
+	int32_t send;
 };
 
-struct _3677
+struct $_3677
 {
-	int codePos;
-	int prevOpcodePos;
-	int fileId;
-	int threadId;
-	int cumulOffset;
-	int maxOffset;
-	int maxCallOffset;
-	char bConstRefCount;
-	char in_developer_thread;
-	char pad0[2];
-	int developer_thread_sourcePos;
-	short firstThread;
-	char bCanIgnoreCase;
-	char pad1[1];
-	int currentCaseStatement;
-	char bCanBreak;
-	char bCanIgnoreBreak;
-	char pad2[2];
-	int currentBreakStatement;
-	char bCanContinue;
-	char bCanIgnoreContinue;
-	char pad3[2];
-	int currentContinueStatement;
-	int breakChildBlocks;
-	int breakChildCount;
-	int breakBlock;
-	int continueChildBlocks;
-	int continueChildCount;
-	char forceNotCreate;
-	char pad4[3];
-	int precachescriptList;
-	int precachescriptListHead;
-	char value_start[384];
+	int32_t header;
+	uint32_t fileSize;
+	int32_t checksum;
+};
+
+struct OpcodeLookup
+{
+	uint32_t codePos;
+	uint32_t sourcePosIndex;
+	uint32_t sourcePosCount;
+	uint32_t profileTime;
+	int32_t profileUsage;
+};
+
+struct SourceLookup
+{
+	uint32_t sourcePos;
+	int32_t type;
 };
 
 struct SaveSourceBufferInfo
 {
-	int sourceBuf;
-	int len;
+	void *sourceBuf;
+	uint32_t len;
 };
 
 struct Scr_SourcePos_t
 {
-	int bufferIndex;
-	int lineNum;
-	int sourcePos;
+	uint32_t bufferIndex;
+	uint32_t lineNum;
+	uint32_t sourcePos;
 };
 
-struct _3645
+struct $_3645
 {
-	int pos;
-	int localId;
-	int localVarCount;
-	int top;
-	int startTop;
+	uint32_t pos;
+	uint32_t localId;
+	uint32_t localVarCount;
+	int32_t top;
+	int32_t startTop;
 };
 
-struct _3661
+struct $_3661
 {
-	int opcodeLookup;
-	int opcodeLookupMaxLen;
-	int opcodeLookupLen;
-	int sourcePosLookup;
-	int sourcePosLookupMaxLen;
-	int sourcePosLookupLen;
-	int sourceBufferLookupMaxLen;
-	int currentCodePos;
-	int currentSourcePosCount;
-	int saveSourceBufferLookup;
-	int saveSourceBufferLookupLen;
-	int delayedSourceIndex;
-	int threadStartSourceIndex;
+	int32_t opcodeLookup;
+	uint32_t opcodeLookupMaxLen;
+	uint32_t opcodeLookupLen;
+	uint32_t sourcePosLookup;
+	uint32_t sourcePosLookupMaxLen;
+	uint32_t sourcePosLookupLen;
+	uint32_t sourceBufferLookupMaxLen;
+	uint32_t currentCodePos;
+	uint32_t currentSourcePosCount;
+	void *saveSourceBufferLookup;
+	uint32_t saveSourceBufferLookupLen;
+	uint32_t delayedSourceIndex;
+	uint32_t threadStartSourceIndex;
 };
 
-struct _3701
+struct shellshock_t
 {
-	int animtrees;
-	int animtree_node;
-	int animTreeNames;
-	char xanim_lookup[1024];
-	int64_t xanim_num;
-	int animTreeIndex;
-	char animtree_loading;
+	int32_t parms;
+	uint32_t startTime;
+	int32_t duration;
+	uint32_t loopEndTime;
+	int32_t sensitivity;
+	uint64_t viewDelta;
+	int32_t hasSavedScreen;
 };
 
-struct _3724
+struct MarkPoly
 {
-	int start;
-	int pos;
-	char using_xanim_lookup[512];
-	int bAnimCheck;
+	int32_t prevMark;
+	int32_t nextMark;
+	int32_t lastFrameDrawn;
+	vec3_t origin;
+	int32_t radius;
+	uint32_t mtlHandle;
+	uint16_t lmapIndex;
+	uint8_t vertCount;
+	char pad0[1];
+	uint8_t verts[612];
+};
+
+struct playerEntity_t
+{
+	float fLastWeaponPosFrac;
+	uint32_t bPositionToADS;
+	vec3_t vPositionLastOrg;
+	float fLastIdleFactor;
+	vec3_t vLastMoveOrg;
+	vec3_t vLastMoveAng;
+};
+
+struct $_3725
+{
+	uint32_t time;
+	int32_t duration;
+};
+
+struct bgs_t
+{
+	animScriptData_t animScriptData;
+	$_3674 generic_human;
+	uint32_t time;
+	uint32_t latestSnapshotTime;
+	uint32_t frametime;
+	int32_t anim_user;
+	char GetXModel[4];
+	int32_t CreateDObj;
+	int32_t SafeDObjFree;
+	int32_t AllocXAnim;
+	char clientinfo[77312];
+};
+
+struct $_3724
+{
+	int32_t clientFrame;
+	uint32_t clientNum;
+	char demoType[4];
+	int32_t cubemapShot;
+	uint32_t cubemapSize;
+	int32_t renderScreen;
+	uint32_t latestSnapshotNum;
+	uint32_t latestSnapshotTime;
+	int32_t snap;
+	int32_t nextSnap;
+	uint8_t activeSnapshots[154496];
+	int32_t frameInterpolation;
+	uint32_t frametime;
+	uint32_t time;
+	uint32_t oldTime;
+	uint32_t physicsTime;
+	int32_t mapRestart;
+	int32_t renderingThirdPerson;
+	uint8_t predictedPlayerState[9896];
+	uint8_t predictedPlayerEntity[548];
+	playerEntity_t playerEntity;
+	uint32_t predictedErrorTime;
+	vec3_t predictedError;
+	int32_t stepChange;
+	uint32_t stepTime;
+	int32_t landChange;
+	uint32_t landTime;
+	vec3_t autoAnglesSlow;
+	vec3_t autoAxisSlow[3];
+	vec3_t autoAngles;
+	vec3_t autoAxis[3];
+	vec3_t autoAnglesFast;
+	vec3_t autoAxisFast[3];
+	refdef_s refdef;
+	vec3_t refdefViewAngles;
+	vec3_t swayViewAngles;
+	vec3_t swayAngles;
+	vec3_t swayOffset;
+	uint8_t iEntityLastType[4096];
+	char pEntityLastXModel[4096];
+	int32_t zoomSensitivity;
+	char infoScreenText[1024];
+	char objectiveText[1024];
+	char scriptMainMenu[256];
+	uint32_t scoresRequestTime;
+	uint32_t numScores;
+	uint8_t teamScores[16];
+	uint8_t teamPings[16];
+	uint8_t teamPlayers[16];
+	uint8_t scores[1536];
+	int32_t showScores;
+	uint32_t scoreFadeTime;
+	int32_t scoresTop;
+	int32_t scoresOffBottom;
+	int32_t firstLineVisible;
+	int32_t lastLineVisible;
+	char killerName[32];
+	char spectatorList[1024];
+	char spectatorLen[4];
+	char spectatorWidth[4];
+	char spectatorTime[4];
+	char spectatorPaintX[4];
+	char spectatorPaintX2[4];
+	char spectatorOffset[4];
+	char spectatorPaintLen[4];
+	int32_t showItems;
+	uint32_t itemFadeTime;
+	uint32_t centerPrintTime;
+	uint32_t centerPrintCharWidth;
+	uint8_t centerPrint[1024];
+	int32_t centerPrintLines;
+	int32_t centerPrintPriority;
+	uint32_t fadeTime;
+	int32_t fadeRate;
+	vec4_t fadeColor1;
+	vec4_t fadeColor2;
+	int32_t drawHud;
+	uint32_t crosshairClientNum;
+	uint32_t crosshairClientTime;
+	uint32_t crosshairPowerupNum;
+	uint32_t crosshairPowerupTime;
+	uint32_t identifyClientNum;
+	uint32_t identifyClientHealth;
+	uint32_t identifyNextTime;
+	int32_t cursorHintIcon;
+	uint32_t cursorHintTime;
+	int32_t cursorHintFade;
+	char cursorHintString[4];
+	uint32_t lastClipFlashTime;
+	uint32_t lastHealthPulseTime;
+	int32_t lastHealthLerpDelay;
+	int32_t lastHealthClient;
+	int32_t lastHealth;
+	int32_t healthOverlayFromAlpha;
+	int32_t healthOverlayToAlpha;
+	uint32_t healthOverlayPulseTime;
+	int32_t healthOverlayPulseDuration;
+	int32_t healthOverlayPulsePhase;
+	int8_t healthOverlayHurt;
+	char pad0[3];
+	uint32_t healthOverlayLastHitTime;
+	int32_t healthOverlayOldHealth;
+	uint32_t healthOverlayPulseIndex;
+	uint32_t proneBlockedEndTime;
+	int32_t lastStance;
+	uint32_t lastStanceChangeTime;
+	uint32_t lastStanceFlashTime;
+	int32_t powerupActive;
+	uint32_t powerupTime;
+	uint32_t attackerTime;
+	uint32_t voiceTime;
+	int32_t weaponSelect;
+	uint32_t weaponSelectTime;
+	int32_t weaponAnimation;
+	uint32_t weaponAnimationTime;
+	vec3_t fWeapSelectFrac;
+	uint32_t iWeapSelectLastDrawTime;
+	int32_t equippedOffHand;
+	vec3_t viewDamage[8];
+	uint32_t damageTime;
+	int32_t damageX;
+	int32_t damageY;
+	int32_t damageValue;
+	int32_t viewFade;
+	int32_t nomarks;
+	uint32_t weapIdleTime;
+	int32_t headYaw;
+	int32_t headEndPitch;
+	int32_t headEndYaw;
+	uint32_t headEndTime;
+	int32_t headStartPitch;
+	int32_t headStartYaw;
+	uint32_t headStartTime;
+	uint32_t v_dmg_time;
+	int32_t v_dmg_pitch;
+	int32_t v_dmg_roll;
+	int32_t fBobCycle;
+	float xyspeed;
+	uint32_t nextOrbitTime;
+	GfxEntity testModelEntity;
+	char testModelName[64];
+	int32_t testGun;
+	char testFxName[64];
+	vec3_t testFxPos;
+	uint32_t testFxTime;
+	uint32_t testFxRespawnTime;
+	vec3_t kickAVel;
+	vec3_t kickAngles;
+	vec3_t offsetAngles;
+	uint64_t vKickScatter;
+	uint64_t vNewKickScatterChange;
+	int32_t vKickScatterLerp;
+	float vKickScatterFrac;
+	int32_t iLastKickScatterDir;
+	double vLastCompensationViewAngles;
+	uint64_t vKickCompensation;
+	uint64_t vKickCompensationCentering;
+	uint64_t bManualKickCompensation;
+	int32_t gunPitch;
+	int32_t gunYaw;
+	int32_t gunXOfs;
+	int32_t gunYOfs;
+	int32_t gunZOfs;
+	vec3_t vGunOffset;
+	vec3_t vGunSpeed;
+	char viewModelOrigin[12];
+	char viewModelAxis[36];
+	char viewModelAngles[12];
+	uint32_t oidTeam;
+	uint32_t oidPrintTime;
+	uint32_t oidPrintCharWidth;
+	uint32_t oidPrintY;
+	uint8_t oidPrint[1024];
+	uint32_t oidPrintLines;
+	uint8_t cameraShake[144];
+	int32_t cameraShakePhase;
+	int32_t rumbleScale;
+	char latchVictorySound[4];
+	uint32_t compassLastTime;
+	int32_t compassNorthYaw;
+	int32_t compassYaw;
+	float compassSpeed;
+	int32_t compPointerYaw;
+	float compPointerSpeed;
+	uint32_t compassFadeTime;
+	uint32_t healthFadeTime;
+	uint32_t ammoFadeTime;
+	uint32_t stanceFadeTime;
+	uint32_t offhandFadeTime;
+	uint32_t offhandFlashTime;
+	uint8_t compassActors[1792];
+	shellshock_t shellshock;
+	$_3725 testShock;
+	uint32_t holdBreathTime;
+	uint32_t holdBreathInTime;
+	int32_t holdBreathDelay;
+	float holdBreathFrac;
+	int32_t adsViewErrorDone;
+	int32_t inKillCam;
+	bgs_t bgs;
+	MarkPoly activeMarkPolys;
 };
 
 struct MantleResults
 {
-	char dir[12];
-	char startPos[12];
-	char ledgePos[12];
-	char endPos[12];
-	int flags;
-	int duration;
+	vec3_t dir;
+	vec3_t startPos;
+	vec3_t ledgePos;
+	vec3_t endPos;
+	uint32_t flags;
+	int32_t duration;
 };
 
 struct MantleAnimTransition
 {
-	int upAnimIndex;
-	int overAnimIndex;
-	int height;
+	uint32_t upAnimIndex;
+	uint32_t overAnimIndex;
+	int32_t height;
 };
 
-union _3659
+struct $_3660
 {
-	char baseCoords[12];
-	char origin[12];
+	int32_t colorForDir;
+	int32_t sunVisibility;
 };
 
-struct _3660
+union $_3659
 {
-	int colorForDir;
-	int sunVisibility;
+	$_3660 dx7;
+	vec3_t baseCoords;
+	vec3_t origin;
 };
 
 union GfxModel
 {
-	int obj;
-	int model;
-	int bmodel;
-	int data;
+	int32_t obj;
+	char model[4];
+	char bmodel[4];
+	int32_t data;
 };
 
 struct g_sa_type
 {
-	char initialized[3];
+	uint8_t initialized[3];
 	char pad0[1];
-	int randSeed;
-	char pHash[4096];
+	int32_t randSeed;
+	uint8_t pHash[4096];
 	char aliasInfo[48];
 	char soundFileInfo[24];
 	char szLoadSpec[64];
-	char curvesInitialized;
+	int8_t curvesInitialized;
 	char pad1[3];
-	char volumeFalloffCurves[1152];
+	uint8_t volumeFalloffCurves[1152];
 	char volumeFalloffCurveNames[1024];
 };
 
 struct SoundFileInfo
 {
-	int count;
-	int files;
+	uint32_t count;
+	int32_t files;
 };
 
 struct com_parse_mark_t
 {
-	int lines;
-	int text;
-	int ungetToken;
-	int backup_lines;
-	int backup_text;
+	int32_t lines;
+	char text[4];
+	int32_t ungetToken;
+	int32_t backup_lines;
+	char backup_text[4];
 };
 
 struct ParseThreadInfo
 {
 	char parseInfo[17856];
-	int parseInfoNum;
-	int tokenPos;
-	int prevTokenPos;
-	char line[1024];
+	char parseInfoNum[4];
+	uint32_t tokenPos;
+	uint32_t prevTokenPos;
+	uint8_t line[1024];
 };
 
 struct statmonitor_s
 {
-	int endtime;
-	int material;
-};
-
-union sval_u
-{
-	int type;
-	int stringValue;
-	int idValue;
-	int floatValue;
-	int intValue;
-	int node;
-	int sourcePosValue;
-	int codePosValue;
-	int debugString;
-	int block;
+	uint32_t endtime;
+	int32_t material;
 };
 
 struct archivedEntityShared_t
 {
-	int svFlags;
-	int64_t clientMask;
-	char absmin[12];
-	char absmax[12];
+	uint32_t svFlags;
+	uint64_t clientMask;
+	vec3_t absmin;
+	vec3_t absmax;
 };
 
-struct worldSector_s
+struct archivedEntity_s
 {
-	worldContents_t contents;
-	worldTree_t tree;
+	uint8_t s[240];
+	archivedEntityShared_t r;
+};
+struct svEntity_s
+{
+	int16_t worldSector;
+	int16_t nextEntityInWorldSector;
+	archivedEntity_s baseline;
+	uint32_t numClusters;
+	uint8_t clusternums[64];
+	int32_t lastCluster;
+	int32_t linkcontents;
+	uint64_t linkmin;
+	uint64_t linkmax;
 };
 
 struct worldContents_s
 {
-	int contentsStaticModels;
-	int contentsEntities;
-	short entities;
-	short staticModels;
+	char contentsStaticModels[4];
+	int32_t contentsEntities;
+	int16_t entities;
+	char staticModels[2];
 };
 
+union $_3780
+{
+	int16_t parent;
+	int16_t nextFree;
+};
 struct worldTree_s
 {
-	int dist;
-	short axis;
-	char pad0[2];
-	int child;
+	int32_t dist;
+	int16_t axis;
+	$_3780 u;
+	int32_t child;
 };
-
-union _3780
+struct worldSector_s
 {
-	short parent;
-	short nextFree;
+	worldContents_s contents;
+	worldTree_s tree;
 };
 
 struct areaParms_t
 {
-	int start;
-	int mins;
-	int maxs;
-	int list;
-	int count;
-	int maxcount;
-	int contentmask;
-	int results;
-};
-
-struct gentity_s
-{
-	char s[240];
-	entityShared_t r;
-};
-
-struct entityShared_t
-{
-	char linked;
-	char bmodel;
-	char svFlags;
-	char pad0[1];
-	int64_t clientMask;
-	char inuse;
-	char pad1[3];
-	int broadcastTime;
-	char mins[12];
-	char maxs[12];
-	int contents;
-	char absmin[12];
-	char absmax[12];
-	char currentOrigin[12];
-	char currentAngles[12];
-	int ownerNum;
-	int eventTime;
+	int32_t start;
+	int32_t mins;
+	int32_t maxs;
+	int32_t list;
+	uint32_t count;
+	uint32_t maxcount;
+	uint32_t contentmask;
+	int32_t results;
 };
 
 struct sightpointtrace_t
 {
-	char start[12];
-	char end[12];
-	int64_t passEntityNum;
-	int contentmask;
-	int locational;
+	vec3_t start;
+	vec3_t end;
+	uint64_t passEntityNum;
+	uint32_t contentmask;
+	int32_t locational;
 };
 
 struct staticmodeltrace_t
 {
 	TraceExtents extents;
-	int contents;
+	int32_t contents;
 };
 
 struct sightclip_t
 {
-	char mins[12];
-	char maxs[12];
-	char outerSize[12];
-	char start[12];
-	char end[12];
-	int64_t passEntityNum;
-	int contentmask;
+	vec3_t mins;
+	vec3_t maxs;
+	vec3_t outerSize;
+	vec3_t start;
+	vec3_t end;
+	uint64_t passEntityNum;
+	uint32_t contentmask;
 };
 
 struct locTraceWork_t
 {
-	int contents;
-	char extents[36];
+	int32_t contents;
+	uint8_t extents[36];
 };
 
 struct pointtrace_t
 {
-	char extents[36];
-	int passEntityNum;
-	int passOwnerNum;
-	int contentmask;
-	int bLocational;
-	int priorityMap;
+	uint8_t extents[36];
+	uint32_t passEntityNum;
+	uint32_t passOwnerNum;
+	uint32_t contentmask;
+	int32_t bLocational;
+	int32_t priorityMap;
 };
 
 struct moveclip_t
 {
-	char mins[12];
-	char maxs[12];
-	char outerSize[12];
-	char extents[36];
-	int passEntityNum;
-	int passOwnerNum;
-	int contentmask;
+	vec3_t mins;
+	vec3_t maxs;
+	vec3_t outerSize;
+	uint8_t extents[36];
+	uint32_t passEntityNum;
+	uint32_t passOwnerNum;
+	uint32_t contentmask;
 };
 
 struct cm_world_t
 {
-	char mins[12];
-	char maxs[12];
-	char lockTree;
+	vec3_t mins;
+	vec3_t maxs;
+	int8_t lockTree;
 	char pad0[1];
-	short freeHead;
-	char sectors[24576];
+	int16_t freeHead;
+	uint8_t sectors[24576];
 };
-/* 
+
 typedef enum
 {
 	FMV_IDLE = 0,
@@ -6500,77 +7149,77 @@ typedef enum
 	FMV_ID_IDLE = 4,
 	FMV_LOOPED = 5,
 	FMV_ID_WAIT = 6
-} e_status; */
+} e_status;
 
-struct _3803
+struct $_3803
 {
-	char linbuf[2097152];
-	char file[65536];
-	char sqrTable[512];
-	char mcomp[1024];
+	uint8_t linbuf[2097152];
+	uint8_t file[65536];
+	uint8_t sqrTable[512];
+	uint8_t mcomp[1024];
 	char qStatus[262144];
-	int oldXOff;
-	int oldYOff;
-	int oldysize;
-	int oldxsize;
-	int currentHandle;
+	int32_t oldXOff;
+	int32_t oldYOff;
+	uint32_t oldysize;
+	uint32_t oldxsize;
+	uint32_t currentHandle;
 };
 
 struct cin_cache
 {
 	char fileName[256];
-	int CIN_WIDTH;
-	int CIN_HEIGHT;
-	int xpos;
-	int ypos;
-	int width;
-	int height;
-	int looping;
-	int holdAtEnd;
-	int dirty;
-	int alterGameState;
-	int silent;
-	int material;
-	int letterBox;
-	int sound;
-	int iFile;
-	int status;
-	int startTime;
-	int lastFrameTime;
-	int lastTime;
-	int tfps;
-	int RoQPlayed;
-	int ROQSize;
-	int RoQFrameSize;
-	int onQuad;
-	int numQuads;
-	int samplesPerLine;
-	int roq_id;
-	int screenDelta;
-	int VQ0;
-	int VQ1;
-	int VQNormal;
-	int VQBuffer;
-	int samplesPerPixel;
-	int gray;
-	int xsize;
-	int ysize;
-	int maxsize;
-	int minsize;
-	int half;
-	int smootheddouble;
-	int inMemory;
-	int normalBuffer0;
-	int roq_flags;
-	int roqF0;
-	int roqF1;
-	int64_t t;
-	int roqFPS;
-	int playonwalls;
-	int buf;
-	connstate_t previousGameState;
+	uint32_t CIN_WIDTH;
+	int32_t CIN_HEIGHT;
+	uint32_t xpos;
+	uint32_t ypos;
+	uint32_t width;
+	int32_t height;
+	int32_t looping;
+	int32_t holdAtEnd;
+	int32_t dirty;
+	int32_t alterGameState;
+	uint32_t silent;
+	int32_t material;
+	int32_t letterBox;
+	char sound[4];
+	int32_t iFile;
+	char status[4];
+	uint32_t startTime;
+	uint32_t lastFrameTime;
+	uint32_t lastTime;
+	int32_t tfps;
+	int32_t RoQPlayed;
+	uint32_t ROQSize;
+	uint32_t RoQFrameSize;
+	int32_t onQuad;
+	uint32_t numQuads;
+	int32_t samplesPerLine;
+	uint32_t roq_id;
+	int32_t screenDelta;
+	int32_t VQ0;
+	int32_t VQ1;
+	int32_t VQNormal;
+	void *VQBuffer;
+	int32_t samplesPerPixel;
+	int32_t gray;
+	uint32_t xsize;
+	uint32_t ysize;
+	uint32_t maxsize;
+	uint32_t minsize;
+	int32_t half;
+	int32_t smootheddouble;
+	int32_t inMemory;
+	void *normalBuffer0;
+	uint32_t roq_flags;
+	int32_t roqF0;
+	int32_t roqF1;
+	uint64_t t;
+	int32_t roqFPS;
+	int32_t playonwalls;
+	void *buf;
+	int32_t previousGameState;
 };
-/* 
+
 typedef enum
 {
 	CA_DISCONNECTED = 0,
@@ -6583,54 +7232,85 @@ typedef enum
 	CA_PRIMED = 7,
 	CA_ACTIVE = 8
 } connstate_t;
- */
+
 struct MD4_CTX
 {
-	char state[16];
-	int64_t count;
-	char buffer[64];
+	uint8_t state[16];
+	uint64_t count;
+	uint8_t buffer[64];
+};
+
+struct LegacyHacks
+{
+	int32_t cg_norender;
+	int32_t cl_running;
+	int32_t cl_stance;
+	int32_t cl_stanceTemp;
+	char cl_downloadSize[4];
+	char cl_downloadCount[4];
+	char cl_downloadTime[4];
+	char cl_downloadName[64];
+	uint8_t cl_serverloadmap[64];
+	char cl_serverloadgametype[64];
+	int8_t cl_serverloadwaiting;
+	int8_t sv_killserver;
+	uint8_t sv_killreason[256];
+	char ui_scriptMenu[256];
+	char pad0[2];
+	char ui_scriptMenuIndex[4];
+	char ui_newScriptMenu[256];
+	char ui_newScriptMenuIndex[4];
+	char ui_waitingScriptMenu[256];
+	char ui_waitingScriptMenuIndex[4];
+	int8_t ui_waitingScriptMenuNoMouse;
+	int8_t ui_scriptMenuAllowResponse;
+	char ui_savegameName[256];
+	char ui_savegameInfo[256];
+	int8_t winnt;
+	char pad1[1];
+	uint32_t persid;
 };
 
 struct TestLod
 {
-	char enabled;
+	int8_t enabled;
 	char pad0[3];
-	int dist;
+	int32_t dist;
 };
 
 struct snd_alias_build_s
 {
-	char szSourceFile[64];
+	uint8_t szSourceFile[64];
 	char szAliasName[64];
 	char szSecondaryAliasName[64];
-	int subtitleText;
-	int iSequence;
+	char subtitleText[4];
+	int32_t iSequence;
 	char szSoundFile[64];
-	int permSoundFile;
-	float fVolMin;
-	float fVolMax;
-	float fVolMod;
-	float fPitchMin;
-	float fPitchMax;
-	float fDistMin;
-	float fDistMax;
-	int iChannel;
-	snd_alias_type_t eType;
-	int volumeFalloffCurve;
-	float fSlavePercentage;
-	float fProbability;
-	float fLfePercentage;
-	int startDelay;
-	char bLooping;
-	char bMaster;
-	char bSlave;
-	char bFullDryLevel;
-	char bNoWetLevel;
-	char error;
-	char keep;
+	char permSoundFile[4];
+	int32_t fVolMin;
+	int32_t fVolMax;
+	int32_t fVolMod;
+	int32_t fPitchMin;
+	int32_t fPitchMax;
+	int32_t fDistMin;
+	int32_t fDistMax;
+	int32_t iChannel;
+	int32_t eType;
+	int32_t volumeFalloffCurve;
+	int32_t fSlavePercentage;
+	int32_t fProbability;
+	int32_t fLfePercentage;
+	int32_t startDelay;
+	int8_t bLooping;
+	int8_t bMaster;
+	int8_t bSlave;
+	int8_t bFullDryLevel;
+	int8_t bNoWetLevel;
+	int8_t error;
+	int8_t keep;
 	char pad0[1];
-	int pSameSoundFile;
-	int pNext;
+	char pSameSoundFile[4];
+	int32_t pNext;
 };
 
 typedef enum
@@ -6664,207 +7344,238 @@ typedef enum
 
 struct saLoadObjGlob_type
 {
-	int tempAliases;
-	int tempAliasCount;
-	char volumeModGroups[2176];
-	char volumeModGroupsInitialized;
-	char refreshVolumeModGroupsCommandInitialized;
+	char tempAliases[4];
+	char tempAliasCount[4];
+	uint8_t volumeModGroups[2176];
+	int8_t volumeModGroupsInitialized;
+	int8_t refreshVolumeModGroupsCommandInitialized;
 };
 
 struct VolumeModGroup
 {
 	char name[64];
-	int value;
+	int32_t value;
 };
 
-union _3678
+union $_3678
 {
-	short b;
-	short s;
+	int16_t b;
+	int16_t s;
 };
 
-union _3680
+union $_3680
 {
-	int b;
-	int f;
+	int32_t b;
+	int32_t f;
 };
 
-struct _3696
+struct clientState_s
 {
-	char entries[4112];
-	char mins[12];
-	char maxs[12];
-	int collLod;
-	char flags;
+	uint32_t clientIndex;
+	int32_t team;
+	char modelindex[4];
+	char attachModelIndex[24];
+	uint8_t attachTagIndex[24];
+	char name[32];
+};
+struct $_3696
+{
+	uint32_t snapFlags;
+	int32_t ping;
+	uint32_t serverTime;
+	playerState_s ps;
+	uint32_t numEntities;
+	uint32_t numClients;
+	entityState_s entities[256];
+	clientState_s clients[64];
+	char serverCommandSequence[4];
 };
 
 struct XModelConfigEntry
 {
 	char filename[1024];
-	int dist;
+	int32_t dist;
 };
 
-union _3679
+union $_3679
 {
-	int b;
-	int i;
+	int32_t b;
+	int32_t i;
 };
 
 struct infoParm_t
 {
-	int name;
-	int clearSolid;
-	int surfaceFlags;
-	int contents;
-	int toolFlags;
-};
-
-struct source_s
-{
-	char filename[64];
-	char includepath[64];
-	int punctuations;
-	int scriptstack;
-	int tokens;
-	int defines;
-	int definehash;
-	int indentstack;
-	int skip;
-	char pad0[4];
-	token_t token;
+	char name[4];
+	uint32_t clearSolid;
+	uint32_t surfaceFlags;
+	int32_t contents;
+	uint32_t toolFlags;
 };
 
 struct token_s
 {
 	char string[1024];
-	int type;
-	int subtype;
-	int intvalue;
+	int32_t type;
+	int32_t subtype;
+	int32_t intvalue;
 	char pad0[4];
-	char floatvalue[16];
-	int whitespace_p;
-	int endwhitespace_p;
-	int line;
-	int linescrossed;
-	int next;
+	uint8_t floatvalue[16];
+	int32_t whitespace_p;
+	int32_t endwhitespace_p;
+	int32_t line;
+	int32_t linescrossed;
+	int32_t next;
+};
+struct source_s
+{
+	char filename[64];
+	char includepath[64];
+	int32_t punctuations;
+	char scriptstack[4];
+	int32_t tokens;
+	int32_t defines;
+	int32_t definehash;
+	int32_t indentstack;
+	int32_t skip;
+	char pad0[4];
+	token_s token;
 };
 
 struct punctuation_s
 {
-	int p;
-	int n;
-	int next;
+	int32_t p;
+	int32_t n;
+	int32_t next;
 };
 
 struct script_s
 {
 	char filename[64];
-	int buffer;
-	int script_p;
-	int end_p;
-	int lastscript_p;
-	int whitespace_p;
-	int endwhitespace_p;
-	int length;
-	int line;
-	int lastline;
-	int tokenavailable;
-	int flags;
-	int punctuations;
-	int punctuationtable;
+	void *buffer;
+	char script_p[4];
+	int32_t end_p;
+	char lastscript_p[4];
+	int32_t whitespace_p;
+	int32_t endwhitespace_p;
+	uint32_t length;
+	int32_t line;
+	int32_t lastline;
+	int32_t tokenavailable;
+	uint32_t flags;
+	int32_t punctuations;
+	int32_t punctuationtable;
 	char pad0[12];
-	char token[1088];
-	int next;
+	token_s token;
+	int32_t next;
 };
 
 struct define_s
 {
-	int name;
-	int flags;
-	int builtin;
-	int numparms;
-	int parms;
-	int tokens;
-	int next;
-	int hashnext;
+	char name[4];
+	uint32_t flags;
+	int32_t builtin;
+	uint32_t numparms;
+	int32_t parms;
+	int32_t tokens;
+	int32_t next;
+	int32_t hashnext;
 };
 
 struct indent_s
 {
-	int type;
-	int skip;
-	int script;
-	int next;
+	int32_t type;
+	int32_t skip;
+	char script[4];
+	int32_t next;
 };
-/* 
+
+struct builtin_s
+{
+	char string[4];
+	int32_t builtin;
+};
+
+struct operator_s
+{
+	int32_t op;
+	int32_t priority;
+	int32_t parentheses;
+	int32_t prev;
+	int32_t next;
+};
+
+struct value_s
+{
+	int32_t intvalue;
+	double floatvalue;
+	int32_t parentheses;
+	int32_t prev;
+	int32_t next;
+};
+
 struct pc_token_s
 {
-	int type;
-	int subtype;
-	int intvalue;
-	int floatvalue;
+	int32_t type;
+	int32_t subtype;
+	int32_t intvalue;
+	float floatvalue;
 	char string[1024];
-}; */
+};
 
 struct directive_s
 {
-	int name;
-	int func;
+	char name[4];
+	int32_t func;
 };
 
-struct _3782
+struct $_3782
 {
-	int evTime;
-	int evType;
-	int evValue;
-	int evValue2;
-	int evPtrLength;
-	int evPtr;
+	uint32_t evTime;
+	int32_t evType;
+	int32_t evValue;
+	int32_t evValue2;
+	uint32_t evPtrLength;
+	void *evPtr;
 };
 
-struct _3776
+struct $_3776
 {
-	netadrtype_t type;
-	int ip;
-	short port;
+	int32_t type;
+	int32_t ip;
+	uint16_t port;
 };
 
-struct _3798
+struct $_3798
 {
-	int reflib_library;
-	int reflib_active;
-	int hWnd;
-	int hInstance;
-	int activeApp;
-	int isMinimized;
-	int sysMsgTime;
+	void *reflib_library;
+	void *reflib_active;
+	int32_t hWnd;
+	int32_t hInstance;
+	int32_t activeApp;
+	int32_t isMinimized;
+	uint32_t sysMsgTime;
 };
 
-struct _3461
+struct dirent
 {
-	int dd_fd;
-	int dd_loc;
-	int dd_size;
-	int dd_buf;
-	int dd_len;
-	int dd_seek;
-	int dd_rewind;
-	int dd_flags;
-	__darwin_pthread_mutex_t dd_lock;
-	int dd_td;
+	int32_t d_ino;
+	uint16_t d_reclen;
+	int8_t d_type;
+	uint8_t d_namlen;
+	char d_name[256];
 };
-/* 
+
 struct GfxSceneEntity
 {
-	int refCount;
+	uint32_t refCount;
 	GfxModel u;
-	int cent;
-	int cullState;
-	int surfCount;
-	char curMins[12];
-	char curMaxs[12];
-	int materials;
-	int surfs;
+	int32_t cent;
+	int32_t cullState;
+	uint32_t surfCount;
+	vec3_t curMins;
+	vec3_t curMaxs;
+	int32_t materials;
+	int32_t surfs;
 };
 
 typedef enum
@@ -6883,285 +7594,284 @@ typedef enum
 
 struct GfxBrushModel
 {
-	char bounds[24];
-	int surfaceCount;
-	int startSurfIndex;
-}; */
-/* 
-struct Material
-{
-	MaterialInfo info;
-	int64_t stateBits;
-	short textureCount;
-	short constantCount;
-	int techniqueSet;
-	int textures;
-	int constants;
+	vec3_t bounds[2];
+	uint32_t surfaceCount;
+	uint32_t startSurfIndex;
 };
 
 struct MaterialInfoObj_s
 {
-	int name;
-	int refImageName;
-	short hashIndex;
-	short sortedIndex;
-	char gameFlags;
-	char sortKey;
-	char textureAtlasRowCount;
-	char textureAtlasColumnCount;
-	int maxDeformMove;
-	char deformFlags;
-	char usage;
-	short toolFlags;
-	int locale;
-	short autoTexScaleWidth;
-	short autoTexScaleHeight;
-	int tessSize;
-	int surfaceFlags;
-	int contents;
+	char name[4];
+	char refImageName[4];
+	uint16_t hashIndex;
+	uint16_t sortedIndex;
+	int8_t gameFlags;
+	int8_t sortKey;
+	uint8_t textureAtlasRowCount;
+	uint8_t textureAtlasColumnCount;
+	int32_t maxDeformMove;
+	int8_t deformFlags;
+	int8_t usage;
+	int16_t toolFlags;
+	int32_t locale;
+	uint16_t autoTexScaleWidth;
+	int16_t autoTexScaleHeight;
+	uint32_t tessSize;
+	uint32_t surfaceFlags;
+	int32_t contents;
+};
+struct Material
+{
+	MaterialInfoObj_s info;
+	uint64_t stateBits;
+	char textureCount[2];
+	uint16_t constantCount;
+	int32_t techniqueSet;
+	char textures[4];
+	int32_t constants;
 };
 
 struct MaterialTechniqueSet
 {
-	int name;
-	char techniques[136];
-};
-
-struct MaterialTextureDef
-{
-	int name;
-	char samplerState;
-	char semantic;
-	char unused_0;
-	char unused_1;
-	MaterialTextureDefInfo u;
+	char name[4];
+	uint8_t techniques[136];
 };
 
 union MaterialTextureDefInfo
 {
-	int image;
-	int water;
+	int32_t image;
+	int32_t water;
+};
+
+struct MaterialTextureDef
+{
+	char name[4];
+	int8_t samplerState;
+	int8_t semantic;
+	int8_t unused_0;
+	int8_t unused_1;
+	MaterialTextureDefInfo u;
 };
 
 struct MaterialConstantDefObj
 {
-	int name;
-	char literal[16];
-};
-
-struct MaterialTechnique
-{
-	int name;
-	short flags;
-	short passCount;
-	MaterialPassArray passArray;
-}; */
-/* 
-struct GfxImage
-{
-	D3DRESOURCETYPE mapType;
-	GfxTexture texture;
-	Picmip picmip;
-	char semantic;
-	char noPicmip;
-	char track;
-	char pad0[3];
-	CardMemory cardMemory;
-	short width;
-	short height;
-	short depth;
-	char category;
-	char pad1[1];
-	int name;
-}; */
-/* 
-struct MaterialWaterDef
-{
-	int textureWidth;
-	int horizontalWorldLength;
-	int verticalWorldLength;
-	int amplitude;
-	int windSpeed;
-	int64_t windDirection;
-	int map;
+	char name[4];
+	uint8_t literal[16];
 };
 
 union MaterialPassArray
 {
-	char dx7[92];
-	char dx9[28];
-}; */
-/* 
-union GfxTexture
+	uint8_t dx7[92];
+	uint8_t dx9[28];
+};
+
+struct MaterialTechnique
 {
-	int basemap;
-	int map;
-	int volmap;
-	int cubemap;
-	int loadDef;
-}; */
-/* 
+	char name[4];
+	int16_t flags;
+	uint16_t passCount;
+	MaterialPassArray passArray;
+};
+
 struct Picmip
 {
-	short platform;
+	int16_t platform;
+};
+
+union GfxTexture
+{
+	int32_t basemap;
+	int32_t map;
+	int32_t volmap;
+	int32_t cubemap;
+	int32_t loadDef;
 };
 
 struct CardMemory
 {
-	int64_t platform;
-}; */
-/* 
+	uint64_t platform;
+};
+
+struct GfxImage
+{
+	int32_t mapType;
+	GfxTexture texture;
+	Picmip picmip;
+	int8_t semantic;
+	int8_t noPicmip;
+	int8_t track;
+	char pad0[3];
+	CardMemory cardMemory;
+	uint16_t width;
+	int16_t height;
+	int16_t depth;
+	int8_t category;
+	char pad1[1];
+	char name[4];
+};
+
+struct MaterialWaterDef
+{
+	char textureWidth[4];
+	uint32_t horizontalWorldLength;
+	uint32_t verticalWorldLength;
+	int32_t amplitude;
+	float windSpeed;
+	uint64_t windDirection;
+	int32_t map;
+};
+
+struct WaterWritable
+{
+	uint32_t frameCount;
+};
+
 struct water_t
 {
 	WaterWritable writable;
-	int H0;
-	int wTerm;
-	int M;
-	int N;
-	int Lx;
-	int Lz;
-	int gravity;
-	int windvel;
-	int64_t winddir;
-	int amplitude;
-	char codeConstant[16];
-	int image;
+	int32_t H0;
+	int32_t wTerm;
+	int32_t M;
+	int32_t N;
+	int32_t Lx;
+	int32_t Lz;
+	int32_t gravity;
+	int32_t windvel;
+	uint64_t winddir;
+	int32_t amplitude;
+	uint8_t codeConstant[16];
+	int32_t image;
 };
 
 struct MaterialPassDx7
 {
-	int stateMap;
-	char gridLighting;
-	char projectToInfinity;
-	char ambientLighting;
-	char objectiveGlow;
-	char fogToBlack;
-	short genTexCoords;
+	int32_t stateMap;
+	int8_t gridLighting;
+	int8_t projectToInfinity;
+	int8_t ambientLighting;
+	int8_t objectiveGlow;
+	int8_t fogToBlack;
+	int16_t genTexCoords;
 	char pad0[1];
-	char samplers[16];
-	char colorStageBits[32];
-	char alphaStageBits[32];
+	uint8_t samplers[16];
+	uint8_t colorStageBits[32];
+	uint8_t alphaStageBits[32];
 };
 
 struct MaterialPassDx9
 {
-	int stateMap;
-	int vertexDecl;
-	int vertexShader;
-	int pixelShader;
-	short vertexArgCount;
-	short pixelArgCount;
-	int vertexArgs;
-	int pixelArgs;
-}; */
-/* 
+	int32_t stateMap;
+	int32_t vertexDecl;
+	int32_t vertexShader;
+	int32_t pixelShader;
+	uint16_t vertexArgCount;
+	uint16_t pixelArgCount;
+	int32_t vertexArgs;
+	int32_t pixelArgs;
+};
+
 struct GfxImageLoadDef
 {
-	char format;
-	char flags;
-	char dimensions[6];
-	int data;
-	int resourceSize;
-}; */
-/* 
-struct WaterWritable
-{
-	int frameCount;
+	int8_t format;
+	int8_t flags;
+	uint8_t dimensions[6];
+	int32_t data;
+	uint32_t resourceSize;
 };
 
 struct MaterialStateMap
 {
-	int name;
-	char ruleSet[44];
+	char name[4];
+	uint8_t ruleSet[44];
+};
+
+struct MaterialArgumentCodeConst
+{
+	uint16_t index;
+	int8_t firstRow;
+	uint8_t rowCount;
+};
+
+union MaterialArgumentDef
+{
+	int32_t literalConst;
+	MaterialArgumentCodeConst codeConst;
+	int32_t codeSampler;
+	char name[4];
 };
 
 struct MaterialShaderArgument
 {
-	short type;
-	short dest;
+	int16_t type;
+	int16_t dest;
 	MaterialArgumentDef u;
 };
 
 struct MaterialVertexDeclaration
 {
-	int data;
-	int streamCount;
-	char decl[16];
-};
-
-struct MaterialShader
-{
-	int name;
-	int program;
-	short programLen;
-	char shaderType;
-	char shaderVersion;
-	MaterialShaderPtr u;
-}; */
-
-struct complex_s
-{
-	int real;
-	int imag;
-};
-/* 
-union MaterialArgumentDef
-{
-	int literalConst;
-	MaterialArgumentCodeConst codeConst;
-	int codeSampler;
-	int name;
+	int32_t data;
+	uint32_t streamCount;
+	uint8_t decl[16];
 };
 
 union MaterialShaderPtr
 {
-	int vs;
-	int ps;
+	int32_t vs;
+	int32_t ps;
 };
 
-struct MaterialArgumentCodeConst
+struct MaterialShader
 {
-	short index;
-	char firstRow;
-	char rowCount;
+	char name[4];
+	int32_t program;
+	uint16_t programLen;
+	int8_t shaderType;
+	int8_t shaderVersion;
+	MaterialShaderPtr u;
+};
+
+struct complex_s
+{
+	int32_t real;
+	int32_t imag;
 };
 
 struct MaterialStreamRouting
 {
-	char source;
-	char dest;
+	int8_t source;
+	int8_t dest;
 };
 
 struct MaterialStateMapRuleSet
 {
-	int ruleCount;
-	char rules[32];
+	uint32_t ruleCount;
+	uint8_t rules[32];
 };
 
 struct MaterialStateMapRule
 {
-	int64_t stateBitsMask;
-	int64_t stateBitsValue;
-	int64_t stateBitsSet;
-	int64_t stateBitsClear;
-}; */
-/* 
+	uint64_t stateBitsMask;
+	uint64_t stateBitsValue;
+	uint64_t stateBitsSet;
+	uint64_t stateBitsClear;
+};
+
 struct GfxDrawSurf
 {
-	int sort;
-	int surface;
-}; */
-/* 
+	int32_t sort;
+	int32_t surface;
+};
+
 struct GfxViewParms
 {
-	char origin[12];
-	char axis[36];
-	char viewport[24];
-	char viewMatrix[64];
-	char projectionMatrix[64];
-	char viewProjectionMatrix[64];
-	char inverseViewProjectionMatrix[64];
-	int depthHackNearClip;
+	vec3_t origin;
+	vec3_t axis[3];
+	D3DVIEWPORT9 viewport;
+	D3DMATRIX viewMatrix;
+	matrix4_t projectionMatrix;
+	matrix4_t viewProjectionMatrix;
+	matrix4_t inverseViewProjectionMatrix;
+	int32_t depthHackNearClip;
 };
 
 typedef enum
@@ -7172,16 +7882,13 @@ typedef enum
 
 struct GfxPostProcessParms
 {
-	int blurRadius;
-	char isRenderingFullScreen;
+	int32_t blurRadius;
+	int8_t isRenderingFullScreen;
 };
 
-struct GfxLight
+struct GfxLightDir
 {
-	int def;
-	char position[16];
-	char color[12];
-	GfxLightInfo u;
+	vec3_t ambientColor;
 };
 
 union GfxLightInfo
@@ -7189,17 +7896,26 @@ union GfxLightInfo
 	GfxLightDir dir;
 };
 
-struct GfxLightDef
+struct GfxLight
 {
-	GfxLightType type;
-	GfxLightImage cookie;
-	int64_t attenuation;
-	int name;
+	int32_t def;
+	vec4_t position;
+	vec3_t color;
+	GfxLightInfo u;
 };
 
-struct GfxLightDir
+struct GfxLightImage
 {
-	char ambientColor[12];
+	int32_t image;
+	int8_t samplerState;
+};
+
+struct GfxLightDef
+{
+	int32_t type;
+	GfxLightImage cookie;
+	uint64_t attenuation;
+	char name[4];
 };
 
 typedef enum
@@ -7210,223 +7926,222 @@ typedef enum
 	GFX_LIGHT_TYPE_COUNT = 3
 } GfxLightType;
 
-struct GfxLightImage
-{
-	int image;
-	char samplerState;
-}; */
-/* 
 struct GfxModelSurface
 {
-	int surfType;
-	int xsurf;
-}; */
-/* 
-struct XSurface_s
-{
-	char tileMode;
-	char pad0[1];
-	short vertCount;
-	short triCount;
-	short boneOffset;
-	int triIndices;
-	int verts;
-	XRigidSurface surfRigid;
-	int indexBuffer;
+	int32_t surfType;
+	int32_t xsurf;
 };
 
 struct XRigidSurface
 {
-	int vb;
+	int32_t vb;
 };
 
-struct XVertexBuffer
+struct XSurface_s
 {
-	XVertexInfo v;
-	char w[16];
+	int8_t tileMode;
+	char pad0[1];
+	uint16_t vertCount;
+	uint16_t triCount;
+	uint16_t boneOffset;
+	int32_t triIndices;
+	int32_t verts;
+	XRigidSurface surfRigid;
+	uint32_t indexBuffer;
 };
 
 struct XVertexInfo_s
 {
-	char normal[12];
-	int color;
-	char binormal[12];
-	int texCoordX;
-	char tangent[12];
-	int texCoordY;
-	char offset[12];
-	char numWeights;
-	char boneWeight;
-	short boneOffset;
+	vec3_t normal;
+	int32_t color;
+	vec3_t binormal;
+	int32_t texCoordX;
+	vec3_t tangent;
+	int32_t texCoordY;
+	vec3_t offset;
+	uint8_t numWeights;
+	int8_t boneWeight;
+	uint16_t boneOffset;
+};
+
+struct XVertexBuffer
+{
+	XVertexInfo_s v;
+	uint8_t w[16];
 };
 
 struct XBlendInfo_s
 {
-	char offset[12];
-	short boneOffset;
-	short boneWeight;
-}; */
-/* 
+	vec3_t offset;
+	uint16_t boneOffset;
+	int16_t boneWeight;
+};
+
+struct $_3707
+{
+	int32_t main;
+	char startupgametype[4];
+	int32_t playerconnect;
+	int32_t playerdisconnect;
+	int32_t playerdamage;
+	int32_t playerkilled;
+	char votecalled[4];
+	char playervote[4];
+	char iNumGameTypes[4];
+	uint8_t list[4224];
+};
+
 struct GfxSurface
 {
-	int material;
-	short lightmapIndex;
-	short sortGroup;
-}; */
-/* 
-union _3707
-{
-	int data;
-	int tris;
+	int32_t material;
+	uint16_t lightmapIndex;
+	int16_t sortGroup;
+	$_3707 unnamed_field;
 };
 
 struct srfTriangles_t
 {
-	int surfaceType;
-	char bounds[24];
-	int firstVertex;
-	short vertexCount;
-	short indexCount;
-	int indices;
+	int32_t surfaceType;
+	vec3_t bounds[2];
+	int32_t firstVertex;
+	uint16_t vertexCount;
+	uint16_t indexCount;
+	int32_t indices;
 };
 
 struct srfPoly_t
 {
-	int surfaceType;
-	int material;
-	short lmapIndex;
-	short vertCount;
-	int verts;
-}; */
-/* 
+	int32_t surfaceType;
+	int32_t material;
+	uint16_t lmapIndex;
+	uint16_t vertCount;
+	int32_t verts;
+};
+
 struct PointLightPartition
 {
-	int light;
-	int firstDrawSurf;
-	int drawSurfCount;
-}; */
-/* 
+	int32_t light;
+	int32_t firstDrawSurf;
+	uint32_t drawSurfCount;
+};
+
 struct GfxStaticModelInstance
 {
-	int cullDist;
-	char origin[12];
-	int model;
-	char mins[12];
-	char maxs[12];
-	char axis[36];
-	int scale;
-	char baseLightingCoords[12];
-}; */
-/* 
-struct GfxScene
-{
-	int viewCount;
-	GfxSceneDef def;
-	int dlightCount;
-	char dlights[1408];
-	char dlightCulled[32];
-	int drawSurfCount;
-	int drawSurfs;
-	int polyCount;
-	char sceneEnts[106392];
-	int sceneEntMaterialCount;
-	char sceneMaterials[16384];
+	int32_t cullDist;
+	vec3_t origin;
+	char model[4];
+	vec3_t mins;
+	vec3_t maxs;
+	vec3_t axis[3];
+	int32_t scale;
+	vec3_t baseLightingCoords;
 };
 
 struct GfxSceneDef
 {
-	int time;
-	int floatTime;
-	int entityCount;
-	int entities;
-}; */
-/* 
+	uint32_t time;
+	float floatTime;
+	uint32_t entityCount;
+	int32_t entities;
+};
+
+struct GfxScene
+{
+	uint32_t viewCount;
+	GfxSceneDef def;
+	uint32_t dlightCount;
+	uint8_t dlights[1408];
+	uint8_t dlightCulled[32];
+	uint32_t drawSurfCount;
+	int32_t drawSurfs;
+	uint32_t polyCount;
+	uint8_t sceneEnts[106392];
+	uint32_t sceneEntMaterialCount;
+	uint8_t sceneMaterials[16384];
+};
+
 struct trXSkin_t
 {
-	int materialHandles;
+	uint32_t materialHandles;
 };
 
-union _3729
+union $_3729
 {
-	int verts;
-	int blends;
+	int32_t verts;
+	uint32_t blends;
 };
 
-union _3664
+struct $_3664
 {
-	short b;
-	short s;
+	vec3_t mins;
+	vec3_t maxs;
+	vec3_t outerSize;
+	TraceExtents extents;
+	uint32_t passEntityNum;
+	uint32_t passOwnerNum;
+	uint32_t contentmask;
 };
 
-union _3665
+struct $_3665
 {
-	short b;
-	short s;
+	vec3_t mins;
+	vec3_t maxs;
+	vec3_t outerSize;
+	vec3_t start;
+	vec3_t end;
+	uint64_t passEntityNum;
+	uint32_t contentmask;
 };
 
-struct _3715
+struct $_3715
 {
-	int verts;
-	int vertCount;
-	int vertLimit;
-	int polys;
-	int polyCount;
-	int polyLimit;
-	int strings;
-	int stringCount;
-	int stringLimit;
-	int externStrings;
-	int externStringCount;
-	int externMaxStringCount;
-	int lines;
-	int lineCount;
-	int lineLimit;
-	int externLines;
-	int externLineCount;
-	int externMaxLineCount;
-	int plumes;
-	int plumeCount;
-	int plumeLimit;
+	uint32_t time;
+	int32_t scale;
+	uint32_t length;
+	int32_t radius;
+	vec3_t src;
+	uint32_t size;
+	int32_t rumbleScale;
 };
 
 struct GfxDebugPoly
 {
-	char color[16];
-	int firstVert;
-	int vertCount;
+	vec4_t color;
+	int32_t firstVert;
+	uint32_t vertCount;
 };
 
 struct trDebugString_t
 {
-	char xyz[12];
-	char color[16];
-	int scale;
+	vec3_t xyz;
+	vec4_t color;
+	int32_t scale;
 	char text[96];
 };
 
 struct trDebugLine_t
 {
-	char start[12];
-	char end[12];
-	char color[16];
-	int depthTest;
+	vec3_t start;
+	vec3_t end;
+	vec4_t color;
+	int32_t depthTest;
 };
 
 struct GfxDebugPlume
 {
-	char origin[12];
-	char color[16];
-	int score;
-	int startTime;
-	int duration;
+	vec3_t origin;
+	vec4_t color;
+	int32_t score;
+	uint32_t startTime;
+	int32_t duration;
 };
 
 struct GfxCmdHeader
 {
-	short id;
-	short byteCount;
-}; */
-/* 
+	uint16_t id;
+	uint16_t byteCount;
+};
+
 typedef enum
 {
 	TECHNIQUE_DEPTH_PREPASS = 0,
@@ -7472,32 +8187,32 @@ typedef enum
 	TECHNIQUE_COUNT = 34,
 	TECHNIQUE_TOTAL_COUNT = 35,
 	TECHNIQUE_NONE = -1
-} MaterialTechniqueType; */
-/* 
+} MaterialTechniqueType;
+
 struct Font_s
 {
-	int name;
-	int pixelHeight;
-	int glyphCount;
-	int material;
-	int glyphs;
-}; */
-/* 
+	char name[4];
+	int32_t pixelHeight;
+	uint32_t glyphCount;
+	int32_t material;
+	int32_t glyphs;
+};
+
 struct Glyph
 {
-	short letter;
-	char x0;
-	char y0;
-	char dx;
-	char pixelWidth;
-	char pixelHeight;
+	int16_t letter;
+	int8_t x0;
+	int8_t y0;
+	int8_t dx;
+	int8_t pixelWidth;
+	int8_t pixelHeight;
 	char pad0[1];
-	int s0;
-	int t0;
-	int s1;
-	int t1;
-}; */
-/* 
+	int32_t s0;
+	int32_t t0;
+	int32_t s1;
+	int32_t t1;
+};
+
 typedef enum
 {
 	R_RENDERTARGET_FRAME_BUFFER = 0,
@@ -7519,86 +8234,118 @@ typedef enum
 
 struct GfxLodParms
 {
-	char origin[12];
-	int scale;
-	int bias;
+	vec3_t origin;
+	int32_t scale;
+	int32_t bias;
 };
 
 struct GfxCmdDrawPoints
 {
-	int header;
-	short pointCount;
-	short size;
-	char verts[16];
+	int32_t header;
+	uint16_t pointCount;
+	uint16_t size;
+	uint8_t verts[16];
 };
 
 struct GfxPointVertex
 {
-	char xyz[12];
-	int color;
+	vec3_t xyz;
+	int32_t color;
 };
 
 struct GfxCmdDrawLines
 {
-	int header;
-	short lineCount;
-	short width;
-	char verts[32];
+	int32_t header;
+	uint16_t lineCount;
+	uint16_t width;
+	uint8_t verts[32];
 };
 
-struct GfxBackEndData
+struct DebugGlobals
 {
-	int frameCount;
-	int drawSurfCount;
-	char drawSurfs[524288];
-	int surfPos;
-	char surfsBuffer[131072];
-	int entityCount;
-	char entities[949344];
-	int polyCount;
-	char polys[32768];
-	int polyVertCount;
-	char polyVerts[557056];
-	int skinnedCacheVb;
-	int viewParmCount;
-	char viewParms[8300];
-	GfxFog fogSettings;
-	GfxCmdArray commands;
-	char debugGlobals[84];
-};
-
-struct GfxFog
-{
-	GfxFogOffset techniqueOffset;
-	int startTime;
-	int finishTime;
-	GfxColor color;
-	int fogStart;
-	int fogEnd;
-	int density;
-	char registered;
-	char drawSky;
-	char clearScreen;
+	int32_t verts;
+	uint32_t vertCount;
+	int32_t vertLimit;
+	int32_t polys;
+	uint32_t polyCount;
+	int32_t polyLimit;
+	char strings[4];
+	char stringCount[4];
+	char stringLimit[4];
+	char externStrings[4];
+	char externStringCount[4];
+	char externMaxStringCount[4];
+	int32_t lines;
+	uint32_t lineCount;
+	int32_t lineLimit;
+	int32_t externLines;
+	uint32_t externLineCount;
+	uint32_t externMaxLineCount;
+	int32_t plumes;
+	uint32_t plumeCount;
+	int32_t plumeLimit;
 };
 
 struct GfxCmdArray
 {
 	char cmds[196608];
-	int usedTotal;
-	int usedCritical;
-	int lastCmd;
+	int32_t usedTotal;
+	int32_t usedCritical;
+	char lastCmd[4];
+};
+
+struct GfxFog
+{
+	uint32_t techniqueOffset;
+	uint32_t startTime;
+	uint32_t finishTime;
+	int32_t color;
+	int32_t fogStart;
+	int32_t fogEnd;
+	int32_t density;
+	int8_t registered;
+	int8_t drawSky;
+	int8_t clearScreen;
+};
+
+struct GfxBackEndData
+{
+	uint32_t frameCount;
+	uint32_t drawSurfCount;
+	uint8_t drawSurfs[524288];
+	uint32_t surfPos;
+	uint8_t surfsBuffer[131072];
+	uint32_t entityCount;
+	uint8_t entities[949344];
+	uint32_t polyCount;
+	uint8_t polys[32768];
+	uint32_t polyVertCount;
+	uint8_t polyVerts[557056];
+	int32_t skinnedCacheVb;
+	uint32_t viewParmCount;
+	uint8_t viewParms[8300];
+	GfxFog fogSettings;
+	GfxCmdArray commands;
+	DebugGlobals debugGlobals;
+};
+
+union $_3714
+{
+	uint8_t dx7[12288];
+	uint8_t dx9[32768];
 };
 
 struct SkinBuffers
 {
-	char matArrayBuf[8192];
+	uint8_t matArrayBuf[8192];
+	$_3714 verts;
 };
 
 struct r_vb_state_t
 {
-	int used;
-	int total;
-	int buffer;
+	int32_t used;
+	int32_t total;
+	void *buffer;
 };
 
 typedef enum
@@ -7609,602 +8356,576 @@ typedef enum
 	FOG_OFFSET_COUNT = 3
 } GfxFogOffset;
 
-union _3714
-{
-	char dx7[12288];
-	char dx9[32768];
-};
-
 struct DObjSkelMat_s
 {
-	char axis[48];
-	char origin[16];
+	vec3_t axis[4];
+	uint8_t origin[16];
 };
 
 struct GfxSModelCachedVertexDx7
 {
-	char xyz[12];
-	int color;
-	int64_t texCoord;
+	vec3_t xyz;
+	GfxColor color;
+	vec2_t texCoord;
 };
 
 struct GfxSModelCachedVertex
 {
-	char xyz[12];
-	char normal[12];
-	int color;
-	int64_t texCoord;
-	int baseLightingCoords;
-	char binormal[12];
-	char tangent[12];
+	vec3_t xyz;
+	vec3_t normal;
+	int32_t color;
+	vec2_t texCoord;
+	int32_t baseLightingCoords;
+	vec3_t binormal;
+	vec3_t tangent;
 };
 
 struct GfxDebugFrameGlob
 {
-	int restoreCmdList;
-	int restoreFrontEndDataOut;
-	char restoreSkinnedCache;
+	char restoreCmdList[4];
+	void *restoreFrontEndDataOut;
+	int8_t restoreSkinnedCache;
 	char pad0[3];
-	char frontEndDataOut[2399596];
+	uint8_t frontEndDataOut[2399596];
 };
 
-struct trStatistics_t
+struct GfxPosTexVertex
 {
-	int c_indexes;
-	int c_fxIndexes;
-	int c_viewIndexes;
-	int c_shadowIndexes;
-	int c_vertexes;
-	int c_batches;
-	int c_refents;
-	int dc;
-	Image_MemUsage c_imageUsage;
+	vec3_t xyz;
+	vec2_t texCoord;
 };
 
 struct Image_MemUsage
 {
-	int total;
-	int lightmap;
-	int minspec;
-}; */
-/* 
+	int32_t total;
+	int32_t lightmap;
+	char minspec[4];
+};
+
+struct trStatistics_t
+{
+	uint32_t c_indexes;
+	uint32_t c_fxIndexes;
+	uint32_t c_viewIndexes;
+	uint32_t c_shadowIndexes;
+	int32_t c_vertexes;
+	int32_t c_batches;
+	void *c_refents;
+	int32_t dc;
+	Image_MemUsage c_imageUsage;
+};
+
 struct refexport_t
 {
-	int Shutdown;
-	int BeginRegistration;
-	int RegisterModel;
-	int RegisterInlineModel;
-	int RegisterMaterial;
-	int RegisterRawImage;
-	int Material_IsDefault;
-	int LoadWorld;
-	int GetWorldBounds;
-	int FinishLoadingModels;
-	int SetIgnorePrecacheErrors;
-	int GetIgnorePrecacheErrors;
-	int GetMinSpecImageMemory;
-	int GetMaterialName;
-	int GetMaterialSubimageCount;
-	int IsMaterialRefractive;
-	int GetFarPlaneDist;
-	int EndRegistration;
-	int ClearScene;
-	int DefaultVertexFrames;
-	int AddPolyToScene;
-	int AddLightToScene;
-	int InterpretSunLightParseParams;
-	int ResetSunLightParseParams;
-	int SetCullDist;
-	int SetFog;
-	int SwitchFog;
-	int ArchiveFogState;
-	int ClearFogs;
-	int SetSunLightOverride;
-	int ResetSunLightOverride;
-	int RenderScene;
-	int BeginDelayedDrawing;
-	int EndDelayedDrawing;
-	int IssueDelayedDrawing;
-	int ClearFlares;
-	int SetMaterialColor;
-	int DrawStretchPic;
-	int DrawStretchPicRotate;
-	int DrawStretchRaw;
-	int DrawQuadPic;
-	int DrawSprite;
-	int BeginFrame;
-	int EndFrame;
-	int BeginDebugFrame;
-	int EndDebugFrame;
-	int EndView;
-	int DoneRenderingViews;
-	int SaveScreen;
-	int BlendSavedScreen;
-	int ClearScreen;
-	int SetViewport;
-	int MarkFragments;
-	int ModelBounds;
-	int TrackStatistics;
-	int PickMaterial;
-	int RegisterFont;
-	int ResetImageAllocations;
-	int FreeImageAllocations;
-	int BeginCubemapShot;
-	int EndCubemapShot;
-	int SaveCubemapShot;
-	int LightingFromCubemapShots;
-	int LocateDebugStrings;
-	int LocateDebugLines;
-	int AddPlume;
-	int ShutdownDebug;
-	int UpdateColor;
-	int NormalizedTextScale;
-	int TextWidth;
-	int TextHeight;
-	int DrawText;
-	int DrawTextInSpace;
-	int ConsoleTextWidth;
-	int DrawConsoleText;
-	int DrawTextWithCursor;
-	int DObjGetSurfMaterials;
-	int DObjReplaceMaterial;
-	int ParseSunLight;
-	int Material_Duplicate;
-	int DuplicateFont;
-	char XModelAllowReadSurface;
+	int32_t Shutdown;
+	int32_t BeginRegistration;
+	char RegisterModel[4];
+	char RegisterInlineModel[4];
+	int32_t RegisterMaterial;
+	int32_t RegisterRawImage;
+	int32_t Material_IsDefault;
+	int32_t LoadWorld;
+	int32_t GetWorldBounds;
+	char FinishLoadingModels[4];
+	int32_t SetIgnorePrecacheErrors;
+	int32_t GetIgnorePrecacheErrors;
+	char GetMinSpecImageMemory[4];
+	char GetMaterialName[4];
+	uint32_t GetMaterialSubimageCount;
+	float IsMaterialRefractive;
+	int32_t GetFarPlaneDist;
+	int32_t EndRegistration;
+	int32_t ClearScene;
+	int32_t DefaultVertexFrames;
+	int32_t AddPolyToScene;
+	int32_t AddLightToScene;
+	int32_t InterpretSunLightParseParams;
+	int32_t ResetSunLightParseParams;
+	int32_t SetCullDist;
+	int32_t SetFog;
+	int32_t SwitchFog;
+	int32_t ArchiveFogState;
+	int32_t ClearFogs;
+	uint32_t SetSunLightOverride;
+	uint32_t ResetSunLightOverride;
+	int32_t RenderScene;
+	int32_t BeginDelayedDrawing;
+	int32_t EndDelayedDrawing;
+	int32_t IssueDelayedDrawing;
+	int32_t ClearFlares;
+	int32_t SetMaterialColor;
+	int32_t DrawStretchPic;
+	int32_t DrawStretchPicRotate;
+	int32_t DrawStretchRaw;
+	int32_t DrawQuadPic;
+	int32_t DrawSprite;
+	int32_t BeginFrame;
+	int32_t EndFrame;
+	int32_t BeginDebugFrame;
+	int32_t EndDebugFrame;
+	int32_t EndView;
+	int32_t DoneRenderingViews;
+	int32_t SaveScreen;
+	uint32_t BlendSavedScreen;
+	int32_t ClearScreen;
+	int32_t SetViewport;
+	int32_t MarkFragments;
+	char ModelBounds[4];
+	int32_t TrackStatistics;
+	int32_t PickMaterial;
+	int32_t RegisterFont;
+	int32_t ResetImageAllocations;
+	int32_t FreeImageAllocations;
+	int32_t BeginCubemapShot;
+	int32_t EndCubemapShot;
+	int32_t SaveCubemapShot;
+	int32_t LightingFromCubemapShots;
+	char LocateDebugStrings[4];
+	int32_t LocateDebugLines;
+	int32_t AddPlume;
+	int32_t ShutdownDebug;
+	int32_t UpdateColor;
+	char NormalizedTextScale[4];
+	char TextWidth[4];
+	char TextHeight[4];
+	char DrawText[4];
+	char DrawTextInSpace[4];
+	char ConsoleTextWidth[4];
+	char DrawConsoleText[4];
+	char DrawTextWithCursor[4];
+	int32_t DObjGetSurfMaterials;
+	int32_t DObjReplaceMaterial;
+	int32_t ParseSunLight;
+	int32_t Material_Duplicate;
+	int32_t DuplicateFont;
+	int8_t XModelAllowReadSurface;
 	char pad0[3];
-	int SyncRenderThread;
-	int AbortRenderCommands;
-	int IsGpuFenceFinished;
-	int SyncGpu;
-	int GpuWaited;
-	int SetLodOrigin;
+	int32_t SyncRenderThread;
+	char AbortRenderCommands[4];
+	int32_t IsGpuFenceFinished;
+	int32_t SyncGpu;
+	int32_t GpuWaited;
+	int32_t SetLodOrigin;
 };
 
 struct refimport_t
 {
-	int Printf;
-	int Error;
-	int Milliseconds;
-	int Hunk_AllocInternal;
-	int Hunk_AllocateTempMemoryInternal;
-	int Z_MallocInternal;
-	int Z_FreeInternal;
-	int Hunk_AllocAlignInternal;
-	int Z_VirtualReserveInternal;
-	int Z_VirtualCommitInternal;
-	int Z_VirtualDecommitInternal;
-	int Z_VirtualFreeInternal;
-	int Hunk_FreeTempMemory;
-	int Hunk_ClearTempMemory;
-	int Hunk_HideTempMemory;
-	int Hunk_ShowTempMemory;
-	int Hunk_AllocateTempMemoryHighInternal;
-	int Hunk_ClearTempMemoryHigh;
-	int Sys_DirectXFatalError;
-	int Sys_ShowSplashWindow;
-	int Sys_HideSplashWindow;
-	int Sys_LoadingKeepAlive;
-	int Dvar_RegisterBool;
-	int Dvar_RegisterInt;
-	int Dvar_RegisterFloat;
-	int Dvar_RegisterString;
-	int Dvar_RegisterEnum;
-	int Dvar_RegisterColor;
-	int Dvar_RegisterVec2;
-	int Dvar_RegisterVec3;
-	int Dvar_RegisterVec4;
-	int Dvar_UnregisterSystem;
-	int Dvar_ChangeResetValue;
-	int Dvar_IsAtDefaultValue;
-	int Dvar_ClearModified;
-	int Dvar_SetModified;
-	int Dvar_UpdateEnumDomain;
-	int Dvar_SetBool;
-	int Dvar_SetInt;
-	int Dvar_SetFloat;
-	int Dvar_SetString;
-	int Dvar_SetColor;
-	int Dvar_SetVec2;
-	int Dvar_SetVec3;
-	int Dvar_SetVec4;
-	int Dvar_SetFromString;
-	int Dvar_SetBoolByName;
-	int Dvar_SetIntByName;
-	int Dvar_SetFloatByName;
-	int Dvar_SetStringByName;
-	int Dvar_SetColorByName;
-	int Dvar_SetVec2ByName;
-	int Dvar_SetVec3ByName;
-	int Dvar_SetVec4ByName;
-	int Dvar_SetFromStringByName;
-	int Dvar_GetBool;
-	int Dvar_GetInt;
-	int Dvar_GetFloat;
-	int Dvar_GetString;
-	int Dvar_GetVariantString;
-	int Dvar_EnumToString;
-	int Dvar_Reset;
-	int Cmd_AddCommand;
-	int Cmd_RemoveCommand;
-	int Cmd_Argc;
-	int Cmd_Argv;
-	int Cbuf_ExecuteText;
-	int Com_SaveDvarsToBuffer;
-	int Com_LoadDvarsFromBuffer;
-	int Com_GetBsp;
-	int SEH_ReadCharFromString;
-	int CL_UpdateDebugData;
-	int CL_FlushDebugData;
-	int StatMon_Warning;
-	int FS_ReadFile;
-	int FS_FreeFile;
-	int FS_FOpenFileRead;
-	int FS_ListFiles;
-	int FS_FreeFileList;
-	int FS_FileExists;
-	int FS_WriteFile;
-	int FS_FOpenFileByMode;
-	int FS_FCloseFile;
-	int FS_Read;
-	int FS_Write;
-	int CM_SaveLump;
-	int CM_BoxTrace;
-	int CM_BoxSightTrace;
-	int CM_RayTriangleIntersect;
-	int XModelPrecache;
-	int XModelGetSurfaces;
-	int XModelBad;
-	int Hunk_OverrideDataForFile;
-	int XModelGetNumLods;
-	int XModelSetTestLods;
-	int XModelGetLodForDist;
-	int XModelGetLodOutDist;
-	int XModelGetSurfaceName;
-	int XModelGetName;
-	int XModelGetFlags;
-	int XModelNumBones;
-	int XModelGetSkins;
-	int XModelGetMemUsage;
-	int XModelGetLodName;
-	int XModelGetBasePose;
-	int XModelGetBasePoseBone;
-	int DObjBad;
-	int DB_EnumXAssets;
-	int DObjGetBounds;
-	int DObjGetSurface;
-	int DObjGetNumModels;
-	int DObjGetNumSurfaces;
-	int DObjGetSurfaces;
-	int DObjGetPartBits;
-	int DObjGetRotTransArray;
-	int DObjSkelAreBonesUpToDate;
-	int DObjGetMatOffset;
-	int DObjGetModel;
-	int DObjGetSurfaceName;
-	int DObjCreate;
-	int DObjGetAllocSkelSize;
-	int DObjCreateSkel;
-	int DObjCalcAnim;
-	int DObjCalcSkel;
-	int DObjNumBones;
-	int DObjGetBoneInfo;
-	int DObjGetLodForDist;
-	int DObjGetLodOutDist;
-	int DObjCompleteHierarchyBits;
-	int DObjSetModel;
-	int CIN_UploadCinematic;
-	int CIN_PlayCinematic;
-	int CIN_RunCinematic;
-	int CG_DObjCalcPose;
-	int CL_GetHudMsgIconMaterialName;
+	int32_t Printf;
+	int32_t Error;
+	int32_t Milliseconds;
+	int32_t Hunk_AllocInternal;
+	int32_t Hunk_AllocateTempMemoryInternal;
+	int32_t Z_MallocInternal;
+	int32_t Z_FreeInternal;
+	int32_t Hunk_AllocAlignInternal;
+	int32_t Z_VirtualReserveInternal;
+	int32_t Z_VirtualCommitInternal;
+	int32_t Z_VirtualDecommitInternal;
+	int32_t Z_VirtualFreeInternal;
+	int32_t Hunk_FreeTempMemory;
+	int32_t Hunk_ClearTempMemory;
+	uint32_t Hunk_HideTempMemory;
+	int32_t Hunk_ShowTempMemory;
+	int32_t Hunk_AllocateTempMemoryHighInternal;
+	int32_t Hunk_ClearTempMemoryHigh;
+	int32_t Sys_DirectXFatalError;
+	int32_t Sys_ShowSplashWindow;
+	uint32_t Sys_HideSplashWindow;
+	int32_t Sys_LoadingKeepAlive;
+	int32_t Dvar_RegisterBool;
+	int32_t Dvar_RegisterInt;
+	float Dvar_RegisterFloat;
+	char Dvar_RegisterString[4];
+	uint32_t Dvar_RegisterEnum;
+	int32_t Dvar_RegisterColor;
+	int32_t Dvar_RegisterVec2;
+	int32_t Dvar_RegisterVec3;
+	int32_t Dvar_RegisterVec4;
+	int32_t Dvar_UnregisterSystem;
+	int32_t Dvar_ChangeResetValue;
+	int32_t Dvar_IsAtDefaultValue;
+	int32_t Dvar_ClearModified;
+	int32_t Dvar_SetModified;
+	uint32_t Dvar_UpdateEnumDomain;
+	int32_t Dvar_SetBool;
+	int32_t Dvar_SetInt;
+	float Dvar_SetFloat;
+	char Dvar_SetString[4];
+	int32_t Dvar_SetColor;
+	int32_t Dvar_SetVec2;
+	int32_t Dvar_SetVec3;
+	int32_t Dvar_SetVec4;
+	char Dvar_SetFromString[4];
+	char Dvar_SetBoolByName[4];
+	char Dvar_SetIntByName[4];
+	float Dvar_SetFloatByName;
+	char Dvar_SetStringByName[4];
+	char Dvar_SetColorByName[4];
+	char Dvar_SetVec2ByName[4];
+	char Dvar_SetVec3ByName[4];
+	char Dvar_SetVec4ByName[4];
+	char Dvar_SetFromStringByName[4];
+	int32_t Dvar_GetBool;
+	int32_t Dvar_GetInt;
+	float Dvar_GetFloat;
+	char Dvar_GetString[4];
+	char Dvar_GetVariantString[4];
+	char Dvar_EnumToString[4];
+	int32_t Dvar_Reset;
+	char Cmd_AddCommand[4];
+	char Cmd_RemoveCommand[4];
+	char Cmd_Argc[4];
+	char Cmd_Argv[4];
+	char Cbuf_ExecuteText[4];
+	void *Com_SaveDvarsToBuffer;
+	void *Com_LoadDvarsFromBuffer;
+	int32_t Com_GetBsp;
+	char SEH_ReadCharFromString[4];
+	int32_t CL_UpdateDebugData;
+	int32_t CL_FlushDebugData;
+	int32_t StatMon_Warning;
+	int32_t FS_ReadFile;
+	int32_t FS_FreeFile;
+	int32_t FS_FOpenFileRead;
+	int32_t FS_ListFiles;
+	int32_t FS_FreeFileList;
+	int32_t FS_FileExists;
+	int32_t FS_WriteFile;
+	int32_t FS_FOpenFileByMode;
+	int32_t FS_FCloseFile;
+	int32_t FS_Read;
+	int32_t FS_Write;
+	int32_t CM_SaveLump;
+	int32_t CM_BoxTrace;
+	int32_t CM_BoxSightTrace;
+	float CM_RayTriangleIntersect;
+	char XModelPrecache[4];
+	char XModelGetSurfaces[4];
+	char XModelBad[4];
+	uint32_t Hunk_OverrideDataForFile;
+	char XModelGetNumLods[4];
+	char XModelSetTestLods[4];
+	char XModelGetLodForDist[4];
+	char XModelGetLodOutDist[4];
+	char XModelGetSurfaceName[4];
+	char XModelGetName[4];
+	char XModelGetFlags[4];
+	char XModelNumBones[4];
+	char XModelGetSkins[4];
+	char XModelGetMemUsage[4];
+	char XModelGetLodName[4];
+	char XModelGetBasePose[4];
+	char XModelGetBasePoseBone[4];
+	int32_t DObjBad;
+	uint32_t DB_EnumXAssets;
+	int32_t DObjGetBounds;
+	int32_t DObjGetSurface;
+	char DObjGetNumModels[4];
+	uint32_t DObjGetNumSurfaces;
+	int32_t DObjGetSurfaces;
+	int32_t DObjGetPartBits;
+	int32_t DObjGetRotTransArray;
+	int32_t DObjSkelAreBonesUpToDate;
+	uint32_t DObjGetMatOffset;
+	char DObjGetModel[4];
+	char DObjGetSurfaceName[4];
+	int32_t DObjCreate;
+	uint32_t DObjGetAllocSkelSize;
+	int32_t DObjCreateSkel;
+	int32_t DObjCalcAnim;
+	int32_t DObjCalcSkel;
+	uint32_t DObjNumBones;
+	char DObjGetBoneInfo[4];
+	int32_t DObjGetLodForDist;
+	int32_t DObjGetLodOutDist;
+	int32_t DObjCompleteHierarchyBits;
+	char DObjSetModel[4];
+	int32_t CIN_UploadCinematic;
+	int32_t CIN_PlayCinematic;
+	int32_t CIN_RunCinematic;
+	uint32_t CG_DObjCalcPose;
+	char CL_GetHudMsgIconMaterialName[4];
 };
 
 struct GfxGammaRamp
 {
-	char entries[512];
+	uint8_t entries[512];
 };
 
 struct GfxWindowParms
 {
-	int hwnd;
-	int hz;
-	char fullscreen;
+	int32_t hwnd;
+	int32_t hz;
+	int8_t fullscreen;
 	char pad0[3];
-	int x;
-	int y;
-	int width;
-	int height;
-	int tileCount;
-	int aaSamples;
+	int32_t x;
+	int32_t y;
+	uint32_t width;
+	int32_t height;
+	uint32_t tileCount;
+	int32_t aaSamples;
 };
 
 struct vidConfig_t
 {
-	int width;
-	int height;
-	int displayFrequency;
-	int isFullscreen;
-	int aspectRatioWindow;
-	int aspectRatioPixel;
-	int maxTextureSize;
-	int maxTextureMaps;
-	int maxTextureCoords;
-	int maxActiveLights;
-	char deviceSupportsGamma;
+	uint32_t width;
+	int32_t height;
+	int32_t displayFrequency;
+	int32_t isFullscreen;
+	char aspectRatioWindow[4];
+	char aspectRatioPixel[4];
+	char maxTextureSize[4];
+	char maxTextureMaps[4];
+	char maxTextureCoords[4];
+	int32_t maxActiveLights;
+	int8_t deviceSupportsGamma;
 };
 
 struct DxGlobals
 {
-	int hinst;
-	int d3d9;
-	int device;
-	int adapterIndex;
-	int backBufferFormat;
-	int displayModeCount;
-	char displayModes[4096];
+	int32_t hinst;
+	int32_t d3d9;
+	int32_t device;
+	uint32_t adapterIndex;
+	void *backBufferFormat;
+	uint32_t displayModeCount;
+	uint8_t displayModes[4096];
 	char resolutionNameTable[1028];
 	char refreshRateNameTable[1028];
 	char modeText[5120];
-	int gpuSync;
-	int multiSampleType;
-	int multiSampleQuality;
-	int sunSpriteSamples;
-	char renderTargets[260];
-	int singleSampleDepthStencilSurface;
-	short cubemapShotRes;
-	short cubemapShotPixelBorder;
-	char deviceLost;
-	char inScene;
-	short feedbackWidth;
-	short feedbackHeight;
+	int32_t gpuSync;
+	int32_t multiSampleType;
+	int32_t multiSampleQuality;
+	int32_t sunSpriteSamples;
+	uint8_t renderTargets[260];
+	int32_t singleSampleDepthStencilSurface;
+	int16_t cubemapShotRes;
+	int16_t cubemapShotPixelBorder;
+	int8_t deviceLost;
+	int8_t inScene;
+	uint16_t feedbackWidth;
+	int16_t feedbackHeight;
 	char pad0[2];
-	int targetWindowIndex;
-	int windowCount;
-	char windows[16];
-	int flushGpuQuery;
-	int gpuSyncDelay;
-	int gpuSyncAlreadyWaited;
-	char flushGpuQueryIssued;
+	uint32_t targetWindowIndex;
+	uint32_t windowCount;
+	uint8_t windows[16];
+	int32_t flushGpuQuery;
+	int32_t gpuSyncDelay;
+	int32_t gpuSyncAlreadyWaited;
+	int8_t flushGpuQueryIssued;
 	char pad1[3];
-	int anisotropy;
-	int maxAnisotropy;
-	int maxClipPlanes;
-	char stencilTwoSided;
-	char stencilWrap;
-	char slopeScaleDepthBias;
-	char canMipCubemaps;
-	char hasBlendOp;
-	char hasSeparateAlphaBlend;
-	char hasTransparencyMsaa;
+	int32_t anisotropy;
+	int32_t maxAnisotropy;
+	int32_t maxClipPlanes;
+	int8_t stencilTwoSided;
+	int8_t stencilWrap;
+	int8_t slopeScaleDepthBias;
+	int8_t canMipCubemaps;
+	uint8_t hasBlendOp;
+	uint8_t hasSeparateAlphaBlend;
+	int8_t hasTransparencyMsaa;
 	char pad2[1];
-	char dynamicIndexBufferPool[12];
-	int dynamicIndexBuffer;
-	char skinnedCacheVbPool[24];
-	char dynamicVertexBufferPool[12];
-	int dynamicVertexBuffer;
-	int particleCloudVertexBuffer;
-	int particleCloudIndexBuffer;
-	int skinnedCacheLockAddr;
-	int smodelCacheVb;
-	int smodelCacheIndices;
-	int dynamicBufferFrame;
-	int tempSkinBuf;
-	int tempSkinPos;
+	vec3_t dynamicIndexBufferPool;
+	uint32_t dynamicIndexBuffer;
+	uint8_t skinnedCacheVbPool[24];
+	vec3_t dynamicVertexBufferPool;
+	void *dynamicVertexBuffer;
+	void *particleCloudVertexBuffer;
+	uint32_t particleCloudIndexBuffer;
+	int32_t skinnedCacheLockAddr;
+	char smodelCacheVb[4];
+	char smodelCacheIndices[4];
+	void *dynamicBufferFrame;
+	void *tempSkinBuf;
+	uint32_t tempSkinPos;
 };
 
 struct GfxRenderTarget
 {
-	int image;
-	int colorSurface;
-	int depthStencilSurface;
-	int width;
-	int height;
+	int32_t image;
+	int32_t colorSurface;
+	int32_t depthStencilSurface;
+	uint32_t width;
+	int32_t height;
 };
 
 struct GfxWindowTarget
 {
-	int hwnd;
-	int swapChain;
-	int width;
-	int height;
+	int32_t hwnd;
+	int32_t swapChain;
+	uint32_t width;
+	int32_t height;
 };
 
 struct r_ib_state_t
 {
-	int used;
-	int total;
-	int buffer;
+	int32_t used;
+	int32_t total;
+	void *buffer;
 };
 
 struct r_global_permanent_t
 {
-	int materialLoaded;
-	int materialCount;
-	char sortedMaterials[4096];
-	int whiteImage;
-	int blackImage;
-	int identityNormalMapImage;
-	int specularityImage;
-	int lightmapWeightsImage;
-	int64_t lightGridWeightsImage;
-	int outdoorImage;
-	int dlightDef;
-	int defaultMaterial;
-	int rawMaterial;
-	int stencilPlaneMaterial;
-	int whiteMaterial;
-	int additiveMaterial;
-	int pointMaterial;
-	int lineMaterial;
-	int clearAlphaStencilMaterial;
-	int shadowClearMaterial;
-	int shadowCookieOverlayMaterial;
-	int shadowCookieBlurMaterial;
-	int glareBlindMaterial;
-	int normalFillMaterial;
-	int alphaBlendFillMaterial;
-	int alphaTestPassFillMaterial;
-	int alphaTestFailFillMaterial;
-	int additiveFillMaterial;
-	int depthOnlyFillMaterial;
-	int stencilOneSideKeepFillMaterial;
-	int stencilOneSideRejectFillMaterial;
-	int stencilTwoSideKeepFillMaterial;
-	int stencilTwoSideRejectFillMaterial;
-	int phongBumpFillMaterial;
-	int phongBumpSpecFillMaterial;
-	int colorChannelMixerMaterial;
-	int frameColorDebugMaterial;
-	int frameAlphaDebugMaterial;
-	int rawImage;
-	int world;
-	int sunHalfAngleImage;
-	int waterColorImage;
-	int feedbackReplaceMaterial;
-	int feedbackBlendMaterial;
-	char symmetricFilterMaterial[32];
-	int shellShockMaterial;
-	int glowSetupMaterial;
-	int glowApplySkyBleedMaterial;
-	int glowApplyBloomMaterial;
-	int savedScreenTime;
-	char rawTexdef[12];
+	int32_t materialLoaded;
+	uint32_t materialCount;
+	uint8_t sortedMaterials[4096];
+	int32_t whiteImage;
+	int32_t blackImage;
+	uint32_t identityNormalMapImage;
+	char specularityImage[4];
+	int32_t lightmapWeightsImage;
+	uint64_t lightGridWeightsImage;
+	int32_t outdoorImage;
+	int32_t dlightDef;
+	int32_t defaultMaterial;
+	int32_t rawMaterial;
+	int32_t stencilPlaneMaterial;
+	int32_t whiteMaterial;
+	int32_t additiveMaterial;
+	int32_t pointMaterial;
+	int32_t lineMaterial;
+	int32_t clearAlphaStencilMaterial;
+	int32_t shadowClearMaterial;
+	int32_t shadowCookieOverlayMaterial;
+	int32_t shadowCookieBlurMaterial;
+	int32_t glareBlindMaterial;
+	int32_t normalFillMaterial;
+	uint32_t alphaBlendFillMaterial;
+	int32_t alphaTestPassFillMaterial;
+	int32_t alphaTestFailFillMaterial;
+	int32_t additiveFillMaterial;
+	int32_t depthOnlyFillMaterial;
+	uint32_t stencilOneSideKeepFillMaterial;
+	uint32_t stencilOneSideRejectFillMaterial;
+	uint32_t stencilTwoSideKeepFillMaterial;
+	uint32_t stencilTwoSideRejectFillMaterial;
+	int32_t phongBumpFillMaterial;
+	char phongBumpSpecFillMaterial[4];
+	int32_t colorChannelMixerMaterial;
+	int32_t frameColorDebugMaterial;
+	int32_t frameAlphaDebugMaterial;
+	int32_t rawImage;
+	int32_t world;
+	float sunHalfAngleImage;
+	int32_t waterColorImage;
+	int32_t feedbackReplaceMaterial;
+	uint32_t feedbackBlendMaterial;
+	uint8_t symmetricFilterMaterial[32];
+	int32_t shellShockMaterial;
+	int32_t glowSetupMaterial;
+	int32_t glowApplySkyBleedMaterial;
+	int32_t glowApplyBloomMaterial;
+	uint32_t savedScreenTime;
+	vec3_t rawTexdef;
 };
 
-struct GfxWorld
+struct sunflare_t
 {
-	int name;
-	int baseName;
-	int nodeCount;
-	int nodes;
-	int surfaceCount;
-	int surfaces;
-	int skySurfCount;
-	int skyStartSurfs;
-	int skyImage;
-	char skySamplerState;
+	int8_t hasValidData;
 	char pad0[3];
-	int vertexCount;
-	GfxWorldVertexData vd;
-	SunLightParseParams sunParse;
-	GfxLight sunLight;
-	char sunColorFromBsp[12];
-	int cullGroupCount;
-	int cullGroups;
-	int smodelCount;
-	int smodelInsts;
-	int cellCount;
-	int cells;
-	int lightmapCount;
-	int lightmaps;
-	int smodelLightingImage;
-	char smodelLightingLookupScale[12];
-	GfxLightGrid lightGrid;
-	int smodelLightingColorTable;
-	int smodelLightingSunVisTable;
-	int modelCount;
-	int models;
-	char mins[12];
-	char maxs[12];
-	int checksum;
-	int materialMemoryCount;
-	int materialMemory;
-	sunflare_t sun;
-	char outdoorLookupMatrix[64];
-	int outdoorImage;
+	int32_t spriteMaterial;
+	int32_t flareMaterial;
+	uint32_t spriteSize;
+	uint32_t flareMinSize;
+	int32_t flareMinDot;
+	uint32_t flareMaxSize;
+	int32_t flareMaxDot;
+	int32_t flareMaxAlpha;
+	uint32_t flareFadeInTime;
+	uint32_t flareFadeOutTime;
+	int32_t blindMinDot;
+	int32_t blindMaxDot;
+	int32_t blindMaxDarken;
+	uint32_t blindFadeInTime;
+	uint32_t blindFadeOutTime;
+	int32_t glareMinDot;
+	int32_t glareMaxDot;
+	int32_t glareMaxLighten;
+	uint32_t glareFadeInTime;
+	uint32_t glareFadeOutTime;
+	vec3_t sunFxPosition;
 };
 
 struct GfxWorldVertexData
 {
-	int vertices;
-	int worldVb;
+	int32_t vertices;
+	int32_t worldVb;
+};
+
+struct GfxLightGrid
+{
+	uint32_t pointCount;
+	int32_t points;
+	uint32_t colorCount;
+	int32_t colors;
 };
 
 struct SunLightParseParams
 {
 	char name[64];
-	int ambientScale;
-	char ambientColor[12];
-	int diffuseFraction;
-	int sunLight;
-	char sunColor[12];
-	char diffuseColor[12];
-	char diffuseColorHasBeenSet;
+	int32_t ambientScale;
+	vec3_t ambientColor;
+	float diffuseFraction;
+	int32_t sunLight;
+	vec3_t sunColor;
+	vec3_t diffuseColor;
+	int8_t diffuseColorHasBeenSet;
 	char pad0[3];
-	char angles[12];
+	vec3_t angles;
 };
 
-struct GfxLightGrid
+struct GfxWorld
 {
-	int pointCount;
-	int points;
-	int colorCount;
-	int colors;
-};
-
-struct sunflare_t
-{
-	char hasValidData;
+	char name[4];
+	char baseName[4];
+	uint32_t nodeCount;
+	int32_t nodes;
+	uint32_t surfaceCount;
+	int32_t surfaces;
+	uint32_t skySurfCount;
+	int32_t skyStartSurfs;
+	int32_t skyImage;
+	int8_t skySamplerState;
 	char pad0[3];
-	int spriteMaterial;
-	int flareMaterial;
-	int spriteSize;
-	int flareMinSize;
-	int flareMinDot;
-	int flareMaxSize;
-	int flareMaxDot;
-	int flareMaxAlpha;
-	int flareFadeInTime;
-	int flareFadeOutTime;
-	int blindMinDot;
-	int blindMaxDot;
-	int blindMaxDarken;
-	int blindFadeInTime;
-	int blindFadeOutTime;
-	int glareMinDot;
-	int glareMaxDot;
-	int glareMaxLighten;
-	int glareFadeInTime;
-	int glareFadeOutTime;
-	char sunFxPosition[12];
-}; */
-/* 
-struct mnode_t
-{
-	int contents;
-	int parent;
-	int cellIndex;
-	mnode_info_t u;
+	uint32_t vertexCount;
+	GfxWorldVertexData vd;
+	SunLightParseParams sunParse;
+	GfxLight sunLight;
+	vec3_t sunColorFromBsp;
+	uint32_t cullGroupCount;
+	int32_t cullGroups;
+	char smodelCount[4];
+	char smodelInsts[4];
+	uint32_t cellCount;
+	int32_t cells;
+	uint32_t lightmapCount;
+	int32_t lightmaps;
+	char smodelLightingImage[4];
+	char smodelLightingLookupScale[12];
+	GfxLightGrid lightGrid;
+	char smodelLightingColorTable[4];
+	char smodelLightingSunVisTable[4];
+	char modelCount[4];
+	char models[4];
+	vec3_t mins;
+	vec3_t maxs;
+	int32_t checksum;
+	uint32_t materialMemoryCount;
+	int32_t materialMemory;
+	sunflare_t sun;
+	matrix4_t outdoorLookupMatrix;
+	int32_t outdoorImage;
 };
 
-struct GfxCullGroup
+struct mnode_node_t
 {
-	char mins[12];
-	char maxs[12];
-	int surfaceCount;
-	int startSurfIndex;
+	int32_t plane;
+	uint64_t children;
 };
 
-struct GfxCell
+struct mnode_leaf_t
 {
-	GfxCellWritable writable;
-	char mins[12];
-	char maxs[12];
-	int aabbTree;
-	int portalCount;
-	int portals;
-	int cullGroupCount;
-	int cullGroups;
-	int occluderCount;
-	int occluders;
-	int modelRefs;
-};
-
-struct MaterialMemory
-{
-	int material;
-	int memory;
+	int32_t cluster;
 };
 
 union mnode_info_t
@@ -8213,250 +8934,293 @@ union mnode_info_t
 	mnode_leaf_t leaf;
 };
 
+struct mnode_t
+{
+	int32_t contents;
+	int32_t parent;
+	uint32_t cellIndex;
+	mnode_info_t u;
+};
+
+struct GfxCullGroup
+{
+	vec3_t mins;
+	vec3_t maxs;
+	uint32_t surfaceCount;
+	uint32_t startSurfIndex;
+};
+
 struct GfxCellWritable
 {
-	int markCount;
+	uint32_t markCount;
+};
+
+struct GfxCell
+{
+	GfxCellWritable writable;
+	vec3_t mins;
+	vec3_t maxs;
+	int32_t aabbTree;
+	uint32_t portalCount;
+	int32_t portals;
+	uint32_t cullGroupCount;
+	int32_t cullGroups;
+	uint32_t occluderCount;
+	int32_t occluders;
+	char modelRefs[4];
+};
+
+struct MaterialMemory
+{
+	int32_t material;
+	int32_t memory;
 };
 
 struct GfxLightGridPoint
 {
-	int xyzHighBits;
-	char xyzLowBitsAndSunVisible;
-	char needsTrace;
-	short colorsIndex;
+	int32_t xyzHighBits;
+	int8_t xyzLowBitsAndSunVisible;
+	int8_t needsTrace;
+	uint16_t colorsIndex;
 };
 
 struct GfxLightGridColors
 {
-	char rgb[24];
-};
-
-struct mnode_node_t
-{
-	int plane;
-	int64_t children;
-};
-
-struct mnode_leaf_t
-{
-	int cluster;
+	uint8_t rgb[24];
 };
 
 struct GfxAabbTree
 {
-	char mins[12];
-	char maxs[12];
-	int surfaceCount;
-	int startSurfIndex;
-	int staticModelCount;
-	int staticModels;
-	int childCount;
-	int children;
+	vec3_t mins;
+	vec3_t maxs;
+	uint32_t surfaceCount;
+	uint32_t startSurfIndex;
+	char staticModelCount[4];
+	char staticModels[4];
+	uint32_t childCount;
+	int32_t children;
+};
+
+union DpvsPlaneInfo
+{
+	int8_t frontal;
+	int8_t ignoreStackLevel;
+};
+
+struct DpvsPlane
+{
+	uint8_t coeffs[16];
+	uint8_t side[3];
+	DpvsPlaneInfo u;
+};
+
+struct GfxPortalWritable
+{
+	int8_t isQueued;
+	int8_t isAncestor;
+	char pad0[2];
+	int32_t queuedParent;
 };
 
 struct GfxPortal
 {
 	GfxPortalWritable writable;
 	DpvsPlane plane;
-	int cell;
-	int vertices;
-	char vertexCount;
-	char hullPointCount;
+	int32_t cell;
+	int32_t vertices;
+	uint8_t vertexCount;
+	uint8_t hullPointCount;
 	char pad0[2];
-	int hullPoints;
-	char hullAxis[24];
+	int32_t hullPoints;
+	uint8_t hullAxis[24];
 };
 
 struct GfxSceneModelCellRef
 {
-	int entIndex;
-	char mins[12];
-	char maxs[12];
-	int next;
-};
-
-struct GfxPortalWritable
-{
-	char isQueued;
-	char isAncestor;
-	char pad0[2];
-	int queuedParent;
-};
-
-struct DpvsPlane
-{
-	char coeffs[16];
-	char side[3];
-	DpvsPlaneInfo u;
+	uint32_t entIndex;
+	vec3_t mins;
+	vec3_t maxs;
+	int32_t next;
 };
 
 struct GfxOccluder
 {
-	int planeCount;
-	int planes;
-	int edgeCount;
-	int edges;
-	int vertexCount;
-	int vertices;
-	int ignoreStackLevel;
-	int viewPlaneCount;
-	int viewPlanes;
-};
-
-union DpvsPlaneInfo
-{
-	char frontal;
-	char ignoreStackLevel;
+	uint32_t planeCount;
+	int32_t planes;
+	uint32_t edgeCount;
+	int32_t edges;
+	uint32_t vertexCount;
+	int32_t vertices;
+	int32_t ignoreStackLevel;
+	uint32_t viewPlaneCount;
+	int32_t viewPlanes;
 };
 
 struct GfxOccluderEdge
 {
-	int64_t plane;
-	int64_t vertex;
-}; */
-/* 
+	uint64_t plane;
+	uint64_t vertex;
+};
+
 struct r_globals_t
 {
-	char registered;
-	char forbidDelayLoadImages;
-	char ignorePrecacheErrors;
+	int8_t registered;
+	int8_t forbidDelayLoadImages;
+	int8_t ignorePrecacheErrors;
 	char pad0[1];
-	char viewOrg[12];
-	char viewDir[12];
-	int frameCountInternal;
-	int markCount;
-	int totalImageMemory;
-	char materialHashTable[4096];
-	int sceneWaterMapSetupsCount;
-	char sceneWaterMapSetups[1088];
-	char fogSettings[160];
-	int fogIndex;
-	char sinTable[4096];
-	char fftTrigTable[2048];
-	char fftBitswap[1024];
-	int modelDObj;
+	vec3_t viewOrg;
+	vec3_t viewDir;
+	uint32_t frameCountInternal;
+	uint32_t markCount;
+	int32_t totalImageMemory;
+	uint8_t materialHashTable[4096];
+	uint32_t sceneWaterMapSetupsCount;
+	uint8_t sceneWaterMapSetups[1088];
+	uint8_t fogSettings[160];
+	uint32_t fogIndex;
+	uint8_t sinTable[4096];
+	uint8_t fftTrigTable[2048];
+	uint8_t fftBitswap[1024];
+	char modelDObj[4];
 	char modelDObjBuf[100];
-	int stats;
+	int32_t stats;
 	GfxLodParms lodParms;
-	int debugViewParms;
-	int smodelDyncs;
-	int surfaces;
-	int cullGroups;
+	int32_t debugViewParms;
+	char smodelDyncs[4];
+	int32_t surfaces;
+	int32_t cullGroups;
 };
 
 struct GfxStaticModelDynamic
 {
-	int viewCount;
-	int staticSurfs;
+	uint32_t viewCount;
+	int32_t staticSurfs;
 };
 
 struct GfxSurfaceDynamic
 {
-	int viewCount;
+	uint32_t viewCount;
 };
 
 struct GfxCullGroupDynamic
 {
-	int viewCount;
+	uint32_t viewCount;
 };
 
 struct GfxStaticSurface
 {
-	char cachedLods[16];
+	uint8_t cachedLods[16];
 };
 
 struct GfxStaticModelSurfaceCached
 {
-	int baseVertIndex;
-	int smodelIndex;
-	int xsurf;
-	int surface;
+	uint32_t baseVertIndex;
+	char smodelIndex[4];
+	int32_t xsurf;
+	int32_t surface;
 };
 
 struct DxTextureStageEnums
 {
-	int op;
-	char arg[12];
+	int32_t op;
+	vec3_t arg;
 };
 
 struct DxTextureOpDecode
 {
-	int enumerant;
-	int usedArgs;
-};
-
-struct GfxCodeMatrices
-{
-	int worldScale;
-	char pad0[12];
-	GfxCodeMatrix world;
-	char normalizedWorld[272];
-	char view[272];
-	char projection[272];
-	char worldView[272];
-	char normalizedWorldView[272];
-	char viewProjection[272];
-	char worldViewProjection[272];
-	char normalizedWorldViewProjection[272];
-	char shadowLookupMatrix[272];
-	char lightGridLookupMatrix[272];
-	char worldOutdoorLookup[272];
-	char OGLworldViewProjection[272];
+	uint32_t enumerant;
+	int32_t usedArgs;
 };
 
 struct GfxCodeMatrix
 {
-	char matrix[256];
-	int valid;
+	uint8_t matrix[256];
+	uint32_t valid;
+};
+
+struct GfxCodeMatrices
+{
+	int32_t worldScale;
+	char pad0[12];
+	GfxCodeMatrix world;
+	uint8_t normalizedWorld[272];
+	uint8_t view[272];
+	uint8_t projection[272];
+	uint8_t worldView[272];
+	uint8_t normalizedWorldView[272];
+	uint8_t viewProjection[272];
+	uint8_t worldViewProjection[272];
+	uint8_t normalizedWorldViewProjection[272];
+	uint8_t shadowLookupMatrix[272];
+	uint8_t lightGridLookupMatrix[272];
+	uint8_t worldOutdoorLookup[272];
+	uint8_t OGLworldViewProjection[272];
 };
 
 struct GfxViewport
 {
-	int x;
-	int y;
-	int width;
-	int height;
+	int32_t x;
+	int32_t y;
+	uint32_t width;
+	int32_t height;
+};
+
+struct jpeg_destination_mgr
+{
+	int32_t next_output_byte;
+	void *free_in_buffer;
+	int32_t init_destination;
+	void *empty_output_buffer;
+	int32_t term_destination;
+};
+
+struct $_3726
+{
+	jpeg_destination_mgr pub;
+	int32_t outfile;
+	uint32_t size;
 };
 
 struct DxState
 {
-	char vertexShaderConsts[4096];
-	char pixelShaderConsts[4096];
-	int64_t refStateBits;
-	int64_t activeStateBits;
-	int stencilRefValue;
-	char refColorStageBits[32];
-	char refAlphaStageBits[32];
-	char activeColorStageBits[32];
-	char activeAlphaStageBits[32];
-	char gridLighting;
-	short genTexCoords;
+	uint8_t vertexShaderConsts[4096];
+	uint8_t pixelShaderConsts[4096];
+	uint64_t refStateBits;
+	uint64_t activeStateBits;
+	void *stencilRefValue;
+	uint8_t refColorStageBits[32];
+	uint8_t refAlphaStageBits[32];
+	uint8_t activeColorStageBits[32];
+	uint8_t activeAlphaStageBits[32];
+	int8_t gridLighting;
+	int16_t genTexCoords;
 	char pad0[1];
-	int renderTargetId;
-	int renderTargetWidth;
-	int renderTargetHeight;
-	GfxViewportBehavior viewportBehavior;
-	int renderTargetSurface;
-	int depthStencilSurface;
-	char viewport[24];
-	char viewportIsNull;
+	uint32_t renderTargetId;
+	uint32_t renderTargetWidth;
+	int32_t renderTargetHeight;
+	int32_t viewportBehavior;
+	int32_t renderTargetSurface;
+	int32_t depthStencilSurface;
+	uint8_t viewport[24];
+	int8_t viewportIsNull;
 	char pad1[3];
-	int indexBuffer;
-	char streams[12];
-	int indexBufferDeselecting;
-	int vertexBufferDeselecting;
-	char samplerState[16];
-	char samplerImage[64];
-	int textureColorArg;
-	int pixelShader;
-	int vertexShader;
-	int vertexDecl;
-	int fvf;
-	char alphaRef;
+	uint32_t indexBuffer;
+	vec3_t streams;
+	uint32_t indexBufferDeselecting;
+	void *vertexBufferDeselecting;
+	uint8_t samplerState[16];
+	uint8_t samplerImage[64];
+	char textureColorArg[4];
+	int32_t pixelShader;
+	int32_t vertexShader;
+	int32_t vertexDecl;
+	int32_t fvf;
+	int8_t alphaRef;
 	char pad2[3];
-	int textureFactor;
-	int ambientColor;
-	int clipPlaneCount;
+	float textureFactor;
+	int32_t ambientColor;
+	uint32_t clipPlaneCount;
+	$_3726 fog;
 };
 
 typedef enum
@@ -8465,22 +9229,6 @@ typedef enum
 	GFX_USE_VIEWPORT_FULL = 1
 } GfxViewportBehavior;
 
-struct _3726
-{
-	GfxColor color;
-	D3DFOGMODE mode;
-	int start;
-	int end;
-	int density;
-};
-
-struct _3725
-{
-	int vb;
-	int offset;
-	int stride;
-};
-
 typedef enum
 {
 	D3DFOG_NONE = 0,
@@ -8488,35 +9236,35 @@ typedef enum
 	D3DFOG_EXP2 = 2,
 	D3DFOG_LINEAR = 3,
 	D3DFOG_FORCE_DWORD = 2147483647
-} _D3DFOGMODE;
+} D3DFOGMODE;
 
 struct DxStencilDecode
 {
-	int shift;
-	int renderState;
+	int32_t shift;
+	int32_t renderState;
 };
 
 union XAssetHeader
 {
-	int parts;
-	int model;
-	int material;
-	int image;
-	int sound;
-	int sndCurve;
-	int clipMap;
-	int world;
-	int lightDef;
-	int font;
-	int menuList;
-	int menu;
-	int localize;
-	int weapon;
-	int sndDriverGlobals;
-	int fx;
-	int impactFx;
-	int rawfile;
-	int data;
+	int32_t parts;
+	char model[4];
+	int32_t material;
+	int32_t image;
+	char sound[4];
+	int32_t sndCurve;
+	int32_t clipMap;
+	int32_t world;
+	int32_t lightDef;
+	int32_t font;
+	int32_t menuList;
+	int32_t menu;
+	int32_t localize;
+	int32_t weapon;
+	char sndDriverGlobals[4];
+	int32_t fx;
+	int32_t impactFx;
+	int32_t rawfile;
+	int32_t data;
 };
 
 typedef enum
@@ -8525,92 +9273,92 @@ typedef enum
 	GFX_LOCK_RESUME_FRAME = 1
 } GfxLockType;
 
+struct $_3720
+{
+	uint32_t fadeTime;
+	uint32_t effectTime;
+};
+
 struct GfxModelSkinnedSurface
 {
 	GfxModelSurface surf;
-	int skinnedCachedOffset;
-};
-
-union _3720
-{
-	int variant;
-	int dx7;
-	int dx9;
+	uint32_t skinnedCachedOffset;
+	$_3720 skinnedVert;
 };
 
 struct GfxVertexDx7
 {
-	char xyz[12];
-	char normal[12];
-	int color;
-	int64_t texCoord;
+	vec3_t xyz;
+	vec3_t normal;
+	GfxColor color;
+	vec2_t texCoord;
 };
 
 struct GfxVertex
 {
-	char xyzw[16];
-	char normal[12];
-	int color;
-	int64_t texCoord;
-	char binormal[12];
-	char tangent[12];
+	uint8_t xyzw[16];
+	vec3_t normal;
+	int32_t color;
+	vec2_t texCoord;
+	vec3_t binormal;
+	vec3_t tangent;
 };
 
 struct GfxModelRigidSurface
 {
-	int64_t surf;
-	char boneAxis[48];
+	uint64_t surf;
+	vec3_t boneAxis[4];
 };
 
 struct SkinXModelCmd
 {
-	int surfs;
-	int e;
-	int mat;
-	char surfacePartBits[16];
-	char surfCount;
-	char boneCount;
-	char matOffset[64];
+	int32_t surfs;
+	int32_t e;
+	int32_t mat;
+	uint8_t surfacePartBits[16];
+	uint8_t surfCount;
+	uint8_t boneCount;
+	uint8_t matOffset[64];
 };
 
 struct SkinRigidXModelCmd
 {
-	int surfs;
-	int surfCount;
-	int e;
-	char mat[32];
+	int32_t surfs;
+	uint32_t surfCount;
+	int32_t e;
+	uint8_t mat[32];
 };
 
 struct GfxStaticModelCachedSurface
 {
-	int64_t surf;
-	int surface;
-	int ent;
+	uint64_t surf;
+	int32_t surface;
+	int32_t ent;
 };
 
-union _3732
+struct $_3732
 {
-	int v;
-	int w;
+	int32_t history;
+	uint32_t count;
 };
 
-union _3734
+union $_3734
 {
-	int v;
-	int w;
+	int32_t v;
+	int32_t w;
 };
 
 struct stream_source_info_t
 {
-	char Stream;
-	char Offset;
-	char Type;
+	int8_t Stream;
+	int8_t Offset;
+	int8_t Type;
 };
 
 struct stream_dest_info_t
 {
-	char Usage;
-	char UsageIndex;
+	int8_t Usage;
+	uint8_t UsageIndex;
 };
 
 typedef enum
@@ -8619,123 +9367,123 @@ typedef enum
 	MTL_PIXEL_SHADER = 1
 } MaterialShaderType;
 
-struct _3752
+struct $_3752
 {
-	int vertexDeclCount;
-	char vertexDeclHashTable[768];
-	int techniqueSetCount;
-	char techniqueSetHashTable[4096];
-	int techniqueCount;
-	char techniqueHashTable[4096];
-	int literalCount;
-	char literalTable[256];
-	int stateMapCount;
-	char stateMapHashTable[128];
-	int stringCount;
+	uint32_t vertexDeclCount;
+	uint8_t vertexDeclHashTable[768];
+	uint32_t techniqueSetCount;
+	uint8_t techniqueSetHashTable[4096];
+	uint32_t techniqueCount;
+	uint8_t techniqueHashTable[4096];
+	uint32_t literalCount;
+	uint8_t literalTable[256];
+	uint32_t stateMapCount;
+	uint8_t stateMapHashTable[128];
+	char stringCount[4];
 	char stringHashTable[256];
-	int shaderCount;
-	char shaderHashTable[1024];
+	uint32_t shaderCount;
+	uint8_t shaderHashTable[1024];
 };
 
 struct BuiltInMaterialTable
 {
-	int name;
-	int material;
+	char name[4];
+	int32_t material;
 };
 
 struct GfxRenderCommandExecState
 {
-	int cmd;
-	int stackPos;
-	int64_t retCmd;
+	char cmd[4];
+	uint32_t stackPos;
+	char retCmd[8];
 };
 
 struct GfxCmdCall
 {
 	GfxCmdHeader header;
-	int subCmd;
+	char subCmd[4];
 };
 
 struct GfxCmdSetClipPlanes
 {
-	int header;
-	int clipPlaneCount;
-	char clipPlanes[16];
+	int32_t header;
+	uint32_t clipPlaneCount;
+	vec4_t clipPlanes;
 };
 
 struct GfxCmdStretchRaw
 {
-	int header;
-	int x;
-	int y;
-	int w;
-	int h;
-	int cols;
-	int rows;
-	int data;
-	int client;
-	int dirty;
+	int32_t header;
+	int32_t x;
+	int32_t y;
+	int32_t w;
+	int32_t h;
+	int32_t cols;
+	int32_t rows;
+	int32_t data;
+	int32_t client;
+	int32_t dirty;
 };
 
 struct GfxCmdClearScreen
 {
-	int header;
-	char whichToClear;
-	char stencil;
+	int32_t header;
+	int8_t whichToClear;
+	int8_t stencil;
 	char pad0[2];
-	int depth;
-	char color[16];
+	int32_t depth;
+	vec4_t color;
 };
 
 struct GfxCmdSetMaterialColor
 {
-	int header;
-	char color[16];
+	int32_t header;
+	vec4_t color;
 };
 
 struct GfxCmdSetLightProperties
 {
-	int header;
-	int lightIndex;
-	char position[16];
-	char ambient[16];
-	char color[16];
+	int32_t header;
+	uint32_t lightIndex;
+	vec4_t position;
+	uint8_t ambient[16];
+	vec4_t color;
 	char specular[16];
-	int lightDef;
+	int32_t lightDef;
 };
 
 struct GfxCmdSetStencilRefValue
 {
-	int header;
-	int refValue;
+	int32_t header;
+	void *refValue;
 };
 
 struct GfxCmdSetShadowCookie
 {
-	int header;
-	char lookupMatrix[64];
-	int fade;
+	int32_t header;
+	matrix4_t lookupMatrix;
+	int32_t fade;
 };
 
 struct GfxCmdBeginView
 {
-	int header;
+	int32_t header;
 	GfxSceneDef sceneDef;
-	int viewParms;
+	int32_t viewParms;
 	GfxLodParms lodParms;
-	int viewCount;
+	uint32_t viewCount;
 };
 
 struct GfxCmdSetViewport
 {
-	int header;
-	char viewport[16];
+	int32_t header;
+	vec4_t viewport;
 };
 
 struct GfxCmdSetRenderTarget
 {
-	int header;
-	GfxRenderTargetId renderTargetId;
+	int32_t header;
+	uint32_t renderTargetId;
 };
 
 typedef enum
@@ -8746,48 +9494,48 @@ typedef enum
 
 struct GfxCmdDrawSurfs
 {
-	int header;
-	int order;
-	int drawSurfs;
-	int drawSurfCount;
-	int techType;
+	int32_t header;
+	int32_t order;
+	int32_t drawSurfs;
+	uint32_t drawSurfCount;
+	int32_t techType;
 };
 
 struct GfxCmdDrawSunPostEffects
 {
-	int header;
-	int viewIndex;
+	int32_t header;
+	uint32_t viewIndex;
 };
 
 struct GfxCmdDrawTriangles
 {
-	int header;
-	int material;
-	int techType;
-	short indexCount;
-	short vertexCount;
+	int32_t header;
+	int32_t material;
+	int32_t techType;
+	uint16_t indexCount;
+	uint16_t vertexCount;
 };
 
 struct GfxCmdDrawSprite
 {
-	int header;
-	int material;
-	int rgbaColor;
-	char pos[12];
-	int radius;
-	int minScreenRadius;
-	int renderFxFlags;
+	int32_t header;
+	int32_t material;
+	int32_t rgbaColor;
+	vec3_t pos;
+	int32_t radius;
+	int32_t minScreenRadius;
+	uint32_t renderFxFlags;
 };
 
 struct GfxCmdDrawTextInSpace
 {
-	int header;
-	char org[12];
-	int font;
-	char xPixelStep[12];
-	char yPixelStep[12];
-	int color;
-	int text;
+	int32_t header;
+	vec3_t org;
+	int32_t font;
+	vec3_t xPixelStep;
+	vec3_t yPixelStep;
+	int32_t color;
+	char text[4];
 };
 
 typedef enum
@@ -8808,114 +9556,118 @@ typedef enum
 
 struct GfxCmdStretchPic
 {
-	int header;
-	int material;
-	int x;
-	int y;
-	int w;
-	int h;
-	int s0;
-	int t0;
-	int s1;
-	int t1;
-	int color;
+	int32_t header;
+	int32_t material;
+	int32_t x;
+	int32_t y;
+	int32_t w;
+	int32_t h;
+	int32_t s0;
+	int32_t t0;
+	int32_t s1;
+	int32_t t1;
+	int32_t color;
 };
 
 struct GfxCmdDrawFullScreenColoredQuad
 {
-	int header;
-	int material;
-	int s0;
-	int t0;
-	int s1;
-	int t1;
-	int color;
+	int32_t header;
+	int32_t material;
+	int32_t s0;
+	int32_t t0;
+	int32_t s1;
+	int32_t t1;
+	int32_t color;
 };
 
 struct GfxCmdBlendSavedScreen
 {
-	int header;
-	int fadeMsec;
-	int material;
+	int32_t header;
+	int32_t fadeMsec;
+	int32_t material;
 };
 
 struct GfxCmdDrawText
 {
-	int header;
-	int x;
-	int y;
-	int font;
-	int xScale;
-	int yScale;
-	int color;
-	int style;
-	int cursorPos;
-	char cursor;
+	int32_t header;
+	int32_t x;
+	int32_t y;
+	int32_t font;
+	int32_t xScale;
+	int32_t yScale;
+	int32_t color;
+	int32_t style;
+	uint32_t cursorPos;
+	int8_t cursor;
 	char pad0[3];
-	int maxChars;
+	int32_t maxChars;
 	char text[3];
 };
 
 struct GfxCmdApplyLatePostEffects
 {
-	int header;
-	int blurRadius;
+	int32_t header;
+	int32_t blurRadius;
 };
 
 struct GfxCmdStretchPicRotate
 {
-	int header;
-	int material;
-	int x;
-	int y;
-	int w;
-	int h;
-	int s0;
-	int t0;
-	int s1;
-	int t1;
-	int color;
-	int rotation;
+	int32_t header;
+	int32_t material;
+	int32_t x;
+	int32_t y;
+	int32_t w;
+	int32_t h;
+	int32_t s0;
+	int32_t t0;
+	int32_t s1;
+	int32_t t1;
+	int32_t color;
+	int32_t rotation;
 };
 
 struct GfxCmdDrawQuadPic
 {
-	int header;
-	int material;
-	char verts[32];
-	int color;
+	int32_t header;
+	int32_t material;
+	uint8_t verts[32];
+	int32_t color;
 };
 
 struct GfxCmdStencilPlanes
 {
-	int header;
-	int nearDist;
-	int planeCount;
-	int planeDists;
+	int32_t header;
+	int32_t nearDist;
+	uint32_t planeCount;
+	int32_t planeDists;
+};
+
+struct $_3718
+{
+	uint16_t entnum;
+	uint16_t otherEntnum;
+	uint32_t useCount;
+	uint32_t otherUseCount;
 };
 
 struct materialCommands_t
 {
-	char pad0[370608];
-	int indices;
-	int optimizedIndices;
-	GfxOptimizedVertexSource optimizedVertexSource;
-	int material;
-	int techType;
-	int lmapIndex;
-	int materialTime;
-	MaterialVertexDeclType declType;
-	int indexCount;
-	int vertexCount;
-	int firstVertex;
-	int lastVertex;
-	int optimizedIndexCount;
-	int optimizedVertexCount;
-	int firstOptimizedVertex;
-};
-
-union _3718
-{
+	$_3718 verts;
+	int32_t indices;
+	int32_t optimizedIndices;
+	int32_t optimizedVertexSource;
+	int32_t material;
+	int32_t techType;
+	uint32_t lmapIndex;
+	uint32_t materialTime;
+	int32_t declType;
+	uint32_t indexCount;
+	uint32_t vertexCount;
+	int32_t firstVertex;
+	int32_t lastVertex;
+	uint32_t optimizedIndexCount;
+	uint32_t optimizedVertexCount;
+	int32_t firstOptimizedVertex;
 };
 
 typedef enum
@@ -8935,302 +9687,293 @@ typedef enum
 	VERTDECL_COUNT = 4
 } MaterialVertexDeclType;
 
-union _3719
+struct $_3719
 {
-	char generic[348800];
-	char world[370600];
+	uint32_t fadeTime;
+	int32_t kickRate;
+	int32_t kickRadius;
 };
 
 struct GfxWorldVertexDx7
 {
-	char xyz[12];
-	int color;
-	int64_t texCoord;
-	int64_t lmapCoord;
+	vec3_t xyz;
+	int32_t color;
+	vec2_t texCoord;
+	vec2_t lmapCoord;
 };
 
 struct r_backEndGlobals_t
 {
-	char codeConsts[944];
-	int frameCount;
-	int viewCount;
-	char sceneDef[16];
-	int viewParms;
-	char lodParms[20];
-	char sceneViewport[16];
-	char viewProjectionMatrix[64];
-	int tileIndex;
-	int tileCount;
-	int width;
-	int height;
-	int currentEntity;
-	int currentEntityLighting;
-	char worldEntity[116];
-	char viewportIsDirty;
-	char projection2D;
-	char defaultSamplerState;
+	uint8_t codeConsts[944];
+	uint32_t frameCount;
+	uint32_t viewCount;
+	uint8_t sceneDef[16];
+	int32_t viewParms;
+	uint8_t lodParms[20];
+	vec4_t sceneViewport;
+	matrix4_t viewProjectionMatrix;
+	uint32_t tileIndex;
+	uint32_t tileCount;
+	uint32_t width;
+	int32_t height;
+	int32_t currentEntity;
+	int32_t currentEntityLighting;
+	uint8_t worldEntity[116];
+	int8_t viewportIsDirty;
+	int8_t projection2D;
+	int8_t defaultSamplerState;
 	char pad0[1];
-	int color_axis;
-	int color_allies;
-	int fogColor;
-	int glowIndexFirst;
-	int glowCount;
-	int64_t glowImage;
-	int texScrollAmountDx7;
-	char codeMatrixStack[10656];
-	int codeMatrixStackLevel;
-	int resolvedPostSunTarget;
-	int resolvedSceneTarget;
-	int currentFeedbackImage;
-	char light[136];
-	char entityLighting[212784];
-	char shadowLookupMatrix[64];
-	int debugFont;
+	int32_t color_axis;
+	int32_t color_allies;
+	int32_t fogColor;
+	uint32_t glowIndexFirst;
+	uint32_t glowCount;
+	uint64_t glowImage;
+	int32_t texScrollAmountDx7;
+	uint8_t codeMatrixStack[10656];
+	int32_t codeMatrixStackLevel;
+	uint32_t resolvedPostSunTarget;
+	int32_t resolvedSceneTarget;
+	int32_t currentFeedbackImage;
+	uint8_t light[136];
+	uint8_t entityLighting[212784];
+	matrix4_t shadowLookupMatrix;
+	int32_t debugFont;
 };
 
 struct GfxEntityLighting
 {
-	int viewCount;
-	int sunVisibility;
-	char colorForDir[96];
+	uint32_t viewCount;
+	int32_t sunVisibility;
+	uint8_t colorForDir[96];
 };
 
 struct GfxBackEndLightSettings
 {
-	char position[16];
-	char ambient[16];
-	char color[16];
+	vec4_t position;
+	uint8_t ambient[16];
+	vec4_t color;
 	char specular[16];
-	int def;
-};
-
-struct DebugGlobals
-{
-	int verts;
-	int vertCount;
-	int vertLimit;
-	int polys;
-	int polyCount;
-	int polyLimit;
-	int strings;
-	int stringCount;
-	int stringLimit;
-	int externStrings;
-	int externStringCount;
-	int externMaxStringCount;
-	int lines;
-	int lineCount;
-	int lineLimit;
-	int externLines;
-	int externLineCount;
-	int externMaxLineCount;
-	int plumes;
-	int plumeCount;
-	int plumeLimit;
+	int32_t def;
 };
 
 struct SunFlareDynamic
 {
-	int flareIntensity;
-	int currentBlind;
-	int currentGlare;
-	int lastTime;
-	char error;
+	int32_t flareIntensity;
+	int32_t currentBlind;
+	int32_t currentGlare;
+	uint32_t lastTime;
+	int8_t error;
 	char pad0[3];
-	int cumulVisibility;
-	int lastVisibility;
-	int lastDot;
-	int hitNum;
-	int64_t sunQuery;
-	short sunQueryIssued;
-}; */
+	int32_t cumulVisibility;
+	int32_t lastVisibility;
+	int32_t lastDot;
+	uint32_t hitNum;
+	uint64_t sunQuery;
+	int16_t sunQueryIssued;
+};
 
 struct static_model_tree_list_t
 {
-	int prev;
-	int next;
+	int32_t prev;
+	int32_t next;
+};
+
+struct static_model_tree_t
+{
+	static_model_tree_list_t usedlist;
+	uint32_t frameCount;
+	uint8_t nodes[124];
+	uint8_t leafs[256];
 };
 
 struct static_model_node_t
 {
-	short usedVerts;
-	char inuse;
-	char reserved;
-};
-
-union static_model_leaf_t
-{
-	char surf[16];
-	static_model_node_list_t freenode;
+	int16_t usedVerts;
+	int8_t inuse;
+	int8_t reserved;
 };
 
 struct static_model_node_list_t
 {
-	int prev;
-	int next;
+	int32_t prev;
+	int32_t next;
+};
+
+union static_model_leaf_t
+{
+	uint8_t surf[16];
+	static_model_node_list_t freenode;
 };
 
 struct SkinStaticModelCachedCmd
 {
-	int cached;
-	int smodelIndex;
-	int material;
+	int32_t cached;
+	char smodelIndex[4];
+	int32_t material;
 };
 
 struct static_model_cache_t
 {
-	char trees[50176];
-	char freelist[40];
-	int64_t usedlist;
+	uint8_t trees[50176];
+	uint8_t freelist[40];
+	uint64_t usedlist;
+	$_3719 stats;
 };
 
 struct GfxBspLoad
 {
-	int header;
-	int fileBase;
-	int fileSize;
-	int materials;
-	int materialCount;
+	int32_t header;
+	int32_t fileBase;
+	uint32_t fileSize;
+	int32_t materials;
+	uint32_t materialCount;
 	char lmapMergeInfo[640];
 };
 
 struct r_lightmapMerge_t
 {
-	short index;
+	uint16_t index;
 	char pad0[2];
-	int64_t shift;
-	int64_t scale;
+	uint64_t shift;
+	uint64_t scale;
 };
 
 struct dnode_t
 {
-	int planeNum;
-	int64_t children;
-	char mins[12];
-	char maxs[12];
+	uint32_t planeNum;
+	uint64_t children;
+	vec3_t mins;
+	vec3_t maxs;
 };
 
 struct dleaf_t
 {
-	int cluster;
-	int area;
-	int firstLeafSurface;
-	int numLeafSurfaces;
-	int firstLeafBrush;
-	int numLeafBrushes;
-	int cellNum;
-	int firstLightIndex;
-	int numLights;
+	int32_t cluster;
+	int32_t area;
+	int32_t firstLeafSurface;
+	uint32_t numLeafSurfaces;
+	int32_t firstLeafBrush;
+	uint32_t numLeafBrushes;
+	uint32_t cellNum;
+	uint32_t firstLightIndex;
+	uint32_t numLights;
 };
 
 struct DiskGfxPortal
 {
-	int planeIndex;
-	int cellIndex;
-	int firstPortalVertex;
-	int portalVertexCount;
+	uint32_t planeIndex;
+	uint32_t cellIndex;
+	int32_t firstPortalVertex;
+	uint32_t portalVertexCount;
 };
 
 struct DiskGfxCell
 {
-	char mins[12];
-	char maxs[12];
-	int aabbTreeIndex;
-	int firstPortal;
-	int portalCount;
-	int firstCullGroup;
-	int cullGroupCount;
-	int firstOccluder;
-	int occluderCount;
+	vec3_t mins;
+	vec3_t maxs;
+	uint32_t aabbTreeIndex;
+	int32_t firstPortal;
+	uint32_t portalCount;
+	int32_t firstCullGroup;
+	uint32_t cullGroupCount;
+	int32_t firstOccluder;
+	uint32_t occluderCount;
 };
 
 struct DiskGfxAabbTree
 {
-	int firstSurface;
-	int surfaceCount;
-	int childCount;
+	int32_t firstSurface;
+	uint32_t surfaceCount;
+	uint32_t childCount;
 };
 
 struct DiskGfxOccluder
 {
-	int firstPlane;
-	short planeCount;
-	short edgeCount;
-	int firstEdge;
-	int firstPortalVertex;
-	short portalVertexCount;
+	int32_t firstPlane;
+	uint16_t planeCount;
+	uint16_t edgeCount;
+	int32_t firstEdge;
+	int32_t firstPortalVertex;
+	uint16_t portalVertexCount;
 };
 
 struct DiskGfxOccluderEdge
 {
-	short planeIndex;
-	short vertexIndex;
+	uint16_t planeIndex;
+	uint16_t vertexIndex;
 };
 
 struct DiskGfxCullGroup
 {
-	char mins[12];
-	char maxs[12];
-	int firstSurface;
-	int surfaceCount;
+	vec3_t mins;
+	vec3_t maxs;
+	int32_t firstSurface;
+	uint32_t surfaceCount;
 };
 
 struct DiskTriangleSoup
 {
-	short materialIndex;
-	short lightmapIndex;
-	int firstVertex;
-	short vertexCount;
-	short indexCount;
-	int firstIndex;
+	uint16_t materialIndex;
+	uint16_t lightmapIndex;
+	int32_t firstVertex;
+	uint16_t vertexCount;
+	uint16_t indexCount;
+	uint32_t firstIndex;
 };
 
 struct DiskGfxVertex
 {
-	char xyz[12];
-	char normal[12];
-	int color;
-	int64_t texCoord;
-	int64_t lmapCoord;
-	char tangent[12];
-	char binormal[12];
+	vec3_t xyz;
+	vec3_t normal;
+	int32_t color;
+	vec2_t texCoord;
+	vec2_t lmapCoord;
+	vec3_t tangent;
+	vec3_t binormal;
 };
 
 struct r_lightmapGroup_t
 {
-	int wideCount;
-	int highCount;
+	uint32_t wideCount;
+	uint32_t highCount;
 };
 
 struct dmodel_t
 {
-	char mins[12];
-	char maxs[12];
-	int firstTriangle;
-	int numTriangles;
-	int firstSurface;
-	int numSurfaces;
-	int firstBrush;
-	int numBrushes;
+	vec3_t mins;
+	vec3_t maxs;
+	float firstTriangle;
+	float numTriangles;
+	int32_t firstSurface;
+	uint32_t numSurfaces;
+	int32_t firstBrush;
+	uint32_t numBrushes;
 };
 
 struct r_globals_load_t
 {
-	int occluderIndices;
-	int cullGroupIndices;
-	int occluders;
-	int portalVerts;
-	int aabbTrees;
-	int aabbTreeCount;
+	int32_t occluderIndices;
+	int32_t cullGroupIndices;
+	int32_t occluders;
+	int32_t portalVerts;
+	int32_t aabbTrees;
+	uint32_t aabbTreeCount;
 };
 
-struct _3753
+struct ImageList
 {
-	char imageHashTable[8192];
-	int picmip;
-	int picmipBump;
-	int picmipSpec;
-	int64_t totalMemory;
+	uint32_t count;
+	uint8_t image[8192];
+};
+
+struct $_3753
+{
+	uint8_t imageHashTable[8192];
+	int32_t picmip;
+	int32_t picmipBump;
+	char picmipSpec[4];
+	uint64_t totalMemory;
 };
 
 typedef enum
@@ -9258,18 +10001,18 @@ typedef enum
 	RENDERTARGET_USAGE_READBACK = 2
 } RenderTargetUsage;
 
-struct _3637
+struct $_3637
 {
-	int xyzHighBits;
-	char xyzLowBitsAndSunVisible;
-	char needsTrace;
-	short colorsIndex;
+	int32_t xyzHighBits;
+	int8_t xyzLowBitsAndSunVisible;
+	int8_t needsTrace;
+	uint16_t colorsIndex;
 };
 
 struct lightGlob_type
 {
-	int defCount;
-	char defs[256];
+	uint32_t defCount;
+	uint8_t defs[256];
 };
 
 typedef enum
@@ -9290,11 +10033,11 @@ typedef enum
 
 struct GfxDrawGroupCommands
 {
-	char isIssuingGlue;
+	int8_t isIssuingGlue;
 	char pad0[3];
-	int begin;
-	char perView[16];
-	int end;
+	int32_t begin;
+	uint8_t perView[16];
+	int32_t end;
 };
 
 typedef enum
@@ -9305,8 +10048,8 @@ typedef enum
 
 struct PortalHeapNode
 {
-	int portal;
-	int dist;
+	int32_t portal;
+	int32_t dist;
 };
 
 typedef enum
@@ -9318,32 +10061,32 @@ typedef enum
 struct DpvsScene
 {
 	char modelRefs[131072];
-	int modelRefCount;
+	char modelRefCount[4];
 };
 
 struct DpvsDebug
 {
-	char drawWorld;
-	char drawEntities;
-	char drawSModels;
-	char drawXModels;
-	char drawBModels;
+	int8_t drawWorld;
+	int8_t drawEntities;
+	int8_t drawSModels;
+	int8_t drawXModels;
+	int8_t drawBModels;
 };
 
 struct GfxMarkFragment
 {
-	int markMaterial;
-	short lmapIndex;
-	char pointCount;
+	int32_t markMaterial;
+	uint16_t lmapIndex;
+	uint8_t pointCount;
 	char pad0[1];
-	int firstPoint;
+	int32_t firstPoint;
 };
 
 struct GfxMarkPoint
 {
-	char xyz[12];
-	int64_t lmapCoord;
-	char normal[12];
+	vec3_t xyz;
+	vec2_t lmapCoord;
+	vec3_t normal;
 };
 
 typedef enum
@@ -9357,74 +10100,70 @@ typedef enum
 
 struct DxCapsCheckBits
 {
-	int offset;
-	int setBits;
-	int clearBits;
-	int response;
-	int msg;
+	uint32_t offset;
+	int32_t setBits;
+	int32_t clearBits;
+	int32_t response;
+	int32_t msg;
 };
 
 struct DxCapsCheckInteger
 {
-	int offset;
-	int min;
-	int max;
-	int response;
-	int msg;
+	uint32_t offset;
+	int32_t min;
+	int32_t max;
+	int32_t response;
+	int32_t msg;
 };
 
 struct GfxDrawPrimArgs
 {
-	int firstVertexFromBase;
-	int vertexCount;
-	int primCount;
+	int32_t firstVertexFromBase;
+	uint32_t vertexCount;
+	uint32_t primCount;
+	$_3708 u;
 };
 
 struct GfxStateOverride
 {
-	int64_t stateBitsMaskClear;
-	int64_t stateBitsMaskSet;
-};
-
-struct _3710
-{
-	int vertexStride;
+	uint64_t stateBitsMaskClear;
+	uint64_t stateBitsMaskSet;
 };
 
 struct ShadowCandidate
 {
-	int entIndex;
-	int weight;
+	uint32_t entIndex;
+	int32_t weight;
 };
 
 struct ShadowCookie
 {
-	int firstCasterDrawSurf;
-	int firstReceiverDrawSurf;
-	int firstUnusedDrawSurf;
-	char shadowLookupMatrix[64];
-	char boxMin[12];
-	char boxMax[12];
-	int shadowViewParms;
-	int fade;
+	int32_t firstCasterDrawSurf;
+	int32_t firstReceiverDrawSurf;
+	int32_t firstUnusedDrawSurf;
+	matrix4_t shadowLookupMatrix;
+	vec3_t boxMin;
+	vec3_t boxMax;
+	int32_t shadowViewParms;
+	int32_t fade;
 };
 
 struct ShadowCookieList
 {
-	char cookies[2592];
-	int cookieCount;
+	uint8_t cookies[2592];
+	uint32_t cookieCount;
 };
 
 struct ShadowCookieGlob
 {
-	int weightCap;
-	int lastTime;
+	int32_t weightCap;
+	uint32_t lastTime;
 };
 
 struct WaterGlob
 {
-	char H[131072];
-	char pixels[65536];
+	uint8_t H[131072];
+	uint8_t pixels[65536];
 };
 
 typedef enum
@@ -9436,25 +10175,25 @@ typedef enum
 
 struct GfxImageFileHeader
 {
-	char tag[3];
-	char version;
-	char format;
-	char flags;
-	char dimensions[6];
-	char fileSizeForPicmip[16];
+	uint8_t tag[3];
+	int8_t version;
+	int8_t format;
+	int8_t flags;
+	uint8_t dimensions[6];
+	uint8_t fileSizeForPicmip[16];
 };
 
 struct WaveletDecode
 {
-	short value;
-	short bit;
-	int data;
-	int width;
-	int height;
-	int channels;
-	int bpp;
-	int mipLevel;
-	char dataInitialized;
+	int16_t value;
+	int16_t bit;
+	int32_t data;
+	uint32_t width;
+	int32_t height;
+	int32_t channels;
+	int32_t bpp;
+	int32_t mipLevel;
+	int8_t dataInitialized;
 };
 
 struct IncludeClass
@@ -9463,7 +10202,7 @@ struct IncludeClass
 
 struct ID3DXInclude
 {
-	int ID3DXInclude;
+	void *_vptr$ID3DXInclude;
 };
 
 typedef enum
@@ -9471,66 +10210,66 @@ typedef enum
 	D3DXINC_LOCAL = 0,
 	D3DXINC_SYSTEM = 1,
 	D3DXINC_FORCE_DWORD = 2147483647
-} _D3DXINCLUDE_TYPE;
+} D3DXINCLUDE_TYPE;
 
 struct MaterialObj
 {
-	MaterialInfoObj info;
-	int64_t stateBits;
-	short textureCount;
-	short constantCount;
-	int techniqueSet;
-	int textures;
-	int constants;
+	MaterialInfoObj_s info;
+	uint64_t stateBits;
+	char textureCount[2];
+	uint16_t constantCount;
+	int32_t techniqueSet;
+	char textures[4];
+	int32_t constants;
 };
 
 struct GfxCachedShaderText
 {
-	int name;
-	int text;
-	int textSize;
+	char name[4];
+	char text[4];
+	char textSize[4];
 };
 
 struct ShaderConstantRouting
 {
-	int name;
-	char firstElem;
-	char elemCount;
+	char name[4];
+	int8_t firstElem;
+	uint8_t elemCount;
 	char pad0[2];
-	int constantInfo;
-	int typeInfo;
+	char constantInfo[4];
+	char typeInfo[4];
 };
 
 struct CodeConstantSource
 {
-	int name;
-	char source;
+	char name[4];
+	int8_t source;
 	char pad0[3];
-	int subtable;
-	int arrayCount;
-	int arrayStride;
+	int32_t subtable;
+	uint32_t arrayCount;
+	uint32_t arrayStride;
 };
 
-struct _D3DXSHADER_CONSTANTINFO
+struct D3DXSHADER_CONSTANTINFO
 {
-	int Name;
-	short RegisterSet;
-	short RegisterIndex;
-	short RegisterCount;
-	short Reserved;
-	int TypeInfo;
-	int DefaultValue;
+	char Name[4];
+	int16_t RegisterSet;
+	uint16_t RegisterIndex;
+	uint16_t RegisterCount;
+	int16_t Reserved;
+	char TypeInfo[4];
+	int32_t DefaultValue;
 };
 
-struct _D3DXSHADER_TYPEINFO
+struct D3DXSHADER_TYPEINFO
 {
-	short Class;
-	short Type;
-	short Rows;
-	short Columns;
-	short Elements;
-	short StructMembers;
-	int StructMemberInfo;
+	int16_t Class;
+	int16_t Type;
+	int16_t Rows;
+	int16_t Columns;
+	int16_t Elements;
+	int16_t StructMembers;
+	char StructMemberInfo[4];
 };
 
 typedef enum
@@ -9542,11 +10281,11 @@ typedef enum
 
 struct CodeSamplerSource
 {
-	int name;
-	MaterialTextureSource source;
-	int subtable;
-	int arrayCount;
-	int arrayStride;
+	char name[4];
+	int32_t source;
+	int32_t subtable;
+	uint32_t arrayCount;
+	uint32_t arrayStride;
 };
 
 typedef enum
@@ -9581,27 +10320,27 @@ struct ID3DXConstantTable
 {
 };
 
-struct _D3DXCONSTANTTABLE_DESC
+struct D3DXCONSTANTTABLE_DESC
 {
-	int Creator;
-	int Version;
-	int Constants;
+	int32_t Creator;
+	char Version[4];
+	int32_t Constants;
 };
 
-struct _D3DXCONSTANT_DESC
+struct D3DXCONSTANT_DESC
 {
-	int Name;
-	D3DXREGISTER_SET RegisterSet;
-	int RegisterIndex;
-	int RegisterCount;
-	D3DXPARAMETER_CLASS Class;
-	D3DXPARAMETER_TYPE Type;
-	int Rows;
-	int Columns;
-	int Elements;
-	int StructMembers;
-	int Bytes;
-	int DefaultValue;
+	char Name[4];
+	int32_t RegisterSet;
+	uint32_t RegisterIndex;
+	uint32_t RegisterCount;
+	int32_t Class;
+	int32_t Type;
+	int32_t Rows;
+	int32_t Columns;
+	int32_t Elements;
+	int32_t StructMembers;
+	int32_t Bytes;
+	int32_t DefaultValue;
 };
 
 typedef enum
@@ -9611,7 +10350,7 @@ typedef enum
 	D3DXRS_FLOAT4 = 2,
 	D3DXRS_SAMPLER = 3,
 	D3DXRS_FORCE_DWORD = 2147483647
-} _D3DXREGISTER_SET;
+} D3DXREGISTER_SET;
 
 typedef enum
 {
@@ -9622,7 +10361,7 @@ typedef enum
 	D3DXPC_OBJECT = 4,
 	D3DXPC_STRUCT = 5,
 	D3DXPC_FORCE_DWORD = 2147483647
-} _D3DXPARAMETER_CLASS;
+} D3DXPARAMETER_CLASS;
 
 typedef enum
 {
@@ -9646,17 +10385,17 @@ typedef enum
 	D3DXPT_PIXELFRAGMENT = 17,
 	D3DXPT_VERTEXFRAGMENT = 18,
 	D3DXPT_FORCE_DWORD = 2147483647
-} _D3DXPARAMETER_TYPE;
+} D3DXPARAMETER_TYPE;
 
-struct _D3DXSHADER_CONSTANTTABLE
+struct D3DXSHADER_CONSTANTTABLE
 {
-	int Size;
-	int Creator;
-	int Version;
-	int Constants;
-	int ConstantInfo;
-	int Flags;
-	int Target;
+	uint32_t Size;
+	int32_t Creator;
+	char Version[4];
+	int32_t Constants;
+	char ConstantInfo[4];
+	uint32_t Flags;
+	int32_t Target;
 };
 
 typedef enum
@@ -9668,128 +10407,159 @@ typedef enum
 
 struct MtlStateMapBitName
 {
-	int name;
-	int bits;
+	char name[4];
+	int32_t bits;
 };
 
 struct MtlStateMapBitGroup
 {
-	int name;
-	int bitNames;
-	int64_t stateBitsMask;
+	char name[4];
+	char bitNames[4];
+	uint64_t stateBitsMask;
 };
 
 struct ID3DXBuffer
 {
 };
 
-struct _D3DXMACRO
+struct D3DXMACRO
 {
-	int Name;
-	int Definition;
+	char Name[4];
+	int32_t Definition;
 };
 
-struct _3775
+struct $_3775
 {
-	int cachedShaderCount;
-	int cachedShaderText;
+	uint32_t cachedShaderCount;
+	char cachedShaderText[4];
 };
 
 struct MtlTextureFunctionDx7
 {
-	int name;
-	int enumerant;
-	int argCount;
-	int valid;
+	char name[4];
+	uint32_t enumerant;
+	uint32_t argCount;
+	uint32_t valid;
 };
 
 struct PassOptionDx7
 {
-	int name;
-	int valueOffset;
+	char name[4];
+	uint32_t valueOffset;
 };
 
 struct GfxImageFilterPass
 {
-	int material;
-	int srcWidth;
-	int srcHeight;
-	int dstWidth;
-	int dstHeight;
-	int tapHalfCount;
-	char tapOffsetsAndWeights[128];
+	int32_t material;
+	uint32_t srcWidth;
+	int32_t srcHeight;
+	uint32_t dstWidth;
+	int32_t dstHeight;
+	uint32_t tapHalfCount;
+	uint8_t tapOffsetsAndWeights[128];
 };
 
 struct GfxImageFilter
 {
-	int passCount;
-	char passes[2432];
-	int sourceImage;
-	int finalTarget;
-	int64_t pingPongTargets;
+	uint32_t passCount;
+	uint8_t passes[2432];
+	int32_t sourceImage;
+	int32_t finalTarget;
+	uint64_t pingPongTargets;
 };
 
 struct OutdoorGlob
 {
-	char bbox[24];
-	char scale[12];
-	char invScale[12];
-	char add[12];
-	int pic;
+	vec3_t bbox[2];
+	vec3_t scale;
+	vec3_t invScale;
+	vec3_t add;
+	int32_t pic;
 };
 
 struct WaveletHuffmanDecode
 {
-	short value;
-	short bits;
+	int16_t value;
+	int16_t bits;
 };
 
 struct CCallOfDutyEngine
 {
+	char pad0[32];
+	int32_t mMouseButtonState;
 };
 
 struct yy_buffer_state
 {
-	int yy_input_file;
-	int yy_ch_buf;
-	int yy_buf_pos;
-	int yy_buf_size;
-	int yy_n_chars;
-	int yy_is_our_buffer;
-	int yy_is_interactive;
-	int yy_at_bol;
-	int yy_fill_buffer;
-	int yy_buffer_status;
+	int32_t yy_input_file;
+	void *yy_ch_buf;
+	uint32_t yy_buf_pos;
+	uint32_t yy_buf_size;
+	int32_t yy_n_chars;
+	void *yy_is_our_buffer;
+	int32_t yy_is_interactive;
+	int32_t yy_at_bol;
+	void *yy_fill_buffer;
+	char yy_buffer_status[4];
 };
 
 struct CMutex
 {
+	pthread_mutex_t mMutex;
 };
 
-struct CSoundEngine
+struct CSoundObject
 {
+	char _vptr$CSoundObject[4];
+	int32_t mEngine;
+	uint32_t mBusIndex;
+	int8_t mIsAvailable;
+	char pad0[3];
+	char mSoundType[4];
+	int8_t mIsBuffered;
+	char pad1[3];
+	uint32_t mSampleBufferIndex;
+	int32_t mBytesPerSample;
+	CMutex mMutex;
+	uint8_t mPrivateSampleBuffer[16];
+	uint32_t mPrivateSampleLength;
+	char mssStatus[4];
+	int32_t mssVolume;
+	int32_t mssLeftLevel;
+	int32_t mssRightLevel;
+	int32_t mssPan;
+	int32_t mssDryLevel;
+	int32_t mssWetLevel;
+	int32_t mssPlaybackRate;
+	int32_t mssLoops;
+	char mssSampleAddress[16];
+	uint8_t mssSampleLength[16];
+	uint32_t mssADPCMBlockSize;
+	int32_t mssFormat;
+	uint32_t mssCurrentPosition;
+	uint32_t mssTotalLength;
+	vec3_t mssPosition;
+	vec3_t mssFace;
+	vec3_t mssUp;
+	int32_t mssMaxDistance;
+	int32_t mssMinDistance;
 };
 
 struct CThread
 {
-	int CThread;
+	void *_vptr$CThread;
+	int32_t mThread;
+	int32_t mArg;
+	uint8_t mMutex[44];
+	int8_t mIsRunning;
 };
 
-typedef enum
+struct Deque_impl
 {
-	kItem_KeyCodePart1 = 1,
-	kItem_KeyCodePart2 = 2,
-	kItem_KeyCodePart3 = 3,
-	kItem_KeyCodePart4 = 4,
-	kItem_KeyCodePart5 = 5
-} _3640;
-
-struct _Deque_impl
-{
-	int _M_map;
-	int _M_map_size;
-	char _M_start[16];
-	char _M_finish[16];
+	int32_t _M_map;
+	uint32_t _M_map_size;
+	uint8_t _M_start[16];
+	uint8_t _M_finish[16];
 };
 
 struct CAStreamBasicDescription
@@ -9798,692 +10568,667 @@ struct CAStreamBasicDescription
 
 struct AudioStreamBasicDescription
 {
-	int64_t mSampleRate;
-	int mFormatID;
-	int mFormatFlags;
-	int mBytesPerPacket;
-	int mFramesPerPacket;
-	int mBytesPerFrame;
-	int mChannelsPerFrame;
-	int mBitsPerChannel;
-	int mReserved;
+	uint64_t mSampleRate;
+	uint32_t mFormatID;
+	uint32_t mFormatFlags;
+	int32_t mBytesPerPacket;
+	int32_t mFramesPerPacket;
+	int32_t mBytesPerFrame;
+	int32_t mChannelsPerFrame;
+	int32_t mBitsPerChannel;
+	int32_t mReserved;
 };
 
 struct CSampleSound
 {
-};
-
-struct CSoundObject
-{
-	int CSoundObject;
+	char pad0[224];
+	AudioStreamBasicDescription mSourceFormat;
+	void *mConverterRef;
+	int8_t mIsNativeFormat;
+	int8_t mRenderProcsInstalled;
+	int8_t mRemoveRenderProcs;
+	int8_t mUpdateStreamFormat;
+	int8_t mUpdate3DValues;
+	uint8_t mOutputIsSilence;
+	char pad1[2];
+	uint32_t mFileHandle;
+	int32_t mFileDataStart;
+	int8_t mIsStreaming;
 };
 
 struct AudioBufferList
 {
-	int mNumberBuffers;
-	char mBuffers[12];
+	uint32_t mNumberBuffers;
+	vec3_t mBuffers;
 };
 
 struct AudioBuffer
 {
-	int mNumberChannels;
-	int mDataByteSize;
-	int mData;
+	uint32_t mNumberChannels;
+	uint32_t mDataByteSize;
+	int32_t mData;
 };
 
 struct StMutexLock
 {
+	int32_t mMutex;
+	int8_t mLocked;
 };
 
 struct AudioStreamPacketDescription
 {
-	int64_t mStartOffset;
-	int mVariableFramesInPacket;
-	int mDataByteSize;
-};
-
-struct AudioTimeStamp
-{
-	int64_t mSampleTime;
-	int64_t mHostTime;
-	int64_t mRateScalar;
-	int64_t mWordClockTime;
-	SMPTETime mSMPTETime;
-	int mFlags;
-	int mReserved;
+	vec2_t mStartOffset;
+	int32_t mVariableFramesInPacket;
+	uint32_t mDataByteSize;
 };
 
 struct SMPTETime
 {
-	short mSubframes;
-	short mSubframeDivisor;
-	int mCounter;
-	int mType;
-	int mFlags;
-	short mHours;
-	short mMinutes;
-	short mSeconds;
-	short mFrames;
+	int16_t mSubframes;
+	int16_t mSubframeDivisor;
+	uint32_t mCounter;
+	int32_t mType;
+	uint32_t mFlags;
+	int16_t mHours;
+	int16_t mMinutes;
+	int16_t mSeconds;
+	int16_t mFrames;
+};
+
+struct AudioTimeStamp
+{
+	uint64_t mSampleTime;
+	uint64_t mHostTime;
+	uint64_t mRateScalar;
+	uint64_t mWordClockTime;
+	SMPTETime mSMPTETime;
+	uint32_t mFlags;
+	int32_t mReserved;
 };
 
 struct AURenderCallbackStruct
 {
-	int inputProc;
-	int inputProcRefCon;
+	int32_t inputProc;
+	void *inputProcRefCon;
 };
 
 struct MixerDistanceParams
 {
-	int mReferenceDistance;
-	int mMaxDistance;
-	int mMaxAttenuation;
+	void *mReferenceDistance;
+	int32_t mMaxDistance;
+	int32_t mMaxAttenuation;
 };
 
 struct StThreadLock
 {
+	int32_t mThread;
+	int8_t mLocked;
 };
 
 struct AudioChannelLayout
 {
-	int mChannelLayoutTag;
-	int mChannelBitmap;
-	int mNumberChannelDescriptions;
+	int32_t mChannelLayoutTag;
+	int32_t mChannelBitmap;
+	char mNumberChannelDescriptions[4];
 	char mChannelDescriptions[20];
 };
 
 struct AudioChannelDescription
 {
-	int mChannelLabel;
-	int mChannelFlags;
-	char mCoordinates[12];
+	int32_t mChannelLabel;
+	uint32_t mChannelFlags;
+	vec3_t mCoordinates;
 };
 
 struct ComponentDescription
 {
-	int componentType;
-	int componentSubType;
-	int componentManufacturer;
-	int componentFlags;
-	int componentFlagsMask;
+	int32_t componentType;
+	int32_t componentSubType;
+	int32_t componentManufacturer;
+	uint32_t componentFlags;
+	uint32_t componentFlagsMask;
 };
 
 struct ComponentRecord
 {
-	int data;
+	int32_t data;
 };
 
 struct CD3DXBuffer
 {
+	char pad0[4];
+	uint32_t mRefCount;
+	uint32_t mBufferLength;
+	void *mpBuffer;
 };
 
 struct CD3DXConstantTable
 {
+	char pad0[4];
+	uint32_t mRefCount;
+	uint32_t mSize;
+	int32_t mpConstantTable;
 };
-
-typedef enum
-{
-	CD3DX_REGISTER_INDEX_ARG = 0,
-	CD3DX_REGISTER_COUNT_ARG = 1,
-	CD3DX_PARAMETER_CLASS_ARG = 2,
-	CD3DX_PARAMETER_TYPE_ARG = 3,
-	CD3DX_ELEMENTS_ARG = 4,
-	CD3DX_NUM_ARGS = 5
-} _3607;
 
 struct CStreamSound
 {
+	char pad0[224];
+	int32_t mMovie;
+	int32_t mTrack;
+	int32_t mMedia;
+	int32_t mMovieRate;
 };
 
 struct SoundDescription
 {
-	int descSize;
-	int dataFormat;
-	int resvd1;
-	short resvd2;
-	short dataRefIndex;
-	short version;
-	short revlevel;
-	int vendor;
-	short numChannels;
-	short sampleSize;
-	short compressionID;
-	short packetSize;
-	int sampleRate;
+	uint32_t descSize;
+	int32_t dataFormat;
+	int32_t resvd1;
+	int16_t resvd2;
+	uint16_t dataRefIndex;
+	char version[2];
+	int16_t revlevel;
+	int32_t vendor;
+	uint16_t numChannels;
+	uint16_t sampleSize;
+	uint16_t compressionID;
+	uint16_t packetSize;
+	int32_t sampleRate;
 };
 
 struct PlayerKeyState
 {
 	char chatField[280];
-	int chat_team;
-	int key_overstrikeMode;
-	int anykeydown;
-	char keys[3072];
+	char chat_team[4];
+	int32_t key_overstrikeMode;
+	int32_t anykeydown;
+	uint8_t keys[3072];
 };
 
 struct qkey_t
 {
-	int down;
-	int repeats;
-	int binding;
+	int32_t down;
+	int32_t repeats;
+	int32_t binding;
 };
 
 struct keyname_t
 {
-	int name;
-	int keynum;
+	char name[4];
+	uint32_t keynum;
+};
+
+struct netadr_t
+{
+	int32_t type;
+	int32_t ip;
+	uint16_t port;
+};
+
+struct netchan_t
+{
+	int32_t outgoingSequence;
+	int32_t sock;
+	int32_t dropped;
+	int32_t incomingSequence;
+	netadr_t remoteAddress;
+	int32_t qport;
+	int32_t fragmentSequence;
+	uint32_t fragmentLength;
+	uint8_t fragmentBuffer[16384];
+	int32_t unsentFragments;
+	int32_t unsentFragmentStart;
+	uint32_t unsentLength;
+	uint8_t unsentBuffer[16384];
+	int32_t pProf;
 };
 
 struct client_s
 {
-	int state;
-	int sendAsActive;
-	int dropReason;
+	int32_t state;
+	int32_t sendAsActive;
+	int32_t dropReason;
 	char userinfo[1024];
 	char reliableCommandInfo[132096];
-	int reliableSequence;
-	int reliableAcknowledge;
-	int reliableSent;
-	int messageAcknowledge;
-	int gamestateMessageNum;
-	int challenge;
-	usercmd_t lastUsercmd;
-	int lastClientCommand;
+	int32_t reliableSequence;
+	int32_t reliableAcknowledge;
+	int32_t reliableSent;
+	char messageAcknowledge[4];
+	char gamestateMessageNum[4];
+	uint32_t challenge;
+	usercmd_s lastUsercmd;
+	char lastClientCommand[4];
 	char lastClientCommandString[1024];
-	int gentity;
+	int32_t gentity;
 	char name[32];
 	char downloadName[64];
-	int download;
-	int downloadSize;
-	int downloadCount;
-	int downloadClientBlock;
-	int downloadCurrentBlock;
-	int downloadXmitBlock;
+	char download[4];
+	char downloadSize[4];
+	char downloadCount[4];
+	char downloadClientBlock[4];
+	char downloadCurrentBlock[4];
+	char downloadXmitBlock[4];
 	char downloadBlocks[32];
 	char downloadBlockSize[32];
-	int downloadEOF;
-	int downloadSendTime;
-	int deltaMessage;
-	int nextReliableTime;
-	int lastPacketTime;
-	int lastConnectTime;
-	int nextSnapshotTime;
-	int rateDelayed;
-	int timeoutCount;
-	char frames[317568];
-	int ping;
-	int rate;
-	int snapshotMsec;
-	int pureAuthentic;
+	char downloadEOF[4];
+	char downloadSendTime[4];
+	char deltaMessage[4];
+	uint32_t nextReliableTime;
+	uint32_t lastPacketTime;
+	uint32_t lastConnectTime;
+	uint32_t nextSnapshotTime;
+	int32_t rateDelayed;
+	uint32_t timeoutCount;
+	uint8_t frames[317568];
+	int32_t ping;
+	int32_t rate;
+	int32_t snapshotMsec;
+	int32_t pureAuthentic;
 	netchan_t netchan;
-	int guid;
-	short scriptId;
+	uint32_t guid;
+	char scriptId[2];
 	char pad0[2];
-	int bIsTestClient;
-	int serverId;
-	char voicePackets[10440];
-	int voicePacketCount;
-	char muteList[64];
-	char sendVoice;
+	int32_t bIsTestClient;
+	uint32_t serverId;
+	uint8_t voicePackets[10440];
+	uint32_t voicePacketCount;
+	uint8_t muteList[64];
+	int8_t sendVoice;
 };
-/* 
-struct netchan_t
-{
-	int outgoingSequence;
-	netsrc_t sock;
-	int dropped;
-	int incomingSequence;
-	netadr_t remoteAddress;
-	int qport;
-	int fragmentSequence;
-	int fragmentLength;
-	char fragmentBuffer[16384];
-	int unsentFragments;
-	int unsentFragmentStart;
-	int unsentLength;
-	char unsentBuffer[16384];
-	int pProf;
-}; */
 
 struct svscmd_info_t
 {
 	char cmd[1024];
-	int time;
-	int type;
+	uint32_t time;
+	int32_t type;
 };
 
 struct clientSnapshot_t
 {
-	playerState_t ps;
-	int num_entities;
-	int num_clients;
-	int first_entity;
-	int first_client;
-	int messageSent;
-	int messageAcked;
-	int messageSize;
+	playerState_s ps;
+	uint32_t num_entities;
+	uint32_t num_clients;
+	int32_t first_entity;
+	int32_t first_client;
+	int32_t messageSent;
+	int32_t messageAcked;
+	int32_t messageSize;
 };
-/* 
+
 typedef enum
 {
 	NS_CLIENT1 = 0,
 	NS_SERVER = 1,
 	NS_MAXCLIENTS = 1,
 	NS_PACKET = 2
-} netsrc_t; */
-/* 
-struct netadr_t
-{
-	netadrtype_t type;
-	int ip;
-	short port;
-}; */
+} netsrc_t;
 
 struct VoicePacket_t
 {
-	char talker;
-	char data[256];
-	int dataSize;
+	int8_t talker;
+	uint8_t data[256];
+	uint32_t dataSize;
+};
+
+struct netProfileStream_t
+{
+	uint8_t packets[720];
+	int32_t iCurrPacket;
+	int32_t iBytesPerSecond;
+	uint32_t iLastBPSCalcTime;
+	uint32_t iCountedPackets;
+	uint32_t iCountedFragments;
+	int32_t iFragmentPercentage;
+	int32_t iLargestPacket;
+	int32_t iSmallestPacket;
 };
 
 struct netProfileInfo_t
 {
 	netProfileStream_t send;
-	char recieve[752];
-};
-
-struct netProfileStream_t
-{
-	char packets[720];
-	int iCurrPacket;
-	int iBytesPerSecond;
-	int iLastBPSCalcTime;
-	int iCountedPackets;
-	int iCountedFragments;
-	int iFragmentPercentage;
-	int iLargestPacket;
-	int iSmallestPacket;
+	uint8_t recieve[752];
 };
 
 struct netProfilePacket_t
 {
-	int iTime;
-	int iSize;
-	int bFragment;
+	uint32_t iTime;
+	uint32_t iSize;
+	int32_t bFragment;
 };
 
 struct MenuList
 {
-	int menuCount;
-	int menus;
-};
-
-struct menuDef_t
-{
-	Window window;
-	int font;
-	int fullScreen;
-	int itemCount;
-	int fontIndex;
-	char cursorItem[16];
-	int fadeCycle;
-	int fadeClamp;
-	int fadeAmount;
-	int fadeInAmount;
-	int blurRadius;
-	int onOpen;
-	int onClose;
-	int onESC;
-	int onKey;
-	int soundName;
-	int imageTrack;
-	char focusColor[16];
-	char disableColor[16];
-	int items;
+	uint32_t menuCount;
+	int32_t menus;
 };
 
 struct windowDef_t
 {
-	char rect[96];
-	char rectClient[96];
-	int name;
-	int group;
-	int cinematicName;
-	int cinematic;
-	int style;
-	int border;
-	int ownerDraw;
-	int ownerDrawFlags;
-	int borderSize;
-	int staticFlags;
-	char dynamicFlags[16];
-	char rectEffects0[96];
-	char rectEffects1[96];
-	char offsetTime[16];
-	int nextTime;
-	char foreColor[16];
-	char backColor[16];
-	char borderColor[16];
-	char outlineColor[16];
-	int background;
+	uint8_t rect[96];
+	uint8_t rectClient[96];
+	char name[4];
+	int32_t group;
+	char cinematicName[4];
+	int32_t cinematic;
+	int32_t style;
+	int32_t border;
+	int32_t ownerDraw;
+	uint32_t ownerDrawFlags;
+	uint32_t borderSize;
+	uint32_t staticFlags;
+	uint8_t dynamicFlags[16];
+	vec3_t rectEffects0[8];
+	vec3_t rectEffects1[8];
+	uint8_t offsetTime[16];
+	uint32_t nextTime;
+	vec4_t foreColor;
+	vec4_t backColor;
+	vec4_t borderColor;
+	vec4_t outlineColor;
+	int32_t background;
+};
+struct menuDef_t
+{
+	windowDef_t window;
+	int32_t font;
+	int32_t fullScreen;
+	uint32_t itemCount;
+	uint32_t fontIndex;
+	uint8_t cursorItem[16];
+	int32_t fadeCycle;
+	int32_t fadeClamp;
+	int32_t fadeAmount;
+	int32_t fadeInAmount;
+	int32_t blurRadius;
+	int32_t onOpen;
+	int32_t onClose;
+	int32_t onESC;
+	int32_t onKey;
+	char soundName[4];
+	int32_t imageTrack;
+	vec4_t focusColor;
+	vec4_t disableColor;
+	int32_t items;
 };
 
 struct ItemKeyHandler
 {
-	int key;
-	int action;
-	int next;
-};
-
-struct itemDef_s
-{
-	char window[528];
-	char textRect[96];
-	int type;
-	int dataType;
-	int alignment;
-	int fontEnum;
-	int textalignment;
-	int textalignx;
-	int textaligny;
-	int textscale;
-	int textStyle;
-	int text;
-	int textSavegameInfo;
-	int parent;
-	int mouseEnterText;
-	int mouseExitText;
-	int mouseEnter;
-	int mouseExit;
-	int action;
-	int onAccept;
-	int onFocus;
-	int leaveFocus;
-	int dvar;
-	int dvarTest;
-	int onKey;
-	int enableDvar;
-	int dvarFlags;
-	int focusSound;
-	int special;
-	char cursorPos[16];
-	itemDefData_t typeData;
-	int imageTrack;
-};
-
-struct rectDef_s
-{
-	int x;
-	int y;
-	int w;
-	int h;
-	int horzAlign;
-	int vertAlign;
+	int32_t key;
+	int32_t action;
+	int32_t next;
 };
 
 union itemDefData_t
 {
-	int listBox;
-	int editField;
-	int multi;
-	int enumDvarName;
-	int data;
+	int32_t listBox;
+	int32_t editField;
+	int32_t multi;
+	char enumDvarName[4];
+	int32_t data;
+};
+
+struct itemDef_s
+{
+	uint8_t window[528];
+	char textRect[96];
+	int32_t type;
+	int32_t dataType;
+	int32_t alignment;
+	uint32_t fontEnum;
+	char textalignment[4];
+	char textalignx[4];
+	char textaligny[4];
+	char textscale[4];
+	char textStyle[4];
+	char text[4];
+	char textSavegameInfo[4];
+	int32_t parent;
+	char mouseEnterText[4];
+	char mouseExitText[4];
+	int32_t mouseEnter;
+	int32_t mouseExit;
+	int32_t action;
+	int32_t onAccept;
+	int32_t onFocus;
+	int32_t leaveFocus;
+	int32_t dvar;
+	int32_t dvarTest;
+	int32_t onKey;
+	int32_t enableDvar;
+	uint32_t dvarFlags;
+	char focusSound[4];
+	char special[4];
+	uint8_t cursorPos[16];
+	itemDefData_t typeData;
+	int32_t imageTrack;
+};
+
+struct rectDef_s
+{
+	int32_t x;
+	int32_t y;
+	int32_t w;
+	int32_t h;
+	int32_t horzAlign;
+	int32_t vertAlign;
 };
 
 struct listBoxDef_s
 {
-	char startPos[16];
-	char endPos[16];
-	int drawPadding;
-	char cursorPos[16];
-	int elementWidth;
-	int elementHeight;
-	int elementStyle;
-	int numColumns;
+	uint8_t startPos[16];
+	uint8_t endPos[16];
+	int32_t drawPadding;
+	uint8_t cursorPos[16];
+	uint32_t elementWidth;
+	int32_t elementHeight;
+	int32_t elementStyle;
+	uint32_t numColumns;
 	char columnInfo[192];
-	int doubleClick;
-	int notselectable;
-	int noScrollBars;
+	int32_t doubleClick;
+	int32_t notselectable;
+	int32_t noScrollBars;
 };
 
 struct editFieldDef_s
 {
-	int minVal;
-	int maxVal;
-	int defVal;
-	int range;
-	int maxChars;
-	int maxCharsGotoNext;
-	int maxPaintChars;
-	int paintOffset;
+	int32_t minVal;
+	int32_t maxVal;
+	int32_t defVal;
+	int32_t range;
+	int32_t maxChars;
+	int32_t maxCharsGotoNext;
+	int32_t maxPaintChars;
+	uint32_t paintOffset;
 };
 
 struct multiDef_s
 {
-	char dvarList[128];
-	char dvarStr[128];
-	char dvarValue[128];
-	int count;
-	int strDef;
+	uint8_t dvarList[128];
+	uint8_t dvarStr[128];
+	uint8_t dvarValue[128];
+	uint32_t count;
+	int32_t strDef;
 };
 
 struct columnInfo_s
 {
-	int pos;
-	int width;
-	int maxChars;
+	uint32_t pos;
+	uint32_t width;
+	int32_t maxChars;
 };
 
 struct clientInfo_t
 {
-	int infoValid;
-	int nextValid;
-	int clientNum;
+	char infoValid[4];
+	uint32_t nextValid;
+	uint32_t clientNum;
 	char name[32];
-	team_t team;
-	int oldteam;
-	int score;
-	int location;
-	int health;
+	int32_t team;
+	int32_t oldteam;
+	int32_t score;
+	int32_t location;
+	int32_t health;
 	char model[64];
 	char attachModelNames[384];
 	char attachTagNames[384];
 	lerpFrame_t legs;
-	char torso[48];
-	int lerpMoveDir;
-	int lerpLean;
-	char playerAngles[12];
-	int leftHandGun;
-	int dobjDirty;
-	char angles[72];
-	char tag_origin_angles[12];
-	char tag_origin_offset[12];
-	char clientConditions[72];
-	int pXAnimTree;
-	int iDObjWeapon;
-	int stanceTransitionTime;
-	int turnAnimEndTime;
-	char turnAnimType;
+	uint8_t torso[48];
+	int32_t lerpMoveDir;
+	int32_t lerpLean;
+	vec3_t playerAngles;
+	int32_t leftHandGun;
+	int32_t dobjDirty;
+	vec3_t angles[6];
+	vec3_t tag_origin_angles;
+	vec3_t tag_origin_offset;
+	vec3_t clientConditions[6];
+	int32_t pXAnimTree;
+	uint32_t iDObjWeapon;
+	uint32_t stanceTransitionTime;
+	uint32_t turnAnimEndTime;
+	int8_t turnAnimType;
 };
 
 struct centity_s
 {
-	entityState_t currentState;
-	char nextState[240];
-	char nextValid;
-	char cullIn;
-	char bMuzzleFlash;
-	char bTrailMade;
-	int previousEventSequence;
-	int miscTime;
-	char lerpOrigin[12];
-	char lerpAngles[12];
-	char lightingOrigin[12];
-	int dl_time;
-	int voiceChatSprite;
-	int voiceChatSpriteTime;
-	int tree;
-	int localClientNum;
-};
-
-struct clientState_s
-{
-	int clientIndex;
-	int team;
-	int modelindex;
-	char attachModelIndex[24];
-	char attachTagIndex[24];
-	char name[32];
+	uint8_t currentState[240];
+	uint8_t nextState[240];
+	int8_t nextValid;
+	int8_t cullIn;
+	int8_t bMuzzleFlash;
+	int8_t bTrailMade;
+	int32_t previousEventSequence;
+	uint32_t miscTime;
+	vec3_t lerpOrigin;
+	vec3_t lerpAngles;
+	vec3_t lightingOrigin;
+	uint32_t dl_time;
+	char voiceChatSprite[4];
+	char voiceChatSpriteTime[4];
+	int32_t tree;
+	uint32_t localClientNum;
 };
 
 struct weaponInfo_s
 {
-	int viewModelDObj;
+	char viewModelDObj[4];
 	char viewModelAnimRates[92];
 	char handModel[64];
-	int iPrevAnim;
-	int tree;
-	int registered;
-	int item;
-	int pszTranslatedDisplayName;
-	int pszTranslatedModename;
-	int pszTranslatedAIOverlayDescription;
-	int worldSurfModel;
-	int viewFlashEffect;
-	int worldFlashEffect;
-	char weaponMidpoint[12];
-	int missileSound;
-	int pullbackSound;
-	int flashSound;
-	int flashSoundPlayer;
-	int lastShotSound;
-	int lastShotSoundPlayer;
-	int meleeSwipeSound;
-	int rechamberSound;
-	int rechamberSoundPlayer;
-	int reloadSound;
-	int reloadSoundPlayer;
-	int reloadEmptySound;
-	int reloadEmptySoundPlayer;
-	int reloadStartSound;
-	int reloadStartSoundPlayer;
-	int reloadEndSound;
-	int reloadEndSoundPlayer;
-	int raiseSound;
-	int altSwitchSound;
-	int putawaySound;
+	int32_t iPrevAnim;
+	int32_t tree;
+	int32_t registered;
+	int32_t item;
+	char pszTranslatedDisplayName[4];
+	char pszTranslatedModename[4];
+	char pszTranslatedAIOverlayDescription[4];
+	char worldSurfModel[4];
+	int32_t viewFlashEffect;
+	int32_t worldFlashEffect;
+	vec3_t weaponMidpoint;
+	char missileSound[4];
+	char pullbackSound[4];
+	char flashSound[4];
+	char flashSoundPlayer[4];
+	char lastShotSound[4];
+	char lastShotSoundPlayer[4];
+	char meleeSwipeSound[4];
+	char rechamberSound[4];
+	char rechamberSoundPlayer[4];
+	char reloadSound[4];
+	char reloadSoundPlayer[4];
+	char reloadEmptySound[4];
+	char reloadEmptySoundPlayer[4];
+	char reloadStartSound[4];
+	char reloadStartSoundPlayer[4];
+	char reloadEndSound[4];
+	char reloadEndSoundPlayer[4];
+	char raiseSound[4];
+	char altSwitchSound[4];
+	char putawaySound[4];
 	char noteTrackSound[16];
-	int ammoIcon;
-	int hHudIcon;
-	int hModeIcon;
-	int missileSurfModel;
-	int missileTrailFunc;
-	int missileDlight;
-	char missileDlightColor[12];
-	int missileRenderfx;
-	int shellEjectEffect;
-	int lastShotEjectEffect;
-	int projExplosionEffect;
-	int projExplosionSound;
-	int projTrailEffect;
-	int trailRadius;
-	int wiTrailTime;
-	int hReticleCenter;
-	int hReticleSide;
-	int hADSOverlay;
-	char vPositionOrg[24];
-	char vPositionAng[24];
+	int32_t ammoIcon;
+	int32_t hHudIcon;
+	int32_t hModeIcon;
+	char missileSurfModel[4];
+	int32_t missileTrailFunc;
+	int32_t missileDlight;
+	vec3_t missileDlightColor;
+	int32_t missileRenderfx;
+	int32_t shellEjectEffect;
+	int32_t lastShotEjectEffect;
+	int32_t projExplosionEffect;
+	char projExplosionSound[4];
+	int32_t projTrailEffect;
+	int32_t trailRadius;
+	uint32_t wiTrailTime;
+	int32_t hReticleCenter;
+	uint32_t hReticleSide;
+	int32_t hADSOverlay;
+	vec3_t vPositionOrg[2];
+	vec3_t vPositionAng[2];
 };
 
-struct _3712
+struct $_3712
 {
-	int registered;
-	int64_t models;
-	char icons[16];
-	int pickupSound;
-	int ammoPickupSound;
+	int32_t registered;
+	char models[8];
+	uint8_t icons[16];
+	char pickupSound[4];
+	char ammoPickupSound[4];
 };
 
-struct _3727
+struct $_3721
 {
-	gameState_t gameState;
-	int viewX;
-	int viewY;
-	int viewWidth;
-	int viewHeight;
-	int viewAspect;
-	int serverCommandSequence;
-	int processedSnapshotNum;
-	int localServer;
-	char gametype[32];
-	char szHostName[256];
-	int maxclients;
-	char mapname[64];
-	char redTeam[64];
-	char blueTeam[64];
-	int voteTime;
-	int voteYes;
-	int voteNo;
-	char voteString[256];
-	int64_t teamVoteTime;
-	int64_t teamVoteYes;
-	int64_t teamVoteNo;
-	int64_t teamVoteModified;
-	char teamVoteString[512];
-	int levelStartTime;
-	int64_t teamScores;
-	char gameModels[1024];
-	char fxs[256];
-	int smokeGrenadeFx;
-	char shellshockParms[2112];
-	shellshock_parms_t holdBreathParams;
-	int numInlineModels;
-	char inlineDrawModel[4092];
-	char inlineModelMidpoints[12276];
-	char teamChatMsgs[2168];
-	char teamChatMsgTimes[32];
-	int teamChatPos;
-	int teamLastChatPos;
-	cgMedia_t media;
-	int compassWidth;
-	int compassHeight;
-	int compassY;
-	char corpseinfo[9664];
+	int32_t use;
+	uint32_t fadeInTime;
+	uint32_t fadeOutTime;
+	int32_t drylevel;
+	int32_t wetlevel;
+	uint8_t roomtype[16];
+	uint8_t channelvolume[44];
+	int32_t modEndDelay;
+	uint32_t loopFadeTime;
+	int32_t loopEndDelay;
 };
-/* 
+
+struct shellshock_parms_t
+{
+	$_3719 view;
+	$_3720 screenBlend;
+	$_3721 sound;
+	$_3722 mouse;
+};
+
 struct gameState_t
 {
 	char stringOffsets[8192];
 	char stringData[16000];
-	int dataCount;
-}; */
-
-struct shellshock_parms_t
-{
+	uint32_t dataCount;
 };
 
 struct cgMedia_t
 {
-	int whiteMaterial;
-	int softLineMaterial;
-	int softLineHMaterial;
-	int teamStatusBar;
-	int voiceChatMaterial;
-	int balloonMaterial;
-	int connectionMaterial;
-	int youInKillCamMaterial;
-	int tracerMaterial;
-	int lagometerMaterial;
-	char hintMaterials[532];
-	char stanceMaterials[16];
-	int objectiveMaterials;
-	int64_t friendMaterials;
-	int damageMaterial;
-	int mantleHint;
-	int smallDevFont;
-	int bigDevFont;
-	int noAmmoSound;
-	int landDmgSound;
-	int teleInSound;
+	int32_t whiteMaterial;
+	int32_t softLineMaterial;
+	int32_t softLineHMaterial;
+	char teamStatusBar[4];
+	char voiceChatMaterial[4];
+	int32_t balloonMaterial;
+	int32_t connectionMaterial;
+	int32_t youInKillCamMaterial;
+	int32_t tracerMaterial;
+	int32_t lagometerMaterial;
+	uint8_t hintMaterials[532];
+	uint8_t stanceMaterials[16];
+	int32_t objectiveMaterials;
+	uint64_t friendMaterials;
+	int32_t damageMaterial;
+	int32_t mantleHint;
+	int32_t smallDevFont;
+	int32_t bigDevFont;
+	char noAmmoSound[4];
+	char landDmgSound[4];
+	char teleInSound[4];
 	char grenadeBounceSound[92];
 	char grenadeExplodeSound[92];
 	char rocketExplodeSound[92];
@@ -10498,54 +11243,87 @@ struct cgMedia_t
 	char stepProneSoundPlayer[92];
 	char landSound[92];
 	char landSoundPlayer[92];
-	int runningEquipmentSound;
-	int runningEquipmentSoundPlayer;
-	int walkingEquipmentSound;
-	int walkingEquipmentSoundPlayer;
-	int foliageMovement;
-	int bulletWhizby;
-	int meleeSwingLarge;
-	int meleeSwingSmall;
-	int meleeHit;
-	int meleeHitOther;
-	int playerHeartBeatSound;
-	int playerBreathInSound;
-	int playerBreathOutSound;
-	int playerBreathGaspSound;
-	int playerSwapOffhand;
-	int checkbox_clear;
-	int checkbox_checked;
-	int checkbox_fail;
-	int compassping_friendlyfiring;
-	int compassping_friendlyyelling;
-	int compassping_enemyfiring;
-	int compassping_enemyyelling;
-	int compassping_grenade;
-	int compassping_explosion;
-	int grenadeIcon;
-	int grenadePointer;
-	int fx;
-	int fxNoBloodFleshHit;
+	char runningEquipmentSound[4];
+	char runningEquipmentSoundPlayer[4];
+	char walkingEquipmentSound[4];
+	char walkingEquipmentSoundPlayer[4];
+	int32_t foliageMovement;
+	int32_t bulletWhizby;
+	int32_t meleeSwingLarge;
+	int32_t meleeSwingSmall;
+	int32_t meleeHit;
+	int32_t meleeHitOther;
+	char playerHeartBeatSound[4];
+	char playerBreathInSound[4];
+	char playerBreathOutSound[4];
+	char playerBreathGaspSound[4];
+	int32_t playerSwapOffhand;
+	int32_t checkbox_clear;
+	int32_t checkbox_checked;
+	int32_t checkbox_fail;
+	int32_t compassping_friendlyfiring;
+	int32_t compassping_friendlyyelling;
+	int32_t compassping_enemyfiring;
+	int32_t compassping_enemyyelling;
+	int32_t compassping_grenade;
+	int32_t compassping_explosion;
+	int32_t grenadeIcon;
+	int32_t grenadePointer;
+	int32_t fx;
+	int32_t fxNoBloodFleshHit;
 };
 
-struct _3721
+struct $_3727
 {
-	int use;
-	int fadeInTime;
-	int fadeOutTime;
-	int drylevel;
-	int wetlevel;
-	char roomtype[16];
-	char channelvolume[44];
-	int modEndDelay;
-	int loopFadeTime;
-	int loopEndDelay;
+	gameState_t gameState;
+	int32_t viewX;
+	int32_t viewY;
+	uint32_t viewWidth;
+	int32_t viewHeight;
+	char viewAspect[4];
+	char serverCommandSequence[4];
+	uint32_t processedSnapshotNum;
+	int32_t localServer;
+	char gametype[32];
+	char szHostName[256];
+	int32_t maxclients;
+	char mapname[64];
+	uint8_t redTeam[64];
+	uint8_t blueTeam[64];
+	char voteTime[4];
+	char voteYes[4];
+	char voteNo[4];
+	char voteString[256];
+	char teamVoteTime[8];
+	char teamVoteYes[8];
+	char teamVoteNo[8];
+	char teamVoteModified[8];
+	char teamVoteString[512];
+	uint32_t levelStartTime;
+	uint64_t teamScores;
+	char gameModels[1024];
+	uint8_t fxs[256];
+	int32_t smokeGrenadeFx;
+	uint8_t shellshockParms[2112];
+	shellshock_parms_t holdBreathParams;
+	char numInlineModels[4];
+	char inlineDrawModel[4092];
+	char inlineModelMidpoints[12276];
+	char teamChatMsgs[2168];
+	char teamChatMsgTimes[32];
+	char teamChatPos[4];
+	char teamLastChatPos[4];
+	cgMedia_t media;
+	uint32_t compassWidth;
+	int32_t compassHeight;
+	int32_t compassY;
+	char corpseinfo[9664];
 };
 
 struct FxImpactTable
 {
-	int name;
-	int table;
+	char name[4];
+	int32_t table;
 };
 
 typedef enum
@@ -10555,568 +11333,429 @@ typedef enum
 	DEMO_TYPE_SERVER = 2
 } DemoType;
 
-struct playerEntity_t
-{
-	float fLastWeaponPosFrac;
-	int bPositionToADS;
-	char vPositionLastOrg[12];
-	float fLastIdleFactor;
-	char vLastMoveOrg[12];
-	char vLastMoveAng[12];
-};
-
-struct shellshock_t
-{
-	int parms;
-	int startTime;
-	int duration;
-	int loopEndTime;
-	int sensitivity;
-	int64_t viewDelta;
-	int hasSavedScreen;
-};
-
-struct bgs_t
-{
-	animScriptData_t animScriptData;
-	char pad0[20];
-	int time;
-	int latestSnapshotTime;
-	int frametime;
-	int anim_user;
-	int GetXModel;
-	int CreateDObj;
-	int SafeDObjFree;
-	int AllocXAnim;
-	char clientinfo[77312];
-};
-
-struct MarkPoly
-{
-	int prevMark;
-	int nextMark;
-	int lastFrameDrawn;
-	char origin[12];
-	int radius;
-	int mtlHandle;
-	short lmapIndex;
-	char vertCount;
-	char pad0[1];
-	char verts[612];
-};
-
 struct score_t
 {
-	int client;
-	int score;
-	int ping;
-	int deaths;
-	int team;
-	int hStatusIcon;
+	int32_t client;
+	int32_t score;
+	int32_t ping;
+	int32_t deaths;
+	int32_t team;
+	char hStatusIcon[4];
 };
 
 struct viewDamage_t
 {
-	int time;
-	int duration;
-	int yaw;
+	uint32_t time;
+	int32_t duration;
+	int32_t yaw;
 };
 
 struct cameraShake_t
 {
-	int time;
-	int scale;
-	int length;
-	int radius;
-	char src[12];
-	int size;
-	int rumbleScale;
+	uint32_t time;
+	int32_t scale;
+	uint32_t length;
+	int32_t radius;
+	vec3_t src;
+	uint32_t size;
+	int32_t rumbleScale;
 };
 
 struct compassactor_t
 {
-	int iLastUpdate;
-	int64_t vLastPos;
-	float fLastYaw;
-	int pingTime;
-	int beginFadeTime;
-	char enemy;
-};
-
-struct animScriptData_t
-{
-	char animations[49152];
-	int numAnimations;
-	char scriptAnims[84624];
-	char scriptCannedAnims[84624];
-	char scriptStateChange[8256];
-	char scriptEvents[9804];
-	char scriptItems[499712];
-	int numScriptItems;
-	scr_animtree_t animTree;
-	short torsoAnim;
-	short legsAnim;
-	short turningAnim;
-	char pad0[2];
-	int soundAlias;
-	int playSoundAlias;
-};
-
-struct _3622
-{
-	int colorForDir;
-	int sunVisibility;
+	int32_t iLastUpdate;
+	uint64_t vLastPos;
+	int32_t fLastYaw;
+	uint32_t pingTime;
+	uint32_t beginFadeTime;
+	int8_t enemy;
 };
 
 struct animScript_t
 {
-	int numItems;
-	char items[512];
+	uint32_t numItems;
+	uint8_t items[512];
 };
 
 struct animScriptItem_t
 {
-	int numConditions;
-	char conditions[108];
-	int numCommands;
+	uint32_t numConditions;
+	uint8_t conditions[108];
+	char numCommands[4];
 	char commands[128];
 };
 
 struct animScriptCondition_t
 {
-	int index;
-	int64_t value;
+	uint32_t index;
+	uint64_t value;
 };
 
 struct animScriptCommand_t
 {
-	int bodyPart;
-	int animIndex;
-	int animDuration;
-	int soundAlias;
+	int32_t bodyPart;
+	uint32_t animIndex;
+	int32_t animDuration;
+	char soundAlias[4];
 };
 
 struct displayContextDef_s
 {
-	int bias;
-	int realTime;
-	int frameTime;
-	int cursorx;
-	int cursory;
-	int debug;
-	int screenWidth;
-	int screenHeight;
-	int screenAspect;
-	int FPS;
-	int blurRadiusOut;
-	char Menus[512];
-	int menuCount;
-	char menuStack[64];
-	int openMenuCount;
-};
-
-struct _3785
-{
-	char active;
-	char pad0[3];
-	int keyCatchers;
-	char displayHUDWithKeycatchUI;
-	char cgameInitialized;
-	char cgameInitCalled;
-	char usingAds;
-	int frameActiveClientCount;
-	int frameClientIndex;
-	int timeoutcount;
-	clSnapshot_t snap;
-	int serverTime;
-	int oldServerTime;
-	int oldFrameServerTime;
-	int serverTimeDelta;
-	int oldSnapServerTime;
-	int extrapolatedSnapshot;
-	int newSnapshots;
-	gameState_t gameState;
-	char mapname[64];
-	int parseEntitiesNum;
-	int parseClientsNum;
-	int64_t mouseDx;
-	int64_t mouseDy;
-	int mouseIndex;
-	char stanceHeld;
-	char pad1[3];
-	int stancePosition;
-	int stanceTime;
-	int cgameUserCmdValue;
-	int cgameUserHoldableValue;
-	int cgameInShellshock;
-	int cgameSensitivity;
-	int cgameMaxPitchSpeed;
-	int cgameMaxYawSpeed;
-	char cgameKickAngles[12];
-	char viewangles[12];
-	int serverId;
-	char color_allies[16];
-	char color_axis[16];
-	int skelTimeStamp;
-	int skelMemPos;
-	char skelMemory[262144];
-	int skelMemoryStart;
-	char allowedAllocSkel;
-	char pad2[3];
-	char cmds[3584];
-	int cmdNumber;
-	char outPackets[384];
-	char snapshots[318208];
-	char entityBaselines[245760];
-	char parseEntities[491520];
-	char parseClients[188416];
-	int corruptedTranslationFile;
-	char translationVersion[256];
-	char voicePackets[2600];
-	int voicePacketCount;
-	int voicePacketLastTransmit;
+	int32_t bias;
+	uint32_t realTime;
+	uint32_t frameTime;
+	int32_t cursorx;
+	int32_t cursory;
+	int32_t debug;
+	uint32_t screenWidth;
+	int32_t screenHeight;
+	char screenAspect[4];
+	int32_t FPS;
+	int32_t blurRadiusOut;
+	uint8_t Menus[512];
+	uint32_t menuCount;
+	uint8_t menuStack[64];
+	uint32_t openMenuCount;
 };
 
 struct clSnapshot_t
 {
-	int valid;
-	int snapFlags;
-	int serverTime;
-	int messageNum;
-	int deltaNum;
-	int ping;
-	int cmdNum;
-	playerState_t ps;
-	int numEntities;
-	int numClients;
-	int parseEntitiesNum;
-	int parseClientsNum;
-	int serverCommandNum;
+	uint32_t valid;
+	uint32_t snapFlags;
+	uint32_t serverTime;
+	char messageNum[4];
+	uint32_t deltaNum;
+	int32_t ping;
+	char cmdNum[4];
+	playerState_s ps;
+	uint32_t numEntities;
+	uint32_t numClients;
+	uint32_t parseEntitiesNum;
+	uint32_t parseClientsNum;
+	char serverCommandNum[4];
+};
+
+struct $_3785
+{
+	int8_t active;
+	char pad0[3];
+	int32_t keyCatchers;
+	int8_t displayHUDWithKeycatchUI;
+	int8_t cgameInitialized;
+	int8_t cgameInitCalled;
+	int8_t usingAds;
+	uint32_t frameActiveClientCount;
+	uint32_t frameClientIndex;
+	uint32_t timeoutcount;
+	clSnapshot_t snap;
+	uint32_t serverTime;
+	uint32_t oldServerTime;
+	uint32_t oldFrameServerTime;
+	uint32_t serverTimeDelta;
+	uint32_t oldSnapServerTime;
+	int32_t extrapolatedSnapshot;
+	int32_t newSnapshots;
+	gameState_t gameState;
+	char mapname[64];
+	uint32_t parseEntitiesNum;
+	uint32_t parseClientsNum;
+	uint64_t mouseDx;
+	uint64_t mouseDy;
+	uint32_t mouseIndex;
+	int8_t stanceHeld;
+	char pad1[3];
+	uint32_t stancePosition;
+	uint32_t stanceTime;
+	char cgameUserCmdValue[4];
+	int32_t cgameUserHoldableValue;
+	int32_t cgameInShellshock;
+	int32_t cgameSensitivity;
+	float cgameMaxPitchSpeed;
+	float cgameMaxYawSpeed;
+	vec3_t cgameKickAngles;
+	vec3_t viewangles;
+	uint32_t serverId;
+	vec4_t color_allies;
+	vec4_t color_axis;
+	uint32_t skelTimeStamp;
+	uint32_t skelMemPos;
+	uint8_t skelMemory[262144];
+	int32_t skelMemoryStart;
+	int8_t allowedAllocSkel;
+	char pad2[3];
+	char cmds[3584];
+	char cmdNumber[4];
+	uint8_t outPackets[384];
+	uint8_t snapshots[318208];
+	uint8_t entityBaselines[245760];
+	uint8_t parseEntities[491520];
+	uint8_t parseClients[188416];
+	int32_t corruptedTranslationFile;
+	char translationVersion[256];
+	uint8_t voicePackets[2600];
+	uint32_t voicePacketCount;
+	int32_t voicePacketLastTransmit;
 };
 
 struct outPacket_t
 {
-	int p_cmdNumber;
-	int p_serverTime;
-	int p_realtime;
+	char p_cmdNumber[4];
+	uint32_t p_serverTime;
+	uint32_t p_realtime;
 };
 
 struct ClientVoicePacket_t
 {
-	int dataSize;
-	char data[256];
+	uint32_t dataSize;
+	uint8_t data[256];
 };
-/* 
+
 struct msg_t
 {
-	int overflowed;
-	int data;
-	int maxsize;
-	int cursize;
-	int readcount;
-	int bit;
-};
- */
-struct _3568
-{
-	char talker;
-	char data[256];
-	int dataSize;
+	int32_t overflowed;
+	int32_t data;
+	uint32_t maxsize;
+	uint32_t cursize;
+	uint32_t readcount;
+	int32_t bit;
 };
 
-struct _3702
+struct $_3568
 {
-	int Printf;
-	int Error;
-	int Milliseconds;
-	int Hunk_AllocInternal;
-	int Hunk_AllocateTempMemoryInternal;
-	int Z_MallocInternal;
-	int Z_FreeInternal;
-	int Hunk_AllocAlignInternal;
-	int Z_VirtualReserveInternal;
-	int Z_VirtualCommitInternal;
-	int Z_VirtualDecommitInternal;
-	int Z_VirtualFreeInternal;
-	int Hunk_FreeTempMemory;
-	int Hunk_ClearTempMemory;
-	int Hunk_HideTempMemory;
-	int Hunk_ShowTempMemory;
-	int Hunk_AllocateTempMemoryHighInternal;
-	int Hunk_ClearTempMemoryHigh;
-	int Sys_DirectXFatalError;
-	int Sys_ShowSplashWindow;
-	int Sys_HideSplashWindow;
-	int Sys_LoadingKeepAlive;
-	int Dvar_RegisterBool;
-	int Dvar_RegisterInt;
-	int Dvar_RegisterFloat;
-	int Dvar_RegisterString;
-	int Dvar_RegisterEnum;
-	int Dvar_RegisterColor;
-	int Dvar_RegisterVec2;
-	int Dvar_RegisterVec3;
-	int Dvar_RegisterVec4;
-	int Dvar_UnregisterSystem;
-	int Dvar_ChangeResetValue;
-	int Dvar_IsAtDefaultValue;
-	int Dvar_ClearModified;
-	int Dvar_SetModified;
-	int Dvar_UpdateEnumDomain;
-	int Dvar_SetBool;
-	int Dvar_SetInt;
-	int Dvar_SetFloat;
-	int Dvar_SetString;
-	int Dvar_SetColor;
-	int Dvar_SetVec2;
-	int Dvar_SetVec3;
-	int Dvar_SetVec4;
-	int Dvar_SetFromString;
-	int Dvar_SetBoolByName;
-	int Dvar_SetIntByName;
-	int Dvar_SetFloatByName;
-	int Dvar_SetStringByName;
-	int Dvar_SetColorByName;
-	int Dvar_SetVec2ByName;
-	int Dvar_SetVec3ByName;
-	int Dvar_SetVec4ByName;
-	int Dvar_SetFromStringByName;
-	int Dvar_GetBool;
-	int Dvar_GetInt;
-	int Dvar_GetFloat;
-	int Dvar_GetString;
-	int Dvar_GetVariantString;
-	int Dvar_EnumToString;
-	int Dvar_Reset;
-	int Cmd_AddCommand;
-	int Cmd_RemoveCommand;
-	int Cmd_Argc;
-	int Cmd_Argv;
-	int Cbuf_ExecuteText;
-	int Com_SaveDvarsToBuffer;
-	int Com_LoadDvarsFromBuffer;
-	int Com_GetBsp;
-	int SEH_ReadCharFromString;
-	int CL_UpdateDebugData;
-	int CL_FlushDebugData;
-	int StatMon_Warning;
-	int FS_ReadFile;
-	int FS_FreeFile;
-	int FS_FOpenFileRead;
-	int FS_ListFiles;
-	int FS_FreeFileList;
-	int FS_FileExists;
-	int FS_WriteFile;
-	int FS_FOpenFileByMode;
-	int FS_FCloseFile;
-	int FS_Read;
-	int FS_Write;
-	int CM_SaveLump;
-	int CM_BoxTrace;
-	int CM_BoxSightTrace;
-	int CM_RayTriangleIntersect;
-	int XModelPrecache;
-	int XModelGetSurfaces;
-	int XModelBad;
-	int Hunk_OverrideDataForFile;
-	int XModelGetNumLods;
-	int XModelSetTestLods;
-	int XModelGetLodForDist;
-	int XModelGetLodOutDist;
-	int XModelGetSurfaceName;
-	int XModelGetName;
-	int XModelGetFlags;
-	int XModelNumBones;
-	int XModelGetSkins;
-	int XModelGetMemUsage;
-	int XModelGetLodName;
-	int XModelGetBasePose;
-	int XModelGetBasePoseBone;
-	int DObjBad;
-	int DB_EnumXAssets;
-	int DObjGetBounds;
-	int DObjGetSurface;
-	int DObjGetNumModels;
-	int DObjGetNumSurfaces;
-	int DObjGetSurfaces;
-	int DObjGetPartBits;
-	int DObjGetRotTransArray;
-	int DObjSkelAreBonesUpToDate;
-	int DObjGetMatOffset;
-	int DObjGetModel;
-	int DObjGetSurfaceName;
-	int DObjCreate;
-	int DObjGetAllocSkelSize;
-	int DObjCreateSkel;
-	int DObjCalcAnim;
-	int DObjCalcSkel;
-	int DObjNumBones;
-	int DObjGetBoneInfo;
-	int DObjGetLodForDist;
-	int DObjGetLodOutDist;
-	int DObjCompleteHierarchyBits;
-	int DObjSetModel;
-	int CIN_UploadCinematic;
-	int CIN_PlayCinematic;
-	int CIN_RunCinematic;
-	int CG_DObjCalcPose;
-	int CL_GetHudMsgIconMaterialName;
+	int8_t talker;
+	uint8_t data[256];
+	uint32_t dataSize;
 };
 
-struct _3700
+struct $_3702
 {
-	char start[12];
-	char end[12];
-	char color[16];
-	int depthTest;
+	int16_t _;
+	int16_t allies;
+	int16_t axis;
+	int16_t current;
+	int16_t damage;
+	int16_t death;
+	int16_t dlight;
+	int16_t done;
+	int16_t empty;
+	int16_t entity;
+	int16_t failed;
+	int16_t fraction;
+	int16_t goal;
+	int16_t grenade;
+	char info_notnull[2];
+	int16_t invisible;
+	int16_t key1;
+	int16_t key2;
+	char killanimscript[2];
+	int16_t left;
+	int16_t movedone;
+	int16_t noclass;
+	int16_t normal;
+	int16_t pistol;
+	int16_t plane_waypoint;
+	int16_t player;
+	uint16_t position;
+	int16_t primary;
+	int16_t primaryb;
+	int16_t prone;
+	int16_t right;
+	int16_t rocket;
+	int16_t rotatedone;
+	char script_brushmodel[2];
+	char script_model[2];
+	char script_origin[2];
+	char spectator[2];
+	int16_t stand;
+	int16_t surfacetype;
+	char target_script_trigger[2];
+	int16_t tempEntity;
+	int16_t touch;
+	int16_t trigger;
+	int16_t trigger_use;
+	int16_t trigger_use_touch;
+	int16_t trigger_damage;
+	int16_t trigger_lookat;
+	int16_t truck_cam;
+	int16_t worldspawn;
+	int16_t binocular_enter;
+	int16_t binocular_exit;
+	int16_t binocular_fire;
+	int16_t binocular_release;
+	int16_t binocular_drop;
+	int16_t begin;
+	int16_t intermission;
+	int16_t menuresponse;
+	int16_t playing;
+	int16_t none;
+	int16_t dead;
+	int16_t auto_change;
+	int16_t manual_change;
+	int16_t freelook;
+	char call_vote[2];
+	char vote[2];
+	int16_t snd_enveffectsprio_level;
+	int16_t snd_enveffectsprio_shellshock;
+	int16_t snd_channelvolprio_holdbreath;
+	int16_t snd_channelvolprio_pain;
+	int16_t snd_channelvolprio_shellshock;
+	int16_t tag_flash;
+	int16_t tag_flash_11;
+	int16_t tag_flash_2;
+	int16_t tag_flash_22;
+	int16_t tag_brass;
+	int16_t j_head;
+	int16_t tag_weapon;
+	int16_t tag_player;
+	int16_t tag_camera;
+	int16_t tag_aim;
+	int16_t tag_aim_animated;
+	int16_t tag_origin;
+	int16_t tag_butt;
+	int16_t tag_weapon_right;
+	int16_t back_low;
+	uint16_t back_mid;
+	int16_t back_up;
+	int16_t neck;
+	int16_t head;
+	int16_t pelvis;
 };
 
-struct _3788
+struct $_3700
 {
-	char adr[12];
-	char netType;
-	char clients;
-	char maxClients;
-	char dirty;
-	char allowAnonymous;
-	char bPassword;
-	char pure;
-	char friendlyfire;
-	char killcam;
-	char consoleDisabled;
-	char hardware;
-	char mod;
-	char voice;
-	char requestCount;
-	short minPing;
-	short maxPing;
-	short ping;
+	vec3_t start;
+	vec3_t end;
+	vec4_t color;
+	int32_t depthTest;
+};
+
+struct $_3788
+{
+	netadr_t adr;
+	int8_t netType;
+	int8_t clients;
+	int8_t maxClients;
+	int8_t dirty;
+	int8_t allowAnonymous;
+	int8_t bPassword;
+	int8_t pure;
+	int8_t friendlyfire;
+	int8_t killcam;
+	int8_t consoleDisabled;
+	int8_t hardware;
+	int8_t mod;
+	int8_t voice;
+	uint8_t requestCount;
+	int16_t minPing;
+	int16_t maxPing;
+	int16_t ping;
 	char hostName[32];
 	char mapName[32];
-	char game[24];
+	uint8_t game[24];
 	char gameType[16];
 };
 
-struct _3786
+struct $_3786
 {
-	int state;
-	int qport;
-	int clientNum;
-	int lastPacketSentTime;
-	int lastPacketTime;
+	int32_t state;
+	int32_t qport;
+	uint32_t clientNum;
+	uint32_t lastPacketSentTime;
+	uint32_t lastPacketTime;
 	char serverAddress[12];
-	int connectTime;
-	int connectPacketCount;
+	uint32_t connectTime;
+	uint32_t connectPacketCount;
 	char serverMessage[256];
-	int challenge;
-	int checksumFeed;
-	int reliableSequence;
-	int reliableAcknowledge;
+	uint32_t challenge;
+	int32_t checksumFeed;
+	int32_t reliableSequence;
+	int32_t reliableAcknowledge;
 	char reliableCommands[131072];
-	int serverMessageSequence;
-	int serverCommandSequence;
-	int lastExecutedServerCommand;
+	char serverMessageSequence[4];
+	char serverCommandSequence[4];
+	char lastExecutedServerCommand[4];
 	char serverCommands[131072];
-	int download;
+	char download[4];
 	char downloadTempName[256];
 	char downloadName[256];
-	int downloadNumber;
-	int downloadBlock;
-	int downloadCount;
-	int downloadSize;
+	char downloadNumber[4];
+	char downloadBlock[4];
+	char downloadCount[4];
+	char downloadSize[4];
 	char downloadList[1024];
-	int downloadRestart;
+	char downloadRestart[4];
 	char demoName[64];
-	int demorecording;
-	int demoplaying;
-	int isTimeDemo;
-	int demowaiting;
-	int firstDemoFrameSkipped;
-	int demofile;
-	int timeDemoLog;
-	int timeDemoFrames;
-	int timeDemoStart;
-	int timeDemoPrev;
-	int timeDemoBaseTime;
+	char demorecording[4];
+	char demoplaying[4];
+	char isTimeDemo[4];
+	char demowaiting[4];
+	char firstDemoFrameSkipped[4];
+	char demofile[4];
+	char timeDemoLog[4];
+	char timeDemoFrames[4];
+	char timeDemoStart[4];
+	char timeDemoPrev[4];
+	char timeDemoBaseTime[4];
 	netchan_t netchan;
-	int pOOBProf;
-};
-
-struct _3791
-{
-	int quit;
-	int hunkUsersStarted;
-	char servername[256];
-	int rendererStarted;
-	int soundStarted;
-	int uiStarted;
-	int frametime;
-	int realtime;
-	int realFrametime;
-	clientLogo_t logo;
-	int numlocalservers;
-	char localServers[17408];
-	int waitglobalserverresponse;
-	int numglobalservers;
-	char globalServers[2720000];
-	int numfavoriteservers;
-	char favoriteServers[17408];
-	int pingUpdateSource;
-	char authorizeServer[12];
-	int whiteMaterial;
-	int consoleMaterial;
-	int consoleFont;
-	vidConfig_t vidConfig;
-	clientDebug_t debug;
+	int32_t pOOBProf;
 };
 
 struct clientLogo_t
 {
-	int startTime;
-	int duration;
-	int fadein;
-	int fadeout;
-	int64_t material;
+	uint32_t startTime;
+	int32_t duration;
+	int32_t fadein;
+	int32_t fadeout;
+	uint64_t material;
 };
 
 struct clientDebug_t
 {
-	int maxStrings;
-	int numStrings;
-	int strings;
-	int stringFromServer;
-	int maxLines;
-	int numLines;
-	int lines;
-	int lineFromServer;
-	int lineDuration;
+	char maxStrings[4];
+	char numStrings[4];
+	char strings[4];
+	char stringFromServer[4];
+	int32_t maxLines;
+	uint32_t numLines;
+	int32_t lines;
+	int32_t lineFromServer;
+	int32_t lineDuration;
+};
+
+struct $_3791
+{
+	int32_t quit;
+	int32_t hunkUsersStarted;
+	char servername[256];
+	int32_t rendererStarted;
+	char soundStarted[4];
+	int32_t uiStarted;
+	uint32_t frametime;
+	uint32_t realtime;
+	uint32_t realFrametime;
+	clientLogo_t logo;
+	uint32_t numlocalservers;
+	uint8_t localServers[17408];
+	int32_t waitglobalserverresponse;
+	uint32_t numglobalservers;
+	uint8_t globalServers[2720000];
+	uint32_t numfavoriteservers;
+	uint8_t favoriteServers[17408];
+	int32_t pingUpdateSource;
+	vec3_t authorizeServer;
+	int32_t whiteMaterial;
+	int32_t consoleMaterial;
+	int32_t consoleFont;
+	vidConfig_t vidConfig;
+	clientDebug_t debug;
 };
 
 struct ping_t
 {
-	char adr[12];
-	int start;
-	int time;
+	vec3_t adr;
+	int32_t start;
+	uint32_t time;
 	char info[1024];
-};
-
-struct svEntity_s
-{
-	short worldSector;
-	short nextEntityInWorldSector;
-	archivedEntity_t baseline;
-	int numClusters;
-	char clusternums[64];
-	int lastCluster;
-	int linkcontents;
-	int64_t linkmin;
-	int64_t linkmax;
-};
-
-struct archivedEntity_s
-{
-	char s[240];
-	archivedEntityShared_t r;
 };
 
 typedef enum
@@ -11128,10 +11767,10 @@ typedef enum
 struct serverStatusInfo_t
 {
 	char address[64];
-	char lines[2048];
+	uint8_t lines[2048];
 	char text[1024];
-	char pings[192];
-	int numLines;
+	uint8_t pings[192];
+	uint32_t numLines;
 };
 
 typedef enum
@@ -11152,154 +11791,117 @@ typedef enum
 
 struct ConversionArguments
 {
-	int argCount;
-	char args[36];
+	uint32_t argCount;
+	uint8_t args[36];
 };
 
-struct _3706
+struct $_3706
 {
-	CachedAssets_t assets;
-	int playerCount;
-	char playerNames[2048];
-	char teamNames[2048];
-	char playerClientNums[256];
-	int numGameTypes;
-	char gameTypes[256];
-	int numJoinGameTypes;
-	char joinGameTypes[256];
-	int mapCount;
-	char mapList[20992];
-	char serverHardwareIconList[32];
-	char modList[512];
-	int modCount;
-	int modIndex;
-	char movieList[1024];
-	int movieCount;
-	int movieIndex;
-	int previewMovie;
-	serverStatus_t serverStatus;
-	char serverStatusAddress[64];
-	char serverStatusInfo[3332];
-	int nextServerStatusRefresh;
-	pendingServerStatus_t pendingServerStatus;
+	char levelscript[4];
+	char gametypescript[4];
+	$_3707 gametype;
+	int32_t delete_;
+	int32_t initstructs;
+	int32_t createstruct;
+	char playerCorpseInfo[9792];
 };
 
 struct serverStatus_s
 {
-	char pingList[1088];
-	int numqueriedservers;
-	int currentping;
-	int nextpingtime;
-	int maxservers;
-	int refreshtime;
-	int numServers;
-	int sortKey;
-	int sortDir;
-	int lastCount;
-	int refreshActive;
-	int currentServer;
-	char displayServers[80000];
-	int numDisplayServers;
-	int serverCount;
-	int numPlayersOnServers;
-	int nextDisplayRefresh;
-	int nextSortTime;
-	int currentServerPreview;
-	int currentServerCinematic;
-	int motdLen;
-	int motdWidth;
-	int motdPaintX;
-	int motdPaintX2;
-	int motdOffset;
-	int motdTime;
-	char motd[1024];
+	char string[8192];
+	char address[12];
+	uint32_t time;
+	uint32_t startTime;
+	int32_t pending;
+	int32_t print;
+	int32_t retrieved;
 };
 
 struct CachedAssets_t
 {
-	int scrollBarArrowUp;
-	int scrollBarArrowDown;
-	int scrollBarArrowLeft;
-	int scrollBarArrowRight;
-	int scrollBar;
-	int scrollBarThumb;
-	int sliderBar;
-	int sliderThumb;
-	int whiteMaterial;
-	int cursor;
-	int bigFont;
-	int smallFont;
-	int consoleFont;
-	int boldFont;
-	int textFont;
-	int extraBigFont;
-	int itemFocusSound;
+	int32_t scrollBarArrowUp;
+	int32_t scrollBarArrowDown;
+	int32_t scrollBarArrowLeft;
+	int32_t scrollBarArrowRight;
+	int32_t scrollBar;
+	int32_t scrollBarThumb;
+	uint32_t sliderBar;
+	uint32_t sliderThumb;
+	int32_t whiteMaterial;
+	int32_t cursor;
+	int32_t bigFont;
+	int32_t smallFont;
+	int32_t consoleFont;
+	int32_t boldFont;
+	char textFont[4];
+	int32_t extraBigFont;
+	char itemFocusSound[4];
 };
 
 struct pendingServerStatus_t
 {
-	int num;
-	char server[2240];
+	uint32_t num;
+	uint8_t server[2240];
 };
 
 struct gameTypeInfo
 {
-	int gameType;
-	int gameTypeName;
+	char gameType[4];
+	char gameTypeName[4];
 };
 
 struct mapInfo
 {
-	int mapName;
-	int mapLoadName;
-	int imageName;
-	int opponentName;
-	int teamMembers;
-	int typeBits;
-	int cinematic;
-	char timeToBeat[128];
-	int levelShot;
-	int active;
+	char mapName[4];
+	char mapLoadName[4];
+	char imageName[4];
+	char opponentName[4];
+	int32_t teamMembers;
+	int32_t typeBits;
+	int32_t cinematic;
+	uint8_t timeToBeat[128];
+	int32_t levelShot;
+	int32_t active;
 };
 
 struct modInfo_t
 {
-	int modName;
-	int modDescr;
+	char modName[4];
+	int32_t modDescr;
 };
 
 struct pinglist_t
 {
-	char adrstr[64];
-	int start;
+	uint8_t adrstr[64];
+	int32_t start;
 };
 
 struct pendingServer_t
 {
-	char adrstr[64];
+	uint8_t adrstr[64];
 	char name[64];
-	int startTime;
-	int serverNum;
-	int valid;
+	uint32_t startTime;
+	uint32_t serverNum;
+	uint32_t valid;
 };
 
 struct PlayerProfileStatus
 {
-	int sortDir;
-	char displayProfile[256];
+	int32_t sortDir;
+	uint8_t displayProfile[256];
 };
 
 struct serverFilter_s
 {
-	int description;
-	int basedir;
+	char description[4];
+	int32_t basedir;
 };
 
 struct serverStatusDvar_t
 {
-	int name;
-	int altName;
-	sscType_t type;
+	char name[4];
+	char altName[4];
+	int32_t type;
 };
 
 typedef enum
@@ -11310,113 +11912,112 @@ typedef enum
 
 struct loopmsg_t
 {
-	char data[1400];
-	int datalen;
-	int port;
-};
-
-struct _3767
-{
-	int initialized;
-	int time;
-	int snapFlagServerBit;
-	int clients;
-	int numSnapshotEntities;
-	int numSnapshotClients;
-	int nextSnapshotEntities;
-	int nextSnapshotClients;
-	int snapshotEntities;
-	int snapshotClients;
-	int archiveEnabled;
-	int nextArchivedSnapshotFrames;
-	int archivedSnapshotFrames;
-	int archivedSnapshotBuffer;
-	int nextArchivedSnapshotBuffer;
-	int nextCachedSnapshotEntities;
-	int nextCachedSnapshotClients;
-	int nextCachedSnapshotFrames;
-	int cachedSnapshotEntities;
-	int cachedSnapshotClients;
-	int cachedSnapshotFrames;
-	int nextHeartbeatTime;
-	int nextStatusResponseTime;
-	char challenges[40960];
-	char redirectAddress[12];
-	char authorizeAddress[12];
-	int pOOBProf;
-	char tempBans[128];
-};
-
-struct cachedSnapshot_t
-{
-	int archivedFrame;
-	int time;
-	int num_entities;
-	int first_entity;
-	int num_clients;
-	int first_client;
-	int usesDelta;
+	uint8_t data[1400];
+	uint32_t datalen;
+	int32_t port;
 };
 
 struct challenge_t
 {
-	char adr[12];
-	int challenge;
-	int time;
-	int pingTime;
-	int firstTime;
-	int firstPing;
-	int connected;
-	int guid;
+	vec3_t adr;
+	uint32_t challenge;
+	uint32_t time;
+	uint32_t pingTime;
+	uint32_t firstTime;
+	int32_t firstPing;
+	int32_t connected;
+	uint32_t guid;
+};
+struct $_3767
+{
+	int32_t initialized;
+	uint32_t time;
+	uint32_t snapFlagServerBit;
+	int32_t clients;
+	uint32_t numSnapshotEntities;
+	uint32_t numSnapshotClients;
+	int32_t nextSnapshotEntities;
+	int32_t nextSnapshotClients;
+	int32_t snapshotEntities;
+	int32_t snapshotClients;
+	int32_t archiveEnabled;
+	int32_t nextArchivedSnapshotFrames;
+	int32_t archivedSnapshotFrames;
+	void *archivedSnapshotBuffer;
+	void *nextArchivedSnapshotBuffer;
+	int32_t nextCachedSnapshotEntities;
+	int32_t nextCachedSnapshotClients;
+	int32_t nextCachedSnapshotFrames;
+	int32_t cachedSnapshotEntities;
+	int32_t cachedSnapshotClients;
+	int32_t cachedSnapshotFrames;
+	uint32_t nextHeartbeatTime;
+	char nextStatusResponseTime[4];
+	challenge_t challenges[1024];
+	char redirectAddress[12];
+	char authorizeAddress[12];
+	int32_t pOOBProf;
+	uint8_t tempBans[128];
+};
+
+struct cachedSnapshot_t
+{
+	int32_t archivedFrame;
+	uint32_t time;
+	uint32_t num_entities;
+	int32_t first_entity;
+	uint32_t num_clients;
+	int32_t first_client;
+	int32_t usesDelta;
 };
 
 struct tempBanSlot_t
 {
-	int guid;
-	int banTime;
+	uint32_t guid;
+	uint32_t banTime;
 };
 
 struct archivedSnapshot_s
 {
-	int start;
-	int size;
+	int32_t start;
+	uint32_t size;
 };
 
 struct cachedClient_s
 {
-	int playerStateExists;
-	char cs[92];
-	char ps[9896];
+	int32_t playerStateExists;
+	clientState_s cs;
+	playerState_s ps;
 };
 
-struct _3759
+struct $_3759
 {
-	serverState_t state;
-	int restarting;
-	int start_frameTime;
-	int checksumFeed;
-	int timeResidual;
-	int nextFrameTime;
+	int32_t state;
+	int32_t restarting;
+	uint32_t start_frameTime;
+	int32_t checksumFeed;
+	uint32_t timeResidual;
+	uint32_t nextFrameTime;
 	char models[1024];
 	char configstrings[8192];
-	char svEntities[380928];
-	int entityParsePoint;
-	int gentities;
-	int gentitySize;
-	int num_entities;
-	int gameClients;
-	int gameClientSize;
-	int skelTimeStamp;
-	int skelMemPos;
-	char bpsWindow[80];
-	int bpsWindowSteps;
-	int bpsTotalBytes;
-	int bpsMaxBytes;
-	char ubpsWindow[80];
-	int ubpsTotalBytes;
-	int ubpsMaxBytes;
-	int ucompAve;
-	int ucompNum;
+	svEntity_s svEntities[1024];
+	int32_t entityParsePoint;
+	int32_t gentities;
+	uint32_t gentitySize;
+	uint32_t num_entities;
+	int32_t gameClients;
+	uint32_t gameClientSize;
+	uint32_t skelTimeStamp;
+	uint32_t skelMemPos;
+	uint8_t bpsWindow[80];
+	int32_t bpsWindowSteps;
+	int32_t bpsTotalBytes;
+	int32_t bpsMaxBytes;
+	uint8_t ubpsWindow[80];
+	int32_t ubpsTotalBytes;
+	int32_t ubpsMaxBytes;
+	int32_t ucompAve;
+	uint32_t ucompNum;
 	char gametype[64];
 };
 
@@ -11429,20 +12030,20 @@ typedef enum
 
 struct MessageWindow
 {
-	int lines;
-	int current_line;
-	int count;
-	int padding;
-	int scrolltime;
-	int fadein;
-	int fadeout;
+	int32_t lines;
+	int32_t current_line;
+	uint32_t count;
+	int32_t padding;
+	uint32_t scrolltime;
+	int32_t fadein;
+	int32_t fadeout;
 };
 
 struct MessageLine
 {
 	char textBuffer[156];
-	int startTime;
-	int endTime;
+	uint32_t startTime;
+	uint32_t endTime;
 };
 
 typedef enum
@@ -11455,212 +12056,212 @@ typedef enum
 
 struct ConDrawInputGlob
 {
-	int matchCount;
-	int inputText;
-	int inputTextLen;
-	char hasExactMatch;
+	uint32_t matchCount;
+	char inputText[4];
+	char inputTextLen[4];
+	int8_t hasExactMatch;
 	char pad0[3];
-	int x;
-	int y;
-	int leftX;
-	int fontHeight;
+	int32_t x;
+	int32_t y;
+	int32_t leftX;
+	int32_t fontHeight;
 };
 
 struct Console
 {
-	int initialized;
+	int32_t initialized;
 	char textBuffer[131072];
-	int currentLine;
-	int lineOffset;
-	int display;
-	int prevType;
-	int linewidth;
-	int totallines;
-	char outputVisible;
+	int32_t currentLine;
+	uint32_t lineOffset;
+	int32_t display;
+	int32_t prevType;
+	uint32_t linewidth;
+	int32_t totallines;
+	int8_t outputVisible;
 	char pad0[3];
-	int64_t screenMin;
-	int64_t screenMax;
-	int messageBuffer;
+	uint64_t screenMin;
+	uint64_t screenMax;
+	char messageBuffer[4];
 	char messageBufferArray[20448];
-	char color[16];
+	vec4_t color;
 };
 
 struct MessageBuffer
 {
-	char gamemsg[28];
-	char gamemsg_lines[1312];
-	char boldgamemsg[28];
-	char boldgamemsg_lines[1312];
-	char subtitle[28];
-	char subtitle_lines[1312];
-	char minicon[28];
-	char minicon_lines[16400];
+	uint8_t gamemsg[28];
+	uint8_t gamemsg_lines[1312];
+	uint8_t boldgamemsg[28];
+	uint8_t boldgamemsg_lines[1312];
+	uint8_t subtitle[28];
+	uint8_t subtitle_lines[1312];
+	uint8_t minicon[28];
+	uint8_t minicon_lines[16400];
 };
 
 struct serverInfo_t
 {
 	netadr_t adr;
-	char netType;
-	char clients;
-	char maxClients;
-	char dirty;
-	char allowAnonymous;
-	char bPassword;
-	char pure;
-	char friendlyfire;
-	char killcam;
-	char consoleDisabled;
-	char hardware;
-	char mod;
-	char voice;
-	char requestCount;
-	short minPing;
-	short maxPing;
-	short ping;
+	int8_t netType;
+	int8_t clients;
+	int8_t maxClients;
+	int8_t dirty;
+	int8_t allowAnonymous;
+	int8_t bPassword;
+	int8_t pure;
+	int8_t friendlyfire;
+	int8_t killcam;
+	int8_t consoleDisabled;
+	int8_t hardware;
+	int8_t mod;
+	int8_t voice;
+	uint8_t requestCount;
+	int16_t minPing;
+	int16_t maxPing;
+	int16_t ping;
 	char hostName[32];
 	char mapName[32];
-	char game[24];
+	uint8_t game[24];
 	char gameType[16];
 };
 
-struct _3787
+struct $_3787
 {
-	char adr[12];
-	int start;
-	int time;
+	vec3_t adr;
+	int32_t start;
+	uint32_t time;
 	char info[1024];
 };
 
-struct _3812
+struct $_3812
 {
-	int ip;
-	short port;
+	int32_t ip;
+	uint16_t port;
 };
 
-struct _3813
+struct $_3813
 {
 	char password[24];
-	char host[12];
+	vec3_t host;
 };
 
 struct scrollInfo_s
 {
-	int nextScrollTime;
-	int nextAdjustTime;
-	int adjustValue;
-	int scrollKey;
-	int xStart;
-	int yStart;
-	int item;
-	int scrollDir;
+	uint32_t nextScrollTime;
+	uint32_t nextAdjustTime;
+	int32_t adjustValue;
+	int32_t scrollKey;
+	int32_t xStart;
+	int32_t yStart;
+	int32_t item;
+	int32_t scrollDir;
 };
 
 struct commandDef_t
 {
-	int name;
-	int handler;
+	char name[4];
+	uint32_t handler;
 };
 
 struct bind_t
 {
-	int command;
-	int defaultbind1;
-	int defaultbind2;
-	int bind1;
-	int bind2;
+	char command[4];
+	int32_t defaultbind1;
+	int32_t defaultbind2;
+	int32_t bind1;
+	int32_t bind2;
 };
 
 struct NetField
 {
-	int name;
-	int offset;
-	int bits;
-};
-/* 
-struct _3769
-{
-	huff_t compressor;
-	char decompressor[28700];
+	char name[4];
+	uint32_t offset;
+	int32_t bits;
 };
 
 struct huff_t
 {
-	int blocNode;
-	int blocPtrs;
-	int tree;
-	int lhead;
-	int ltail;
-	char loc[1028];
-	int freelist;
-	char nodeList[24576];
-	char nodePtrs[3072];
+	int32_t blocNode;
+	void *blocPtrs;
+	int32_t tree;
+	int32_t lhead;
+	int32_t ltail;
+	uint8_t loc[1028];
+	int32_t freelist;
+	uint8_t nodeList[24576];
+	uint8_t nodePtrs[3072];
+};
+
+struct $_3769
+{
+	huff_t compressor;
+	uint8_t decompressor[28700];
 };
 
 struct nodetype
 {
-	int left;
-	int right;
-	int parent;
-	int next;
-	int prev;
-	int head;
-	int weight;
-	int symbol;
-}; */
+	int32_t left;
+	int32_t right;
+	int32_t parent;
+	int32_t next;
+	int32_t prev;
+	int32_t head;
+	int32_t weight;
+	int32_t symbol;
+};
 
-struct _3783
+struct $_3783
 {
-	int valid;
-	int snapFlags;
-	int serverTime;
-	int messageNum;
-	int deltaNum;
-	int ping;
-	int cmdNum;
-	playerState_t ps;
-	int numEntities;
-	int numClients;
-	int parseEntitiesNum;
-	int parseClientsNum;
-	int serverCommandNum;
+	uint32_t valid;
+	uint32_t snapFlags;
+	uint32_t serverTime;
+	char messageNum[4];
+	uint32_t deltaNum;
+	int32_t ping;
+	char cmdNum[4];
+	playerState_s ps;
+	uint32_t numEntities;
+	uint32_t numClients;
+	uint32_t parseEntitiesNum;
+	uint32_t parseClientsNum;
+	char serverCommandNum[4];
 };
 
 struct snapshot_t
 {
-	int snapFlags;
-	int ping;
-	int serverTime;
-	char ps[9896];
-	int numEntities;
-	int numClients;
-	char entities[61440];
-	char clients[5888];
-	int serverCommandSequence;
+	uint32_t snapFlags;
+	int32_t ping;
+	uint32_t serverTime;
+	playerState_s ps;
+	uint32_t numEntities;
+	uint32_t numClients;
+	entityState_s entities[256];
+	clientState_s clients[64];
+	char serverCommandSequence[4];
 };
 
-struct _3765
+struct $_3765
 {
-	char adr[12];
-	int challenge;
-	int time;
-	int pingTime;
-	int firstTime;
-	int firstPing;
-	int connected;
-	int guid;
+	vec3_t adr;
+	uint32_t challenge;
+	uint32_t time;
+	uint32_t pingTime;
+	uint32_t firstTime;
+	int32_t firstPing;
+	int32_t connected;
+	uint32_t guid;
 };
 
 struct ucmd_t
 {
-	int name;
-	int func;
+	char name[4];
+	int32_t func;
 };
 
 struct uiClientState_t
 {
-	connstate_t connState;
-	int connectPacketCount;
-	int clientNum;
+	int32_t connState;
+	uint32_t connectPacketCount;
+	uint32_t clientNum;
 	char servername[1024];
 	char messageString[1024];
 };
@@ -11698,17 +12299,17 @@ typedef enum
 	NUM_ANIM_EVENTTYPES = 19
 } scriptAnimEventTypes_t;
 
-struct _3668
+struct $_3668
 {
-	scr_anim_t anim;
-	int iNameHash;
+	scr_anim_s anim;
+	char iNameHash[4];
 	char szAnimName[64];
 };
 
 struct animStringItem_t
 {
-	int string;
-	int hash;
+	char string[4];
+	int32_t hash;
 };
 
 typedef enum
@@ -11769,8 +12370,8 @@ typedef enum
 
 struct animConditionTable_t
 {
-	animScriptConditionTypes_t type;
-	int values;
+	int32_t type;
+	int32_t values;
 };
 
 typedef enum
@@ -11782,185 +12383,164 @@ typedef enum
 
 struct kbutton_t
 {
-	int64_t down;
-	int downtime;
-	int msec;
-	char active;
-	char wasPressed;
+	uint64_t down;
+	uint32_t downtime;
+	int32_t msec;
+	int8_t active;
+	int8_t wasPressed;
 };
 
-struct _3716
+struct ScreenPlacementGlob
 {
-	int iLastUpdate;
-	int64_t vLastPos;
-	float fLastYaw;
-	int pingTime;
-	int beginFadeTime;
-	char enemy;
+	uint64_t scaleVirtualToReal;
+	uint64_t scaleVirtualToFull;
+	uint64_t scaleRealToVirtual;
+	uint32_t virtualScreenOffsetX;
+	uint64_t virtualViewableMin;
+	uint64_t virtualViewableMax;
+	vec2_t realViewportSize;
+	uint64_t realViewableMin;
+	uint64_t realViewableMax;
+	int32_t subScreenLeft;
+};
+
+struct $_3716
+{
+	int32_t iLastUpdate;
+	uint64_t vLastPos;
+	int32_t fLastYaw;
+	uint32_t pingTime;
+	uint32_t beginFadeTime;
+	int8_t enemy;
 };
 
 struct huffman_t
 {
 	huff_t compressor;
-	char decompressor[28700];
+	uint8_t decompressor[28700];
 };
 
 struct stringDef_s
 {
-	int next;
-	int str;
+	int32_t next;
+	int32_t str;
 };
 
-struct item_ent_t
+struct playerTeamState_t
 {
-	int count2;
-	short index;
-};
-
-struct trigger_ent_t
-{
-	int threshold;
-	int accumulate;
-	int timestamp;
-	int singleUserEntIndex;
-};
-
-struct mover_ent_t
-{
-	int decelTime;
-	int aDecelTime;
-	int speed;
-	int aSpeed;
-	int midTime;
-	int aMidTime;
-	char pos1[12];
-	char pos2[12];
-	char pos3[12];
-	char apos1[12];
-	char apos2[12];
-	char apos3[12];
-};
-
-struct corpse_ent_t
-{
-	int deathAnimStartTime;
-};
-
-struct grenade_ent_t
-{
-	int time;
-};
-
-struct gclient_s
-{
-	playerState_t ps;
-	clientSession_t sess;
-	int spectatorClient;
-	int noclip;
-	int ufo;
-	int bFrozen;
-	int lastCmdTime;
-	int buttons;
-	int oldbuttons;
-	int latched_buttons;
-	int buttonsSinceLastFrame;
-	char oldOrigin[12];
-	float fGunPitch;
-	float fGunYaw;
-	int damage_blood;
-	char damage_from[12];
-	int damage_fromWorld;
-	int accurateCount;
-	int accuracy_shots;
-	int accuracy_hits;
-	int inactivityTime;
-	int inactivityWarning;
-	int lastVoiceTime;
-	int switchTeamTime;
-	int currentAimSpreadScale;
-	int persistantPowerup;
-	int portalID;
-	int dropWeaponTime;
-	int sniperRifleFiredTime;
-	int sniperRifleMuzzleYaw;
-	int PCSpecialPickedUpCount;
-	int pLookatEnt;
-	int useHoldEntity;
-	int useHoldTime;
-	int iLastCompassFriendlyInfoEnt;
-	int compassPingTime;
-	int damageTime;
-	int v_dmg_roll;
-	int v_dmg_pitch;
-	char swayViewAngles[12];
-	char swayOffset[12];
-	char swayAngles[12];
-	char vLastMoveAng[12];
-	float fLastIdleFactor;
-	char vGunOffset[12];
-	char vGunSpeed[12];
-	int weapIdleTime;
-	int lastServerTime;
-	int lastSpawnTime;
-};
-
-struct turretInfo_s
-{
-	int inuse;
-	int flags;
-	int fireTime;
-	int64_t arcmin;
-	int64_t arcmax;
-	int dropPitch;
-	int stance;
-	int prevStance;
-	int fireSndDelay;
-	char userOrigin[12];
-	int playerSpread;
-	int pitchCap;
-	char fireSnd;
-	char fireSndPlayer;
-	char stopSnd;
-	char stopSndPlayer;
-};
-
-struct tagInfo_s
-{
-	int parent;
-	int next;
-	short name;
-	char pad0[2];
-	int index;
-	char axis[48];
-	char parentInvAxis[48];
+	int32_t location;
 };
 
 struct clientSession_t
 {
-	sessionState_t sessionState;
-	int forceSpectatorClient;
-	int status_icon;
-	int archiveTime;
-	int score;
-	int deaths;
-	short scriptPersId;
+	int32_t sessionState;
+	char forceSpectatorClient[4];
+	char status_icon[4];
+	uint32_t archiveTime;
+	int32_t score;
+	int32_t deaths;
+	char scriptPersId[2];
 	char pad0[2];
-	clientConnected_t connected;
-	usercmd_t cmd;
+	int32_t connected;
+	usercmd_s cmd;
 	char oldcmd[28];
-	int localClient;
-	int predictItemPickup;
+	int32_t localClient;
+	int32_t predictItemPickup;
 	char newnetname[32];
-	int maxHealth;
-	int enterTime;
+	int32_t maxHealth;
+	uint32_t enterTime;
 	playerTeamState_t teamState;
-	int voteCount;
-	int teamVoteCount;
-	int viewmodelIndex;
-	int noSpectate;
-	int teamInfo;
-	clientState_t cs;
-	int psOffsetTime;
+	char voteCount[4];
+	char teamVoteCount[4];
+	char viewmodelIndex[4];
+	char noSpectate[4];
+	char teamInfo[4];
+	clientState_s cs;
+	uint32_t psOffsetTime;
+};
+
+struct gclient_s
+{
+	playerState_s ps;
+	clientSession_t sess;
+	char spectatorClient[4];
+	int32_t noclip;
+	int32_t ufo;
+	int32_t bFrozen;
+	char lastCmdTime[4];
+	int32_t buttons;
+	int32_t oldbuttons;
+	int32_t latched_buttons;
+	int32_t buttonsSinceLastFrame;
+	vec3_t oldOrigin;
+	int32_t fGunPitch;
+	int32_t fGunYaw;
+	int32_t damage_blood;
+	vec3_t damage_from;
+	int32_t damage_fromWorld;
+	uint32_t accurateCount;
+	int32_t accuracy_shots;
+	int32_t accuracy_hits;
+	uint32_t inactivityTime;
+	int32_t inactivityWarning;
+	uint32_t lastVoiceTime;
+	uint32_t switchTeamTime;
+	int32_t currentAimSpreadScale;
+	int32_t persistantPowerup;
+	uint32_t portalID;
+	uint32_t dropWeaponTime;
+	uint32_t sniperRifleFiredTime;
+	int32_t sniperRifleMuzzleYaw;
+	char PCSpecialPickedUpCount[4];
+	int32_t pLookatEnt;
+	int32_t useHoldEntity;
+	uint32_t useHoldTime;
+	char iLastCompassFriendlyInfoEnt[4];
+	uint32_t compassPingTime;
+	uint32_t damageTime;
+	int32_t v_dmg_roll;
+	int32_t v_dmg_pitch;
+	vec3_t swayViewAngles;
+	vec3_t swayOffset;
+	vec3_t swayAngles;
+	vec3_t vLastMoveAng;
+	float fLastIdleFactor;
+	vec3_t vGunOffset;
+	vec3_t vGunSpeed;
+	uint32_t weapIdleTime;
+	uint32_t lastServerTime;
+	uint32_t lastSpawnTime;
+};
+
+struct turretInfo_s
+{
+	int32_t inuse;
+	uint32_t flags;
+	uint32_t fireTime;
+	uint64_t arcmin;
+	uint64_t arcmax;
+	int32_t dropPitch;
+	int32_t stance;
+	int32_t prevStance;
+	int32_t fireSndDelay;
+	vec3_t userOrigin;
+	int32_t playerSpread;
+	int32_t pitchCap;
+	int8_t fireSnd;
+	int8_t fireSndPlayer;
+	int8_t stopSnd;
+	int8_t stopSndPlayer;
+};
+
+struct tagInfo_s
+{
+	int32_t parent;
+	int32_t next;
+	char name[2];
+	char pad0[2];
+	uint32_t index;
+	vec3_t axis[4];
+	vec3_t parentInvAxis[4];
 };
 
 typedef enum
@@ -11978,26 +12558,21 @@ typedef enum
 	CON_CONNECTED = 2
 } clientConnected_t;
 
-struct playerTeamState_t
+struct $_3761
 {
-	int location;
+	int32_t archivedFrame;
+	uint32_t time;
+	uint32_t num_entities;
+	int32_t first_entity;
+	uint32_t num_clients;
+	int32_t first_client;
+	int32_t usesDelta;
 };
 
-struct _3761
+struct $_3772
 {
-	int archivedFrame;
-	int time;
-	int num_entities;
-	int first_entity;
-	int num_clients;
-	int first_client;
-	int usesDelta;
-};
-
-struct _3772
-{
-	int numSnapshotEntities;
-	char snapshotEntities[4096];
+	uint32_t numSnapshotEntities;
+	int32_t snapshotEntities[1024];
 };
 
 typedef enum
@@ -12026,33 +12601,33 @@ typedef enum
 
 struct corpseInfo_t
 {
-	int tree;
-	int entnum;
-	int time;
+	int32_t tree;
+	uint32_t entnum;
+	uint32_t time;
 	clientInfo_t ci;
-	char falling;
+	int8_t falling;
 };
 
 struct BuiltinFunctionDef
 {
-	int actionString;
-	int actionFunc;
-	int type;
+	char actionString[4];
+	int32_t actionFunc;
+	int32_t type;
 };
 
 struct BuiltinMethodDef
 {
-	int actionString;
-	int actionFunc;
-	int type;
+	char actionString[4];
+	int32_t actionFunc;
+	int32_t type;
 };
 
 struct game_hudelem_s
 {
-	char elem[128];
-	int clientNum;
-	int team;
-	int archived;
+	hudelem_s elem;
+	uint32_t clientNum;
+	int32_t team;
+	int32_t archived;
 };
 
 typedef enum
@@ -12070,82 +12645,67 @@ typedef enum
 
 struct ent_field_t
 {
-	int name;
-	int ofs;
-	int type;
-	int callback;
+	char name[4];
+	int32_t ofs;
+	int32_t type;
+	int32_t callback;
 };
 
 struct spawn_t
 {
-	int name;
-	int spawn;
+	char name[4];
+	int32_t spawn;
 };
 
 struct keywordHash_s
 {
-	int keyword;
-	int func;
-	int next;
-};
-
-struct loadAssets_t
-{
-	int menuEnterSound;
-	int menuExitSound;
-	int menuBuzzSound;
-	int fadeClamp;
-	int fadeCycle;
-	int fadeAmount;
-	int fadeInAmount;
-	int shadowX;
-	int shadowY;
-	char shadowColor[16];
-	int shadowFadeClamp;
+	int32_t keyword;
+	int32_t func;
+	int32_t next;
 };
 
 struct entityHandler_t
 {
-	int think;
-	int reached;
-	int blocked;
-	int touch;
-	int use;
-	int pain;
-	int die;
-	int controller;
-	int methodOfDeath;
-	int splashMethodOfDeath;
+	int32_t think;
+	int32_t reached;
+	int32_t blocked;
+	int32_t touch;
+	int32_t use;
+	int32_t pain;
+	int32_t die;
+	int32_t controller;
+	int32_t methodOfDeath;
+	int32_t splashMethodOfDeath;
 };
 
 struct SpawnVar
 {
-	char spawnVarsValid;
+	int8_t spawnVarsValid;
 	char pad0[3];
-	int numSpawnVars;
-	char spawnVars[512];
-	int numSpawnVarChars;
-	char spawnVarChars[2048];
+	uint32_t numSpawnVars;
+	uint8_t spawnVars[512];
+	uint32_t numSpawnVarChars;
+	uint8_t spawnVarChars[2048];
 };
 
-struct _3703
+struct $_3703
 {
-	int tree;
-	int entnum;
-	int time;
+	int32_t tree;
+	uint32_t entnum;
+	uint32_t time;
 	clientInfo_t ci;
-	char falling;
+	int8_t falling;
 };
 
 struct game_hudelem_field_t
 {
-	int name;
-	int ofs;
-	fieldtype_t type;
-	int mask;
-	int shift;
-	int setter;
-	int getter;
+	char name[4];
+	int32_t ofs;
+	int32_t type;
+	uint32_t mask;
+	int32_t shift;
+	int32_t setter;
+	int32_t getter;
 };
 
 typedef enum
@@ -12157,72 +12717,72 @@ typedef enum
 
 struct UI_Component
 {
-	int UI_Component;
-	int64_t size;
-	int selectionParent;
+	void *_vptr$UI_Component;
+	vec2_t size;
+	int32_t selectionParent;
 };
 
 struct UI_Component_data_t
 {
-	int screenWidth;
-	int screenHeight;
-	int charWidth;
-	int charHeight;
-	int scrollBarSize;
-	int cursor;
-	int64_t cursorPos;
-	int hideCursor;
-	int filledCircle;
-	int consoleReason;
+	uint32_t screenWidth;
+	int32_t screenHeight;
+	uint32_t charWidth;
+	int32_t charHeight;
+	uint32_t scrollBarSize;
+	int32_t cursor;
+	uint64_t cursorPos;
+	uint32_t hideCursor;
+	int32_t filledCircle;
+	int32_t consoleReason;
 	char findText[128];
 };
 
 struct UI_ScrollPane
 {
 	char pad0[16];
-	int comp;
-	char forceHorScoll;
+	int32_t comp;
+	int8_t forceHorScoll;
 	char pad1[3];
-	int64_t mouseHeldScale;
-	int64_t mouseHeldPos;
-	int64_t mouseHeldCompPos;
-	short mouseWasDown;
+	uint64_t mouseHeldScale;
+	uint64_t mouseHeldPos;
+	uint64_t mouseHeldCompPos;
+	int16_t mouseWasDown;
 };
 
 struct UI_LinesComponent
 {
 	char pad0[16];
-	int selectedLine;
-	char focusOnSelectedLine;
-	char focusOnSelectedLineUser;
+	int32_t selectedLine;
+	int8_t focusOnSelectedLine;
+	int8_t focusOnSelectedLineUser;
 	char pad1[2];
-	int numLines;
-	int64_t pos;
+	uint32_t numLines;
+	uint64_t pos;
 };
 
 struct UI_VerticalDivider
 {
 	char pad0[16];
-	int topComp;
-	int bottomComp;
-	int posY;
+	int32_t topComp;
+	int32_t bottomComp;
+	uint32_t posY;
 };
 
 struct client_fields_s
 {
-	int name;
-	int ofs;
-	fieldtype_t type;
-	int setter;
-	int getter;
+	char name[4];
+	int32_t ofs;
+	int32_t type;
+	int32_t setter;
+	int32_t getter;
 };
 
-struct _3717
+struct $_3717
 {
-	int ent;
-	char origin[12];
-	char angles[12];
-	int deltayaw;
+	int32_t ent;
+	vec3_t origin;
+	vec3_t angles;
+	int32_t deltayaw;
 };
 
 typedef enum
@@ -12247,22 +12807,22 @@ typedef enum
 	HITLOC_L_FOOT = 17,
 	HITLOC_GUN = 18,
 	HITLOC_NUM = 19
-} _3579;
+} $_3579;
 
 struct sbpicinfo_t
 {
-	int x;
-	int y;
-	int w;
-	int h;
+	int32_t x;
+	int32_t y;
+	int32_t w;
+	int32_t h;
 };
 
 struct listColumnInfo_t
 {
-	listColumnTypes_t type;
-	float fWidth;
-	int pszName;
-	int iAlignment;
+	int32_t type;
+	uint32_t fWidth;
+	char pszName[4];
+	int32_t iAlignment;
 };
 
 typedef enum
@@ -12279,95 +12839,95 @@ typedef enum
 
 struct weaponParms
 {
-	char forward[12];
-	char right[12];
-	char up[12];
-	char muzzleTrace[12];
-	char gunForward[12];
-	int weapDef;
+	vec3_t forward;
+	vec3_t right;
+	vec3_t up;
+	vec3_t muzzleTrace;
+	vec3_t gunForward;
+	int32_t weapDef;
 };
 
 struct AntilagClientStore
 {
-	char realClientPositions[768];
-	char clientMoved[64];
+	uint8_t realClientPositions[768];
+	uint8_t clientMoved[64];
 };
 
 struct ipFilter_s
 {
-	int mask;
-	int compare;
+	uint32_t mask;
+	int32_t compare;
 };
 
 struct useList_t
 {
-	int ent;
-	int score;
+	int32_t ent;
+	int32_t score;
 };
 
-struct _3731
+struct $_3731
 {
-	char rect[96];
-	char rectClient[96];
-	int name;
-	int group;
-	int cinematicName;
-	int cinematic;
-	int style;
-	int border;
-	int ownerDraw;
-	int ownerDrawFlags;
-	int borderSize;
-	int staticFlags;
-	char dynamicFlags[16];
-	char rectEffects0[96];
-	char rectEffects1[96];
-	char offsetTime[16];
-	int nextTime;
-	char foreColor[16];
-	char backColor[16];
-	char borderColor[16];
-	char outlineColor[16];
-	int background;
+	uint8_t rect[96];
+	uint8_t rectClient[96];
+	char name[4];
+	int32_t group;
+	char cinematicName[4];
+	int32_t cinematic;
+	int32_t style;
+	int32_t border;
+	int32_t ownerDraw;
+	uint32_t ownerDrawFlags;
+	uint32_t borderSize;
+	uint32_t staticFlags;
+	uint8_t dynamicFlags[16];
+	vec3_t rectEffects0[8];
+	vec3_t rectEffects1[8];
+	uint8_t offsetTime[16];
+	uint32_t nextTime;
+	vec4_t foreColor;
+	vec4_t backColor;
+	vec4_t borderColor;
+	vec4_t outlineColor;
+	int32_t background;
 };
 
-struct _3627
+struct $_3627
 {
-	int c_indexes;
-	int c_fxIndexes;
-	int c_viewIndexes;
-	int c_shadowIndexes;
-	int c_vertexes;
-	int c_batches;
-	int c_refents;
-	int dc;
+	uint32_t c_indexes;
+	uint32_t c_fxIndexes;
+	uint32_t c_viewIndexes;
+	uint32_t c_shadowIndexes;
+	int32_t c_vertexes;
+	int32_t c_batches;
+	void *c_refents;
+	int32_t dc;
 	Image_MemUsage c_imageUsage;
 };
 
-struct _3826
+struct $_3826
 {
-	char frameSamples[512];
-	int frameCount;
-	char snapshotFlags[512];
-	char snapshotSamples[512];
-	int snapshotCount;
+	uint8_t frameSamples[512];
+	uint32_t frameCount;
+	uint8_t snapshotFlags[512];
+	uint8_t snapshotSamples[512];
+	uint32_t snapshotCount;
 };
 
 struct consoleCommand_t
 {
-	int cmd;
-	int function;
+	char cmd[4];
+	int32_t function;
 };
 
 struct localEntity_s
 {
-	int prev;
-	int next;
-	leType_t leType;
-	int endTime;
-	char pos[36];
-	char color[16];
-	int tracerClipDist;
+	int32_t prev;
+	int32_t next;
+	int32_t leType;
+	uint32_t endTime;
+	trajectory_t pos;
+	vec4_t color;
+	int32_t tracerClipDist;
 	GfxEntity refEntity;
 };
 
@@ -12378,139 +12938,139 @@ typedef enum
 
 struct cg_hudelem_t
 {
-	int x;
-	int y;
-	int z;
-	int width;
-	int height;
-	char hudElemLabel[256];
-	int labelWidth;
+	int32_t x;
+	int32_t y;
+	int32_t z;
+	uint32_t width;
+	int32_t height;
+	uint8_t hudElemLabel[256];
+	uint32_t labelWidth;
 	char hudElemText[256];
-	int textWidth;
-	int font;
-	int fontScale;
-	int fontHeight;
-	char color[16];
+	char textWidth[4];
+	int32_t font;
+	int32_t fontScale;
+	int32_t fontHeight;
+	vec4_t color;
+};
+
+struct hostent
+{
+	char h_name[4];
+	char h_aliases[4];
+	int32_t h_addrtype;
+	uint32_t h_length;
+	int32_t h_addr_list;
 };
 
 struct sockaddr
 {
-	char sa_len;
-	char sa_family;
-	char sa_data[14];
+	uint8_t sa_len;
+	int8_t sa_family;
+	uint8_t sa_data[14];
 };
 
 struct timeval
 {
-	int tv_sec;
-	int tv_usec;
+	int32_t tv_sec;
+	int32_t tv_usec;
 };
 
 struct fd_set
 {
-	char fds_bits[128];
-};
-
-struct sockaddr_in
-{
-	char sin_len;
-	char sin_family;
-	short sin_port;
-	in_addr sin_addr;
-	int64_t sin_zero;
+	uint8_t fds_bits[128];
 };
 
 struct in_addr
 {
-	int s_addr;
+	int32_t s_addr;
 };
 
-struct jpeg_destination_mgr
+struct sockaddr_in
 {
-	int next_output_byte;
-	int free_in_buffer;
-	int init_destination;
-	int empty_output_buffer;
-	int term_destination;
-};
-
-struct jpeg_compress_struct
-{
-	int err;
-	int mem;
-	int progress;
-	int client_data;
-	char is_decompressor;
-	char pad0[3];
-	int global_state;
-	jpeg_alloc alloc;
-	int dest;
-	int image_width;
-	int image_height;
-	int input_components;
-	J_COLOR_SPACE in_color_space;
-	int64_t input_gamma;
-	int data_precision;
-	int num_components;
-	int jpeg_color_space;
-	int comp_info;
-	char quant_tbl_ptrs[16];
-	char dc_huff_tbl_ptrs[16];
-	char ac_huff_tbl_ptrs[16];
-	char arith_dc_L[16];
-	char arith_dc_U[16];
-	char arith_ac_K[16];
-	int num_scans;
-	int scan_info;
-	char raw_data_in;
-	char arith_code;
-	char optimize_coding;
-	char CCIR601_sampling;
-	int smoothing_factor;
-	J_DCT_METHOD dct_method;
-	int restart_interval;
-	int restart_in_rows;
-	char write_JFIF_header;
-	char JFIF_major_version;
-	char JFIF_minor_version;
-	char density_unit;
-	short X_density;
-	short Y_density;
-	char write_Adobe_marker;
-	char pad1[3];
-	int next_scanline;
-	char progressive_mode;
-	char pad2[3];
-	int max_h_samp_factor;
-	int max_v_samp_factor;
-	int total_iMCU_rows;
-	int comps_in_scan;
-	char cur_comp_info[16];
-	int MCUs_per_row;
-	int MCU_rows_in_scan;
-	int blocks_in_MCU;
-	char MCU_membership[40];
-	int Ss;
-	int Se;
-	int Ah;
-	int Al;
-	int master;
-	int main;
-	int prep;
-	int coef;
-	int marker;
-	int cconvert;
-	int downsample;
-	int fdct;
-	int entropy;
-	int script_space;
-	int script_space_size;
+	uint8_t sin_len;
+	int8_t sin_family;
+	uint16_t sin_port;
+	in_addr sin_addr;
+	uint64_t sin_zero;
 };
 
 struct jpeg_alloc
 {
-	int malloc;
-	int free;
+	int32_t malloc;
+	int32_t free;
+};
+
+struct jpeg_compress_struct
+{
+	int32_t err;
+	int32_t mem;
+	int32_t progress;
+	int32_t client_data;
+	int8_t is_decompressor;
+	char pad0[3];
+	int32_t global_state;
+	jpeg_alloc alloc;
+	int32_t dest;
+	uint32_t image_width;
+	int32_t image_height;
+	int32_t input_components;
+	int32_t in_color_space;
+	uint64_t input_gamma;
+	int32_t data_precision;
+	uint32_t num_components;
+	int32_t jpeg_color_space;
+	char comp_info[4];
+	uint8_t quant_tbl_ptrs[16];
+	uint8_t dc_huff_tbl_ptrs[16];
+	uint8_t ac_huff_tbl_ptrs[16];
+	uint8_t arith_dc_L[16];
+	uint8_t arith_dc_U[16];
+	uint8_t arith_ac_K[16];
+	uint32_t num_scans;
+	char scan_info[4];
+	int8_t raw_data_in;
+	int8_t arith_code;
+	int8_t optimize_coding;
+	int8_t CCIR601_sampling;
+	float smoothing_factor;
+	int32_t dct_method;
+	int32_t restart_interval;
+	int32_t restart_in_rows;
+	int8_t write_JFIF_header;
+	int8_t JFIF_major_version;
+	int8_t JFIF_minor_version;
+	int8_t density_unit;
+	int16_t X_density;
+	int16_t Y_density;
+	int8_t write_Adobe_marker;
+	char pad1[3];
+	int32_t next_scanline;
+	int8_t progressive_mode;
+	char pad2[3];
+	float max_h_samp_factor;
+	float max_v_samp_factor;
+	int32_t total_iMCU_rows;
+	int32_t comps_in_scan;
+	char cur_comp_info[16];
+	int32_t MCUs_per_row;
+	int32_t MCU_rows_in_scan;
+	int32_t blocks_in_MCU;
+	uint8_t MCU_membership[40];
+	int32_t Ss;
+	int32_t Se;
+	int32_t Ah;
+	int32_t Al;
+	int32_t master;
+	int32_t main;
+	int32_t prep;
+	int32_t coef;
+	int32_t marker;
+	int32_t cconvert;
+	int32_t downsample;
+	int32_t fdct;
+	int32_t entropy;
+	char script_space[4];
+	char script_space_size[4];
 };
 
 typedef enum
@@ -12532,267 +13092,267 @@ typedef enum
 
 struct jpeg_error_mgr
 {
-	int error_exit;
-	int emit_message;
-	int output_message;
-	int format_message;
-	int reset_error_mgr;
-	int msg_code;
-	char pad0[80];
-	int trace_level;
-	int num_warnings;
-	int jpeg_message_table;
-	int last_jpeg_message;
-	int addon_message_table;
-	int first_addon_message;
-	int last_addon_message;
-	int exit;
-	int printf;
+	int32_t error_exit;
+	char emit_message[4];
+	char output_message[4];
+	char format_message[4];
+	int32_t reset_error_mgr;
+	int32_t msg_code;
+	uint8_t msg_parm[80];
+	int32_t trace_level;
+	uint32_t num_warnings;
+	char jpeg_message_table[4];
+	char last_jpeg_message[4];
+	char addon_message_table[4];
+	char first_addon_message[4];
+	char last_addon_message[4];
+	int32_t exit;
+	int32_t printf;
 };
 
 struct jpeg_memory_mgr
 {
-	int alloc_small;
-	int alloc_large;
-	int alloc_sarray;
-	int alloc_barray;
-	int request_virt_sarray;
-	int request_virt_barray;
-	int realize_virt_arrays;
-	int access_virt_sarray;
-	int access_virt_barray;
-	int free_pool;
-	int self_destruct;
-	int max_memory_to_use;
-	int max_alloc_chunk;
+	int32_t alloc_small;
+	int32_t alloc_large;
+	int32_t alloc_sarray;
+	int32_t alloc_barray;
+	int32_t request_virt_sarray;
+	int32_t request_virt_barray;
+	int32_t realize_virt_arrays;
+	int32_t access_virt_sarray;
+	int32_t access_virt_barray;
+	int32_t free_pool;
+	int32_t self_destruct;
+	int32_t max_memory_to_use;
+	int32_t max_alloc_chunk;
 };
 
 struct jpeg_progress_mgr
 {
-	int progress_monitor;
-	int pass_counter;
-	int pass_limit;
-	int completed_passes;
-	int total_passes;
+	int32_t progress_monitor;
+	uint32_t pass_counter;
+	int32_t pass_limit;
+	int32_t completed_passes;
+	int32_t total_passes;
 };
 
 struct jpeg_component_info
 {
-	int component_id;
-	int component_index;
-	int h_samp_factor;
-	int v_samp_factor;
-	int quant_tbl_no;
-	int dc_tbl_no;
-	int ac_tbl_no;
-	int width_in_blocks;
-	int height_in_blocks;
-	int DCT_scaled_size;
-	int downsampled_width;
-	int downsampled_height;
-	char component_needed;
+	uint32_t component_id;
+	uint32_t component_index;
+	float h_samp_factor;
+	float v_samp_factor;
+	int32_t quant_tbl_no;
+	int32_t dc_tbl_no;
+	int32_t ac_tbl_no;
+	uint32_t width_in_blocks;
+	int32_t height_in_blocks;
+	uint32_t DCT_scaled_size;
+	uint32_t downsampled_width;
+	int32_t downsampled_height;
+	int8_t component_needed;
 	char pad0[3];
-	int MCU_width;
-	int MCU_height;
-	int MCU_blocks;
-	int MCU_sample_width;
-	int last_col_width;
-	int last_row_height;
-	int quant_table;
-	int dct_table;
+	uint32_t MCU_width;
+	int32_t MCU_height;
+	int32_t MCU_blocks;
+	uint32_t MCU_sample_width;
+	uint32_t last_col_width;
+	int32_t last_row_height;
+	int32_t quant_table;
+	int32_t dct_table;
 };
 
 struct jpeg_comp_master
 {
-	int prepare_for_pass;
-	int pass_startup;
-	int finish_pass;
-	char call_pass_startup;
-	char is_last_pass;
+	int32_t prepare_for_pass;
+	int32_t pass_startup;
+	int32_t finish_pass;
+	int8_t call_pass_startup;
+	int8_t is_last_pass;
 };
 
 struct jpeg_c_main_controller
 {
-	int start_pass;
-	int process_data;
+	int32_t start_pass;
+	int32_t process_data;
 };
 
 struct jpeg_c_prep_controller
 {
-	int start_pass;
-	int pre_process_data;
+	int32_t start_pass;
+	int32_t pre_process_data;
 };
 
 struct jpeg_c_coef_controller
 {
-	int start_pass;
-	int compress_data;
+	int32_t start_pass;
+	int32_t compress_data;
 };
 
 struct jpeg_marker_writer
 {
-	int write_file_header;
-	int write_frame_header;
-	int write_scan_header;
-	int write_file_trailer;
-	int write_tables_only;
-	int write_marker_header;
-	int write_marker_byte;
+	int32_t write_file_header;
+	int32_t write_frame_header;
+	int32_t write_scan_header;
+	int32_t write_file_trailer;
+	int32_t write_tables_only;
+	int32_t write_marker_header;
+	int32_t write_marker_byte;
 };
 
 struct jpeg_color_converter
 {
-	int start_pass;
-	int color_convert;
+	int32_t start_pass;
+	int32_t color_convert;
 };
 
 struct jpeg_downsampler
 {
-	int start_pass;
-	int downsample;
-	char need_context_rows;
+	int32_t start_pass;
+	int32_t downsample;
+	int8_t need_context_rows;
 };
 
 struct jpeg_forward_dct
 {
-	int start_pass;
-	int forward_DCT;
+	int32_t start_pass;
+	int32_t forward_DCT;
 };
 
 struct jpeg_entropy_encoder
 {
-	int start_pass;
-	int encode_mcu;
-	int finish_pass;
+	int32_t start_pass;
+	int32_t encode_mcu;
+	int32_t finish_pass;
 };
 
 struct jpeg_scan_info
 {
-	int comps_in_scan;
-	char component_index[16];
-	int Ss;
-	int Se;
-	int Ah;
-	int Al;
+	int32_t comps_in_scan;
+	uint8_t component_index[16];
+	int32_t Ss;
+	int32_t Se;
+	int32_t Ah;
+	int32_t Al;
 };
 
-union _3723
+union $_3723
 {
-	char i[32];
-	char s[80];
+	uint8_t i[32];
+	uint8_t s[80];
 };
 
 struct JQUANT_TBL
 {
-	char quantval[128];
-	char sent_table;
+	uint8_t quantval[128];
+	int8_t sent_table;
 };
 
 struct JHUFF_TBL
 {
-	char bits[17];
-	char huffval[256];
-	char sent_table;
+	uint8_t bits[17];
+	uint8_t huffval[256];
+	int8_t sent_table;
 };
 
 struct jpeg_decompress_struct
 {
-	int err;
-	int mem;
-	int progress;
-	int client_data;
-	char is_decompressor;
+	int32_t err;
+	int32_t mem;
+	int32_t progress;
+	int32_t client_data;
+	int8_t is_decompressor;
 	char pad0[3];
-	int global_state;
-	int64_t alloc;
-	int src;
-	int image_width;
-	int image_height;
-	int num_components;
-	int jpeg_color_space;
-	int out_color_space;
-	int scale_num;
-	int scale_denom;
-	int64_t output_gamma;
-	char buffered_image;
-	char raw_data_out;
+	int32_t global_state;
+	jpeg_alloc alloc;
+	int32_t src;
+	uint32_t image_width;
+	int32_t image_height;
+	uint32_t num_components;
+	int32_t jpeg_color_space;
+	int32_t out_color_space;
+	uint32_t scale_num;
+	int32_t scale_denom;
+	uint64_t output_gamma;
+	int8_t buffered_image;
+	int8_t raw_data_out;
 	char pad1[2];
-	int dct_method;
-	char do_fancy_upsampling;
-	char do_block_smoothing;
-	char quantize_colors;
+	int32_t dct_method;
+	int8_t do_fancy_upsampling;
+	int8_t do_block_smoothing;
+	int8_t quantize_colors;
 	char pad2[1];
-	J_DITHER_MODE dither_mode;
-	char two_pass_quantize;
+	int32_t dither_mode;
+	int8_t two_pass_quantize;
 	char pad3[3];
-	int desired_number_of_colors;
-	char enable_1pass_quant;
-	char enable_external_quant;
-	char enable_2pass_quant;
+	uint32_t desired_number_of_colors;
+	int8_t enable_1pass_quant;
+	int8_t enable_external_quant;
+	int8_t enable_2pass_quant;
 	char pad4[1];
-	int output_width;
-	int output_height;
-	int out_color_components;
-	int output_components;
-	int rec_outbuf_height;
-	int actual_number_of_colors;
-	int colormap;
-	int output_scanline;
-	int input_scan_number;
-	int input_iMCU_row;
-	int output_scan_number;
-	int output_iMCU_row;
-	int coef_bits;
-	char quant_tbl_ptrs[16];
-	char dc_huff_tbl_ptrs[16];
-	char ac_huff_tbl_ptrs[16];
-	int data_precision;
-	int comp_info;
-	char progressive_mode;
-	char arith_code;
-	char arith_dc_L[16];
-	char arith_dc_U[16];
-	char arith_ac_K[16];
+	uint32_t output_width;
+	int32_t output_height;
+	int32_t out_color_components;
+	int32_t output_components;
+	void *rec_outbuf_height;
+	uint32_t actual_number_of_colors;
+	int32_t colormap;
+	int32_t output_scanline;
+	uint32_t input_scan_number;
+	int32_t input_iMCU_row;
+	uint32_t output_scan_number;
+	int32_t output_iMCU_row;
+	int32_t coef_bits;
+	uint8_t quant_tbl_ptrs[16];
+	uint8_t dc_huff_tbl_ptrs[16];
+	uint8_t ac_huff_tbl_ptrs[16];
+	int32_t data_precision;
+	char comp_info[4];
+	int8_t progressive_mode;
+	int8_t arith_code;
+	uint8_t arith_dc_L[16];
+	uint8_t arith_dc_U[16];
+	uint8_t arith_ac_K[16];
 	char pad5[2];
-	int restart_interval;
-	char saw_JFIF_marker;
-	char JFIF_major_version;
-	char JFIF_minor_version;
-	char density_unit;
-	short X_density;
-	short Y_density;
-	char saw_Adobe_marker;
-	char Adobe_transform;
-	char CCIR601_sampling;
+	int32_t restart_interval;
+	int8_t saw_JFIF_marker;
+	int8_t JFIF_major_version;
+	int8_t JFIF_minor_version;
+	int8_t density_unit;
+	int16_t X_density;
+	int16_t Y_density;
+	int8_t saw_Adobe_marker;
+	int8_t Adobe_transform;
+	int8_t CCIR601_sampling;
 	char pad6[1];
-	int marker_list;
-	int max_h_samp_factor;
-	int max_v_samp_factor;
-	int min_DCT_scaled_size;
-	int total_iMCU_rows;
-	int sample_range_limit;
-	int comps_in_scan;
+	int32_t marker_list;
+	float max_h_samp_factor;
+	float max_v_samp_factor;
+	uint32_t min_DCT_scaled_size;
+	int32_t total_iMCU_rows;
+	int32_t sample_range_limit;
+	int32_t comps_in_scan;
 	char cur_comp_info[16];
-	int MCUs_per_row;
-	int MCU_rows_in_scan;
-	int blocks_in_MCU;
-	char MCU_membership[40];
-	int Ss;
-	int Se;
-	int Ah;
-	int Al;
-	int unread_marker;
-	int master;
-	int main;
-	int coef;
-	int post;
-	int inputctl;
-	int marker;
-	int entropy;
-	int idct;
-	int upsample;
-	int cconvert;
-	int cquantize;
+	int32_t MCUs_per_row;
+	int32_t MCU_rows_in_scan;
+	int32_t blocks_in_MCU;
+	uint8_t MCU_membership[40];
+	int32_t Ss;
+	int32_t Se;
+	int32_t Ah;
+	int32_t Al;
+	int32_t unread_marker;
+	int32_t master;
+	int32_t main;
+	int32_t coef;
+	uint32_t post;
+	int32_t inputctl;
+	int32_t marker;
+	int32_t entropy;
+	uint32_t idct;
+	int32_t upsample;
+	int32_t cconvert;
+	int32_t cquantize;
 };
 
 typedef enum
@@ -12804,303 +13364,625 @@ typedef enum
 
 struct jpeg_source_mgr
 {
-	int next_input_byte;
-	int bytes_in_buffer;
-	int init_source;
-	int fill_input_buffer;
-	int skip_input_data;
-	int resync_to_restart;
-	int term_source;
+	int32_t next_input_byte;
+	void *bytes_in_buffer;
+	int32_t init_source;
+	void *fill_input_buffer;
+	int32_t skip_input_data;
+	int32_t resync_to_restart;
+	int32_t term_source;
 };
 
 struct jpeg_marker_struct
 {
-	int next;
-	char marker;
+	int32_t next;
+	int8_t marker;
 	char pad0[3];
-	int original_length;
-	int data_length;
-	int data;
+	uint32_t original_length;
+	uint32_t data_length;
+	int32_t data;
 };
 
 struct jpeg_decomp_master
 {
-	int prepare_for_output_pass;
-	int finish_output_pass;
-	char is_dummy_pass;
+	int32_t prepare_for_output_pass;
+	int32_t finish_output_pass;
+	int8_t is_dummy_pass;
 };
 
 struct jpeg_d_main_controller
 {
-	int start_pass;
-	int process_data;
+	int32_t start_pass;
+	int32_t process_data;
 };
 
 struct jpeg_d_coef_controller
 {
-	int start_input_pass;
-	int consume_data;
-	int start_output_pass;
-	int decompress_data;
-	int coef_arrays;
+	int32_t start_input_pass;
+	int32_t consume_data;
+	int32_t start_output_pass;
+	int32_t decompress_data;
+	int32_t coef_arrays;
 };
 
 struct jpeg_d_post_controller
 {
-	int start_pass;
-	int post_process_data;
+	int32_t start_pass;
+	uint32_t post_process_data;
 };
 
 struct jpeg_input_controller
 {
-	int consume_input;
-	int reset_input_controller;
-	int start_input_pass;
-	int finish_input_pass;
-	char has_multiple_scans;
-	char eoi_reached;
+	int32_t consume_input;
+	int32_t reset_input_controller;
+	int32_t start_input_pass;
+	int32_t finish_input_pass;
+	int8_t has_multiple_scans;
+	int8_t eoi_reached;
 };
 
 struct jpeg_marker_reader
 {
-	int reset_marker_reader;
-	int read_markers;
-	int read_restart_marker;
-	char saw_SOI;
-	char saw_SOF;
+	int32_t reset_marker_reader;
+	int32_t read_markers;
+	int32_t read_restart_marker;
+	int8_t saw_SOI;
+	int8_t saw_SOF;
 	char pad0[2];
-	int next_restart_num;
-	int discarded_bytes;
+	uint32_t next_restart_num;
+	int32_t discarded_bytes;
 };
 
 struct jpeg_entropy_decoder
 {
-	int start_pass;
-	int decode_mcu;
-	char insufficient_data;
+	int32_t start_pass;
+	int32_t decode_mcu;
+	int8_t insufficient_data;
 };
 
 struct jpeg_inverse_dct
 {
-	int start_pass;
-	char inverse_DCT[40];
+	int32_t start_pass;
+	uint8_t inverse_DCT[40];
 };
 
 struct jpeg_upsampler
 {
-	int start_pass;
-	int upsample;
-	char need_context_rows;
+	int32_t start_pass;
+	int32_t upsample;
+	int8_t need_context_rows;
 };
 
 struct jpeg_color_deconverter
 {
-	int start_pass;
-	int color_convert;
+	int32_t start_pass;
+	int32_t color_convert;
 };
 
 struct jpeg_color_quantizer
 {
-	int start_pass;
-	int color_quantize;
-	int finish_pass;
-	int new_color_map;
+	int32_t start_pass;
+	int32_t color_quantize;
+	int32_t finish_pass;
+	int32_t new_color_map;
 };
 
-struct _3831
+struct $_3831
 {
-	int mssSample;
-	int mssBuffer;
-	int frequency;
-	int volume;
-	int pan;
-	int channels;
-	char playing;
+	int32_t mssSample;
+	void *mssBuffer;
+	int32_t frequency;
+	int32_t volume;
+	int32_t pan;
+	int32_t channels;
+	int8_t playing;
 	char pad0[3];
-	int channel;
-	char playMode;
+	int32_t channel;
+	int8_t playMode;
 };
 
 struct dsound_sample_t
 {
-	int mssSample;
-	int mssBuffer;
-	int frequency;
-	int volume;
-	int pan;
-	int channels;
-	char playing;
+	int32_t mssSample;
+	void *mssBuffer;
+	int32_t frequency;
+	int32_t volume;
+	int32_t pan;
+	int32_t channels;
+	int8_t playing;
 	char pad0[3];
-	int channel;
-	char playMode;
+	int32_t channel;
+	int8_t playMode;
 };
 
 struct audioSample_t
 {
-	int buffer;
-	int lengthInBytes;
-	int lengthInSamples;
-	int bytesPerSample;
-	int frequency;
-	char stereo;
+	void *buffer;
+	uint32_t lengthInBytes;
+	uint32_t lengthInSamples;
+	int32_t bytesPerSample;
+	int32_t frequency;
+	int8_t stereo;
 	char pad0[3];
-	int channels;
-	int sampleOffset;
+	int32_t channels;
+	uint32_t sampleOffset;
 };
 
 struct SpeexMode
 {
-	int mode;
-	int query;
-	int modeName;
-	int modeID;
-	int bitstream_version;
-	int enc_init;
-	int enc_destroy;
-	int enc;
-	int dec_init;
-	int dec_destroy;
-	int dec;
-	int enc_ctl;
-	int dec_ctl;
+	int32_t mode;
+	int32_t query;
+	char modeName[4];
+	uint32_t modeID;
+	char bitstream_version[4];
+	int32_t enc_init;
+	int32_t enc_destroy;
+	int32_t enc;
+	int32_t dec_init;
+	int32_t dec_destroy;
+	int32_t dec;
+	int32_t enc_ctl;
+	int32_t dec_ctl;
 };
 
 struct SpeexBits
 {
-	int chars;
-	int nbBits;
-	int charPtr;
-	int bitPtr;
-	int owner;
-	int overflow;
-	int buf_size;
-	int reserved1;
-	int reserved2;
+	int32_t chars;
+	int32_t nbBits;
+	void *charPtr;
+	void *bitPtr;
+	int32_t owner;
+	int32_t overflow;
+	uint32_t buf_size;
+	int32_t reserved1;
+	int32_t reserved2;
 };
 
 struct ltp_params
 {
-	int gain_cdbk;
-	int gain_bits;
-	int pitch_bits;
+	int32_t gain_cdbk;
+	int32_t gain_bits;
+	int32_t pitch_bits;
 };
 
 struct split_cb_params
 {
-	int subvect_size;
-	int nb_subvect;
-	int shape_cb;
-	int shape_bits;
-	int have_sign;
+	uint32_t subvect_size;
+	int32_t nb_subvect;
+	int32_t shape_cb;
+	int32_t shape_bits;
+	int32_t have_sign;
 };
 
 struct SpeexSubmode
 {
-	int lbr_pitch;
-	int forced_pitch_gain;
-	int have_subframe_gain;
-	int double_codebook;
-	int lsp_quant;
-	int lsp_unquant;
-	int ltp_quant;
-	int ltp_unquant;
-	int ltp_params;
-	int innovation_quant;
-	int innovation_unquant;
-	int innovation_params;
-	int lpc_enh_k1;
-	int lpc_enh_k2;
-	int lpc_enh_k3;
-	int comb_gain;
-	int bits_per_frame;
+	int32_t lbr_pitch;
+	int32_t forced_pitch_gain;
+	int32_t have_subframe_gain;
+	int32_t double_codebook;
+	int32_t lsp_quant;
+	int32_t lsp_unquant;
+	int32_t ltp_quant;
+	int32_t ltp_unquant;
+	int32_t ltp_params;
+	int32_t innovation_quant;
+	int32_t innovation_unquant;
+	int32_t innovation_params;
+	int32_t lpc_enh_k1;
+	int32_t lpc_enh_k2;
+	int32_t lpc_enh_k3;
+	int32_t comb_gain;
+	int32_t bits_per_frame;
 };
 
 struct SpeexNBMode
 {
-	int frameSize;
-	int subframeSize;
-	int lpcSize;
-	int pitchStart;
-	int pitchEnd;
-	int gamma1;
-	int gamma2;
-	int lag_factor;
-	int lpc_floor;
-	char submodes[64];
-	int defaultSubmode;
-	char quality_map[44];
+	uint32_t frameSize;
+	uint32_t subframeSize;
+	uint32_t lpcSize;
+	int32_t pitchStart;
+	int32_t pitchEnd;
+	int32_t gamma1;
+	int32_t gamma2;
+	float lag_factor;
+	int32_t lpc_floor;
+	uint8_t submodes[64];
+	int32_t defaultSubmode;
+	uint8_t quality_map[44];
 };
 
 struct SpeexSBMode
 {
-	int nb_mode;
-	int frameSize;
-	int subframeSize;
-	int lpcSize;
-	int bufSize;
-	int gamma1;
-	int gamma2;
-	int lag_factor;
-	int lpc_floor;
-	int folding_gain;
-	char submodes[32];
-	int defaultSubmode;
-	char low_quality_map[44];
-	char quality_map[44];
-	int vbr_thresh;
-	int nb_modes;
+	int32_t nb_mode;
+	uint32_t frameSize;
+	uint32_t subframeSize;
+	uint32_t lpcSize;
+	uint32_t bufSize;
+	int32_t gamma1;
+	int32_t gamma2;
+	float lag_factor;
+	int32_t lpc_floor;
+	int32_t folding_gain;
+	uint8_t submodes[32];
+	int32_t defaultSubmode;
+	uint8_t low_quality_map[44];
+	uint8_t quality_map[44];
+	int32_t vbr_thresh;
+	int32_t nb_modes;
+};
+
+struct SBEncState
+{
+	int32_t mode;
+	int32_t st_low;
+	uint32_t full_frame_size;
+	uint32_t frame_size;
+	uint32_t subframeSize;
+	int32_t nbSubframes;
+	uint32_t windowSize;
+	uint32_t lpcSize;
+	uint32_t bufSize;
+	int32_t first;
+	float lag_factor;
+	int32_t lpc_floor;
+	int32_t gamma1;
+	int32_t gamma2;
+	int32_t stack;
+	int32_t x0d;
+	int32_t x1d;
+	int32_t high;
+	int32_t y0;
+	int32_t y1;
+	int32_t h0_mem;
+	int32_t h1_mem;
+	int32_t g0_mem;
+	int32_t g1_mem;
+	void *excBuf;
+	int32_t exc;
+	void *buf;
+	int32_t res;
+	int32_t sw;
+	int32_t target;
+	int32_t window;
+	int32_t lagWindow;
+	int32_t autocorr;
+	int32_t lpc;
+	int32_t lsp;
+	int32_t qlsp;
+	int32_t old_lsp;
+	int32_t old_qlsp;
+	int32_t interp_lsp;
+	int32_t interp_qlsp;
+	int32_t interp_lpc;
+	int32_t interp_qlpc;
+	int32_t bw_lpc1;
+	int32_t bw_lpc2;
+	int32_t mem_sp;
+	int32_t mem_sp2;
+	int32_t mem_sw;
+	int32_t pi_gain;
+	int32_t vbr_quality;
+	int32_t vbr_enabled;
+	int32_t abr_enabled;
+	int32_t abr_drift;
+	int32_t abr_drift2;
+	uint32_t abr_count;
+	int32_t vad_enabled;
+	int32_t relative_quality;
+	int32_t encode_submode;
+	int32_t submodes;
+	uint32_t submodeID;
+	int32_t submodeSelect;
+	int32_t complexity;
+	int32_t sampling_rate;
+};
+
+struct SBDecState
+{
+	int32_t mode;
+	int32_t st_low;
+	uint32_t full_frame_size;
+	uint32_t frame_size;
+	uint32_t subframeSize;
+	int32_t nbSubframes;
+	uint32_t lpcSize;
+	int32_t first;
+	int32_t sampling_rate;
+	int32_t lpc_enh_enabled;
+	int32_t stack;
+	int32_t x0d;
+	int32_t x1d;
+	int32_t high;
+	int32_t y0;
+	int32_t y1;
+	int32_t g0_mem;
+	int32_t g1_mem;
+	int32_t exc;
+	int32_t qlsp;
+	int32_t old_qlsp;
+	int32_t interp_qlsp;
+	int32_t interp_qlpc;
+	int32_t mem_sp;
+	int32_t pi_gain;
+	int32_t encode_submode;
+	int32_t submodes;
+	uint32_t submodeID;
 };
 
 struct CombFilterMem
 {
-	int last_pitch;
-	char last_pitch_gain[12];
-	int smooth_gain;
+	int32_t last_pitch;
+	vec3_t last_pitch_gain;
+	int32_t smooth_gain;
+};
+
+struct EncState
+{
+	int32_t mode;
+	int32_t first;
+	uint32_t frameSize;
+	uint32_t subframeSize;
+	int32_t nbSubframes;
+	uint32_t windowSize;
+	uint32_t lpcSize;
+	int32_t min_pitch;
+	int32_t max_pitch;
+	int32_t safe_pitch;
+	int32_t bounded_pitch;
+	int32_t ol_pitch;
+	int32_t ol_voiced;
+	int32_t pitch;
+	int32_t gamma1;
+	int32_t gamma2;
+	float lag_factor;
+	int32_t lpc_floor;
+	int32_t stack;
+	void *inBuf;
+	int32_t frame;
+	void *excBuf;
+	int32_t exc;
+	void *swBuf;
+	int32_t sw;
+	int32_t innov;
+	int32_t window;
+	int32_t autocorr;
+	int32_t lagWindow;
+	int32_t lpc;
+	int32_t lsp;
+	int32_t qlsp;
+	int32_t old_lsp;
+	int32_t old_qlsp;
+	int32_t interp_lsp;
+	int32_t interp_qlsp;
+	int32_t interp_lpc;
+	int32_t interp_qlpc;
+	int32_t bw_lpc1;
+	int32_t bw_lpc2;
+	int32_t mem_sp;
+	int32_t mem_sw;
+	int32_t mem_sw_whole;
+	int32_t mem_exc;
+	int32_t pi_gain;
+	int32_t vbr;
+	int32_t vbr_quality;
+	int32_t relative_quality;
+	int32_t vbr_enabled;
+	int32_t vad_enabled;
+	int32_t dtx_enabled;
+	uint32_t dtx_count;
+	int32_t abr_enabled;
+	int32_t abr_drift;
+	int32_t abr_drift2;
+	uint32_t abr_count;
+	int32_t complexity;
+	int32_t sampling_rate;
+	int32_t plc_tuning;
+	int32_t encode_submode;
+	int32_t submodes;
+	uint32_t submodeID;
+	int32_t submodeSelect;
 };
 
 struct VBRState
 {
-	int energy_alpha;
-	int average_energy;
-	int last_energy;
-	char last_log_energy[20];
-	int accum_sum;
-	int last_pitch_coef;
-	int soft_pitch;
-	int last_quality;
-	int noise_level;
-	int noise_accum;
-	int noise_accum_count;
-	int consec_noise;
+	int32_t energy_alpha;
+	int32_t average_energy;
+	int32_t last_energy;
+	uint8_t last_log_energy[20];
+	int32_t accum_sum;
+	int32_t last_pitch_coef;
+	int32_t soft_pitch;
+	int32_t last_quality;
+	int32_t noise_level;
+	int32_t noise_accum;
+	uint32_t noise_accum_count;
+	int32_t consec_noise;
 };
 
 struct SpeexCallback
 {
-	int callback_id;
-	int func;
-	int data;
-	int reserved1;
-	int reserved2;
+	uint32_t callback_id;
+	int32_t func;
+	int32_t data;
+	int32_t reserved1;
+	int32_t reserved2;
+};
+
+struct DecState
+{
+	int32_t mode;
+	int32_t first;
+	uint32_t count_lost;
+	uint32_t frameSize;
+	uint32_t subframeSize;
+	int32_t nbSubframes;
+	uint32_t lpcSize;
+	int32_t min_pitch;
+	int32_t max_pitch;
+	int32_t sampling_rate;
+	int32_t last_ol_gain;
+	int32_t stack;
+	void *inBuf;
+	int32_t frame;
+	void *excBuf;
+	int32_t exc;
+	int32_t innov;
+	int32_t qlsp;
+	int32_t old_qlsp;
+	int32_t interp_qlsp;
+	int32_t interp_qlpc;
+	int32_t mem_sp;
+	int32_t pi_gain;
+	int32_t last_pitch;
+	int32_t last_pitch_gain;
+	vec3_t pitch_gain_buf;
+	void *pitch_gain_buf_idx;
+	int32_t encode_submode;
+	int32_t submodes;
+	uint32_t submodeID;
+	int32_t lpc_enh_enabled;
+	int32_t comb_mem;
+	uint8_t speex_callbacks[320];
+	SpeexCallback user_callback;
+	int32_t voc_m1;
+	int32_t voc_m2;
+	int32_t voc_mean;
+	uint32_t voc_offset;
+	int32_t dtx_enabled;
 };
 
 struct CCircularBuffer
 {
+	void *mBuffer;
+	uint32_t mBufferSize;
+	uint32_t mReadPosition;
+	uint32_t mReadSize;
+	uint32_t mWritePosition;
 };
 
-struct _3658
+struct $_3658
 {
-	int buffer;
-	int lengthInBytes;
-	int lengthInSamples;
-	int bytesPerSample;
-	int frequency;
-	char stereo;
+	void *buffer;
+	uint32_t lengthInBytes;
+	uint32_t lengthInSamples;
+	int32_t bytesPerSample;
+	int32_t frequency;
+	int8_t stereo;
 	char pad0[3];
-	int channels;
-	int sampleOffset;
+	int32_t channels;
+	uint32_t sampleOffset;
 };
 
 struct CAudioRecorder
 {
+	uint64_t mSampleRate;
+	uint32_t mNumChannels;
+	int32_t mBitsPerChannel;
+	int32_t mInputDevice;
+	int32_t mInputUnit;
+	int8_t mRecording;
+	int8_t mMuteInput;
+	char pad0[2];
+	int32_t mInputVolume;
+	CMutex mMutex;
+	void *mConverterRef;
+	void *mConvertBuffer;
+	uint32_t mConvertBufferSize;
+	void *mRenderBuffer;
+	uint32_t mRenderBufferSize;
+	CCircularBuffer mBuffer;
+	int8_t mBufferIsFull;
 };
 
+struct internal_state
+{
+	int32_t dummy;
+};
+
+struct inflate_blocks_state
+{
+	int32_t mode;
+	uint8_t sub[20];
+	int32_t last;
+	int32_t bitk;
+	int32_t bitb;
+	int32_t hufts;
+	int32_t window;
+	int32_t end;
+	int32_t read;
+	int32_t write;
+	int32_t checkfn;
+	int32_t check;
+};
+
+struct jpeg_common_struct
+{
+	int32_t err;
+	int32_t mem;
+	int32_t progress;
+	int32_t client_data;
+	int8_t is_decompressor;
+	char pad0[3];
+	int32_t global_state;
+	jpeg_alloc alloc;
+};
+
+struct inflate_huft_s
+{
+	int32_t word;
+	int32_t base;
+};
+
+struct inflate_codes_state
+{
+	int32_t dummy;
+};
+
+typedef enum
+{
+	JBUF_PASS_THRU = 0,
+	JBUF_SAVE_SOURCE = 1,
+	JBUF_CRANK_DEST = 2,
+	JBUF_SAVE_AND_PASS = 3
+};
+
+union small_pool_struct
+{
+	vec3_t hdr;
+	uint64_t dummy;
+};
+
+struct jvirt_barray_control
+{
+	void *mem_buffer;
+	int32_t rows_in_array;
+	int32_t blocksperrow;
+	int32_t maxaccess;
+	int32_t rows_in_mem;
+	int32_t rowsperchunk;
+	int32_t cur_start_row;
+	int32_t first_undef_row;
+	int8_t pre_zero;
+	int8_t dirty;
+	int8_t b_s_open;
+	char pad0[1];
+	int32_t next;
+	char b_s_info[80];
+};
+
+struct backing_store_struct
+{
+	int32_t read_backing_store;
+	int32_t write_backing_store;
+	int32_t close_backing_store;
+	int32_t temp_file;
+	char temp_name[64];
+};
+
+union large_pool_struct
+{
+	vec3_t hdr;
+	uint64_t dummy;
+};
+
+#pragma pack(pop)
